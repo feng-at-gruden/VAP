@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="Members" EntityType="Model1.Store.Members" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CashTransactions" EntityType="Model1.Store.CashTransactions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PointTransactions" EntityType="Model1.Store.PointTransactions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PaymentMethods" EntityType="Model1.Store.PaymentMethods" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="MemberCashTransaction" Association="Model1.Store.MemberCashTransaction">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="CashTransaction" EntitySet="CashTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="MemberPointTransaction" Association="Model1.Store.MemberPointTransaction">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="PointTransaction" EntitySet="PointTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="MemberMember" Association="Model1.Store.MemberMember">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="Member1" EntitySet="Members" />
+    </AssociationSet>
+    <AssociationSet Name="CashTransactionPaymentMethod" Association="Model1.Store.CashTransactionPaymentMethod">
+      <End Role="CashTransaction" EntitySet="CashTransactions" />
+      <End Role="PaymentMethod" EntitySet="PaymentMethods" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Members">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password1" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password2" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password3" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Cash1" Type="decimal" Nullable="false" />
+    <Property Name="Cash2" Type="decimal" Nullable="false" />
+    <Property Name="Point1" Type="decimal" Nullable="false" />
+    <Property Name="Point2" Type="decimal" Nullable="false" />
+    <Property Name="ChongXiao1" Type="decimal" Nullable="false" />
+    <Property Name="ChongXiao2" Type="decimal" Nullable="false" />
+    <Property Name="Coin1" Type="decimal" Nullable="false" />
+    <Property Name="Coin2" Type="decimal" Nullable="false" />
+    <Property Name="RegisterTime" Type="datetime" Nullable="false" />
+    <Property Name="Level" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Referral_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CashTransactions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MemberId" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="DateTime" Type="time" Nullable="false" />
+    <Property Name="Type" Type="smallint" Nullable="false" />
+    <Property Name="Status" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PointTransactions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MemberId" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="DateTime" Type="time" Nullable="false" />
+    <Property Name="Type" Type="smallint" Nullable="false" />
+    <Property Name="Status" Type="smallint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PaymentMethods">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Bank" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Account" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CashTransaction_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="MemberCashTransaction">
+    <End Role="Member" Type="Model1.Store.Members" Multiplicity="1" />
+    <End Role="CashTransaction" Type="Model1.Store.CashTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CashTransaction">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MemberPointTransaction">
+    <End Role="Member" Type="Model1.Store.Members" Multiplicity="1" />
+    <End Role="PointTransaction" Type="Model1.Store.PointTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PointTransaction">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MemberMember">
+    <End Role="Member" Type="Model1.Store.Members" Multiplicity="*" />
+    <End Role="Member1" Type="Model1.Store.Members" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Member1">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Member">
+        <PropertyRef Name="Referral_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CashTransactionPaymentMethod">
+    <End Role="CashTransaction" Type="Model1.Store.CashTransactions" Multiplicity="1" />
+    <End Role="PaymentMethod" Type="Model1.Store.PaymentMethods" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CashTransaction">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PaymentMethod">
+        <PropertyRef Name="CashTransaction_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Members" EntityType="Model1.Member" />
+          <EntitySet Name="CashTransactions" EntityType="Model1.CashTransaction" />
+          <AssociationSet Name="MemberCashTransaction" Association="Model1.MemberCashTransaction">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="CashTransaction" EntitySet="CashTransactions" />
+          </AssociationSet>
+          <EntitySet Name="PointTransactions" EntityType="Model1.PointTransaction" />
+          <EntitySet Name="PaymentMethods" EntityType="Model1.PaymentMethod" />
+          <AssociationSet Name="MemberPointTransaction" Association="Model1.MemberPointTransaction">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="PointTransaction" EntitySet="PointTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="MemberMember" Association="Model1.MemberMember">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Member1" EntitySet="Members" />
+          </AssociationSet>
+          <AssociationSet Name="CashTransactionPaymentMethod" Association="Model1.CashTransactionPaymentMethod">
+            <End Role="CashTransaction" EntitySet="CashTransactions" />
+            <End Role="PaymentMethod" EntitySet="PaymentMethods" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Password1" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Password2" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Password3" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Cash1" Type="Decimal" Nullable="false" />
+          <Property Name="Cash2" Type="Decimal" Nullable="false" />
+          <Property Name="Point1" Type="Decimal" Nullable="false" />
+          <Property Name="Point2" Type="Decimal" Nullable="false" />
+          <Property Name="ChongXiao1" Type="Decimal" Nullable="false" />
+          <Property Name="ChongXiao2" Type="Decimal" Nullable="false" />
+          <Property Name="Coin1" Type="Decimal" Nullable="false" />
+          <Property Name="Coin2" Type="Decimal" Nullable="false" />
+          <Property Name="RegisterTime" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="CashTransaction" Relationship="Model1.MemberCashTransaction" FromRole="Member" ToRole="CashTransaction" />
+          <NavigationProperty Name="PointTransaction" Relationship="Model1.MemberPointTransaction" FromRole="Member" ToRole="PointTransaction" />
+          <Property Name="Level" Type="String" Nullable="false" />
+          <NavigationProperty Name="Referral" Relationship="Model1.MemberMember" FromRole="Member" ToRole="Member1" />
+          <NavigationProperty Name="MyMembers" Relationship="Model1.MemberMember" FromRole="Member1" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="CashTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Member" Relationship="Model1.MemberCashTransaction" FromRole="CashTransaction" ToRole="Member" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="DateTime" Type="Time" Nullable="false" />
+          <Property Name="Type" Type="Int16" Nullable="false" />
+          <Property Name="Status" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="PaymentMethod" Relationship="Model1.CashTransactionPaymentMethod" FromRole="CashTransaction" ToRole="PaymentMethod" />
+        </EntityType>
+        <Association Name="MemberCashTransaction">
+          <End Type="Model1.Member" Role="Member" Multiplicity="1" />
+          <End Type="Model1.CashTransaction" Role="CashTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CashTransaction">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PointTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Member" Relationship="Model1.MemberPointTransaction" FromRole="PointTransaction" ToRole="Member" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="DateTime" Type="Time" Nullable="false" />
+          <Property Name="Type" Type="Int16" Nullable="false" />
+          <Property Name="Status" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bank" Type="String" Nullable="false" />
+          <Property Name="Account" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <NavigationProperty Name="CashTransaction" Relationship="Model1.CashTransactionPaymentMethod" FromRole="PaymentMethod" ToRole="CashTransaction" />
+        </EntityType>
+        <Association Name="MemberPointTransaction">
+          <End Type="Model1.Member" Role="Member" Multiplicity="1" />
+          <End Type="Model1.PointTransaction" Role="PointTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PointTransaction">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MemberMember">
+          <End Type="Model1.Member" Role="Member" Multiplicity="*" />
+          <End Type="Model1.Member" Role="Member1" Multiplicity="1" />
+        </Association>
+        <Association Name="CashTransactionPaymentMethod">
+          <End Type="Model1.CashTransaction" Role="CashTransaction" Multiplicity="1" />
+          <End Type="Model1.PaymentMethod" Role="PaymentMethod" Multiplicity="0..1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="Members">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Member)">
+        <MappingFragment StoreEntitySet="Members">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password1" ColumnName="Password1" />
+          <ScalarProperty Name="Password2" ColumnName="Password2" />
+          <ScalarProperty Name="Password3" ColumnName="Password3" />
+          <ScalarProperty Name="Cash1" ColumnName="Cash1" />
+          <ScalarProperty Name="Cash2" ColumnName="Cash2" />
+          <ScalarProperty Name="Point1" ColumnName="Point1" />
+          <ScalarProperty Name="Point2" ColumnName="Point2" />
+          <ScalarProperty Name="ChongXiao1" ColumnName="ChongXiao1" />
+          <ScalarProperty Name="ChongXiao2" ColumnName="ChongXiao2" />
+          <ScalarProperty Name="Coin1" ColumnName="Coin1" />
+          <ScalarProperty Name="Coin2" ColumnName="Coin2" />
+          <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CashTransactions">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.CashTransaction)">
+        <MappingFragment StoreEntitySet="CashTransactions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PointTransactions">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.PointTransaction)">
+        <MappingFragment StoreEntitySet="PointTransactions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PaymentMethods">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.PaymentMethod)">
+        <MappingFragment StoreEntitySet="PaymentMethods">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Bank" ColumnName="Bank" />
+          <ScalarProperty Name="Account" ColumnName="Account" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MemberMember" TypeName="Model1.MemberMember" StoreEntitySet="Members">
+      <EndProperty Name="Member1">
+        <ScalarProperty Name="Id" ColumnName="Referral_Id" />
+      </EndProperty>
+      <EndProperty Name="Member">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CashTransactionPaymentMethod" TypeName="Model1.CashTransactionPaymentMethod" StoreEntitySet="PaymentMethods">
+      <EndProperty Name="CashTransaction">
+        <ScalarProperty Name="Id" ColumnName="CashTransaction_Id" />
+      </EndProperty>
+      <EndProperty Name="PaymentMethod">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
