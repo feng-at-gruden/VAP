@@ -1,41 +1,70 @@
 ﻿@model MemberCenter.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "会员注册";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-<h2>@ViewBag.Title.</h2>
+<!-- Page Content -->
+<div id="page-wrapper" class="full-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
+                <h1 class="page-header">@ViewBag.Title</h1>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary()
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        REGISTER
+                    </div>
+                    <div class="panel-body">
+
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary()
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", maxlength = "30", placeholder = "请输入邮箱地址" })
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "请输入登录密码", maxlength = "30" })
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "请输入确认密码", maxlength = "30" })
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Referral, new { @class = "form-control", type = "email", maxlength = "30", placeholder = "请输入推广人邮箱" })
+                            </div>
+                            <div class="form-group input-group">
+                                @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control", placeholder = "请输入验证码", maxlength = "4" })
+                                <span class="input-group-addon">XXXX</span>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        @Html.CheckBoxFor(m => m.AcceptTerm)我已经认真阅读并同意<a href="#" data-toggle="modal" data-target="#myModal">《用户使用协议》</a>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-block">注册</button>
+                        }
+
+
+                    </div>
+                    <div class="panel-footer text-center">
+                        已经有账户了? @Html.ActionLink("点此登录", "Login")
+                        <br class="clear" />
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
+
+@Html.Partial("_Term")
+

@@ -1,0 +1,146 @@
+﻿
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        @Html.ActionLink("联合通用积分会员系统", "Index", "Home", null, new { @class = "navbar-brand" })
+    </div>
+    <!-- 顶部工具栏 /.navbar-header -->
+
+    <ul class="nav navbar-top-links navbar-right">
+        <!-- /.dropdown -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li>
+                    <a href="#"><i class="fa fa-user fa-fw"></i> 会员资料</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-gear fa-fw"></i> 个人设置</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="/Account/LogOff"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
+                </li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- 左侧菜单 /.navbar-top-links -->
+
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="sidebar-search">
+                    <div class="input-group custom-search-form">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <!-- /input-group -->
+                </li>
+                <li>
+                    <a href="/Home/Index"><i class="fa fa-home fa-fw"></i> 首页</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-users fa-fw"></i> 我的会员<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            @Html.ActionLink("个人中心", "MyAccount", "Account")
+                        </li>
+                        <li>
+                            <a href="#">我的会员</a>
+                        </li>
+                        <li>
+                            <a href="#">会员业绩</a>
+                        </li>
+                        <li>
+                            <a href="#">推广关系</a>
+                        </li>
+                        <li>
+                            <a href="#">新闻中心</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-table fa-fw"></i> 财务中心<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#">个人资产</a>
+                        </li>
+                        <li>
+                            @Html.ActionLink("奖金充值", "Index", "Transaction")
+                        </li>
+                        <li>
+                            <a href="#">奖金提现</a>
+                        </li>
+                        <li>
+                            <a href="#">推广明细</a>
+                        </li>
+                        <li>
+                            <a href="#">奖金转账</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-edit fa-fw"></i> 报单中心<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#">实价报单</a>
+                        </li>
+                        <li>
+                            <a href="#">积分解冻</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-sitemap fa-fw"></i> 交易中心<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#">交易行情</a>
+                        </li>
+                        <li>
+                            <a href="#">交易大厅 <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="#">LHTY卖出</a>
+                                </li>
+                                <li>
+                                    <a href="#">交易记录</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-third-level -->
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-ambulance fa-fw"></i> 安全中心<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#">安全设置</a>
+                        </li>
+                        <li>
+                            <a href="#">登录日志</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!-- /.navbar-static-side -->
+</nav>

@@ -1,58 +1,57 @@
 ﻿@model MemberCenter.Models.LoginViewModel
 
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "会员登录";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+    if (ViewBag.ReturnUrl == null) { 
+        ViewBag.ReturnUrl = "/Home/Index";
+    }
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true)
-                <div class="form-group">
-                    @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.UserName)
+<!-- Page Content -->
+<div id="page-wrapper" class="full-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-10 col-sm-6 col-md-4 col-xs-offset-1 col-sm-offset-3 col-md-offset-4">
+                <h1 class="page-header">@ViewBag.Title</h1>
+
+
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        LOGIN
+                    </div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary()
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "邮箱", type = "email", maxlength = "30" })
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "密码", maxlength = "20" })
+                            </div>
+                            <div class="form-group input-group">
+                                @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control", placeholder = "请输入验证码", maxlength = "4" })
+                                <span class="input-group-addon">XXXX</span>
+                            </div>
+
+                            <button type="submit" class="btn btn-success btn-block">登录</button>
+
+                        }
+                    </div>
+                    <div class="panel-footer">
+                        @Html.ActionLink("忘记密码?", "ForgotPassword", null, new { @class = "left" })
+                        @Html.ActionLink("注册新账号", "Register",null, new { @class="right"})
+                        <br class="clear" />
                     </div>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password)
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register", "Register") if you don't have a local account.
-                </p>
-            }
-        </section>
+
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
     </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new { Action = "ExternalLogin", ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
+    <!-- /.container-fluid -->
 </div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<!-- /#page-wrapper -->
