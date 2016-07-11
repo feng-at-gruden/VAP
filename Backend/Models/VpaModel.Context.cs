@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Backend
+namespace Backend.Models
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class vapEntities : DbContext
+    public partial class vapEntities1 : DbContext
     {
-        public vapEntities()
-            : base("name=vapEntities")
+        public vapEntities1()
+            : base("name=vapEntities1")
         {
         }
     
@@ -25,9 +25,13 @@ namespace Backend
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<CashTransactions> CashTransactions { get; set; }
-        public virtual DbSet<Members> Members { get; set; }
-        public virtual DbSet<PaymentMethods> PaymentMethods { get; set; }
-        public virtual DbSet<PointTransactions> PointTransactions { get; set; }
+        public virtual DbSet<CashTransaction> CashTransactions { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public virtual DbSet<PointTransaction> PointTransactions { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     }
 }

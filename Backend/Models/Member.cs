@@ -7,18 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Backend
+namespace Backend.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Members
+    public partial class Member
     {
-        public Members()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Member()
         {
-            this.CashTransactions = new HashSet<CashTransactions>();
-            this.Members1 = new HashSet<Members>();
-            this.PointTransactions = new HashSet<PointTransactions>();
+            this.CashTransactions = new HashSet<CashTransaction>();
+            this.Members1 = new HashSet<Member>();
+            this.PointTransactions = new HashSet<PointTransaction>();
         }
     
         public int Id { get; set; }
@@ -39,9 +40,12 @@ namespace Backend
         public string Level { get; set; }
         public int Referral_Id { get; set; }
     
-        public virtual ICollection<CashTransactions> CashTransactions { get; set; }
-        public virtual ICollection<Members> Members1 { get; set; }
-        public virtual Members Members2 { get; set; }
-        public virtual ICollection<PointTransactions> PointTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CashTransaction> CashTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Member> Members1 { get; set; }
+        public virtual Member Member1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PointTransaction> PointTransactions { get; set; }
     }
 }

@@ -7,16 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Backend
+namespace Backend.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class CashTransactions
+    public partial class CashTransaction
     {
-        public CashTransactions()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CashTransaction()
         {
-            this.PaymentMethods = new HashSet<PaymentMethods>();
+            this.PaymentMethods = new HashSet<PaymentMethod>();
         }
     
         public int Id { get; set; }
@@ -26,7 +27,8 @@ namespace Backend
         public short Type { get; set; }
         public short Status { get; set; }
     
-        public virtual ICollection<PaymentMethods> PaymentMethods { get; set; }
-        public virtual Members Members { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PaymentMethod> PaymentMethods { get; set; }
+        public virtual Member Member { get; set; }
     }
 }

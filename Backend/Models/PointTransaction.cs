@@ -7,19 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Backend
+namespace Backend.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class PaymentMethods
+    public partial class PointTransaction
     {
         public int Id { get; set; }
-        public string Bank { get; set; }
-        public string Account { get; set; }
-        public string Description { get; set; }
-        public int CashTransaction_Id { get; set; }
+        public int MemberId { get; set; }
+        public decimal Amount { get; set; }
+        public System.TimeSpan DateTime { get; set; }
+        public short Type { get; set; }
+        public short Status { get; set; }
     
-        public virtual CashTransactions CashTransactions { get; set; }
+        public virtual Member Member { get; set; }
     }
 }
