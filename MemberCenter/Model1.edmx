@@ -47,6 +47,7 @@
     <Property Name="Coin2" Type="decimal" Nullable="false" />
     <Property Name="RegisterTime" Type="datetime" Nullable="false" />
     <Property Name="Level" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Referral_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CashTransactions">
@@ -179,6 +180,7 @@
           <Property Name="Level" Type="String" Nullable="false" />
           <NavigationProperty Name="Referral" Relationship="Model1.MemberMember" FromRole="Member" ToRole="Member1" />
           <NavigationProperty Name="MyMembers" Relationship="Model1.MemberMember" FromRole="Member1" ToRole="Member" />
+          <Property Name="Status" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="CashTransaction">
           <Key>
@@ -272,6 +274,7 @@
           <ScalarProperty Name="Coin2" ColumnName="Coin2" />
           <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
           <ScalarProperty Name="Level" ColumnName="Level" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

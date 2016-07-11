@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/07/2016 17:26:27
+-- Date Created: 07/11/2016 15:51:53
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -69,6 +69,7 @@ CREATE TABLE [dbo].[Members] (
     [Coin2] decimal(18,0)  NOT NULL,
     [RegisterTime] datetime  NOT NULL,
     [Level] nvarchar(max)  NOT NULL,
+    [Status] nvarchar(max)  NOT NULL,
     [Referral_Id] int  NOT NULL
 );
 GO

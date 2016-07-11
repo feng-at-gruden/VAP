@@ -37,6 +37,7 @@ namespace MemberCenter
         public decimal Coin2 { get; set; }
         public System.DateTime RegisterTime { get; set; }
         public string Level { get; set; }
+        public string Status { get; set; }
     
         public virtual ICollection<CashTransaction> CashTransaction { get; set; }
         public virtual ICollection<PointTransaction> PointTransaction { get; set; }
