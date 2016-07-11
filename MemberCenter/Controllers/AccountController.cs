@@ -43,7 +43,7 @@ namespace MemberCenter.Controllers
                     FormsAuthentication.SetAuthCookie(user.Email, false);
                     return RedirectToLocal(returnUrl);
                 }
-                else
+                else 
                 {
                     ModelState.AddModelError("", "用户名/密码错误!");
                 }
