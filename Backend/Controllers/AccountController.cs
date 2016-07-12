@@ -5,10 +5,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Backend.Helper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Backend.Models;
+using VapLib;
 
 namespace Backend.Controllers
 {
@@ -16,7 +18,7 @@ namespace Backend.Controllers
     public class AccountController : Controller
     {
         public AccountController()
-            : this(new UserManager<AspNetUser>(new UserStore<AspNetUser>(new vapEntities1())))
+            : this(new UserManager<AspNetUser>(new UserStore<AspNetUser>(new vapEntities())))
         {
         }
 
@@ -45,6 +47,7 @@ namespace Backend.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userName = Constants.AdminAccount;
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
                 if (user != null)
                 {
@@ -116,6 +119,7 @@ namespace Backend.Controllers
 
         //
         // GET: /Account/Manage
+        [MyAuthorize(Roles = "ClientService")]
         public ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =

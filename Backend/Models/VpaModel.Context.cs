@@ -13,9 +13,9 @@ namespace Backend.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class vapEntities1 : DbContext
+    public partial class vapEntities : DbContext
     {
-        public vapEntities1()
+        public vapEntities()
             : base("name=vapEntities1")
         {
         }
