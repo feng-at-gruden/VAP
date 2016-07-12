@@ -34,6 +34,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Computed" Nullable="false" />
     <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="RealName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Password1" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Password2" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Password3" Type="nvarchar" Nullable="false" MaxLength="50" />
@@ -48,6 +49,10 @@
     <Property Name="RegisterTime" Type="datetime" Nullable="false" />
     <Property Name="Level" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TiXianStatus" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TiBiStatus" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IdSubmitted" Type="bit" Nullable="false" />
+    <Property Name="IdApproved" Type="bit" Nullable="false" />
     <Property Name="Referral_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CashTransactions">
@@ -163,6 +168,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="RealName" Type="String" Nullable="false" />
           <Property Name="Password1" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="Password2" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="Password3" Type="String" Nullable="false" MaxLength="50" />
@@ -181,6 +187,10 @@
           <NavigationProperty Name="Referral" Relationship="Model1.MemberMember" FromRole="Member" ToRole="Member1" />
           <NavigationProperty Name="MyMembers" Relationship="Model1.MemberMember" FromRole="Member1" ToRole="Member" />
           <Property Name="Status" Type="String" Nullable="false" />
+          <Property Name="TiXianStatus" Type="String" Nullable="false" />
+          <Property Name="TiBiStatus" Type="String" Nullable="false" />
+          <Property Name="IdSubmitted" Type="Boolean" Nullable="false" />
+          <Property Name="IdApproved" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="CashTransaction">
           <Key>
@@ -261,6 +271,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="RealName" ColumnName="RealName" />
           <ScalarProperty Name="Password1" ColumnName="Password1" />
           <ScalarProperty Name="Password2" ColumnName="Password2" />
           <ScalarProperty Name="Password3" ColumnName="Password3" />
@@ -275,6 +286,10 @@
           <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
           <ScalarProperty Name="Level" ColumnName="Level" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="TiXianStatus" ColumnName="TiXianStatus" />
+          <ScalarProperty Name="TiBiStatus" ColumnName="TiBiStatus" />
+          <ScalarProperty Name="IdSubmitted" ColumnName="IdSubmitted" />
+          <ScalarProperty Name="IdApproved" ColumnName="IdApproved" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -24,6 +24,7 @@ namespace MemberCenter
         public int Id { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }
+        public string RealName { get; set; }
         public string Password1 { get; set; }
         public string Password2 { get; set; }
         public string Password3 { get; set; }
@@ -38,6 +39,10 @@ namespace MemberCenter
         public System.DateTime RegisterTime { get; set; }
         public string Level { get; set; }
         public string Status { get; set; }
+        public string TiXianStatus { get; set; }
+        public string TiBiStatus { get; set; }
+        public bool IdSubmitted { get; set; }
+        public bool IdApproved { get; set; }
     
         public virtual ICollection<CashTransaction> CashTransaction { get; set; }
         public virtual ICollection<PointTransaction> PointTransaction { get; set; }

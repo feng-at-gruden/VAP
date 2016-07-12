@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MemberCenter.Models;
+using VAPModel;
 
 namespace MemberCenter.Controllers
 {
@@ -11,7 +13,10 @@ namespace MemberCenter.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            //TODO, get user from...
+            MyAssetViewModel model = new MyAssetViewModel();
+
+            return View(model);
         }
     }
 }

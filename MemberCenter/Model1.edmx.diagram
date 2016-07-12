@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="Model1.Member" Width="1.5" PointX="1.5" PointY="0.625" />
         <EntityTypeShape EntityType="Model1.CashTransaction" Width="1.5" PointX="3.5" PointY="0.625" />
         <AssociationConnector Association="Model1.MemberCashTransaction" />
-        <EntityTypeShape EntityType="Model1.PointTransaction" Width="1.5" PointX="3.5" PointY="3.375" />
+        <EntityTypeShape EntityType="Model1.PointTransaction" Width="1.5" PointX="3.5" PointY="5.75" />
         <EntityTypeShape EntityType="Model1.PaymentMethod" Width="1.5" PointX="6.375" PointY="0.5" />
         <AssociationConnector Association="Model1.MemberPointTransaction" />
         <AssociationConnector Association="Model1.MemberMember" />

@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using MemberCenter.Models;
+using VAPModel;
 
 namespace MemberCenter.Controllers
 {
@@ -37,7 +38,10 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                Member user = db.Members.SingleOrDefault(m => m.Email.Equals(model.Email, StringComparison.InvariantCultureIgnoreCase) && m.Password1.Equals(model.Password));
+                String status = 会员状态.正常.ToString();
+                Member user = db.Members.SingleOrDefault(m => m.Email.Equals(model.Email, StringComparison.InvariantCultureIgnoreCase) 
+                    && m.Password1.Equals(model.Password)
+                    && m.Status.Equals(status));
                 if (user != null)
                 {
                     FormsAuthentication.SetAuthCookie(user.Email, false);
@@ -80,7 +84,8 @@ namespace MemberCenter.Controllers
                         Password1 = model.Password,
                         RegisterTime = DateTime.Now,
                         Referral = referral,
-                        Level = "14",
+                        Level = 用户等级.无等级.ToString(),
+                        Status = 会员状态.待审核.ToString(),
                     };
                     db.Members.Add(newUser);
                     db.SaveChanges();

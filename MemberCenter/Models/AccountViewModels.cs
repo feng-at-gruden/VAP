@@ -2,31 +2,6 @@
 
 namespace MemberCenter.Models
 {
-    public class ExternalLoginConfirmationViewModel
-    {
-        [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
-    }
-
-    public class ManageUserViewModel
-    {
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
-        public string OldPassword { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "New password")]
-        public string NewPassword { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-    }
 
     public class LoginViewModel
     {
@@ -78,4 +53,25 @@ namespace MemberCenter.Models
         [Display(Name = "同意条款")]
         public bool AcceptTerm { get; set; }
     }
+
+    public class MyAssetViewModel
+    {
+        public decimal AvailableCash { get; set; }
+        public decimal LockedCash { get; set; }
+        public decimal TotalCash { get; set; }
+
+        public decimal AvailablePoints { get; set; }
+        public decimal LockedPoints { get; set; }
+        public decimal TotalPoints { get; set; }
+
+        public decimal AvailableChongXiao { get; set; }
+        public decimal LockedChongXiao { get; set; }
+        public decimal TotalChongXiao { get; set; }
+
+        public decimal AvailableCoin { get; set; }
+        public decimal LockedCoin { get; set; }
+        public decimal TotalCoin { get; set; }
+    }
+
+
 }
