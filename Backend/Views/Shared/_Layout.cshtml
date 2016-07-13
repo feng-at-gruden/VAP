@@ -6,38 +6,86 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+    <div style="background:url(~/images/topbg.gif) repeat-x;">
+        @*<div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>*@
+        
+        <div class="topleft">
+            <a href="main.html" target="_parent"><img src="~/images/logo.png" title="系统首页" /></a>
         </div>
+
+
+        <ul class="nav">
+            <li><a href="default.html" target="rightFrame" class="selected"><img src="~/images/icon01.png" title="工作台" /><h2>工作台</h2></a></li>
+            <li><a href="imgtable.html" target="rightFrame"><img src="~/images/icon02.png" title="模型管理" /><h2>模型管理</h2></a></li>
+            <li><a href="imglist.html" target="rightFrame"><img src="~/images/icon03.png" title="模块设计" /><h2>模块设计</h2></a></li>
+            <li><a href="tools.html" target="rightFrame"><img src="~/images/icon04.png" title="常用工具" /><h2>常用工具</h2></a></li>
+            <li><a href="computer.html" target="rightFrame"><img src="~/images/icon05.png" title="文件管理" /><h2>文件管理</h2></a></li>
+            <li><a href="tab.html" target="rightFrame"><img src="~/images/icon06.png" title="系统设置" /><h2>系统设置</h2></a></li>
+        </ul>
+
+
+        <div class="topright">
+            <ul>
+                <li><span><img src="~/images/help.png" title="帮助" class="helpimg" /></span><a href="#">帮助</a></li>
+                <li><a href="#">关于</a></li>
+                <li><a href="login.html" target="_parent">退出</a></li>
+            </ul>
+
+            <div class="user">
+                <span>admin</span>
+                <i>消息</i>
+                <b>5</b>
+            </div>
+
+        </div>
+
+        
     </div>
     <div class="container body-content">
-        @RenderBody()
+        @Html.Partial("_SideBar")
+        <!--  SIDEBAR - END -->
+        <!-- START CONTENT -->
+        <section id="main-content" class=" ">
+            <section style='margin-top:60px;display:inline-block;width:100%;padding:15px 0 0 15px;'>
+
+                <div class="col-lg-12">
+                    <div class="content-body">
+                        <div class="row">
+                            @RenderBody()
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+        </section>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
