@@ -58,19 +58,19 @@ namespace MemberCenter.Models
     {
         public decimal AvailableCash { get; set; }
         public decimal LockedCash { get; set; }
-        public decimal TotalCash { get; set; }
+        public decimal TotalCash { get { return AvailableCash + LockedCash; } }
 
         public decimal AvailablePoints { get; set; }
         public decimal LockedPoints { get; set; }
-        public decimal TotalPoints { get; set; }
+        public decimal TotalPoints { get { return AvailablePoints + LockedPoints; } }
 
         public decimal AvailableChongXiao { get; set; }
         public decimal LockedChongXiao { get; set; }
-        public decimal TotalChongXiao { get; set; }
+        public decimal TotalChongXiao { get { return AvailableChongXiao + LockedChongXiao; } }
 
         public decimal AvailableCoin { get; set; }
         public decimal LockedCoin { get; set; }
-        public decimal TotalCoin { get; set; }
+        public decimal TotalCoin { get { return AvailableCoin + LockedCoin; } }
     }
 
 

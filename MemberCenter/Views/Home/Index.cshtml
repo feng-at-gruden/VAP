@@ -12,26 +12,26 @@
         <div class="panel-body">
 
             <table class="table table-hover">
-                <caption>...</caption>
+                <caption> </caption>
                 <tr>
-                    <td>可用奖金积分：<p class="available-qty"><em>8888.90</em></p></td>
+                    <td>可用奖金积分：<p class="available-qty"><em>@Model.AvailableCash</em></p></td>
                     <td>冻结：<em>@Model.LockedCash</em></td>
-                    <td>总量：<em>1000000.00</em></td>
+                    <td>总量：<em>@Model.TotalCash</em></td>
                 </tr>
                 <tr>
-                    <td>可用兑换积分：<p class="available-qty"><em>8888.90</em></p></td>
-                    <td>冻结：<em>55.00</em></td>
-                    <td>总量：<em>1000000.00</em></td>
+                    <td>可用兑换积分：<p class="available-qty"><em>@Model.AvailablePoints</em></p></td>
+                    <td>冻结：<em>@Model.LockedPoints</em></td>
+                    <td>总量：<em>@Model.TotalPoints</em></td>
                 </tr>
                 <tr>
-                    <td>可用重消：<p class="available-qty"><em>8888.90</em></p></td>
-                    <td>冻结：<em>55.00</em></td>
-                    <td>总量：<em>1000000.00</em></td>
+                    <td>可用重消：<p class="available-qty"><em>@Model.AvailableChongXiao</em></p></td>
+                    <td>冻结：<em>@Model.LockedChongXiao</em></td>
+                    <td>总量：<em>@Model.TotalChongXiao</em></td>
                 </tr>
                 <tr>
-                    <td>可用LHTY：<p class="available-qty"><em>8888.90</em></p></td>
-                    <td>冻结：<em>55.00</em></td>
-                    <td>总量：<em>1000000.00</em></td>
+                    <td>可用LHTY：<p class="available-qty"><em>@Model.AvailableCoin</em></p></td>
+                    <td>冻结：<em>@Model.LockedCoin</em></td>
+                    <td>总量：<em>@Model.TotalCoin</em></td>
                 </tr>
             </table>
             <!-- /.Table -->

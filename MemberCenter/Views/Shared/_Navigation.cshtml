@@ -51,9 +51,6 @@
                     <!-- /input-group -->
                 </li>
                 <li>
-                    <a href="/Home/Index"><i class="fa fa-home fa-fw"></i> 首页</a>
-                </li>
-                <li>
                     <a href="#"><i class="fa fa-users fa-fw"></i> 我的会员<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
@@ -78,7 +75,7 @@
                     <a href="#"><i class="fa fa-table fa-fw"></i> 财务中心<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">个人资产</a>
+                            @Html.ActionLink("个人资产", "Index", "Home")
                         </li>
                         <li>
                             @Html.ActionLink("奖金充值", "Index", "Transaction")

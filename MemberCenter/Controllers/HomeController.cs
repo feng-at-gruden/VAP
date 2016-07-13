@@ -9,14 +9,30 @@ using VAPModel;
 namespace MemberCenter.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
             //TODO, get user from...
-            MyAssetViewModel model = new MyAssetViewModel();
+
+            MyAssetViewModel model = new MyAssetViewModel()
+            {
+                AvailableCash = CurrentUser.Cash1,
+                LockedCash = CurrentUser.Cash2,
+                AvailablePoints = CurrentUser.Point1,
+                LockedPoints = CurrentUser.Point2,
+                AvailableChongXiao = CurrentUser.ChongXiao1,
+                LockedChongXiao = CurrentUser.ChongXiao2,
+                AvailableCoin = CurrentUser.Coin1,
+                LockedCoin = CurrentUser.Coin2,
+            };
 
             return View(model);
         }
+
+
+
+
+
     }
 }

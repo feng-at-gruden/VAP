@@ -15,11 +15,9 @@ using VAPModel;
 namespace MemberCenter.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private Model1Container db = new Model1Container();
-    
-
+        
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -111,15 +109,7 @@ namespace MemberCenter.Controllers
         }
 
         
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && db != null)
-            {
-                db.Dispose();
-                db = null;
-            }
-            base.Dispose(disposing);
-        }
+        
 
         #region Helpers
        
