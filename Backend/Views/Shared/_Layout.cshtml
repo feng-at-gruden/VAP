@@ -9,8 +9,8 @@
     @Scripts.Render("~/bundles/jquery")
 
 </head>
-<body>
-    <div style="background:url(~/images/topbg.gif) repeat-x;">
+<body style="background:url(/images/topbg.gif) repeat-x;">
+    <div>
         @*<div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -29,7 +29,7 @@
                     @Html.Partial("_LoginPartial")
                 </div>
             </div>*@
-        
+
         <div class="topleft">
             <a href="main.html" target="_parent"><img src="~/images/logo.png" title="系统首页" /></a>
         </div>
@@ -60,32 +60,29 @@
 
         </div>
 
-        
+       
     </div>
-    <div class="container body-content">
-        @Html.Partial("_SideBar")
-        <!--  SIDEBAR - END -->
-        <!-- START CONTENT -->
-        <section id="main-content" class=" ">
-            <section style='margin-top:60px;display:inline-block;width:100%;padding:15px 0 0 15px;'>
+     <div>
+            @Html.Partial("_SideBar")
+            <!--  SIDEBAR - END -->
+            <!-- START CONTENT -->
+            <section id="main-content" class=" ">
+                <section >
 
-                <div class="col-lg-12">
-                    <div class="content-body">
-                        <div class="row">
-                            @RenderBody()
+                    <div class="col-lg-12">
+                        <div class="content-body">
+                            <div class="row">
+                                @RenderBody()
+                            </div>
                         </div>
+
                     </div>
 
-                </div>
-
+                </section>
             </section>
-        </section>
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
-
+           
+        </div>
+    
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
