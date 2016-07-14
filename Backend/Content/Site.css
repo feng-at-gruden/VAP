@@ -389,9 +389,17 @@ h2{font-weight:normal;}
 .footer i{display:block; float:right; font-style:normal; margin-right:10px; background:url(../images/fjt.png) no-repeat right; padding-right:12px; }
 
 .page-sidebar {
-    height: 1300px;
+    height: 800px;
     width: 187px;
     position: fixed;
     background-color: #fff3e1;
     margin-top: 88px;
+}
+.mainContent {
+    height: 800px;
+    width: auto;
+    max-width: 1500px;
+    position: fixed;
+    margin-top: 88px;
+    margin-left: 188px;
 }
