@@ -13,7 +13,6 @@ namespace MemberCenter.Controllers
     {
         public ActionResult Index()
         {
-            //TODO, get user from...
 
             MyAssetViewModel model = new MyAssetViewModel()
             {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Data.Entity.Validation;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
@@ -76,17 +77,31 @@ namespace MemberCenter.Controllers
                 Member referral = db.Members.SingleOrDefault(m => m.Email.Equals(model.Referral, StringComparison.InvariantCultureIgnoreCase));
                 if(referral!=null)
                 {
-                    Member newUser = new Member
+                    try
                     {
-                        Email = model.Email,
-                        Password1 = model.Password,
-                        RegisterTime = DateTime.Now,
-                        Referral = referral,
-                        Level = 用户等级.无等级.ToString(),
-                        Status = 会员状态.待审核.ToString(),
-                    };
-                    db.Members.Add(newUser);
-                    db.SaveChanges();
+                        Member newUser = new Member
+                        {
+                            Email = model.Email,
+                            Password1 = model.Password,
+                            RegisterTime = DateTime.Now,
+                            Referral = referral,
+                            Level = 用户等级.无等级.ToString(),
+                            Status = 会员状态.待审核.ToString(),
+                        };
+                        db.Members.Add(newUser);
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                
+                            }
+                        }
+                    }
+                    
                     return RedirectToAction("Login");
                 }
                 else

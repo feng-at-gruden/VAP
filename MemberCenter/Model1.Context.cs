@@ -29,5 +29,8 @@ namespace MemberCenter
         public virtual DbSet<CashTransaction> CashTransactions { get; set; }
         public virtual DbSet<PointTransaction> PointTransactions { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public virtual DbSet<CoinTransaction> CoinTransactions { get; set; }
+        public virtual DbSet<Coin> Coins { get; set; }
+        public virtual DbSet<ChongXiaoTransaction> ChongXiaoTransactions { get; set; }
     }
 }

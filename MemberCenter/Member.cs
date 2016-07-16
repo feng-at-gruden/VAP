@@ -38,11 +38,13 @@ namespace MemberCenter
         public decimal Coin2 { get; set; }
         public System.DateTime RegisterTime { get; set; }
         public string Level { get; set; }
+        public string Achievement { get; set; }
         public string Status { get; set; }
         public string TiXianStatus { get; set; }
         public string TiBiStatus { get; set; }
         public bool IdSubmitted { get; set; }
         public bool IdApproved { get; set; }
+        public string ApprovedBy { get; set; }
     
         public virtual ICollection<CashTransaction> CashTransaction { get; set; }
         public virtual ICollection<PointTransaction> PointTransaction { get; set; }

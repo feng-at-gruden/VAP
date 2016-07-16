@@ -160,6 +160,9 @@
             <End Role="CashTransaction" EntitySet="CashTransactions" />
             <End Role="PaymentMethod" EntitySet="PaymentMethods" />
           </AssociationSet>
+          <EntitySet Name="CoinTransactions" EntityType="Model1.CoinTransaction" />
+          <EntitySet Name="Coins" EntityType="Model1.Coin" />
+          <EntitySet Name="ChongXiaoTransactions" EntityType="Model1.ChongXiaoTransaction" />
         </EntityContainer>
         <EntityType Name="Member">
           <Key>
@@ -167,11 +170,11 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" />
-          <Property Name="RealName" Type="String" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" Nullable="true" />
+          <Property Name="RealName" Type="String" Nullable="true" />
           <Property Name="Password1" Type="String" Nullable="false" MaxLength="50" />
-          <Property Name="Password2" Type="String" Nullable="false" MaxLength="50" />
-          <Property Name="Password3" Type="String" Nullable="false" MaxLength="50" />
+          <Property Name="Password2" Type="String" MaxLength="50" Nullable="true" />
+          <Property Name="Password3" Type="String" MaxLength="50" Nullable="true" />
           <Property Name="Cash1" Type="Decimal" Nullable="false" />
           <Property Name="Cash2" Type="Decimal" Nullable="false" />
           <Property Name="Point1" Type="Decimal" Nullable="false" />
@@ -186,11 +189,13 @@
           <Property Name="Level" Type="String" Nullable="false" />
           <NavigationProperty Name="Referral" Relationship="Model1.MemberMember" FromRole="Member" ToRole="Member1" />
           <NavigationProperty Name="MyMembers" Relationship="Model1.MemberMember" FromRole="Member1" ToRole="Member" />
+          <Property Name="Achievement" Type="String" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="TiXianStatus" Type="String" Nullable="false" />
           <Property Name="TiBiStatus" Type="String" Nullable="false" />
           <Property Name="IdSubmitted" Type="Boolean" Nullable="false" />
           <Property Name="IdApproved" Type="Boolean" Nullable="false" />
+          <Property Name="ApprovedBy" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="CashTransaction">
           <Key>
@@ -259,6 +264,30 @@
           <End Type="Model1.CashTransaction" Role="CashTransaction" Multiplicity="1" />
           <End Type="Model1.PaymentMethod" Role="PaymentMethod" Multiplicity="0..1" />
         </Association>
+        <EntityType Name="CoinTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTime" Type="Time" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Type" Type="Int16" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Coin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="ChongXiaoTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTime" Type="Time" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

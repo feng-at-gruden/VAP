@@ -45,6 +45,13 @@ namespace VapLib
             可用 = 1,
         }
 
+        //To confirm
+        public enum 积分记录类型
+        {
+            购币所得积分 = 1,
+            商场积分消费 = 2,
+        }
+
         public enum 积分状态
         {
             冻结 = 0,
@@ -60,7 +67,6 @@ namespace VapLib
 
         public enum 用户等级
         {
-            无等级 = 0,
             一星 = 1,
             二星 = 2,
             三星 = 3,
