@@ -44,6 +44,7 @@ namespace VapLib
             冻结 = 0,
             可用 = 1,
         }
+        }
 
         //To confirm
         public enum 积分记录类型
