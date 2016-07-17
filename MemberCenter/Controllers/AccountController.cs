@@ -37,14 +37,23 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                String status = 会员状态.正常.ToString();
                 Member user = db.Members.SingleOrDefault(m => m.Email.Equals(model.Email, StringComparison.InvariantCultureIgnoreCase) 
-                    && m.Password1.Equals(model.Password)
-                    && m.Status.Equals(status));
+                    && m.Password1.Equals(model.Password));
                 if (user != null)
                 {
-                    FormsAuthentication.SetAuthCookie(user.Email, false);
-                    return RedirectToLocal(returnUrl);
+                    if (user.Status.Equals(会员状态.正常.ToString()))
+                    {
+                        FormsAuthentication.SetAuthCookie(user.Email, false);
+                        return RedirectToLocal(returnUrl);
+                    }
+                    else if (user.Status.Equals(会员状态.待审核.ToString()))
+                    {
+                        ModelState.AddModelError("", "用户待审核!");
+                    }
+                    else if (user.Status.Equals(会员状态.锁定.ToString()))
+                    {
+                        ModelState.AddModelError("", "帐号锁定，请与管理员联系!");
+                    }
                 }
                 else 
                 {
@@ -73,44 +82,60 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Check Referrall user is not null;
-                Member referral = db.Members.SingleOrDefault(m => m.Email.Equals(model.Referral, StringComparison.InvariantCultureIgnoreCase));
-                if(referral!=null)
+                if (db.Members.Count(m => m.Email.Equals(model.Email, StringComparison.InvariantCultureIgnoreCase)) > 0)
                 {
-                    try
+                    ModelState.AddModelError("", "邮箱已被注册!");
+                    return View(model);
+                }
+
+                //Check Referrall user is not null;
+                int referralId = Int32.Parse(model.Referral);
+                Member referral = db.Members.SingleOrDefault(m => m.Id == referralId);
+                if(referral==null)
+                {
+                    ModelState.AddModelError("", "请输入正确推荐人ID!");
+                    return View(model);
+                }
+                try
+                {
+                    Member newUser = new Member
                     {
-                        Member newUser = new Member
-                        {
-                            Email = model.Email,
-                            Password1 = model.Password,
-                            RegisterTime = DateTime.Now,
-                            Referral = referral,
-                            Level = 用户等级.无等级.ToString(),
-                            Status = 会员状态.待审核.ToString(),
-                        };
-                        db.Members.Add(newUser);
-                        db.SaveChanges();
-                    }
-                    catch (DbEntityValidationException dbEx)
+                        Email = model.Email,
+                        Password1 = model.Password,
+                        Password2 = model.Password,
+                        Password3 = model.Password,
+                        RegisterTime = DateTime.Now,
+                        Referral = referral,
+                        Level = 用户等级.一星.ToString(),
+                        Status = 会员状态.待审核.ToString(),
+                        Cash1 = 0,
+                        Cash2 = 0,
+                        Coin1 = 0,
+                        Coin2 = 0,
+                        Point1 = 0,
+                        Point2 = 0,
+                        ChongXiao1 = 0,
+                        ChongXiao2 = 0,
+                        Achievement = 0,                         
+                    };
+                    db.Members.Add(newUser);
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException dbEx)
+                {
+                    foreach (var validationErrors in dbEx.EntityValidationErrors)
                     {
-                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        foreach (var validationError in validationErrors.ValidationErrors)
                         {
-                            foreach (var validationError in validationErrors.ValidationErrors)
-                            {
                                 
-                            }
                         }
                     }
+                }
                     
-                    return RedirectToAction("Login");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "请输入正确推荐人邮箱!");
-                }
+
+                return RedirectToAction("Login");
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 

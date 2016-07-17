@@ -19,6 +19,8 @@ namespace MemberCenter
             this.CashTransaction = new HashSet<CashTransaction>();
             this.PointTransaction = new HashSet<PointTransaction>();
             this.MyMembers = new HashSet<Member>();
+            this.BaoDanTransaction = new HashSet<BaoDanTransaction>();
+            this.ChongXiaoTransaction = new HashSet<ChongXiaoTransaction>();
         }
     
         public int Id { get; set; }
@@ -38,17 +40,19 @@ namespace MemberCenter
         public decimal Coin2 { get; set; }
         public System.DateTime RegisterTime { get; set; }
         public string Level { get; set; }
-        public string Achievement { get; set; }
+        public decimal Achievement { get; set; }
         public string Status { get; set; }
         public string TiXianStatus { get; set; }
         public string TiBiStatus { get; set; }
-        public bool IdSubmitted { get; set; }
-        public bool IdApproved { get; set; }
+        public Nullable<bool> IdSubmitted { get; set; }
+        public Nullable<bool> IdApproved { get; set; }
         public string ApprovedBy { get; set; }
     
         public virtual ICollection<CashTransaction> CashTransaction { get; set; }
         public virtual ICollection<PointTransaction> PointTransaction { get; set; }
         public virtual Member Referral { get; set; }
         public virtual ICollection<Member> MyMembers { get; set; }
+        public virtual ICollection<BaoDanTransaction> BaoDanTransaction { get; set; }
+        public virtual ICollection<ChongXiaoTransaction> ChongXiaoTransaction { get; set; }
     }
 }

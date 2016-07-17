@@ -44,7 +44,19 @@ namespace VapLib
             冻结 = 0,
             可用 = 1,
         }
+
+        public enum 报单类型
+        {
+            购入 = 0,
+            售出 = 1,
         }
+
+        public enum 报单状态
+        {
+            待审核 = 0,
+            已审核 = 1,
+        }
+        
 
         //To confirm
         public enum 积分记录类型
@@ -59,6 +71,13 @@ namespace VapLib
             可用 = 1,
         }
 
+
+        //To confirm
+        public enum 重消记录类型
+        {
+            下线返利重消 = 1,
+            消费 = 2,
+        }
         public enum 重消状态
         {
             冻结 = 0,

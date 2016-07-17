@@ -43,7 +43,6 @@ namespace MemberCenter.Models
 
         [Required(ErrorMessage = "请输入{0}")]
         [Display(Name = "推荐人")]
-        [EmailAddress]
         public string Referral { get; set; }
 
         [Display(Name = "验证码")]

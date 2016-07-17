@@ -4,18 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c7fa7fd8388d4e0d8994c78c5b6ce46d" Name="Diagram1" ZoomLevel="94" >
+      <Diagram DiagramId="c7fa7fd8388d4e0d8994c78c5b6ce46d" Name="Diagram1" ZoomLevel="88" >
         <EntityTypeShape EntityType="Model1.Member" Width="1.5" PointX="0.5" PointY="2.375" />
         <EntityTypeShape EntityType="Model1.CashTransaction" Width="1.5" PointX="2.625" PointY="0.5" />
         <AssociationConnector Association="Model1.MemberCashTransaction" />
-        <EntityTypeShape EntityType="Model1.PointTransaction" Width="1.5" PointX="2.625" PointY="3.25" />
+        <EntityTypeShape EntityType="Model1.PointTransaction" Width="1.5" PointX="2.625" PointY="8.75" />
         <EntityTypeShape EntityType="Model1.PaymentMethod" Width="1.5" PointX="4.75" PointY="0.5" />
         <AssociationConnector Association="Model1.MemberPointTransaction" />
         <AssociationConnector Association="Model1.MemberMember" />
         <AssociationConnector Association="Model1.CashTransactionPaymentMethod" />
-        <EntityTypeShape EntityType="Model1.CoinTransaction" Width="1.5" PointX="2.625" PointY="7.625" />
-        <EntityTypeShape EntityType="Model1.Coin" Width="1.5" PointX="4.875" PointY="7.875" />
-        <EntityTypeShape EntityType="Model1.ChongXiaoTransaction" Width="1.5" PointX="2.625" PointY="5.75" />
+        <EntityTypeShape EntityType="Model1.BaoDanTransaction" Width="1.5" PointX="2.625" PointY="3.5" />
+        <EntityTypeShape EntityType="Model1.ChongXiaoTransaction" Width="1.5" PointX="4.625" PointY="8.75" />
+        <AssociationConnector Association="Model1.MemberBaoDanTransaction" />
+        <AssociationConnector Association="Model1.MemberChongXiaoTransaction" />
+        <AssociationConnector Association="Model1.PointTransactionBaoDanTransaction" />
+        <AssociationConnector Association="Model1.ChongXiaoTransactionBaoDanTransaction" />
+        <AssociationConnector Association="Model1.CashTransactionBaoDanTransaction" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

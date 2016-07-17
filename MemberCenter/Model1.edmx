@@ -10,6 +10,8 @@
     <EntitySet Name="CashTransactions" EntityType="Model1.Store.CashTransactions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PointTransactions" EntityType="Model1.Store.PointTransactions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PaymentMethods" EntityType="Model1.Store.PaymentMethods" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CoinTransactions" EntityType="Model1.Store.CoinTransactions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ChongXiaoTransactions" EntityType="Model1.Store.ChongXiaoTransactions" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="MemberCashTransaction" Association="Model1.Store.MemberCashTransaction">
       <End Role="Member" EntitySet="Members" />
       <End Role="CashTransaction" EntitySet="CashTransactions" />
@@ -26,18 +28,38 @@
       <End Role="CashTransaction" EntitySet="CashTransactions" />
       <End Role="PaymentMethod" EntitySet="PaymentMethods" />
     </AssociationSet>
+    <AssociationSet Name="MemberBaoDanTransaction" Association="Model1.Store.MemberBaoDanTransaction">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="BaoDanTransaction" EntitySet="CoinTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="MemberChongXiaoTransaction" Association="Model1.Store.MemberChongXiaoTransaction">
+      <End Role="Member" EntitySet="Members" />
+      <End Role="ChongXiaoTransaction" EntitySet="ChongXiaoTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="PointTransactionBaoDanTransaction" Association="Model1.Store.PointTransactionBaoDanTransaction">
+      <End Role="PointTransaction" EntitySet="PointTransactions" />
+      <End Role="BaoDanTransaction" EntitySet="CoinTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="ChongXiaoTransactionBaoDanTransaction" Association="Model1.Store.ChongXiaoTransactionBaoDanTransaction">
+      <End Role="ChongXiaoTransaction" EntitySet="ChongXiaoTransactions" />
+      <End Role="BaoDanTransaction" EntitySet="CoinTransactions" />
+    </AssociationSet>
+    <AssociationSet Name="CashTransactionBaoDanTransaction" Association="Model1.Store.CashTransactionBaoDanTransaction">
+      <End Role="CashTransaction" EntitySet="CashTransactions" />
+      <End Role="BaoDanTransaction" EntitySet="CoinTransactions" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Members">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="RealName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="RealName" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Password1" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="Password2" Type="nvarchar" Nullable="false" MaxLength="50" />
-    <Property Name="Password3" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password2" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Password3" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="Cash1" Type="decimal" Nullable="false" />
     <Property Name="Cash2" Type="decimal" Nullable="false" />
     <Property Name="Point1" Type="decimal" Nullable="false" />
@@ -48,11 +70,13 @@
     <Property Name="Coin2" Type="decimal" Nullable="false" />
     <Property Name="RegisterTime" Type="datetime" Nullable="false" />
     <Property Name="Level" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Achievement" Type="decimal" Nullable="false" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TiXianStatus" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TiBiStatus" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="IdSubmitted" Type="bit" Nullable="false" />
-    <Property Name="IdApproved" Type="bit" Nullable="false" />
+    <Property Name="TiXianStatus" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="TiBiStatus" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="IdSubmitted" Type="bit" Nullable="true" />
+    <Property Name="IdApproved" Type="bit" Nullable="true" />
+    <Property Name="ApprovedBy" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Referral_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CashTransactions">
@@ -86,6 +110,37 @@
     <Property Name="Account" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CashTransaction_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CoinTransactions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateTime" Type="time" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="LockedAmount" Type="decimal" Nullable="false" />
+    <Property Name="FreeAmount" Type="decimal" Nullable="false" />
+    <Property Name="Price" Type="decimal" Nullable="false" />
+    <Property Name="LastPrice" Type="decimal" Nullable="false" />
+    <Property Name="NextPrice" Type="decimal" Nullable="false" />
+    <Property Name="Type" Type="smallint" Nullable="false" />
+    <Property Name="Status" Type="smallint" Nullable="false" />
+    <Property Name="MemberId" Type="int" Nullable="false" />
+    <Property Name="Fee" Type="decimal" Nullable="false" />
+    <Property Name="PointTransaction_Id" Type="int" Nullable="false" />
+    <Property Name="ChongXiaoTransaction_Id" Type="int" Nullable="false" />
+    <Property Name="CashTransaction_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ChongXiaoTransactions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateTime" Type="time" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="MemberId" Type="int" Nullable="false" />
+    <Property Name="Type" Type="smallint" Nullable="false" />
+    <Property Name="Status" Type="smallint" Nullable="false" />
   </EntityType>
   <Association Name="MemberCashTransaction">
     <End Role="Member" Type="Model1.Store.Members" Multiplicity="1" />
@@ -135,6 +190,66 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="MemberBaoDanTransaction">
+    <End Role="Member" Type="Model1.Store.Members" Multiplicity="1" />
+    <End Role="BaoDanTransaction" Type="Model1.Store.CoinTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BaoDanTransaction">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MemberChongXiaoTransaction">
+    <End Role="Member" Type="Model1.Store.Members" Multiplicity="1" />
+    <End Role="ChongXiaoTransaction" Type="Model1.Store.ChongXiaoTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ChongXiaoTransaction">
+        <PropertyRef Name="MemberId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PointTransactionBaoDanTransaction">
+    <End Role="PointTransaction" Type="Model1.Store.PointTransactions" Multiplicity="1" />
+    <End Role="BaoDanTransaction" Type="Model1.Store.CoinTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PointTransaction">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BaoDanTransaction">
+        <PropertyRef Name="PointTransaction_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ChongXiaoTransactionBaoDanTransaction">
+    <End Role="ChongXiaoTransaction" Type="Model1.Store.ChongXiaoTransactions" Multiplicity="1" />
+    <End Role="BaoDanTransaction" Type="Model1.Store.CoinTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ChongXiaoTransaction">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BaoDanTransaction">
+        <PropertyRef Name="ChongXiaoTransaction_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CashTransactionBaoDanTransaction">
+    <End Role="CashTransaction" Type="Model1.Store.CashTransactions" Multiplicity="1" />
+    <End Role="BaoDanTransaction" Type="Model1.Store.CoinTransactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CashTransaction">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BaoDanTransaction">
+        <PropertyRef Name="CashTransaction_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -160,15 +275,34 @@
             <End Role="CashTransaction" EntitySet="CashTransactions" />
             <End Role="PaymentMethod" EntitySet="PaymentMethods" />
           </AssociationSet>
-          <EntitySet Name="CoinTransactions" EntityType="Model1.CoinTransaction" />
-          <EntitySet Name="Coins" EntityType="Model1.Coin" />
+          <EntitySet Name="CoinTransactions" EntityType="Model1.BaoDanTransaction" />
           <EntitySet Name="ChongXiaoTransactions" EntityType="Model1.ChongXiaoTransaction" />
+          <AssociationSet Name="MemberBaoDanTransaction" Association="Model1.MemberBaoDanTransaction">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="BaoDanTransaction" EntitySet="CoinTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="MemberChongXiaoTransaction" Association="Model1.MemberChongXiaoTransaction">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="ChongXiaoTransaction" EntitySet="ChongXiaoTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="PointTransactionBaoDanTransaction" Association="Model1.PointTransactionBaoDanTransaction">
+            <End Role="PointTransaction" EntitySet="PointTransactions" />
+            <End Role="BaoDanTransaction" EntitySet="CoinTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="ChongXiaoTransactionBaoDanTransaction" Association="Model1.ChongXiaoTransactionBaoDanTransaction">
+            <End Role="ChongXiaoTransaction" EntitySet="ChongXiaoTransactions" />
+            <End Role="BaoDanTransaction" EntitySet="CoinTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="CashTransactionBaoDanTransaction" Association="Model1.CashTransactionBaoDanTransaction">
+            <End Role="CashTransaction" EntitySet="CashTransactions" />
+            <End Role="BaoDanTransaction" EntitySet="CoinTransactions" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="UserName" Type="String" MaxLength="50" Nullable="true" />
           <Property Name="RealName" Type="String" Nullable="true" />
@@ -189,13 +323,15 @@
           <Property Name="Level" Type="String" Nullable="false" />
           <NavigationProperty Name="Referral" Relationship="Model1.MemberMember" FromRole="Member" ToRole="Member1" />
           <NavigationProperty Name="MyMembers" Relationship="Model1.MemberMember" FromRole="Member1" ToRole="Member" />
-          <Property Name="Achievement" Type="String" Nullable="false" />
+          <Property Name="Achievement" Type="Decimal" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" />
-          <Property Name="TiXianStatus" Type="String" Nullable="false" />
-          <Property Name="TiBiStatus" Type="String" Nullable="false" />
-          <Property Name="IdSubmitted" Type="Boolean" Nullable="false" />
-          <Property Name="IdApproved" Type="Boolean" Nullable="false" />
+          <Property Name="TiXianStatus" Type="String" Nullable="true" />
+          <Property Name="TiBiStatus" Type="String" Nullable="true" />
+          <Property Name="IdSubmitted" Type="Boolean" Nullable="true" />
+          <Property Name="IdApproved" Type="Boolean" Nullable="true" />
           <Property Name="ApprovedBy" Type="String" Nullable="true" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="Model1.MemberBaoDanTransaction" FromRole="Member" ToRole="BaoDanTransaction" />
+          <NavigationProperty Name="ChongXiaoTransaction" Relationship="Model1.MemberChongXiaoTransaction" FromRole="Member" ToRole="ChongXiaoTransaction" />
         </EntityType>
         <EntityType Name="CashTransaction">
           <Key>
@@ -209,6 +345,7 @@
           <Property Name="Type" Type="Int16" Nullable="false" />
           <Property Name="Status" Type="Int16" Nullable="false" />
           <NavigationProperty Name="PaymentMethod" Relationship="Model1.CashTransactionPaymentMethod" FromRole="CashTransaction" ToRole="PaymentMethod" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="Model1.CashTransactionBaoDanTransaction" FromRole="CashTransaction" ToRole="BaoDanTransaction" />
         </EntityType>
         <Association Name="MemberCashTransaction">
           <End Type="Model1.Member" Role="Member" Multiplicity="1" />
@@ -233,6 +370,7 @@
           <Property Name="DateTime" Type="Time" Nullable="false" />
           <Property Name="Type" Type="Int16" Nullable="false" />
           <Property Name="Status" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="Model1.PointTransactionBaoDanTransaction" FromRole="PointTransaction" ToRole="BaoDanTransaction" />
         </EntityType>
         <EntityType Name="PaymentMethod">
           <Key>
@@ -264,21 +402,26 @@
           <End Type="Model1.CashTransaction" Role="CashTransaction" Multiplicity="1" />
           <End Type="Model1.PaymentMethod" Role="PaymentMethod" Multiplicity="0..1" />
         </Association>
-        <EntityType Name="CoinTransaction">
+        <EntityType Name="BaoDanTransaction">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateTime" Type="Time" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="false" />
-          <Property Name="Type" Type="Int16" Nullable="false" />
+          <Property Name="LockedAmount" Type="Decimal" Nullable="false" />
+          <Property Name="FreeAmount" Type="Decimal" Nullable="false" />
           <Property Name="Price" Type="Decimal" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Coin">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastPrice" Type="Decimal" Nullable="false" />
+          <Property Name="NextPrice" Type="Decimal" Nullable="false" />
+          <Property Name="Type" Type="Int16" Nullable="false" />
+          <Property Name="Status" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="Model1.MemberBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="Member" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PointTransaction" Relationship="Model1.PointTransactionBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="PointTransaction" />
+          <NavigationProperty Name="ChongXiaoTransaction" Relationship="Model1.ChongXiaoTransactionBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="ChongXiaoTransaction" />
+          <NavigationProperty Name="CashTransaction" Relationship="Model1.CashTransactionBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="CashTransaction" />
+          <Property Name="Fee" Type="Decimal" Nullable="false" />
         </EntityType>
         <EntityType Name="ChongXiaoTransaction">
           <Key>
@@ -287,7 +430,48 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateTime" Type="Time" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="Model1.MemberChongXiaoTransaction" FromRole="ChongXiaoTransaction" ToRole="Member" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int16" Nullable="false" />
+          <Property Name="Status" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="Model1.ChongXiaoTransactionBaoDanTransaction" FromRole="ChongXiaoTransaction" ToRole="BaoDanTransaction" />
         </EntityType>
+        <Association Name="MemberBaoDanTransaction">
+          <End Type="Model1.Member" Role="Member" Multiplicity="1" />
+          <End Type="Model1.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BaoDanTransaction">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MemberChongXiaoTransaction">
+          <End Type="Model1.Member" Role="Member" Multiplicity="1" />
+          <End Type="Model1.ChongXiaoTransaction" Role="ChongXiaoTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChongXiaoTransaction">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PointTransactionBaoDanTransaction">
+          <End Type="Model1.PointTransaction" Role="PointTransaction" Multiplicity="1" />
+          <End Type="Model1.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="0..1" />
+        </Association>
+        <Association Name="ChongXiaoTransactionBaoDanTransaction">
+          <End Type="Model1.ChongXiaoTransaction" Role="ChongXiaoTransaction" Multiplicity="1" />
+          <End Type="Model1.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="0..1" />
+        </Association>
+        <Association Name="CashTransactionBaoDanTransaction">
+          <End Type="Model1.CashTransaction" Role="CashTransaction" Multiplicity="1" />
+          <End Type="Model1.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="0..1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -314,11 +498,13 @@
           <ScalarProperty Name="Coin2" ColumnName="Coin2" />
           <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
           <ScalarProperty Name="Level" ColumnName="Level" />
+          <ScalarProperty Name="Achievement" ColumnName="Achievement" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="TiXianStatus" ColumnName="TiXianStatus" />
           <ScalarProperty Name="TiBiStatus" ColumnName="TiBiStatus" />
           <ScalarProperty Name="IdSubmitted" ColumnName="IdSubmitted" />
           <ScalarProperty Name="IdApproved" ColumnName="IdApproved" />
+          <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -356,6 +542,36 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="CoinTransactions">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.BaoDanTransaction)">
+        <MappingFragment StoreEntitySet="CoinTransactions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="LockedAmount" ColumnName="LockedAmount" />
+          <ScalarProperty Name="FreeAmount" ColumnName="FreeAmount" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="LastPrice" ColumnName="LastPrice" />
+          <ScalarProperty Name="NextPrice" ColumnName="NextPrice" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="Fee" ColumnName="Fee" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ChongXiaoTransactions">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.ChongXiaoTransaction)">
+        <MappingFragment StoreEntitySet="ChongXiaoTransactions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="MemberMember" TypeName="Model1.MemberMember" StoreEntitySet="Members">
       <EndProperty Name="Member1">
         <ScalarProperty Name="Id" ColumnName="Referral_Id" />
@@ -369,6 +585,30 @@
         <ScalarProperty Name="Id" ColumnName="CashTransaction_Id" />
       </EndProperty>
       <EndProperty Name="PaymentMethod">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PointTransactionBaoDanTransaction" TypeName="Model1.PointTransactionBaoDanTransaction" StoreEntitySet="CoinTransactions">
+      <EndProperty Name="PointTransaction">
+        <ScalarProperty Name="Id" ColumnName="PointTransaction_Id" />
+      </EndProperty>
+      <EndProperty Name="BaoDanTransaction">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ChongXiaoTransactionBaoDanTransaction" TypeName="Model1.ChongXiaoTransactionBaoDanTransaction" StoreEntitySet="CoinTransactions">
+      <EndProperty Name="ChongXiaoTransaction">
+        <ScalarProperty Name="Id" ColumnName="ChongXiaoTransaction_Id" />
+      </EndProperty>
+      <EndProperty Name="BaoDanTransaction">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CashTransactionBaoDanTransaction" TypeName="Model1.CashTransactionBaoDanTransaction" StoreEntitySet="CoinTransactions">
+      <EndProperty Name="CashTransaction">
+        <ScalarProperty Name="Id" ColumnName="CashTransaction_Id" />
+      </EndProperty>
+      <EndProperty Name="BaoDanTransaction">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

@@ -17,5 +17,11 @@ namespace MemberCenter
         public int Id { get; set; }
         public System.TimeSpan DateTime { get; set; }
         public decimal Amount { get; set; }
+        public int MemberId { get; set; }
+        public short Type { get; set; }
+        public short Status { get; set; }
+    
+        public virtual Member Member { get; set; }
+        public virtual BaoDanTransaction BaoDanTransaction { get; set; }
     }
 }

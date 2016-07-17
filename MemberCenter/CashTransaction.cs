@@ -23,5 +23,6 @@ namespace MemberCenter
     
         public virtual Member Member { get; set; }
         public virtual PaymentMethod PaymentMethod { get; set; }
+        public virtual BaoDanTransaction BaoDanTransaction { get; set; }
     }
 }
