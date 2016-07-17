@@ -7,13 +7,51 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MemberCenter;
+using MemberCenter.Models;
 
 namespace MemberCenter.Controllers
 {
     [Authorize]
-    public class TransactionController : Controller
+    public class TransactionController : BaseController
     {
         private Model1Container db = new Model1Container();
+
+
+        public ActionResult CashTopup()
+        {
+            IQueryable<PaymentMethodViewModel> paymentMethods = from row in db.PaymentMethods
+                                 select new PaymentMethodViewModel
+                                 {
+                                     Account = row.Account,
+                                     Bank = row.Bank,
+                                     Description = row.Description,
+                                 };
+
+            CashTopupViewModel model = new CashTopupViewModel {
+                PaymentMethods = paymentMethods.ToList(),
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CashTopup(CashTopupViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //db.Entry(cashtransaction).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            
+            return View();
+        }
+
+
+
+
+        /////////////////////////////////////////////////////////
+
 
         // GET: /Transaction/
         public ActionResult Index()

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/17/2016 15:01:36
+-- Date Created: 07/17/2016 15:37:44
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -109,7 +109,8 @@ CREATE TABLE [dbo].[CashTransactions] (
     [Amount] decimal(18,0)  NOT NULL,
     [DateTime] time  NOT NULL,
     [Type] smallint  NOT NULL,
-    [Status] smallint  NOT NULL
+    [Status] smallint  NOT NULL,
+    [PaymentMethod_Id] int  NOT NULL
 );
 GO
 
@@ -129,8 +130,7 @@ CREATE TABLE [dbo].[PaymentMethods] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Bank] nvarchar(max)  NOT NULL,
     [Account] nvarchar(max)  NOT NULL,
-    [Description] nvarchar(max)  NOT NULL,
-    [CashTransaction_Id] int  NOT NULL
+    [Description] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -251,20 +251,6 @@ ON [dbo].[Members]
     ([Referral_Id]);
 GO
 
--- Creating foreign key on [CashTransaction_Id] in table 'PaymentMethods'
-ALTER TABLE [dbo].[PaymentMethods]
-ADD CONSTRAINT [FK_CashTransactionPaymentMethod]
-    FOREIGN KEY ([CashTransaction_Id])
-    REFERENCES [dbo].[CashTransactions]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_CashTransactionPaymentMethod'
-CREATE INDEX [IX_FK_CashTransactionPaymentMethod]
-ON [dbo].[PaymentMethods]
-    ([CashTransaction_Id]);
-GO
-
 -- Creating foreign key on [MemberId] in table 'CoinTransactions'
 ALTER TABLE [dbo].[CoinTransactions]
 ADD CONSTRAINT [FK_MemberBaoDanTransaction]
@@ -333,6 +319,20 @@ ADD CONSTRAINT [FK_CashTransactionBaoDanTransaction]
 CREATE INDEX [IX_FK_CashTransactionBaoDanTransaction]
 ON [dbo].[CoinTransactions]
     ([CashTransaction_Id]);
+GO
+
+-- Creating foreign key on [PaymentMethod_Id] in table 'CashTransactions'
+ALTER TABLE [dbo].[CashTransactions]
+ADD CONSTRAINT [FK_PaymentMethodCashTransaction]
+    FOREIGN KEY ([PaymentMethod_Id])
+    REFERENCES [dbo].[PaymentMethods]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PaymentMethodCashTransaction'
+CREATE INDEX [IX_FK_PaymentMethodCashTransaction]
+ON [dbo].[CashTransactions]
+    ([PaymentMethod_Id]);
 GO
 
 -- --------------------------------------------------

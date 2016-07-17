@@ -22,7 +22,7 @@ namespace MemberCenter
         public short Status { get; set; }
     
         public virtual Member Member { get; set; }
-        public virtual PaymentMethod PaymentMethod { get; set; }
         public virtual BaoDanTransaction BaoDanTransaction { get; set; }
+        public virtual PaymentMethod PaymentMethod { get; set; }
     }
 }
