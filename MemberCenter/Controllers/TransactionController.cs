@@ -39,6 +39,7 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
+                //TODO
                 //db.Entry(cashtransaction).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -48,6 +49,12 @@ namespace MemberCenter.Controllers
         }
 
 
+        public ActionResult CashWithdraw()
+        {
+            return View();
+        }
+
+        
 
 
         /////////////////////////////////////////////////////////

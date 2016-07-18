@@ -1,0 +1,43 @@
+﻿@model MemberCenter.Models.MyAssetViewModel
+
+@{
+    ViewBag.Title = "个人资产";
+}
+
+    <h1 class="page-header">@ViewBag.Title</h1>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Personal Assets
+        </div>
+        <div class="panel-body">
+
+            <table class="table table-hover">
+                <caption> </caption>
+                <tr>
+                    <td>可用奖金积分：<p class="available-qty"><em><b>@Model.AvailableCash</b></em></p></td>
+                    <td>冻结：<em>@Model.LockedCash</em></td>
+                    <td>总量：<em>@Model.TotalCash</em></td>
+                </tr>
+                <tr>
+                    <td>可用兑换积分：<p class="available-qty"><em><b>@Model.AvailablePoints</b></em></p></td>
+                    <td>冻结：<em>@Model.LockedPoints</em></td>
+                    <td>总量：<em>@Model.TotalPoints</em></td>
+                </tr>
+                <tr>
+                    <td>可用重消：<p class="available-qty"><em><b>@Model.AvailableChongXiao</b></em></p></td>
+                    <td>冻结：<em>@Model.LockedChongXiao</em></td>
+                    <td>总量：<em>@Model.TotalChongXiao</em></td>
+                </tr>
+                <tr>
+                    <td>可用LHTY：<p class="available-qty"><em><b>@Model.AvailableCoin</em></b></p></td>
+                    <td>冻结：<em>@Model.LockedCoin</em></td>
+                    <td>总量：<em>@Model.TotalCoin</em></td>
+                </tr>
+            </table>
+            <!-- /.Table -->
+        </div>
+        <!-- /.panel-body -->
+        <div class="panel-footer">
+            &nbsp;
+        </div>
+    </div>

@@ -148,6 +148,22 @@ namespace MemberCenter.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        public ActionResult MyAssets()
+        {
+            MyAssetViewModel model = new MyAssetViewModel()
+            {
+                AvailableCash = CurrentUser.Cash1,
+                LockedCash = CurrentUser.Cash2,
+                AvailablePoints = CurrentUser.Point1,
+                LockedPoints = CurrentUser.Point2,
+                AvailableChongXiao = CurrentUser.ChongXiao1,
+                LockedChongXiao = CurrentUser.ChongXiao2,
+                AvailableCoin = CurrentUser.Coin1,
+                LockedCoin = CurrentUser.Coin2,
+            };
+            return View(model);
+        }
         
         
 
