@@ -75,17 +75,21 @@ namespace MemberCenter.Models
     }
 
 
-    public class MyMemberListViewModel
-    {
-        public List<MyMemberViewModel> MyMembers { get; set; }
-    }
-
     public class MyMemberViewModel
     {
+        [Display(Name = "用户名")]
         public string UserName { get; set; }
+
+        [Display(Name = "邮箱")]
         public string Email { get; set; }
+
+        [Display(Name = "等级")]
         public string Level { get; set; }
+
+        [Display(Name = "总业绩")]
         public decimal Archievement { get; set; }
+
+        [Display(Name = "注册日期")]
         public DateTime RegisterTime { get; set; }
     }
 
