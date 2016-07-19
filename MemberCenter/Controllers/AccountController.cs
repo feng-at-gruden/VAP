@@ -164,7 +164,12 @@ namespace MemberCenter.Controllers
             };
             return View(model);
         }
-        
+
+        public ActionResult MyMembers()
+        {
+            return View();
+        }
+
         
 
         #region Helpers

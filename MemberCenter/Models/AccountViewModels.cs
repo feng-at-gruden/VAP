@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MemberCenter.Models
 {
@@ -72,5 +74,19 @@ namespace MemberCenter.Models
         public decimal TotalCoin { get { return AvailableCoin + LockedCoin; } }
     }
 
+
+    public class MyMemberListViewModel
+    {
+        public List<MyMemberViewModel> MyMembers { get; set; }
+    }
+
+    public class MyMemberViewModel
+    {
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Level { get; set; }
+        public decimal Archievement { get; set; }
+        public DateTime RegisterTime { get; set; }
+    }
 
 }

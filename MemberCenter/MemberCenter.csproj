@@ -1036,6 +1036,7 @@
     <Content Include="Views\Transaction\CashTopup.cshtml" />
     <Content Include="Views\Transaction\CashWithdraw.cshtml" />
     <Content Include="Views\Account\MyAssets.cshtml" />
+    <Content Include="Views\Account\MyMembers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
