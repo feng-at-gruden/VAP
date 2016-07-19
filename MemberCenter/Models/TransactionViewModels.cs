@@ -34,4 +34,14 @@ namespace MemberCenter.Models
     }
 
 
+    public class CashWithdrawViewModel
+    {
+
+        [Required(ErrorMessage = "请填写提现金额")]
+        [Display(Name = "提现金额")]
+        public decimal Amount { get; set; }
+
+        public PaymentMethodViewModel PaymentMethod { get; set; }
+    }
+
 }
