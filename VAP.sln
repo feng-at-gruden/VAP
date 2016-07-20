@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemberCenter", "MemberCenter\MemberCenter.csproj", "{CF9E8C55-D907-40EF-86E8-C835646DC640}"
+	ProjectSection(ProjectDependencies) = postProject
+		{143EE46B-0DF8-4C7D-A774-CC259FFEC975} = {143EE46B-0DF8-4C7D-A774-CC259FFEC975}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{76D8753F-6CFC-4810-9294-B8B71139B6EF}"
 EndProject

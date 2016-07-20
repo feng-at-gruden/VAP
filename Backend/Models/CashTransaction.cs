@@ -17,7 +17,7 @@ namespace Backend.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CashTransaction()
         {
-            this.PaymentMethods = new HashSet<PaymentMethod>();
+            this.CoinTransactions = new HashSet<CoinTransaction>();
         }
     
         public int Id { get; set; }
@@ -26,9 +26,13 @@ namespace Backend.Models
         public System.TimeSpan DateTime { get; set; }
         public short Type { get; set; }
         public short Status { get; set; }
+        public int PaymentMethod_Id { get; set; }
+        public int BankInfo_Id { get; set; }
     
+        public virtual BankInfo BankInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PaymentMethod> PaymentMethods { get; set; }
+        public virtual ICollection<CoinTransaction> CoinTransactions { get; set; }
         public virtual Member Member { get; set; }
+        public virtual PaymentMethod PaymentMethod { get; set; }
     }
 }

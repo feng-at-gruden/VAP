@@ -12,23 +12,23 @@ namespace Backend.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PointTransaction
+    public partial class CoinTransaction
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PointTransaction()
-        {
-            this.CoinTransactions = new HashSet<CoinTransaction>();
-        }
-    
         public int Id { get; set; }
-        public int MemberId { get; set; }
-        public decimal Amount { get; set; }
         public System.TimeSpan DateTime { get; set; }
+        public decimal Amount { get; set; }
+        public decimal Price { get; set; }
         public short Type { get; set; }
         public short Status { get; set; }
+        public int MemberId { get; set; }
+        public decimal Fee { get; set; }
+        public int PointTransaction_Id { get; set; }
+        public int ChongXiaoTransaction_Id { get; set; }
+        public int CashTransaction_Id { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CoinTransaction> CoinTransactions { get; set; }
+        public virtual CashTransaction CashTransaction { get; set; }
+        public virtual ChongXiaoTransaction ChongXiaoTransaction { get; set; }
         public virtual Member Member { get; set; }
+        public virtual PointTransaction PointTransaction { get; set; }
     }
 }

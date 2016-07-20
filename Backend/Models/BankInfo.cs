@@ -12,10 +12,10 @@ namespace Backend.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PaymentMethod
+    public partial class BankInfo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PaymentMethod()
+        public BankInfo()
         {
             this.CashTransactions = new HashSet<CashTransaction>();
         }
@@ -24,8 +24,10 @@ namespace Backend.Models
         public string Bank { get; set; }
         public string Account { get; set; }
         public string Description { get; set; }
+        public Nullable<int> MemberId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CashTransaction> CashTransactions { get; set; }
+        public virtual Member Member { get; set; }
     }
 }
