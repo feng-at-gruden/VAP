@@ -44,8 +44,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="InitSQL\CoinPrices.sql" />
     <Content Include="InitSQL\IdentityInitial.sql" />
     <Content Include="InitSQL\Members.sql" />
+    <Content Include="InitSQL\PaymentMethods.sql" />
+    <Content Include="InitSQL\RefoundRates.sql" />
     <Content Include="InitSQL\VAP说明.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

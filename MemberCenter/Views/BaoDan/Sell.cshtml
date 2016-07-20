@@ -1,0 +1,79 @@
+﻿@{
+    
+    ViewBag.Title = "LHTY卖出";
+}
+
+
+<div class="row">
+    <h1 class="page-header">@ViewBag.Title</h1>
+
+    <div class="col-lg-5">
+        <div class="well">
+            <form role="form" method="post" action="#">
+                <div class="form-group">
+                    <span class="left">当前价格：1.7</span>
+                    <span class="right">可用LHTY：2000000.00</span>
+                    <br class="clear" />
+                </div>
+                <div class="form-group input-group">
+                    <input class="form-control" placeholder="卖出价格1.7" name="login" maxlength="5">
+                    <span class="input-group-addon">&nbsp;CNY</span>
+                </div>
+                <div class="form-group input-group">
+                    <input class="form-control" placeholder="卖出数量" name="login" maxlength="20">
+                    <span class="input-group-addon">LHTY</span>
+                </div>
+                <div class="form-group input-group">
+                    <input class="form-control" placeholder="交易金额" name="login" maxlength="30" disabled>
+                    <span class="input-group-addon">&nbsp;CNY</span>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" placeholder="交易密码" name="password" type="password" maxlength="20">
+                </div>
+                <button type="submit" class="btn btn-warning btn-block">卖出</button>
+            </form>
+            <!-- /.form -->
+
+        </div>
+    </div>
+    <!-- /.col-lg-6 -->
+
+
+    <div class="col-lg-7">
+        <div class="well">
+            <table class="table table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                        <th>卖出时间</th>
+                        <th>数量</th>
+                        <th>金额</th>
+                        <th>手续费</th>
+                        <th>价格</th>
+                        <th>状态/操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="odd">
+                        <td>2016-07-19 23:30:00</td>
+                        <td>1000</td>
+                        <td>$17000</td>
+                        <td>0</td>
+                        <td>$1.7</td>
+                        <td>未成交|取消</td>
+                    </tr>
+                    <tr class="odd">
+                        <td>2016-07-19 23:30:00</td>
+                        <td>1000</td>
+                        <td>$17000</td>
+                        <td>0</td>
+                        <td>$1.7</td>
+                        <td>未成交|取消</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <!-- /.col-lg-6 -->
+</div>
+<!-- /.row -->

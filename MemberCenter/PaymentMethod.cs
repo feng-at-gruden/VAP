@@ -18,6 +18,7 @@ namespace MemberCenter
         public string Bank { get; set; }
         public string Account { get; set; }
         public string Description { get; set; }
+        public string URL { get; set; }
     
         public virtual CashTransaction CashTransaction { get; set; }
     }
