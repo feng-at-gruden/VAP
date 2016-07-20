@@ -1075,9 +1075,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VAPModel\VAPModel.csproj">
-      <Project>{51b31a53-3bba-46c9-a81f-f24524d3c651}</Project>
-      <Name>VAPModel</Name>
+    <ProjectReference Include="..\VapLib\VapLib.csproj">
+      <Project>{143ee46b-0df8-4c7d-a774-cc259ffec975}</Project>
+      <Name>VapLib</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
