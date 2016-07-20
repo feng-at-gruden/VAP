@@ -17,11 +17,7 @@ namespace Backend.Models
         public int Id { get; set; }
         public System.TimeSpan DateTime { get; set; }
         public decimal Amount { get; set; }
-        public decimal LockedAmount { get; set; }
-        public decimal FreeAmount { get; set; }
         public decimal Price { get; set; }
-        public decimal LastPrice { get; set; }
-        public decimal NextPrice { get; set; }
         public short Type { get; set; }
         public short Status { get; set; }
         public int MemberId { get; set; }

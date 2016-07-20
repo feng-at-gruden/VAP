@@ -4,14 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e56ab1947f8b47b0978cc7cda92ed190" Name="Diagram1">
-        <EntityTypeShape EntityType="VapModel.CashTransaction" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="VapModel.Member" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VapModel.PaymentMethod" Width="2" PointX="5.375" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VapModel.PointTransaction" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
-        <AssociationConnector Association="VapModel.FK_MemberCashTransaction" ManuallyRouted="false" />
-        <AssociationConnector Association="VapModel.FK_MemberMember" ManuallyRouted="false" />
-        <AssociationConnector Association="VapModel.FK_MemberPointTransaction" ManuallyRouted="false" />
+      <Diagram DiagramId="e56ab1947f8b47b0978cc7cda92ed190" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="VapModel.AspNetRole" Width="1.5" PointX="10.875" PointY="5.75" />
         <EntityTypeShape EntityType="VapModel.AspNetUserClaim" Width="1.5" PointX="12.25" PointY="9.375" />
         <EntityTypeShape EntityType="VapModel.AspNetUserLogin" Width="1.5" PointX="12.5" PointY="7.125" />
@@ -19,26 +12,33 @@
         <AssociationConnector Association="VapModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="VapModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="VapModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="VapModel.ChongXiaoTransaction" Width="1.5" PointX="3" PointY="8.375" />
-        <EntityTypeShape EntityType="VapModel.CoinTransaction" Width="1.5" PointX="8.25" PointY="0.75" />
+        <EntityTypeShape EntityType="VapModel.BankInfo" Width="1.5" PointX="3" PointY="18.125" />
+        <EntityTypeShape EntityType="VapModel.CashTransaction" Width="1.5" PointX="5.625" PointY="10.875" />
+        <EntityTypeShape EntityType="VapModel.ChongXiaoTransaction" Width="1.5" PointX="5.625" PointY="18.375" />
+        <EntityTypeShape EntityType="VapModel.CoinPrice" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VapModel.CoinTransaction" Width="1.5" PointX="7.875" PointY="15" />
+        <EntityTypeShape EntityType="VapModel.IPLog" Width="1.5" PointX="3.375" PointY="14.625" />
+        <EntityTypeShape EntityType="VapModel.LockedCoin" Width="1.5" PointX="3.375" PointY="21.25" />
+        <EntityTypeShape EntityType="VapModel.Member" Width="1.5" PointX="1.125" PointY="15.5" />
+        <EntityTypeShape EntityType="VapModel.News" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="VapModel.PaymentMethod" Width="1.5" PointX="0.75" PointY="2" />
+        <EntityTypeShape EntityType="VapModel.PointTransaction" Width="1.5" PointX="5.625" PointY="15" />
+        <EntityTypeShape EntityType="VapModel.RefoundRate" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="VapModel.SystemSetting" Width="1.5" PointX="4.75" PointY="3.75" />
+        <AssociationConnector Association="VapModel.FK_CashTransactionBankInfo" />
+        <AssociationConnector Association="VapModel.FK_MemberBankInfo" />
         <AssociationConnector Association="VapModel.FK_CashTransactionBaoDanTransaction" />
+        <AssociationConnector Association="VapModel.FK_MemberCashTransaction" />
         <AssociationConnector Association="VapModel.FK_PaymentMethodCashTransaction" />
         <AssociationConnector Association="VapModel.FK_ChongXiaoTransactionBaoDanTransaction" />
         <AssociationConnector Association="VapModel.FK_MemberChongXiaoTransaction" />
         <AssociationConnector Association="VapModel.FK_MemberBaoDanTransaction" />
         <AssociationConnector Association="VapModel.FK_PointTransactionBaoDanTransaction" />
-        <EntityTypeShape EntityType="VapModel.BankInfo" Width="1.5" PointX="3" PointY="18.125" />
-        <EntityTypeShape EntityType="VapModel.CoinPrice" Width="1.5" PointX="5.375" PointY="4.75" />
-        <EntityTypeShape EntityType="VapModel.IPLog" Width="1.5" PointX="3" PointY="11.875" />
-        <EntityTypeShape EntityType="VapModel.LockedCoin" Width="1.5" PointX="3" PointY="14.625" />
-        <EntityTypeShape EntityType="VapModel.News" Width="1.5" PointX="5.375" PointY="7.75" />
-        <EntityTypeShape EntityType="VapModel.RefoundRate" Width="1.5" PointX="7.375" PointY="6.75" />
-        <EntityTypeShape EntityType="VapModel.SystemSetting" Width="1.5" PointX="7.375" PointY="9.75" />
-        <AssociationConnector Association="VapModel.FK_CashTransactionBankInfo" />
-        <AssociationConnector Association="VapModel.FK_MemberBankInfo" />
         <AssociationConnector Association="VapModel.FK_MemberIPLog" />
         <AssociationConnector Association="VapModel.FK_MemberLockedCoin" />
-      </Diagram>
+        <AssociationConnector Association="VapModel.FK_MemberMember" />
+        <AssociationConnector Association="VapModel.FK_MemberPointTransaction" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

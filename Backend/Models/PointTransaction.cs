@@ -27,8 +27,8 @@ namespace Backend.Models
         public short Type { get; set; }
         public short Status { get; set; }
     
-        public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CoinTransaction> CoinTransactions { get; set; }
+        public virtual Member Member { get; set; }
     }
 }

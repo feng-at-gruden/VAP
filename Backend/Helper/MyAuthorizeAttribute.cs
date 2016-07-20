@@ -17,7 +17,7 @@ namespace Backend.Helper
             var roleList = Roles.Split(',');
             foreach (var s in roleList)
             {
-                if (Helper.IsUserInRole(userId,s,new VapEntities()))
+                if (Helper.IsUserInRole(userId, s, new vapEntities1()))
                 {
                     return true;
                 }

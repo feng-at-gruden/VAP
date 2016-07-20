@@ -29,10 +29,10 @@ namespace Backend.Models
         public int PaymentMethod_Id { get; set; }
         public int BankInfo_Id { get; set; }
     
-        public virtual Member Member { get; set; }
+        public virtual BankInfo BankInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CoinTransaction> CoinTransactions { get; set; }
+        public virtual Member Member { get; set; }
         public virtual PaymentMethod PaymentMethod { get; set; }
-        public virtual BankInfo BankInfo { get; set; }
     }
 }

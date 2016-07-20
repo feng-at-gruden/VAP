@@ -8,7 +8,7 @@ namespace Backend.Helper
 {
     public class Helper
     {
-        public static string GetUserRole(string userId, VapEntities dbEntities)
+        public static string GetUserRole(string userId, vapEntities1 dbEntities)
         {
             var user = dbEntities.AspNetUsers.Find(userId);
             if (user != null)
@@ -19,7 +19,7 @@ namespace Backend.Helper
             }
             return "";
         }
-        public static bool IsUserInRole(string userId,string role, VapEntities dbEntities)
+        public static bool IsUserInRole(string userId, string role, vapEntities1 dbEntities)
         {
 
             return GetUserRole(userId,dbEntities) == role;
