@@ -14,12 +14,19 @@ namespace Backend.Models
     
     public partial class PaymentMethod
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PaymentMethod()
+        {
+            this.CashTransactions = new HashSet<CashTransaction>();
+        }
+    
         public int Id { get; set; }
         public string Bank { get; set; }
         public string Account { get; set; }
         public string Description { get; set; }
         public int CashTransaction_Id { get; set; }
     
-        public virtual CashTransaction CashTransaction { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CashTransaction> CashTransactions { get; set; }
     }
 }

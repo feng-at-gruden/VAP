@@ -13,9 +13,9 @@ namespace Backend.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class vapEntities : DbContext
+    public partial class VapEntities : DbContext
     {
-        public vapEntities()
+        public VapEntities()
             : base("name=vapEntities1")
         {
         }
@@ -33,5 +33,7 @@ namespace Backend.Models
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<ChongXiaoTransaction> ChongXiaoTransactions { get; set; }
+        public virtual DbSet<CoinTransaction> CoinTransactions { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace Backend.Controllers
     public class AccountController : Controller
     {
         public AccountController()
-            : this(new UserManager<AspNetUser>(new UserStore<AspNetUser>(new vapEntities())))
+            : this(new UserManager<AspNetUser>(new UserStore<AspNetUser>(new VapEntities())))
         {
         }
 

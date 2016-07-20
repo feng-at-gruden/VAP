@@ -186,6 +186,12 @@
     <Compile Include="Models\CashTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChongXiaoTransaction.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CoinTransaction.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Member.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>

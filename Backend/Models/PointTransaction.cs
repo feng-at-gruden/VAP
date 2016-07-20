@@ -14,6 +14,12 @@ namespace Backend.Models
     
     public partial class PointTransaction
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PointTransaction()
+        {
+            this.CoinTransactions = new HashSet<CoinTransaction>();
+        }
+    
         public int Id { get; set; }
         public int MemberId { get; set; }
         public decimal Amount { get; set; }
@@ -22,5 +28,7 @@ namespace Backend.Models
         public short Status { get; set; }
     
         public virtual Member Member { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CoinTransaction> CoinTransactions { get; set; }
     }
 }

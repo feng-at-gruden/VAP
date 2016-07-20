@@ -7,19 +7,26 @@
       <Diagram DiagramId="e56ab1947f8b47b0978cc7cda92ed190" Name="Diagram1">
         <EntityTypeShape EntityType="VapModel.CashTransaction" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="VapModel.Member" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VapModel.PaymentMethod" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VapModel.PaymentMethod" Width="2" PointX="5.375" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VapModel.PointTransaction" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
-        <AssociationConnector Association="VapModel.FK_CashTransactionPaymentMethod" ManuallyRouted="false" />
         <AssociationConnector Association="VapModel.FK_MemberCashTransaction" ManuallyRouted="false" />
         <AssociationConnector Association="VapModel.FK_MemberMember" ManuallyRouted="false" />
         <AssociationConnector Association="VapModel.FK_MemberPointTransaction" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="VapModel.AspNetRole" Width="1.5" PointX="5.375" PointY="6.5" />
-        <EntityTypeShape EntityType="VapModel.AspNetUserClaim" Width="1.5" PointX="9.875" PointY="7.625" />
-        <EntityTypeShape EntityType="VapModel.AspNetUserLogin" Width="1.5" PointX="9.875" PointY="5" />
-        <EntityTypeShape EntityType="VapModel.AspNetUser" Width="1.5" PointX="7.625" PointY="5.25" />
+        <EntityTypeShape EntityType="VapModel.AspNetRole" Width="1.5" PointX="10.875" PointY="5.75" />
+        <EntityTypeShape EntityType="VapModel.AspNetUserClaim" Width="1.5" PointX="12.25" PointY="9.375" />
+        <EntityTypeShape EntityType="VapModel.AspNetUserLogin" Width="1.5" PointX="12.5" PointY="7.125" />
+        <EntityTypeShape EntityType="VapModel.AspNetUser" Width="1.5" PointX="10.375" PointY="7.625" />
         <AssociationConnector Association="VapModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="VapModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="VapModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="VapModel.ChongXiaoTransaction" Width="1.5" PointX="3" PointY="8.375" />
+        <EntityTypeShape EntityType="VapModel.CoinTransaction" Width="1.5" PointX="8.25" PointY="0.75" />
+        <AssociationConnector Association="VapModel.FK_CashTransactionBaoDanTransaction" />
+        <AssociationConnector Association="VapModel.FK_PaymentMethodCashTransaction" />
+        <AssociationConnector Association="VapModel.FK_ChongXiaoTransactionBaoDanTransaction" />
+        <AssociationConnector Association="VapModel.FK_MemberChongXiaoTransaction" />
+        <AssociationConnector Association="VapModel.FK_MemberBaoDanTransaction" />
+        <AssociationConnector Association="VapModel.FK_PointTransactionBaoDanTransaction" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -20,6 +20,8 @@ namespace Backend.Models
             this.CashTransactions = new HashSet<CashTransaction>();
             this.Members1 = new HashSet<Member>();
             this.PointTransactions = new HashSet<PointTransaction>();
+            this.ChongXiaoTransactions = new HashSet<ChongXiaoTransaction>();
+            this.CoinTransactions = new HashSet<CoinTransaction>();
         }
     
         public int Id { get; set; }
@@ -39,6 +41,14 @@ namespace Backend.Models
         public System.DateTime RegisterTime { get; set; }
         public string Level { get; set; }
         public int Referral_Id { get; set; }
+        public string RealName { get; set; }
+        public decimal Achievement { get; set; }
+        public string Status { get; set; }
+        public string TiXianStatus { get; set; }
+        public string TiBiStatus { get; set; }
+        public Nullable<bool> IdSubmitted { get; set; }
+        public Nullable<bool> IdApproved { get; set; }
+        public string ApprovedBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CashTransaction> CashTransactions { get; set; }
@@ -47,5 +57,9 @@ namespace Backend.Models
         public virtual Member Member1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PointTransaction> PointTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChongXiaoTransaction> ChongXiaoTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CoinTransaction> CoinTransactions { get; set; }
     }
 }

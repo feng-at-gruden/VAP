@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c7fa7fd8388d4e0d8994c78c5b6ce46d" Name="Diagram1" ZoomLevel="83" >
+      <Diagram DiagramId="c7fa7fd8388d4e0d8994c78c5b6ce46d" Name="Diagram1" ZoomLevel="95" >
         <EntityTypeShape EntityType="Model1.Member" Width="1.5" PointX="0.5" PointY="2.375" />
         <EntityTypeShape EntityType="Model1.CashTransaction" Width="1.5" PointX="2.625" PointY="0.5" />
         <AssociationConnector Association="Model1.MemberCashTransaction" />
