@@ -22,6 +22,9 @@ namespace Backend.Models
             this.PointTransactions = new HashSet<PointTransaction>();
             this.ChongXiaoTransactions = new HashSet<ChongXiaoTransaction>();
             this.CoinTransactions = new HashSet<CoinTransaction>();
+            this.BankInfos = new HashSet<BankInfo>();
+            this.IPLogs = new HashSet<IPLog>();
+            this.LockedCoins = new HashSet<LockedCoin>();
         }
     
         public int Id { get; set; }
@@ -61,5 +64,11 @@ namespace Backend.Models
         public virtual ICollection<ChongXiaoTransaction> ChongXiaoTransactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CoinTransaction> CoinTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BankInfo> BankInfos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<IPLog> IPLogs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LockedCoin> LockedCoins { get; set; }
     }
 }

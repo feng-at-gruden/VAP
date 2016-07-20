@@ -12,27 +12,22 @@ namespace Backend.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CashTransaction
+    public partial class BankInfo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CashTransaction()
+        public BankInfo()
         {
-            this.CoinTransactions = new HashSet<CoinTransaction>();
+            this.CashTransactions = new HashSet<CashTransaction>();
         }
     
         public int Id { get; set; }
-        public int MemberId { get; set; }
-        public decimal Amount { get; set; }
-        public System.TimeSpan DateTime { get; set; }
-        public short Type { get; set; }
-        public short Status { get; set; }
-        public int PaymentMethod_Id { get; set; }
-        public int BankInfo_Id { get; set; }
+        public string Bank { get; set; }
+        public string Account { get; set; }
+        public string Description { get; set; }
+        public Nullable<int> MemberId { get; set; }
     
-        public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CoinTransaction> CoinTransactions { get; set; }
-        public virtual PaymentMethod PaymentMethod { get; set; }
-        public virtual BankInfo BankInfo { get; set; }
+        public virtual ICollection<CashTransaction> CashTransactions { get; set; }
+        public virtual Member Member { get; set; }
     }
 }

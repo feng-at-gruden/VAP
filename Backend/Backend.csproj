@@ -183,23 +183,44 @@
     <Compile Include="Models\AspNetUserLogin.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BankInfo.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CashTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChongXiaoTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CoinPrice.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CoinTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IPLog.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LockedCoin.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Member.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\News.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PaymentMethod.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PointTransaction.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RefoundRate.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SystemSetting.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VpaModel.Context.cs">

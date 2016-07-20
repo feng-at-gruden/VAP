@@ -27,6 +27,17 @@
         <AssociationConnector Association="VapModel.FK_MemberChongXiaoTransaction" />
         <AssociationConnector Association="VapModel.FK_MemberBaoDanTransaction" />
         <AssociationConnector Association="VapModel.FK_PointTransactionBaoDanTransaction" />
+        <EntityTypeShape EntityType="VapModel.BankInfo" Width="1.5" PointX="3" PointY="18.125" />
+        <EntityTypeShape EntityType="VapModel.CoinPrice" Width="1.5" PointX="5.375" PointY="4.75" />
+        <EntityTypeShape EntityType="VapModel.IPLog" Width="1.5" PointX="3" PointY="11.875" />
+        <EntityTypeShape EntityType="VapModel.LockedCoin" Width="1.5" PointX="3" PointY="14.625" />
+        <EntityTypeShape EntityType="VapModel.News" Width="1.5" PointX="5.375" PointY="7.75" />
+        <EntityTypeShape EntityType="VapModel.RefoundRate" Width="1.5" PointX="7.375" PointY="6.75" />
+        <EntityTypeShape EntityType="VapModel.SystemSetting" Width="1.5" PointX="7.375" PointY="9.75" />
+        <AssociationConnector Association="VapModel.FK_CashTransactionBankInfo" />
+        <AssociationConnector Association="VapModel.FK_MemberBankInfo" />
+        <AssociationConnector Association="VapModel.FK_MemberIPLog" />
+        <AssociationConnector Association="VapModel.FK_MemberLockedCoin" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
