@@ -21,6 +21,9 @@ namespace MemberCenter
             this.MyMembers = new HashSet<Member>();
             this.BaoDanTransaction = new HashSet<BaoDanTransaction>();
             this.ChongXiaoTransaction = new HashSet<ChongXiaoTransaction>();
+            this.LockedCoin = new HashSet<LockedCoin>();
+            this.BankInfo = new HashSet<BankInfo>();
+            this.IPLog = new HashSet<IPLog>();
         }
     
         public int Id { get; set; }
@@ -54,5 +57,8 @@ namespace MemberCenter
         public virtual ICollection<Member> MyMembers { get; set; }
         public virtual ICollection<BaoDanTransaction> BaoDanTransaction { get; set; }
         public virtual ICollection<ChongXiaoTransaction> ChongXiaoTransaction { get; set; }
+        public virtual ICollection<LockedCoin> LockedCoin { get; set; }
+        public virtual ICollection<BankInfo> BankInfo { get; set; }
+        public virtual ICollection<IPLog> IPLog { get; set; }
     }
 }

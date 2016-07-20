@@ -12,18 +12,15 @@ namespace MemberCenter
     using System;
     using System.Collections.Generic;
     
-    public partial class CashTransaction
+    public partial class BankInfo
     {
         public int Id { get; set; }
-        public int MemberId { get; set; }
-        public decimal Amount { get; set; }
-        public System.TimeSpan DateTime { get; set; }
-        public short Type { get; set; }
-        public short Status { get; set; }
+        public string Bank { get; set; }
+        public string Account { get; set; }
+        public string Description { get; set; }
+        public Nullable<int> MemberId { get; set; }
     
         public virtual Member Member { get; set; }
-        public virtual BaoDanTransaction BaoDanTransaction { get; set; }
-        public virtual PaymentMethod PaymentMethod { get; set; }
-        public virtual BankInfo BankInfo { get; set; }
+        public virtual CashTransaction CashTransaction { get; set; }
     }
 }

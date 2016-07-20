@@ -31,5 +31,12 @@ namespace MemberCenter
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<BaoDanTransaction> CoinTransactions { get; set; }
         public virtual DbSet<ChongXiaoTransaction> ChongXiaoTransactions { get; set; }
+        public virtual DbSet<CoinPrice> CoinPrices { get; set; }
+        public virtual DbSet<SystemSetting> SystemSettings { get; set; }
+        public virtual DbSet<RefoundRate> RefoundRates { get; set; }
+        public virtual DbSet<LockedCoin> LockedCoins { get; set; }
+        public virtual DbSet<BankInfo> BankInfos { get; set; }
+        public virtual DbSet<News> News { get; set; }
+        public virtual DbSet<IPLog> IPLogs { get; set; }
     }
 }
