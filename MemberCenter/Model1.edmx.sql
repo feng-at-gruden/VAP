@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/17/2016 15:37:44
+-- Date Created: 07/20/2016 13:22:08
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -26,9 +26,6 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_MemberMember]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Members] DROP CONSTRAINT [FK_MemberMember];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CashTransactionPaymentMethod]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PaymentMethods] DROP CONSTRAINT [FK_CashTransactionPaymentMethod];
-GO
 IF OBJECT_ID(N'[dbo].[FK_MemberBaoDanTransaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CoinTransactions] DROP CONSTRAINT [FK_MemberBaoDanTransaction];
 GO
@@ -43,6 +40,9 @@ IF OBJECT_ID(N'[dbo].[FK_ChongXiaoTransactionBaoDanTransaction]', 'F') IS NOT NU
 GO
 IF OBJECT_ID(N'[dbo].[FK_CashTransactionBaoDanTransaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CoinTransactions] DROP CONSTRAINT [FK_CashTransactionBaoDanTransaction];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PaymentMethodCashTransaction]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CashTransactions] DROP CONSTRAINT [FK_PaymentMethodCashTransaction];
 GO
 
 -- --------------------------------------------------
@@ -110,7 +110,8 @@ CREATE TABLE [dbo].[CashTransactions] (
     [DateTime] time  NOT NULL,
     [Type] smallint  NOT NULL,
     [Status] smallint  NOT NULL,
-    [PaymentMethod_Id] int  NOT NULL
+    [PaymentMethod_Id] int  NOT NULL,
+    [BankInfo_Id] int  NOT NULL
 );
 GO
 
@@ -139,11 +140,7 @@ CREATE TABLE [dbo].[CoinTransactions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DateTime] time  NOT NULL,
     [Amount] decimal(18,0)  NOT NULL,
-    [LockedAmount] decimal(18,0)  NOT NULL,
-    [FreeAmount] decimal(18,0)  NOT NULL,
     [Price] decimal(18,0)  NOT NULL,
-    [LastPrice] decimal(18,0)  NOT NULL,
-    [NextPrice] decimal(18,0)  NOT NULL,
     [Type] smallint  NOT NULL,
     [Status] smallint  NOT NULL,
     [MemberId] int  NOT NULL,
@@ -162,6 +159,74 @@ CREATE TABLE [dbo].[ChongXiaoTransactions] (
     [MemberId] int  NOT NULL,
     [Type] smallint  NOT NULL,
     [Status] smallint  NOT NULL
+);
+GO
+
+-- Creating table 'CoinPrices'
+CREATE TABLE [dbo].[CoinPrices] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Price] decimal(18,0)  NOT NULL,
+    [DateTime] datetime  NOT NULL
+);
+GO
+
+-- Creating table 'SystemSettings'
+CREATE TABLE [dbo].[SystemSettings] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Key] nvarchar(max)  NOT NULL,
+    [Value] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'RefoundRates'
+CREATE TABLE [dbo].[RefoundRates] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [MemberLevel] nvarchar(max)  NOT NULL,
+    [Rate] decimal(18,0)  NOT NULL
+);
+GO
+
+-- Creating table 'LockedCoins'
+CREATE TABLE [dbo].[LockedCoins] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [LastPrice] decimal(18,0)  NOT NULL,
+    [NexPrice] decimal(18,0)  NOT NULL,
+    [Price] decimal(18,0)  NOT NULL,
+    [TotalAmount] decimal(18,0)  NOT NULL,
+    [LockedAmount] decimal(18,0)  NOT NULL,
+    [AvailabeAmount] decimal(18,0)  NOT NULL,
+    [MemberId] int  NOT NULL
+);
+GO
+
+-- Creating table 'BankInfos'
+CREATE TABLE [dbo].[BankInfos] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Bank] nvarchar(max)  NOT NULL,
+    [Account] nvarchar(max)  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL,
+    [MemberId] int  NULL
+);
+GO
+
+-- Creating table 'News'
+CREATE TABLE [dbo].[News] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Type] nvarchar(max)  NOT NULL,
+    [Title] nvarchar(max)  NOT NULL,
+    [Content] nvarchar(max)  NOT NULL,
+    [DateTime] datetime  NOT NULL,
+    [Status] nvarchar(max)  NOT NULL,
+    [CreatedBy] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'IPLogs'
+CREATE TABLE [dbo].[IPLogs] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [IP] nvarchar(max)  NOT NULL,
+    [DateTime] nvarchar(max)  NOT NULL,
+    [MemberId] int  NOT NULL
 );
 GO
 
@@ -202,6 +267,48 @@ GO
 -- Creating primary key on [Id] in table 'ChongXiaoTransactions'
 ALTER TABLE [dbo].[ChongXiaoTransactions]
 ADD CONSTRAINT [PK_ChongXiaoTransactions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CoinPrices'
+ALTER TABLE [dbo].[CoinPrices]
+ADD CONSTRAINT [PK_CoinPrices]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SystemSettings'
+ALTER TABLE [dbo].[SystemSettings]
+ADD CONSTRAINT [PK_SystemSettings]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'RefoundRates'
+ALTER TABLE [dbo].[RefoundRates]
+ADD CONSTRAINT [PK_RefoundRates]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'LockedCoins'
+ALTER TABLE [dbo].[LockedCoins]
+ADD CONSTRAINT [PK_LockedCoins]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'BankInfos'
+ALTER TABLE [dbo].[BankInfos]
+ADD CONSTRAINT [PK_BankInfos]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'News'
+ALTER TABLE [dbo].[News]
+ADD CONSTRAINT [PK_News]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'IPLogs'
+ALTER TABLE [dbo].[IPLogs]
+ADD CONSTRAINT [PK_IPLogs]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -333,6 +440,62 @@ ADD CONSTRAINT [FK_PaymentMethodCashTransaction]
 CREATE INDEX [IX_FK_PaymentMethodCashTransaction]
 ON [dbo].[CashTransactions]
     ([PaymentMethod_Id]);
+GO
+
+-- Creating foreign key on [MemberId] in table 'LockedCoins'
+ALTER TABLE [dbo].[LockedCoins]
+ADD CONSTRAINT [FK_MemberLockedCoin]
+    FOREIGN KEY ([MemberId])
+    REFERENCES [dbo].[Members]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_MemberLockedCoin'
+CREATE INDEX [IX_FK_MemberLockedCoin]
+ON [dbo].[LockedCoins]
+    ([MemberId]);
+GO
+
+-- Creating foreign key on [MemberId] in table 'BankInfos'
+ALTER TABLE [dbo].[BankInfos]
+ADD CONSTRAINT [FK_MemberBankInfo]
+    FOREIGN KEY ([MemberId])
+    REFERENCES [dbo].[Members]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_MemberBankInfo'
+CREATE INDEX [IX_FK_MemberBankInfo]
+ON [dbo].[BankInfos]
+    ([MemberId]);
+GO
+
+-- Creating foreign key on [BankInfo_Id] in table 'CashTransactions'
+ALTER TABLE [dbo].[CashTransactions]
+ADD CONSTRAINT [FK_CashTransactionBankInfo]
+    FOREIGN KEY ([BankInfo_Id])
+    REFERENCES [dbo].[BankInfos]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CashTransactionBankInfo'
+CREATE INDEX [IX_FK_CashTransactionBankInfo]
+ON [dbo].[CashTransactions]
+    ([BankInfo_Id]);
+GO
+
+-- Creating foreign key on [MemberId] in table 'IPLogs'
+ALTER TABLE [dbo].[IPLogs]
+ADD CONSTRAINT [FK_MemberIPLog]
+    FOREIGN KEY ([MemberId])
+    REFERENCES [dbo].[Members]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_MemberIPLog'
+CREATE INDEX [IX_FK_MemberIPLog]
+ON [dbo].[IPLogs]
+    ([MemberId]);
 GO
 
 -- --------------------------------------------------

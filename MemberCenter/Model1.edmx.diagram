@@ -9,17 +9,28 @@
         <EntityTypeShape EntityType="Model1.CashTransaction" Width="1.5" PointX="2.625" PointY="0.5" />
         <AssociationConnector Association="Model1.MemberCashTransaction" />
         <EntityTypeShape EntityType="Model1.PointTransaction" Width="1.5" PointX="2.625" PointY="8.75" />
-        <EntityTypeShape EntityType="Model1.PaymentMethod" Width="1.5" PointX="4.75" PointY="0.5" />
+        <EntityTypeShape EntityType="Model1.PaymentMethod" Width="1.5" PointX="4.875" PointY="0.5" />
         <AssociationConnector Association="Model1.MemberPointTransaction" />
         <AssociationConnector Association="Model1.MemberMember" />
-        <EntityTypeShape EntityType="Model1.BaoDanTransaction" Width="1.5" PointX="2.625" PointY="3.5" />
-        <EntityTypeShape EntityType="Model1.ChongXiaoTransaction" Width="1.5" PointX="4.625" PointY="8.75" />
+        <EntityTypeShape EntityType="Model1.BaoDanTransaction" Width="1.5" PointX="2.625" PointY="4.125" />
+        <EntityTypeShape EntityType="Model1.ChongXiaoTransaction" Width="1.5" PointX="4.875" PointY="8.75" />
         <AssociationConnector Association="Model1.MemberBaoDanTransaction" />
         <AssociationConnector Association="Model1.MemberChongXiaoTransaction" />
         <AssociationConnector Association="Model1.PointTransactionBaoDanTransaction" />
         <AssociationConnector Association="Model1.ChongXiaoTransactionBaoDanTransaction" />
         <AssociationConnector Association="Model1.CashTransactionBaoDanTransaction" />
         <AssociationConnector Association="Model1.PaymentMethodCashTransaction" />
+        <EntityTypeShape EntityType="Model1.CoinPrice" Width="1.5" PointX="7" PointY="0.5" />
+        <EntityTypeShape EntityType="Model1.SystemSetting" Width="1.5" PointX="8.875" PointY="0.5" />
+        <EntityTypeShape EntityType="Model1.RefoundRate" Width="1.5" PointX="7" PointY="2.5" />
+        <EntityTypeShape EntityType="Model1.LockedCoin" Width="1.5" PointX="4.875" PointY="5.75" />
+        <AssociationConnector Association="Model1.MemberLockedCoin" />
+        <EntityTypeShape EntityType="Model1.BankInfo" Width="1.5" PointX="4.875" PointY="2.75" />
+        <AssociationConnector Association="Model1.MemberBankInfo" />
+        <EntityTypeShape EntityType="Model1.News" Width="1.5" PointX="8.875" PointY="2.5" />
+        <AssociationConnector Association="Model1.CashTransactionBankInfo" />
+        <EntityTypeShape EntityType="Model1.IPLog" Width="1.5" PointX="0.5" PointY="10.5" />
+        <AssociationConnector Association="Model1.MemberIPLog" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

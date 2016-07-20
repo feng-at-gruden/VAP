@@ -12,18 +12,17 @@ namespace MemberCenter
     using System;
     using System.Collections.Generic;
     
-    public partial class CashTransaction
+    public partial class LockedCoin
     {
         public int Id { get; set; }
+        public decimal LastPrice { get; set; }
+        public decimal NexPrice { get; set; }
+        public decimal Price { get; set; }
+        public decimal TotalAmount { get; set; }
+        public decimal LockedAmount { get; set; }
+        public decimal AvailabeAmount { get; set; }
         public int MemberId { get; set; }
-        public decimal Amount { get; set; }
-        public System.TimeSpan DateTime { get; set; }
-        public short Type { get; set; }
-        public short Status { get; set; }
     
         public virtual Member Member { get; set; }
-        public virtual BaoDanTransaction BaoDanTransaction { get; set; }
-        public virtual PaymentMethod PaymentMethod { get; set; }
-        public virtual BankInfo BankInfo { get; set; }
     }
 }

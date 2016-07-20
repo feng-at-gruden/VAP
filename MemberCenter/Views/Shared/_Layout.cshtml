@@ -16,6 +16,11 @@
     <!-- MetisMenu CSS -->
     @Styles.Render("~/Content/bower_components/metisMenu/dist/metisMenu.min.css")
 
+    <!-- DataTables CSS -->
+    @Styles.Render("~/Content/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css")
+    
+    <!-- DataTables Responsive CSS -->
+
     <!-- Custom CSS -->
     @Styles.Render("~/Content/dist/css/sb-admin-2.css")
     @Styles.Render("~/Content/css/custom.css")
@@ -29,6 +34,14 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    @Scripts.Render("~/Content/bower_components/jquery/dist/jquery.min.js")
+    @Scripts.Render("~/Content/bower_components/bootstrap/dist/js/bootstrap.min.js")
+    @Scripts.Render("~/Content/bower_components/metisMenu/dist/metisMenu.min.js")
+    @Scripts.Render("~/Content/bower_components/datatables/media/js/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js")
+    @Scripts.Render("~/Content/dist/js/sb-admin-2.js")
+    @RenderSection("scripts", required: false)
 
 </head>
 
@@ -56,12 +69,6 @@
 
     </div>
     <!-- /#wrapper -->
-
-    @Scripts.Render("~/Content/bower_components/jquery/dist/jquery.min.js")
-    @Scripts.Render("~/Content/bower_components/bootstrap/dist/js/bootstrap.min.js")
-    @Scripts.Render("~/Content/bower_components/metisMenu/dist/metisMenu.min.js")
-    @Scripts.Render("~/Content/dist/js/sb-admin-2.js")
-    @RenderSection("scripts", required: false)
 
 </body>
 

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MemberCenter.Models
 {
@@ -72,5 +74,23 @@ namespace MemberCenter.Models
         public decimal TotalCoin { get { return AvailableCoin + LockedCoin; } }
     }
 
+
+    public class MyMemberViewModel
+    {
+        [Display(Name = "用户名")]
+        public string UserName { get; set; }
+
+        [Display(Name = "邮箱")]
+        public string Email { get; set; }
+
+        [Display(Name = "等级")]
+        public string Level { get; set; }
+
+        [Display(Name = "总业绩")]
+        public decimal Archievement { get; set; }
+
+        [Display(Name = "注册日期")]
+        public DateTime RegisterTime { get; set; }
+    }
 
 }

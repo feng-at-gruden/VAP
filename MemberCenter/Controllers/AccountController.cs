@@ -164,7 +164,21 @@ namespace MemberCenter.Controllers
             };
             return View(model);
         }
-        
+
+        public ActionResult MyMembers()
+        {
+            IEnumerable<MyMemberViewModel> members = from row in CurrentUser.MyMembers
+                                         select new MyMemberViewModel
+                                         {
+                                             Email = row.Email,
+                                             UserName = row.UserName,
+                                             RegisterTime = row.RegisterTime,
+                                             Archievement = row.Achievement,
+                                             Level = row.Level,
+                                         };
+            return View(members);
+        }
+
         
 
         #region Helpers

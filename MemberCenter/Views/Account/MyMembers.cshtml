@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MemberCenter.Models.MyMemberViewModel>
+
+@{
+    ViewBag.Title = "会员列表";
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        MY MEMBERS
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-member">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.UserName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Email)</th>
+                        <th>@Html.DisplayNameFor(model => model.Level)</th>
+                        <th>@Html.DisplayNameFor(model => model.Archievement)</th>
+                        <th>@Html.DisplayNameFor(model => model.RegisterTime)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model) {
+                    <tr class="odd gradeX">
+                        <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Level)</td>
+                        <td class="center">@Html.DisplayFor(modelItem => item.Archievement)</td>
+                        <td class="center">@Html.DisplayFor(modelItem => item.RegisterTime)</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+
+    </div>
+    <!-- /.panel-body -->
+</div>
+<!-- /.panel -->
+
+<script>
+    $(function () {
+        $('#dataTables-member').DataTable({
+            responsive: true
+        });
+    });
+</script>
