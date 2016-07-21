@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/20/2016 16:54:26
+-- Date Created: 07/21/2016 15:44:00
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -260,7 +260,8 @@ GO
 CREATE TABLE [dbo].[IPLogs] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [IP] nvarchar(max)  NOT NULL,
-    [DateTime] nvarchar(max)  NOT NULL,
+    [Client] nvarchar(max)  NOT NULL,
+    [DateTime] datetime  NOT NULL,
     [MemberId] int  NOT NULL
 );
 GO

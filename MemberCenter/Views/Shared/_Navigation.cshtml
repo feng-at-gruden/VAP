@@ -20,7 +20,7 @@
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li>
-                    <a href="/Account/MyAccount"><i class="fa fa-user fa-fw"></i> 会员资料</a>
+                    <a href="/Account/MyAccount"><i class="fa fa-user fa-fw"></i> 个人信息</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-gear fa-fw"></i> 个人设置</a>
@@ -54,7 +54,7 @@
                     <a href="#"><i class="fa fa-users fa-fw"></i> 我的会员<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            @Html.ActionLink("个人中心", "MyAccount", "Account")
+                            @Html.ActionLink("个人信息", "MyAccount", "Account")
                         </li>
                         <li>
                             @Html.ActionLink("我的会员", "MyMembers", "Account")
@@ -109,10 +109,10 @@
                     <a href="#"><i class="fa fa-ambulance fa-fw"></i> 安全中心<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">安全设置</a>
+                            @Html.ActionLink("安全设置", "Secure", "Account")
                         </li>
                         <li>
-                            <a href="#">登录日志</a>
+                            @Html.ActionLink("登录日志", "IPLog", "Account")
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

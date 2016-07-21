@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using MemberCenter.Models;
+using MemberCenter.Helper;
 using VapLib;
 
 namespace MemberCenter.Controllers
@@ -44,6 +45,17 @@ namespace MemberCenter.Controllers
                     if (user.Status.Equals(会员状态.正常.ToString()))
                     {
                         FormsAuthentication.SetAuthCookie(user.Email, false);
+                        //Save Member login log
+                        String ip = NetworkHelper.GetClientIPv4Address();
+                        String userClient = Request.Browser.Browser + " " + Request.Browser.Version + " (" + Request.Browser.Platform + ")";
+                        db.IPLogs.Add(new IPLog
+                        {
+                            DateTime = DateTime.Now,
+                            IP = ip,
+                            Client = userClient,
+                            MemberId = user.Id,
+                        });
+                        db.SaveChanges();
                         return RedirectToLocal(returnUrl);
                     }
                     else if (user.Status.Equals(会员状态.待审核.ToString()))
@@ -68,9 +80,9 @@ namespace MemberCenter.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(int? referral)
         {
-            return View();
+            return View(new RegisterViewModel { Referral = referral + "" });
         }
 
         //
@@ -179,7 +191,43 @@ namespace MemberCenter.Controllers
             return View(members);
         }
 
+
+        public ActionResult MyAccount()
+        {
+            IPLog iplog = CurrentUser.IPLog.OrderByDescending(m=>m.DateTime).Take(1).ToArray()[0];
+            MyAccountViewModel model = new MyAccountViewModel
+            {
+                Id = CurrentUser.Id,
+                Email = CurrentUser.Email,
+                RealName = CurrentUser.RealName,
+                UserName = CurrentUser.UserName,
+                Level = CurrentUser.Level,
+                MyCash = CurrentUser.Cash1 + CurrentUser.Cash2,
+                MyCoins = CurrentUser.Coin1 + CurrentUser.Coin2,
+                MyPoints = CurrentUser.Point1 + CurrentUser.Point2,
+                MyMember = CurrentUser.MyMembers.Count(),
+                Archievement = CurrentUser.Achievement,
+                RegisterTime = CurrentUser.RegisterTime,
+                LastLoginIP = iplog.IP,
+                LastLoginTime = iplog.DateTime,
+                MyLink = Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "/Account/Register?referral=" + CurrentUser.Id),
+            };
+            return View(model);
+        }
         
+
+        public ActionResult IPLog()
+        {
+            IEnumerable<IPLogViewModel> model = from row in CurrentUser.IPLog
+                                                orderby row.DateTime descending
+                                                select new IPLogViewModel
+                                                {
+                                                    LoginIP = row.IP,
+                                                    LoginTime = row.DateTime,
+                                                    UserClient = row.Client,
+                                                };
+            return View(model);
+        }
 
         #region Helpers
        

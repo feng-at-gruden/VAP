@@ -229,7 +229,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IP" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DateTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Client" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DateTime" Type="datetime" Nullable="false" />
     <Property Name="MemberId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="MemberCashTransaction">
@@ -731,7 +732,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IP" Type="String" Nullable="false" />
-          <Property Name="DateTime" Type="String" Nullable="false" />
+          <Property Name="Client" Type="String" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="Model1.MemberIPLog" FromRole="IPLog" ToRole="Member" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
         </EntityType>
@@ -915,6 +917,7 @@
         <MappingFragment StoreEntitySet="IPLogs">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="IP" ColumnName="IP" />
+          <ScalarProperty Name="Client" ColumnName="Client" />
           <ScalarProperty Name="DateTime" ColumnName="DateTime" />
           <ScalarProperty Name="MemberId" ColumnName="MemberId" />
         </MappingFragment>

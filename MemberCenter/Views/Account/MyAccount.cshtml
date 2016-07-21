@@ -1,0 +1,45 @@
+﻿@model MemberCenter.Models.MyAccountViewModel
+
+@{
+    ViewBag.Title = "个人信息";
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        MY ACCOUNT
+    </div>
+    <div class="panel-body">
+
+        <table class="table">
+            <caption><b>用户ID：</b><em>@Model.Id</em>    <span class="right">我的推广链接：<a href="@Model.MyLink" target="_blank"><em>@Model.MyLink</em></a></span></caption>
+            <tr>
+                <td><b>用户名：</b><em>@Model.UserName</em></td>
+                <td><b>真实姓名：</b><em>@Model.RealName</em></td>
+                <td><b>邮箱：</b><em>@Model.Email</em></td>
+            </tr>
+            <tr>
+                <td><b>注册日期：</b><em>@Model.RegisterTime</em></td>
+                <td><b>上次登录：</b><em>@Model.LastLoginTime</em></td>
+                <td><b>登录IP：</b><em>@Model.LastLoginIP</em></td>
+            </tr>
+            <tr>
+                <td><b>我的等级：</b><em>@Model.Level</em></td>
+                <td><b>我的业绩：</b><em>￥@Model.Archievement</em></td>
+                <td><b>会员量：</b><em>@Model.MyMember</em></td>
+            </tr>
+            <tr>
+                <td><b>资金总量：</b><em>￥@Model.MyCash</em></td>
+                <td><b>积分：</b><em>@Model.MyPoints</em></td>
+                <td><b>电子币：</b><em>@Model.MyCoins</em></td>
+            </tr>
+        </table>
+        <!-- /.Table -->
+        @Html.ActionLink("修改", "setting", "Account", null, new { @class = "btn btn-warning btn-block" })
+
+    </div>
+    <!-- /.panel-body -->
+    <div class="panel-footer">
+        &nbsp;
+    </div>
+</div>

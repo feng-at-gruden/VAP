@@ -74,7 +74,6 @@ namespace MemberCenter.Models
         public decimal TotalCoin { get { return AvailableCoin + LockedCoin; } }
     }
 
-
     public class MyMemberViewModel
     {
         [Display(Name = "用户名")]
@@ -92,5 +91,32 @@ namespace MemberCenter.Models
         [Display(Name = "注册日期")]
         public DateTime RegisterTime { get; set; }
     }
+
+    public class MyAccountViewModel
+    {
+        public Int32 Id { get; set; }
+        public string UserName { get; set; }
+        public string RealName { get; set; }
+        public string Email { get; set; }
+        public DateTime RegisterTime { get; set; }
+        public DateTime LastLoginTime { get; set; }
+        public string LastLoginIP { get; set; }
+        public string Level { get; set; }
+        public decimal Archievement { get; set; }
+        public int MyMember { get; set; }
+        public decimal MyCash { get; set; }
+        public decimal MyPoints { get; set; }
+        public decimal MyCoins { get; set; }
+        public string MyLink { get; set; }
+    }
+
+    public class IPLogViewModel
+    {
+        public DateTime LoginTime { get; set; }
+        public string LoginIP { get; set; }
+        public string UserClient { get; set; }
+    }
+
+
 
 }

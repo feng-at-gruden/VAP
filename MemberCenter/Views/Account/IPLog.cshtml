@@ -1,0 +1,50 @@
+﻿
+@model IEnumerable<MemberCenter.Models.IPLogViewModel>
+
+@{
+    ViewBag.Title = "登录日志";
+}
+
+<h1 class="page-header">@ViewBag.Title</h1>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        LOGIN LOG
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-IPLOG">
+                <thead>
+                    <tr>
+                        <th>登录时间</th>
+                        <th>登录IP</th>
+                        <th>客户端</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model) {
+                    <tr class="odd gradeX">
+                        <td>@item.LoginTime</td>
+                        <td>@item.LoginIP</td>
+                        <td>@item.UserClient</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+
+    </div>
+    <!-- /.panel-body -->
+</div>
+<!-- /.panel -->
+
+<script>
+    $(document).ready(function () {
+        $('#dataTables-IPLOG').DataTable({
+            responsive: true,
+            "searching": false,
+        });
+    });
+</script>
