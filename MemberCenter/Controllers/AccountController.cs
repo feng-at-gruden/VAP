@@ -167,7 +167,7 @@ namespace MemberCenter.Controllers
 
         public ActionResult MyMembers()
         {
-            IEnumerable<MyMemberViewModel> members = from row in CurrentUser.MyMembers
+            IEnumerable<MyMemberViewModel> members = from row in CurrentUser.MyMembers where !row.Email.Equals(CurrentUser.Email, StringComparison.InvariantCultureIgnoreCase) orderby row.RegisterTime
                                          select new MyMemberViewModel
                                          {
                                              Email = row.Email,

@@ -20,7 +20,7 @@
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li>
-                    <a href="#"><i class="fa fa-user fa-fw"></i> 会员资料</a>
+                    <a href="/Account/MyAccount"><i class="fa fa-user fa-fw"></i> 会员资料</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-gear fa-fw"></i> 个人设置</a>
@@ -60,9 +60,6 @@
                             @Html.ActionLink("我的会员", "MyMembers", "Account")
                         </li>
                         <li>
-                            <a href="#">会员业绩</a>
-                        </li>
-                        <li>
                             <a href="#">新闻中心</a>
                         </li>
                     </ul>
@@ -86,10 +83,10 @@
                     <a href="#"><i class="fa fa-edit fa-fw"></i> 报单中心<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">实价报单</a>
+                            @Html.ActionLink("实价报单", "Buy", "BaoDan")
                         </li>
                         <li>
-                            <a href="#">积分解冻</a>
+                            @Html.ActionLink("积分解冻", "LockedCoins", "BaoDan")
                         </li>
                     </ul>
                 </li>
@@ -100,16 +97,10 @@
                             <a href="#">交易行情</a>
                         </li>
                         <li>
-                            <a href="#">交易大厅 <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="#">LHTY卖出</a>
-                                </li>
-                                <li>
-                                    <a href="#">交易记录</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-third-level -->
+                            @Html.ActionLink("LHTY卖出", "Sell", "BaoDan")
+                        </li>
+                        <li>
+                            @Html.ActionLink("交易记录", "MyRecords", "BaoDan")
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

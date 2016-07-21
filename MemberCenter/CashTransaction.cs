@@ -16,6 +16,7 @@ namespace MemberCenter
     {
         public int Id { get; set; }
         public int MemberId { get; set; }
+        public decimal Fee { get; set; }
         public decimal Amount { get; set; }
         public System.TimeSpan DateTime { get; set; }
         public short Type { get; set; }

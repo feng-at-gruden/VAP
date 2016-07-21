@@ -83,17 +83,17 @@
     <Property Name="Password1" Type="nvarchar" Nullable="false" MaxLength="50" />
     <Property Name="Password2" Type="nvarchar" Nullable="true" MaxLength="50" />
     <Property Name="Password3" Type="nvarchar" Nullable="true" MaxLength="50" />
-    <Property Name="Cash1" Type="decimal" Nullable="false" />
-    <Property Name="Cash2" Type="decimal" Nullable="false" />
-    <Property Name="Point1" Type="decimal" Nullable="false" />
-    <Property Name="Point2" Type="decimal" Nullable="false" />
-    <Property Name="ChongXiao1" Type="decimal" Nullable="false" />
-    <Property Name="ChongXiao2" Type="decimal" Nullable="false" />
-    <Property Name="Coin1" Type="decimal" Nullable="false" />
-    <Property Name="Coin2" Type="decimal" Nullable="false" />
+    <Property Name="Cash1" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Cash2" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Point1" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Point2" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="ChongXiao1" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="ChongXiao2" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Coin1" Type="decimal" Nullable="false" Scale="6" />
+    <Property Name="Coin2" Type="decimal" Nullable="false" Scale="6" />
     <Property Name="RegisterTime" Type="datetime" Nullable="false" />
     <Property Name="Level" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Achievement" Type="decimal" Nullable="false" />
+    <Property Name="Achievement" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="TiXianStatus" Type="nvarchar(max)" Nullable="true" />
     <Property Name="TiBiStatus" Type="nvarchar(max)" Nullable="true" />
@@ -108,7 +108,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="MemberId" Type="int" Nullable="false" />
-    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="Fee" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Amount" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="DateTime" Type="time" Nullable="false" />
     <Property Name="Type" Type="smallint" Nullable="false" />
     <Property Name="Status" Type="smallint" Nullable="false" />
@@ -121,7 +122,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="MemberId" Type="int" Nullable="false" />
-    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="DateTime" Type="time" Nullable="false" />
     <Property Name="Type" Type="smallint" Nullable="false" />
     <Property Name="Status" Type="smallint" Nullable="false" />
@@ -134,6 +135,7 @@
     <Property Name="Bank" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Account" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="URL" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="CoinTransactions">
     <Key>
@@ -141,12 +143,12 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DateTime" Type="time" Nullable="false" />
-    <Property Name="Amount" Type="decimal" Nullable="false" />
-    <Property Name="Price" Type="decimal" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" Scale="6" />
+    <Property Name="Price" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="Type" Type="smallint" Nullable="false" />
     <Property Name="Status" Type="smallint" Nullable="false" />
     <Property Name="MemberId" Type="int" Nullable="false" />
-    <Property Name="Fee" Type="decimal" Nullable="false" />
+    <Property Name="Fee" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="PointTransaction_Id" Type="int" Nullable="false" />
     <Property Name="ChongXiaoTransaction_Id" Type="int" Nullable="false" />
     <Property Name="CashTransaction_Id" Type="int" Nullable="false" />
@@ -157,7 +159,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DateTime" Type="time" Nullable="false" />
-    <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="MemberId" Type="int" Nullable="false" />
     <Property Name="Type" Type="smallint" Nullable="false" />
     <Property Name="Status" Type="smallint" Nullable="false" />
@@ -167,7 +169,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Price" Type="decimal" Nullable="false" />
+    <Property Name="Price" Type="decimal" Nullable="false" Scale="2" />
     <Property Name="DateTime" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="SystemSettings">
@@ -184,19 +186,19 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="MemberLevel" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Rate" Type="decimal" Nullable="false" />
+    <Property Name="Rate" Type="decimal" Nullable="false" Scale="2" />
   </EntityType>
   <EntityType Name="LockedCoins">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="LastPrice" Type="decimal" Nullable="false" />
-    <Property Name="NexPrice" Type="decimal" Nullable="false" />
-    <Property Name="Price" Type="decimal" Nullable="false" />
-    <Property Name="TotalAmount" Type="decimal" Nullable="false" />
-    <Property Name="LockedAmount" Type="decimal" Nullable="false" />
-    <Property Name="AvailabeAmount" Type="decimal" Nullable="false" />
+    <Property Name="LastPrice" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="NexPrice" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Price" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="TotalAmount" Type="decimal" Nullable="false" Scale="6" />
+    <Property Name="LockedAmount" Type="decimal" Nullable="false" Scale="6" />
+    <Property Name="AvailabeAmount" Type="decimal" Nullable="false" Scale="6" />
     <Property Name="MemberId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="BankInfos">
@@ -468,21 +470,21 @@
           <Property Name="Password1" Type="String" Nullable="false" MaxLength="50" />
           <Property Name="Password2" Type="String" MaxLength="50" Nullable="true" />
           <Property Name="Password3" Type="String" MaxLength="50" Nullable="true" />
-          <Property Name="Cash1" Type="Decimal" Nullable="false" />
-          <Property Name="Cash2" Type="Decimal" Nullable="false" />
-          <Property Name="Point1" Type="Decimal" Nullable="false" />
-          <Property Name="Point2" Type="Decimal" Nullable="false" />
-          <Property Name="ChongXiao1" Type="Decimal" Nullable="false" />
-          <Property Name="ChongXiao2" Type="Decimal" Nullable="false" />
-          <Property Name="Coin1" Type="Decimal" Nullable="false" />
-          <Property Name="Coin2" Type="Decimal" Nullable="false" />
+          <Property Name="Cash1" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="Cash2" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="Point1" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="Point2" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="ChongXiao1" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="ChongXiao2" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="Coin1" Type="Decimal" Nullable="false" Scale="6" />
+          <Property Name="Coin2" Type="Decimal" Nullable="false" Scale="6" />
           <Property Name="RegisterTime" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="CashTransaction" Relationship="Model1.MemberCashTransaction" FromRole="Member" ToRole="CashTransaction" />
           <NavigationProperty Name="PointTransaction" Relationship="Model1.MemberPointTransaction" FromRole="Member" ToRole="PointTransaction" />
           <Property Name="Level" Type="String" Nullable="false" />
           <NavigationProperty Name="Referral" Relationship="Model1.MemberMember" FromRole="Member" ToRole="Member1" />
           <NavigationProperty Name="MyMembers" Relationship="Model1.MemberMember" FromRole="Member1" ToRole="Member" />
-          <Property Name="Achievement" Type="Decimal" Nullable="false" />
+          <Property Name="Achievement" Type="Decimal" Nullable="false" Scale="2" />
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="TiXianStatus" Type="String" Nullable="true" />
           <Property Name="TiBiStatus" Type="String" Nullable="true" />
@@ -502,7 +504,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Member" Relationship="Model1.MemberCashTransaction" FromRole="CashTransaction" ToRole="Member" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Fee" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Scale="2" />
           <Property Name="DateTime" Type="Time" Nullable="false" />
           <Property Name="Type" Type="Int16" Nullable="false" />
           <Property Name="Status" Type="Int16" Nullable="false" />
@@ -529,7 +532,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Member" Relationship="Model1.MemberPointTransaction" FromRole="PointTransaction" ToRole="Member" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Scale="2" />
           <Property Name="DateTime" Type="Time" Nullable="false" />
           <Property Name="Type" Type="Int16" Nullable="false" />
           <Property Name="Status" Type="Int16" Nullable="false" />
@@ -544,6 +547,7 @@
           <Property Name="Account" Type="String" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" />
           <NavigationProperty Name="CashTransaction" Relationship="Model1.PaymentMethodCashTransaction" FromRole="PaymentMethod" ToRole="CashTransaction" />
+          <Property Name="URL" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="MemberPointTransaction">
           <End Type="Model1.Member" Role="Member" Multiplicity="1" />
@@ -567,8 +571,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateTime" Type="Time" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Scale="6" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Scale="2" />
           <Property Name="Type" Type="Int16" Nullable="false" />
           <Property Name="Status" Type="Int16" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="Model1.MemberBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="Member" />
@@ -576,7 +580,7 @@
           <NavigationProperty Name="PointTransaction" Relationship="Model1.PointTransactionBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="PointTransaction" />
           <NavigationProperty Name="ChongXiaoTransaction" Relationship="Model1.ChongXiaoTransactionBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="ChongXiaoTransaction" />
           <NavigationProperty Name="CashTransaction" Relationship="Model1.CashTransactionBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="CashTransaction" />
-          <Property Name="Fee" Type="Decimal" Nullable="false" />
+          <Property Name="Fee" Type="Decimal" Nullable="false" Scale="2" />
         </EntityType>
         <EntityType Name="ChongXiaoTransaction">
           <Key>
@@ -584,7 +588,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateTime" Type="Time" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Scale="2" />
           <NavigationProperty Name="Member" Relationship="Model1.MemberChongXiaoTransaction" FromRole="ChongXiaoTransaction" ToRole="Member" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="Int16" Nullable="false" />
@@ -636,7 +640,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Price" Type="Decimal" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Scale="2" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="SystemSetting">
@@ -653,19 +657,19 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MemberLevel" Type="String" Nullable="false" />
-          <Property Name="Rate" Type="Decimal" Nullable="false" />
+          <Property Name="Rate" Type="Decimal" Nullable="false" Scale="2" />
         </EntityType>
         <EntityType Name="LockedCoin">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastPrice" Type="Decimal" Nullable="false" />
-          <Property Name="NexPrice" Type="Decimal" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Nullable="false" />
-          <Property Name="TotalAmount" Type="Decimal" Nullable="false" />
-          <Property Name="LockedAmount" Type="Decimal" Nullable="false" />
-          <Property Name="AvailabeAmount" Type="Decimal" Nullable="false" />
+          <Property Name="LastPrice" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="NexPrice" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Scale="6" />
+          <Property Name="LockedAmount" Type="Decimal" Nullable="false" Scale="6" />
+          <Property Name="AvailabeAmount" Type="Decimal" Nullable="false" Scale="6" />
           <NavigationProperty Name="Member" Relationship="Model1.MemberLockedCoin" FromRole="LockedCoin" ToRole="Member" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
         </EntityType>
@@ -784,6 +788,7 @@
         <MappingFragment StoreEntitySet="CashTransactions">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+          <ScalarProperty Name="Fee" ColumnName="Fee" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="DateTime" ColumnName="DateTime" />
           <ScalarProperty Name="Type" ColumnName="Type" />
@@ -810,6 +815,7 @@
           <ScalarProperty Name="Bank" ColumnName="Bank" />
           <ScalarProperty Name="Account" ColumnName="Account" />
           <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="URL" ColumnName="URL" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

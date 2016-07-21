@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/20/2016 13:22:08
+-- Date Created: 07/20/2016 16:54:26
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -44,6 +44,18 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_PaymentMethodCashTransaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[CashTransactions] DROP CONSTRAINT [FK_PaymentMethodCashTransaction];
 GO
+IF OBJECT_ID(N'[dbo].[FK_MemberLockedCoin]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LockedCoins] DROP CONSTRAINT [FK_MemberLockedCoin];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MemberBankInfo]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BankInfos] DROP CONSTRAINT [FK_MemberBankInfo];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CashTransactionBankInfo]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CashTransactions] DROP CONSTRAINT [FK_CashTransactionBankInfo];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MemberIPLog]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[IPLogs] DROP CONSTRAINT [FK_MemberIPLog];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -67,6 +79,27 @@ GO
 IF OBJECT_ID(N'[dbo].[ChongXiaoTransactions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ChongXiaoTransactions];
 GO
+IF OBJECT_ID(N'[dbo].[CoinPrices]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CoinPrices];
+GO
+IF OBJECT_ID(N'[dbo].[SystemSettings]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SystemSettings];
+GO
+IF OBJECT_ID(N'[dbo].[RefoundRates]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[RefoundRates];
+GO
+IF OBJECT_ID(N'[dbo].[LockedCoins]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LockedCoins];
+GO
+IF OBJECT_ID(N'[dbo].[BankInfos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BankInfos];
+GO
+IF OBJECT_ID(N'[dbo].[News]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[News];
+GO
+IF OBJECT_ID(N'[dbo].[IPLogs]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[IPLogs];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -81,17 +114,17 @@ CREATE TABLE [dbo].[Members] (
     [Password1] nvarchar(50)  NOT NULL,
     [Password2] nvarchar(50)  NULL,
     [Password3] nvarchar(50)  NULL,
-    [Cash1] decimal(18,0)  NOT NULL,
-    [Cash2] decimal(18,0)  NOT NULL,
-    [Point1] decimal(18,0)  NOT NULL,
-    [Point2] decimal(18,0)  NOT NULL,
-    [ChongXiao1] decimal(18,0)  NOT NULL,
-    [ChongXiao2] decimal(18,0)  NOT NULL,
-    [Coin1] decimal(18,0)  NOT NULL,
-    [Coin2] decimal(18,0)  NOT NULL,
+    [Cash1] decimal(18,2)  NOT NULL,
+    [Cash2] decimal(18,2)  NOT NULL,
+    [Point1] decimal(18,2)  NOT NULL,
+    [Point2] decimal(18,2)  NOT NULL,
+    [ChongXiao1] decimal(18,2)  NOT NULL,
+    [ChongXiao2] decimal(18,2)  NOT NULL,
+    [Coin1] decimal(18,6)  NOT NULL,
+    [Coin2] decimal(18,6)  NOT NULL,
     [RegisterTime] datetime  NOT NULL,
     [Level] nvarchar(max)  NOT NULL,
-    [Achievement] decimal(18,0)  NOT NULL,
+    [Achievement] decimal(18,2)  NOT NULL,
     [Status] nvarchar(max)  NOT NULL,
     [TiXianStatus] nvarchar(max)  NULL,
     [TiBiStatus] nvarchar(max)  NULL,
@@ -106,7 +139,8 @@ GO
 CREATE TABLE [dbo].[CashTransactions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [MemberId] int  NOT NULL,
-    [Amount] decimal(18,0)  NOT NULL,
+    [Fee] decimal(18,2)  NOT NULL,
+    [Amount] decimal(18,2)  NOT NULL,
     [DateTime] time  NOT NULL,
     [Type] smallint  NOT NULL,
     [Status] smallint  NOT NULL,
@@ -119,7 +153,7 @@ GO
 CREATE TABLE [dbo].[PointTransactions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [MemberId] int  NOT NULL,
-    [Amount] decimal(18,0)  NOT NULL,
+    [Amount] decimal(18,2)  NOT NULL,
     [DateTime] time  NOT NULL,
     [Type] smallint  NOT NULL,
     [Status] smallint  NOT NULL
@@ -131,7 +165,8 @@ CREATE TABLE [dbo].[PaymentMethods] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Bank] nvarchar(max)  NOT NULL,
     [Account] nvarchar(max)  NOT NULL,
-    [Description] nvarchar(max)  NOT NULL
+    [Description] nvarchar(max)  NOT NULL,
+    [URL] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -139,12 +174,12 @@ GO
 CREATE TABLE [dbo].[CoinTransactions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DateTime] time  NOT NULL,
-    [Amount] decimal(18,0)  NOT NULL,
-    [Price] decimal(18,0)  NOT NULL,
+    [Amount] decimal(18,6)  NOT NULL,
+    [Price] decimal(18,2)  NOT NULL,
     [Type] smallint  NOT NULL,
     [Status] smallint  NOT NULL,
     [MemberId] int  NOT NULL,
-    [Fee] decimal(18,0)  NOT NULL,
+    [Fee] decimal(18,2)  NOT NULL,
     [PointTransaction_Id] int  NOT NULL,
     [ChongXiaoTransaction_Id] int  NOT NULL,
     [CashTransaction_Id] int  NOT NULL
@@ -155,7 +190,7 @@ GO
 CREATE TABLE [dbo].[ChongXiaoTransactions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DateTime] time  NOT NULL,
-    [Amount] decimal(18,0)  NOT NULL,
+    [Amount] decimal(18,2)  NOT NULL,
     [MemberId] int  NOT NULL,
     [Type] smallint  NOT NULL,
     [Status] smallint  NOT NULL
@@ -165,7 +200,7 @@ GO
 -- Creating table 'CoinPrices'
 CREATE TABLE [dbo].[CoinPrices] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Price] decimal(18,0)  NOT NULL,
+    [Price] decimal(18,2)  NOT NULL,
     [DateTime] datetime  NOT NULL
 );
 GO
@@ -182,19 +217,19 @@ GO
 CREATE TABLE [dbo].[RefoundRates] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [MemberLevel] nvarchar(max)  NOT NULL,
-    [Rate] decimal(18,0)  NOT NULL
+    [Rate] decimal(18,2)  NOT NULL
 );
 GO
 
 -- Creating table 'LockedCoins'
 CREATE TABLE [dbo].[LockedCoins] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [LastPrice] decimal(18,0)  NOT NULL,
-    [NexPrice] decimal(18,0)  NOT NULL,
-    [Price] decimal(18,0)  NOT NULL,
-    [TotalAmount] decimal(18,0)  NOT NULL,
-    [LockedAmount] decimal(18,0)  NOT NULL,
-    [AvailabeAmount] decimal(18,0)  NOT NULL,
+    [LastPrice] decimal(18,2)  NOT NULL,
+    [NexPrice] decimal(18,2)  NOT NULL,
+    [Price] decimal(18,2)  NOT NULL,
+    [TotalAmount] decimal(18,6)  NOT NULL,
+    [LockedAmount] decimal(18,6)  NOT NULL,
+    [AvailabeAmount] decimal(18,6)  NOT NULL,
     [MemberId] int  NOT NULL
 );
 GO
