@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Backend.Models.AspNetUser>
+
+@{
+    ViewBag.Title = "账号管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h4>@ViewBag.Title</h4>
+    @Html.ActionLink("新建账号", "CreateUser")
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            用户名
+        </th>
+        <th>
+            科室
+        </th>
+        <th>
+            状态
+        </th>
+       
+        
+        <th>操作</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetRoles.FirstOrDefault().Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+       
+        
+        <td>
+            @Html.ActionLink("重置密码", "ResetPassword", new { id=item.Id }) |
+            @Html.ActionLink("修改", "EditUser", new { uid = item.Id })
+            
+        </td>
+    </tr>
+}
+
+</table>

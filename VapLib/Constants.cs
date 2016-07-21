@@ -10,11 +10,16 @@ namespace VapLib
     {
         public const string AdminAccount = "admin";
         public const string AdminPass = "Admin123!";
+
+        public const string DefaultPass = "Abc123456";
         public const int PageSize = 10;
+       
+
+        public static readonly string[] MetaType = Enum.GetNames(typeof(现金交易类型));
+
 
     }
-
-
+    
     /// <summary>
     /// 
     /// </summary>

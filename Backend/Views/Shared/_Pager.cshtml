@@ -1,0 +1,14 @@
+﻿@using Backend.Helper
+@using PagedList.Mvc
+@model PagedList.IPagedList<object>
+@if (Model != null)
+{
+    @:第
+    @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    @:页 共
+    @Model.PageCount
+    @:页
+
+    @Html.PagedListPager(Model, page => Url.LinkToSelf(ViewData,
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+}
