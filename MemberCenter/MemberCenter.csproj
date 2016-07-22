@@ -1067,6 +1067,7 @@
     <Content Include="Views\BaoDan\MyRecords.cshtml" />
     <Content Include="Views\Account\MyAccount.cshtml" />
     <Content Include="Views\Account\IPLog.cshtml" />
+    <Content Include="Views\Account\EditMyAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -118,7 +118,7 @@ namespace MemberCenter.Controllers
                         Password3 = model.Password,
                         RegisterTime = DateTime.Now,
                         Referral = referral,
-                        Level = 用户等级.一星.ToString(),
+                        Level = 用户等级.无等级.ToString(),
                         Status = 会员状态.待审核.ToString(),
                         Cash1 = 0,
                         Cash2 = 0,
@@ -151,7 +151,6 @@ namespace MemberCenter.Controllers
             return View(model);
         }
 
-
         //
         // POST: /Account/LogOff
         public ActionResult LogOff()
@@ -160,7 +159,8 @@ namespace MemberCenter.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        //
+        // GET: /Account/MyAssets
         public ActionResult MyAssets()
         {
             MyAssetViewModel model = new MyAssetViewModel()
@@ -177,6 +177,8 @@ namespace MemberCenter.Controllers
             return View(model);
         }
 
+        //
+        // GET: /Account/MyMembers
         public ActionResult MyMembers()
         {
             IEnumerable<MyMemberViewModel> members = from row in CurrentUser.MyMembers where !row.Email.Equals(CurrentUser.Email, StringComparison.InvariantCultureIgnoreCase) orderby row.RegisterTime
@@ -191,7 +193,8 @@ namespace MemberCenter.Controllers
             return View(members);
         }
 
-
+        //
+        // GET: /Account/MyAccount
         public ActionResult MyAccount()
         {
             IPLog iplog = CurrentUser.IPLog.OrderByDescending(m=>m.DateTime).Take(1).ToArray()[0];
@@ -214,8 +217,53 @@ namespace MemberCenter.Controllers
             };
             return View(model);
         }
-        
 
+        //
+        // GET: /Account/EditMyAccount
+        public ActionResult EditMyAccount()
+        {
+            MyAccountViewModel model = new MyAccountViewModel
+            {
+                RealName = CurrentUser.RealName,
+                UserName = CurrentUser.UserName,
+            };
+            return View(model);
+        }
+
+        //
+        // POST: /Account/EditMyAccount
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditMyAccount(MyAccountViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CurrentUser.UserName = model.UserName;
+                CurrentUser.RealName = model.RealName;
+                db.SaveChanges();
+                ViewBag.ActionMessge = "更新成功!";
+            }
+            return View(model);
+        }
+
+        //
+        // GET: /Account/SecureSetting
+        public ActionResult SecureSetting()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/SecureSetting
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SecureSetting()
+        {
+            return View();
+        }
+
+        //
+        // GET: /Account/IPLog
         public ActionResult IPLog()
         {
             IEnumerable<IPLogViewModel> model = from row in CurrentUser.IPLog

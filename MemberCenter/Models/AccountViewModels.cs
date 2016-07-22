@@ -95,7 +95,13 @@ namespace MemberCenter.Models
     public class MyAccountViewModel
     {
         public Int32 Id { get; set; }
+
+        [Required(ErrorMessage = "请输入{0}")]
+        [Display(Name = "用户名")]
         public string UserName { get; set; }
+
+        [Required(ErrorMessage = "请输入{0}")]
+        [Display(Name = "真实姓名")]
         public string RealName { get; set; }
         public string Email { get; set; }
         public DateTime RegisterTime { get; set; }
