@@ -15,7 +15,7 @@ namespace MemberCenter
     public partial class ChongXiaoTransaction
     {
         public int Id { get; set; }
-        public System.TimeSpan DateTime { get; set; }
+        public System.DateTime DateTime { get; set; }
         public decimal Amount { get; set; }
         public int MemberId { get; set; }
         public short Type { get; set; }

@@ -22,7 +22,7 @@
         <AssociationConnector Association="Model1.PaymentMethodCashTransaction" />
         <EntityTypeShape EntityType="Model1.CoinPrice" Width="1.5" PointX="7" PointY="0.5" />
         <EntityTypeShape EntityType="Model1.SystemSetting" Width="1.5" PointX="8.875" PointY="0.5" />
-        <EntityTypeShape EntityType="Model1.RefoundRate" Width="1.5" PointX="7" PointY="2.5" />
+        <EntityTypeShape EntityType="Model1.MemberLevel" Width="1.5" PointX="7" PointY="2.5" />
         <EntityTypeShape EntityType="Model1.LockedCoin" Width="1.5" PointX="4.875" PointY="5.75" />
         <AssociationConnector Association="Model1.MemberLockedCoin" />
         <EntityTypeShape EntityType="Model1.BankInfo" Width="1.5" PointX="4.875" PointY="2.875" />
