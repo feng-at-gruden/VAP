@@ -94,10 +94,12 @@ namespace Backend.Controllers
                 var result = UserManager.Create(user, VapLib.Constants.DefaultPass);
                 if (result.Succeeded)
                 {
-                    UserManager.AddToRole(user.Id, roleType);
+                    //UserManager.AddToRole(user.Id, roleType);
                     var record = db.AspNetUsers.Find(user.Id);
                     //record.Status = CqConstants.UserStatusEnum.Active.ToString();
                     //record.KsId = user.KsId;
+                    var role = db.AspNetRoles.Find(roleType);
+                    record.AspNetRoles.Add(role);
                     db.Entry(record).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Users");
@@ -112,11 +114,11 @@ namespace Backend.Controllers
             var record = db.AspNetUsers.Find(uid);
             if (record != null)
             {
-                var identityUserRole = record.Roles.FirstOrDefault();
-                if (identityUserRole != null)
+                var userRole = record.AspNetRoles.FirstOrDefault();
+                if (userRole != null)
                 {
-                    var roleid = identityUserRole.RoleId;
-                    ViewBag.RoleType = db.AspNetRoles.Find(roleid).Name;
+                    //var roleid = userRole.Id;
+                    ViewBag.RoleType = userRole.Name;
                 }
                 return View(record);
             }
@@ -139,9 +141,13 @@ namespace Backend.Controllers
                 {
                     if (roleType != oldRole)
                     {
-                        if(!string.IsNullOrEmpty(oldRole))
-                            UserManager.RemoveFromRole(user.Id, oldRole);
-                        UserManager.AddToRole(user.Id, roleType);
+                        
+                        record.AspNetRoles.Clear();
+                        var newrole = db.AspNetRoles.Find(roleType);
+                        record.AspNetRoles.Add(newrole);
+                        
+                            /*UserManager.RemoveFromRole(user.Id, oldRole);
+                        UserManager.AddToRole(user.Id, roleType);*/
                     }
 
                     //record.KsId = user.KsId;
@@ -160,6 +166,8 @@ namespace Backend.Controllers
             var user = UserManager.FindById(uid);
             if (user != null)
             {
+                UserManager.RemovePassword(uid);
+                UserManager.AddPassword(uid,VapLib.Constants.DefaultPass);
                 /*string code = UserManager.GeneratePasswordResetToken(user.Id);
                 var result = UserManager.ResetPassword(user.Id, code, CqConstants.DefaultPass);
                 if (!result.Succeeded)

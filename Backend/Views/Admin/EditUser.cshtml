@@ -7,6 +7,14 @@
     string role = ViewBag.RoleType;
 }
 
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">修改账号</a></li>
+    </ul>
+</div>
+
 
 
 @using (Html.BeginForm()) 
@@ -14,56 +22,49 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m=>m.Id)
     @Html.Hidden("oldRole", role)
-    <div class="form-horizontal">
-        <h4>@ViewBag.Title</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserName, "账号",htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control",ReadOnly="true" } })
-                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                <span class="help-block">提示: 账号默认初始密码为 123456 </span>
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.AspNetRoles, "角色", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-               @{
+    <div class="formbody">
+
+        <div class="formtitle"><span>账号信息</span></div>
+
+        <ul class="forminfo">
+            <li>
+                <label>账号</label>
+                @Html.TextBoxFor(model => model.UserName, new { @class = "dfinput",@readonly=true })
+                <i>提示: 账号默认初始密码为 @VapLib.Constants.DefaultPass</i>
+
+            </li>
+            <li>
+                <label>角色</label>
+                @{
                     var roleOption = new List<SelectListItem>();
                     roleOption.Insert(0, new SelectListItem
                     {
                         Text = "客服",
-                        Value = "CustomerService",
+                        Value = "3",
                         Selected = ViewBag.RoleType == "CustomerService"
                     });
                     roleOption.Insert(1, new SelectListItem
                     {
                         Text = "财务",
-                        Value = "Finance",
+                        Value = "2",
                         Selected = ViewBag.RoleType == "Finance"
                     });
 
                     roleOption.Insert(2, new SelectListItem
                     {
                         Text = "管理员",
-                        Value = "Admin",
+                        Value = "1",
                         Selected = ViewBag.RoleType == "Admin"
                     });
                 }
-                @Html.DropDownList("roleType", roleOption, new { @class = "form-control" })<br />
+                @Html.DropDownList("roleType", roleOption, new { @class = "dfinput" })<br />
+            </li>
+            <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="保存" /></li>
+        </ul>
 
-            </div>
-        </div>
 
-        
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="保存" class="btn btn-primary" />
-            </div>
-        </div>
     </div>
+    
 }
 
 <div>
