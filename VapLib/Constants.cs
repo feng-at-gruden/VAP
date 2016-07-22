@@ -94,6 +94,7 @@ namespace VapLib
 
     public enum 用户等级
     {
+        无等级 = 0,
         一星 = 1,
         二星 = 2,
         三星 = 3,

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/21/2016 15:44:00
+-- Date Created: 07/22/2016 13:23:35
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -141,7 +141,7 @@ CREATE TABLE [dbo].[CashTransactions] (
     [MemberId] int  NOT NULL,
     [Fee] decimal(18,2)  NOT NULL,
     [Amount] decimal(18,2)  NOT NULL,
-    [DateTime] time  NOT NULL,
+    [DateTime] datetime  NOT NULL,
     [Type] smallint  NOT NULL,
     [Status] smallint  NOT NULL,
     [PaymentMethod_Id] int  NOT NULL,
@@ -154,7 +154,7 @@ CREATE TABLE [dbo].[PointTransactions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [MemberId] int  NOT NULL,
     [Amount] decimal(18,2)  NOT NULL,
-    [DateTime] time  NOT NULL,
+    [DateTime] datetime  NOT NULL,
     [Type] smallint  NOT NULL,
     [Status] smallint  NOT NULL
 );
@@ -173,7 +173,7 @@ GO
 -- Creating table 'CoinTransactions'
 CREATE TABLE [dbo].[CoinTransactions] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [DateTime] time  NOT NULL,
+    [DateTime] datetime  NOT NULL,
     [Amount] decimal(18,6)  NOT NULL,
     [Price] decimal(18,2)  NOT NULL,
     [Type] smallint  NOT NULL,
@@ -189,7 +189,7 @@ GO
 -- Creating table 'ChongXiaoTransactions'
 CREATE TABLE [dbo].[ChongXiaoTransactions] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [DateTime] time  NOT NULL,
+    [DateTime] datetime  NOT NULL,
     [Amount] decimal(18,2)  NOT NULL,
     [MemberId] int  NOT NULL,
     [Type] smallint  NOT NULL,
@@ -213,11 +213,14 @@ CREATE TABLE [dbo].[SystemSettings] (
 );
 GO
 
--- Creating table 'RefoundRates'
-CREATE TABLE [dbo].[RefoundRates] (
+-- Creating table 'MemberLevel'
+CREATE TABLE [dbo].[MemberLevel] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [MemberLevel] nvarchar(max)  NOT NULL,
-    [Rate] decimal(18,2)  NOT NULL
+    [Level] nvarchar(max)  NOT NULL,
+    [RefundRate] decimal(18,2)  NOT NULL,
+    [MemberCount] int  NOT NULL,
+    [MemberArchievement] decimal(18,2)  NOT NULL,
+    [Archievement] decimal(18,2)  NOT NULL
 );
 GO
 
@@ -318,9 +321,9 @@ ADD CONSTRAINT [PK_SystemSettings]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'RefoundRates'
-ALTER TABLE [dbo].[RefoundRates]
-ADD CONSTRAINT [PK_RefoundRates]
+-- Creating primary key on [Id] in table 'MemberLevel'
+ALTER TABLE [dbo].[MemberLevel]
+ADD CONSTRAINT [PK_MemberLevel]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

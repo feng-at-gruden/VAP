@@ -12,10 +12,13 @@ namespace MemberCenter
     using System;
     using System.Collections.Generic;
     
-    public partial class RefoundRate
+    public partial class MemberLevel
     {
         public int Id { get; set; }
-        public string MemberLevel { get; set; }
-        public decimal Rate { get; set; }
+        public string Level { get; set; }
+        public decimal RefundRate { get; set; }
+        public int MemberCount { get; set; }
+        public decimal MemberArchievement { get; set; }
+        public decimal Archievement { get; set; }
     }
 }
