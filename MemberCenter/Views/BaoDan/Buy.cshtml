@@ -1,4 +1,4 @@
-﻿
+﻿@model MemberCenter.Models.BaoDanBuyViewModel
 @{
     ViewBag.Title = "实价报单";
 }
@@ -11,9 +11,9 @@
     <div class="panel-body">
 
         <table class="table">
-            <caption>联和通用积分实时价格：<b>1.7</b></caption>
+            <caption>联和通用积分实时价格：<b>@Model.CurrentCoinPrice</b></caption>
             <tr>
-                <td>可用现金：<p>32000</p></td>
+                <td>可用现金：<p>@Model.AvailableCash</p></td>
                 <td>报单价格：<p>1.7</p></td>
                 <td>报单个数：<p>1000</p></td>
                 <td>消耗现金：<p>1000</p></td>
