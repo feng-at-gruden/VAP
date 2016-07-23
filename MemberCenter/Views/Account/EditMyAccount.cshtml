@@ -15,7 +15,12 @@
             @using (Html.BeginForm("EditMyAccount", "Account", FormMethod.Post, new { role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary()
+                if(!ViewData.ModelState.IsValid)
+                { 
+                    <div class="alert alert-danger">
+                        @Html.ValidationSummary()
+                    </div>
+                }
                 if (ViewBag.ActionMessge != null)
                 {
                     <div class="alert alert-success">

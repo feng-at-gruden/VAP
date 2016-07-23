@@ -1,0 +1,99 @@
+﻿
+@model MemberCenter.Models.ChangePasswordViewModel
+
+@{
+    
+    ViewBag.Title = "安全设置";
+}
+
+
+<h1 class="page-header">@ViewBag.Title</h1>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        SECURE SETTING
+    </div>
+    <div class="panel-body">
+        @if(!ViewData.ModelState.IsValid)
+        { 
+            <div class="alert alert-danger">
+                @Html.ValidationSummary()
+            </div>
+        }
+
+        @if (ViewBag.ActionMessage != null)
+        {
+        <div class="alert alert-success">
+            @ViewBag.ActionMessage
+        </div>
+        }
+        <table class="table">
+            <caption><em>重要提示：客服不会要求QQ远程控制您的电脑、所有要求远程的都是骗子。登录密码、二级密码、交易密码请勿透漏给任何人，包括客服！</em></caption>
+            <tr>
+                <td>未验证</td>
+                <td>邮箱验证</td>
+                <td>用于登录和找回密码</td>
+                <td><a href="#" class="btn btn-primary">验证</a></td>
+            </tr>
+            <tr>
+                <td>已设置</td>
+                <td>登录密码</td>
+                <td>用于登录</td>
+                <td><a href="javascript:ChangePassword(1);" class="btn btn-primary">修改</a></td>
+            </tr>
+
+            <tr>
+                <td>已设置</td>
+                <td>交易密码</td>
+                <td>用于买卖积分、奖金积分提现和虚拟币提现</td>
+                <td><a href="javascript:ChangePassword(2);" class="btn btn-primary">修改</a></td>
+            </tr>
+        </table>
+        <!-- /.Table -->
+    </div>
+    <!-- /.panel-body -->
+    <div class="panel-footer">
+        &nbsp;
+    </div>
+</div>
+
+@using (Html.BeginForm("SecureSetting", "Account",  null, FormMethod.Post, new { role = "form", id = "ActionForm" }))
+{
+@Html.AntiForgeryToken()   
+<!-- Modal Dialog -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.PasswordFor(m => m.OldPassword, new { @class = "form-control", placeholder = "请输入原密码", maxlength = "20" })
+                </div>
+                <div class="form-group">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "请输入新的密码", maxlength = "20" })
+                </div>
+                <div class="form-group">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "请确认新的密码", maxlength = "20" })
+                </div>
+            </div>
+            @Html.HiddenFor(m => m.Type, new { id = "PasswordType"})
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" >保存</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+}
+<script>
+    function ChangePassword(type)
+    {
+        $('#PasswordType').val(type);
+        $('#myModalLabel').text(type == 1 ? '修改登录密码' : '修改交易密码');
+        $('#myModal').modal('show');
+    }
+</script>

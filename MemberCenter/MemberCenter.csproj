@@ -1068,6 +1068,7 @@
     <Content Include="Views\Account\MyAccount.cshtml" />
     <Content Include="Views\Account\IPLog.cshtml" />
     <Content Include="Views\Account\EditMyAccount.cshtml" />
+    <Content Include="Views\Account\SecureSetting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

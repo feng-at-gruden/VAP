@@ -10,18 +10,27 @@
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
                 <h1 class="page-header">@ViewBag.Title</h1>
-
-
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         REGISTER
                     </div>
                     <div class="panel-body">
 
-                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+                        @using (Html.BeginForm("Register", "Account", new { referral = Request.QueryString["referral"] }, FormMethod.Post, new { role = "form" }))
                         {
                             @Html.AntiForgeryToken()
-                            @Html.ValidationSummary()
+                            if(!ViewData.ModelState.IsValid)
+                            { 
+                                <div class="alert alert-danger">
+                                    @Html.ValidationSummary()
+                                </div>
+                            }
+                            if (ViewBag.ActionMessage != null)
+                            {
+                                <div class="alert alert-success">
+                                    @ViewBag.ActionMessage
+                                </div>
+                            }
                             <div class="form-group">
                                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", maxlength = "30", placeholder = "请输入邮箱地址" })
                             </div>
@@ -31,7 +40,7 @@
                             <div class="form-group">
                                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "请输入确认密码", maxlength = "30" })
                             </div>
-                            if (Model.Referral == null || Model.Referral == "")
+                            if (Request.QueryString["referral"] == null || Request.QueryString["referral"] == "")
                             {
                                 <div class="form-group">
                                     @Html.TextBoxFor(m => m.Referral, new { @class = "form-control ", maxlength = "10", placeholder = "请输入推广人ID" })

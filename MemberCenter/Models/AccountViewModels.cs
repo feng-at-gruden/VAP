@@ -123,6 +123,26 @@ namespace MemberCenter.Models
         public string UserClient { get; set; }
     }
 
+    public class ChangePasswordViewModel
+    {
+        [Required(ErrorMessage = "请输入{0}")]
+        [StringLength(30, ErrorMessage = "{0}长度不足{2}.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "新密码")]
+        public string Password { get; set; }
 
+        [DataType(DataType.Password)]
+        [Display(Name = "确认密码")]
+        [Compare("Password", ErrorMessage = "两次输入密码不相符.")]
+        public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "请输入{0}")]
+        [DataType(DataType.Password)]
+        [Display(Name = "旧密码")]
+        public string OldPassword { get; set; }
+
+        public string Type { get; set; }
+
+    }
 
 }

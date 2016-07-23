@@ -90,7 +90,7 @@ namespace MemberCenter.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, int? referral)
         {
             if (ModelState.IsValid)
             {
@@ -102,8 +102,8 @@ namespace MemberCenter.Controllers
 
                 //Check Referrall user is not null;
                 int referralId = Int32.Parse(model.Referral);
-                Member referral = db.Members.SingleOrDefault(m => m.Id == referralId);
-                if(referral==null)
+                Member myRef = db.Members.SingleOrDefault(m => m.Id == referralId);
+                if (myRef == null)
                 {
                     ModelState.AddModelError("", "请输入正确推荐人ID!");
                     return View(model);
@@ -117,7 +117,7 @@ namespace MemberCenter.Controllers
                         Password2 = model.Password,
                         Password3 = model.Password,
                         RegisterTime = DateTime.Now,
-                        Referral = referral,
+                        Referral = myRef,
                         Level = 用户等级.无等级.ToString(),
                         Status = 会员状态.待审核.ToString(),
                         Cash1 = 0,
@@ -132,6 +132,7 @@ namespace MemberCenter.Controllers
                     };
                     db.Members.Add(newUser);
                     db.SaveChanges();
+                    ViewBag.ActionMessage = "注册成功！请返回登录。";
                 }
                 catch (DbEntityValidationException dbEx)
                 {
@@ -143,9 +144,9 @@ namespace MemberCenter.Controllers
                         }
                     }
                 }
-                    
 
-                return RedirectToAction("Login");
+                return View(new RegisterViewModel());
+                //return RedirectToAction("Login");
             }
 
             return View(model);
@@ -241,7 +242,7 @@ namespace MemberCenter.Controllers
                 CurrentUser.UserName = model.UserName;
                 CurrentUser.RealName = model.RealName;
                 db.SaveChanges();
-                ViewBag.ActionMessge = "更新成功!";
+                ViewBag.ActionMessage = "更新成功!";
             }
             return View(model);
         }
@@ -257,9 +258,36 @@ namespace MemberCenter.Controllers
         // POST: /Account/SecureSetting
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SecureSetting()
+        public async Task<ActionResult> SecureSetting(ChangePasswordViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                String pwdType;
+                if (model.Type == "1")
+                {
+                    pwdType = "登录密码";
+                    if (CurrentUser.Password1 != model.OldPassword)
+                    {
+                        ModelState.AddModelError("", "原密码错误");
+                        return View(model);
+                    }
+                    CurrentUser.Password1 = model.Password;
+                }
+                else
+                {
+                    pwdType = "交易密码";
+                    if (CurrentUser.Password2 != model.OldPassword)
+                    {
+                        ModelState.AddModelError("", "原密码错误");
+                        return View(model);
+                    }
+                    CurrentUser.Password2 = model.Password;
+                }
+                    
+                db.SaveChanges();
+                ViewBag.ActionMessage = pwdType + "更新成功!";
+            }
+            return View(model);
         }
 
         //
