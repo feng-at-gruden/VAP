@@ -20,5 +20,7 @@ namespace MemberCenter
         public int MemberCount { get; set; }
         public decimal MemberArchievement { get; set; }
         public decimal Archievement { get; set; }
+    
+        public virtual Member Member { get; set; }
     }
 }

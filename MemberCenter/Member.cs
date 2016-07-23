@@ -32,7 +32,6 @@ namespace MemberCenter
         public string RealName { get; set; }
         public string Password1 { get; set; }
         public string Password2 { get; set; }
-        public string Password3 { get; set; }
         public decimal Cash1 { get; set; }
         public decimal Cash2 { get; set; }
         public decimal Point1 { get; set; }
@@ -42,7 +41,6 @@ namespace MemberCenter
         public decimal Coin1 { get; set; }
         public decimal Coin2 { get; set; }
         public System.DateTime RegisterTime { get; set; }
-        public string Level { get; set; }
         public decimal Achievement { get; set; }
         public string Status { get; set; }
         public string TiXianStatus { get; set; }
@@ -60,5 +58,6 @@ namespace MemberCenter
         public virtual ICollection<LockedCoin> LockedCoin { get; set; }
         public virtual ICollection<BankInfo> BankInfo { get; set; }
         public virtual ICollection<IPLog> IPLog { get; set; }
+        public virtual MemberLevel MemberLevel { get; set; }
     }
 }

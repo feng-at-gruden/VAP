@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<MemberCenter.Models.LockedCoinsViewModel>
+@{
     ViewBag.Title = "积分解冻";
 }
 
@@ -26,28 +27,20 @@
                     </tr>
                 </thead>
                 <tbody>
+                @foreach (var item in Model) 
+                {
                     <tr class="odd">
-                        <td>1111</td>
-                        <td>2016-07-18 12:30:00</td>
-                        <td>20000</td>
-                        <td>1.6</td>
-                        <td>1.7</td>
-                        <td>1.8</td>
-                        <td>2323</td>
-                        <td>2334</td>
-                        <td>解冻中</td>
+                        <td>@Html.DisplayFor(modelItem => item.BaoDanId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.BaoDanTime)</td>
+                        <td>@Html.DisplayFor(modelItem => item.BaoDanQuantity)</td>
+                        <td>￥@Html.DisplayFor(modelItem => item.BaoDanPrice)</td>
+                        <td>￥@Html.DisplayFor(modelItem => item.LastPrice)</td>
+                        <td>￥@Html.DisplayFor(modelItem => item.NextPrice)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AvailableAmount)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LockedAmount)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
                     </tr>
-                    <tr class="odd">
-                        <td>1111</td>
-                        <td>2016-07-18 12:30:00</td>
-                        <td>20000</td>
-                        <td>1.6</td>
-                        <td>1.7</td>
-                        <td>1.8</td>
-                        <td>2323</td>
-                        <td>2334</td>
-                        <td>解冻中</td>
-                    </tr>
+                }
                 </tbody>
             </table>
         </div>

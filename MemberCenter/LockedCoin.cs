@@ -16,7 +16,7 @@ namespace MemberCenter
     {
         public int Id { get; set; }
         public decimal LastPrice { get; set; }
-        public decimal NexPrice { get; set; }
+        public decimal NextPrice { get; set; }
         public decimal Price { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal LockedAmount { get; set; }
@@ -24,5 +24,6 @@ namespace MemberCenter
         public int MemberId { get; set; }
     
         public virtual Member Member { get; set; }
+        public virtual BaoDanTransaction BaoDanTransaction { get; set; }
     }
 }

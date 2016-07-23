@@ -18,6 +18,10 @@ namespace VapLib
         public static readonly string[] MetaType = Enum.GetNames(typeof(现金交易类型));
 
 
+        public const int MinCashBalance = 10000;         //最小报单金额
+        public const int PointsRate = 1500;              //购币每消费10000现金 增长点数
+        public const decimal ChongXiaoRate = 0.15m;      //重消所占返利比例
+
     }
     
     /// <summary>
@@ -94,7 +98,7 @@ namespace VapLib
     }
 
 
-    public enum 用户等级
+    public enum 会员等级
     {
         无等级 = 0,
         一星 = 1,

@@ -9,18 +9,45 @@
         PRICE DECLARATION
     </div>
     <div class="panel-body">
+    @using (Html.BeginForm("Buy", "BaoDan", FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        if(!ViewData.ModelState.IsValid)
+        { 
+            <div class="alert alert-danger">
+                @Html.ValidationSummary()
+            </div>
+        }
 
+        if (ViewBag.ActionMessage != null)
+        {
+            <div class="alert alert-success">
+                @ViewBag.ActionMessage
+            </div>
+        }
         <table class="table">
-            <caption>联和通用积分实时价格：<b>@Model.CurrentCoinPrice</b></caption>
+            <caption>联和通用积分实时价格：<b>￥@Model.CurrentCoinPrice.ToString("0.00")</b></caption>
             <tr>
-                <td>可用现金：<p>@Model.AvailableCash</p></td>
-                <td>报单价格：<p>1.7</p></td>
-                <td>报单个数：<p>1000</p></td>
-                <td>消耗现金：<p>1000</p></td>
-                <td>报单总额：<p>1000</p></td>
-                <td><button type="submit" class="btn btn-primary">报单</button></td>
+                <td>可用现金：<p>￥@Model.AvailableCash.ToString("0,0.00")</p></td>
+                <td>报单价格：<p>￥@Model.RequestPrice.ToString("0.00")</p></td>
+                <td>报单个数：<p>@Model.RequestQuantity.ToString("0,0.00000000")</p></td>
+                <td>消耗现金：<p>￥@Model.CostCash.ToString("0,0.00")</p></td>
+                <td>报单总额：<p>￥@Model.TotalCash.ToString("0,0.00")</p></td>
+                <td>成交后余额：<p>￥@Model.CashLeft.ToString("0,0.00")</p></td>
+                @if (ViewData.ModelState.IsValid && Model.RequestQuantity>0)
+                { 
+                    <td><button type="submit" class="btn btn-primary">报单</button></td>
+                }
             </tr>
         </table>
+        @Html.HiddenFor(m => m.CurrentCoinPrice)
+        @Html.HiddenFor(m => m.RequestPrice)
+        @Html.HiddenFor(m => m.AvailableCash)
+        @Html.HiddenFor(m => m.RequestQuantity)
+        @Html.HiddenFor(m => m.CostCash)
+        @Html.HiddenFor(m => m.TotalCash)
+        @Html.HiddenFor(m => m.CashLeft)
+    }
         <!-- /.Table -->
     </div>
     <!-- /.panel-body -->
@@ -28,3 +55,4 @@
         &nbsp;
     </div>
 </div>
+

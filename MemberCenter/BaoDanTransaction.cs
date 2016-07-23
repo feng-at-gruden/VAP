@@ -18,8 +18,8 @@ namespace MemberCenter
         public System.DateTime DateTime { get; set; }
         public decimal Amount { get; set; }
         public decimal Price { get; set; }
-        public short Type { get; set; }
-        public short Status { get; set; }
+        public string Type { get; set; }
+        public string Status { get; set; }
         public int MemberId { get; set; }
         public decimal Fee { get; set; }
     
@@ -27,5 +27,6 @@ namespace MemberCenter
         public virtual PointTransaction PointTransaction { get; set; }
         public virtual ChongXiaoTransaction ChongXiaoTransaction { get; set; }
         public virtual CashTransaction CashTransaction { get; set; }
+        public virtual LockedCoin LockedCoin { get; set; }
     }
 }

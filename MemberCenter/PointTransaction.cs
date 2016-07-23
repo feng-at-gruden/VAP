@@ -18,8 +18,8 @@ namespace MemberCenter
         public int MemberId { get; set; }
         public decimal Amount { get; set; }
         public System.DateTime DateTime { get; set; }
-        public short Type { get; set; }
-        public short Status { get; set; }
+        public string Type { get; set; }
+        public string Status { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual BaoDanTransaction BaoDanTransaction { get; set; }

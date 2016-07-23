@@ -14,12 +14,17 @@ namespace MemberCenter
     
     public partial class PaymentMethod
     {
+        public PaymentMethod()
+        {
+            this.CashTransaction = new HashSet<CashTransaction>();
+        }
+    
         public int Id { get; set; }
         public string Bank { get; set; }
         public string Account { get; set; }
         public string Description { get; set; }
         public string URL { get; set; }
     
-        public virtual CashTransaction CashTransaction { get; set; }
+        public virtual ICollection<CashTransaction> CashTransaction { get; set; }
     }
 }

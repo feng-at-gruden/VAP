@@ -110,16 +110,23 @@ namespace MemberCenter.Controllers
                 }
                 try
                 {
+                    String initLevelStr = 会员等级.无等级.ToString();
+                    MemberLevel initLevle = db.MemberLevel.SingleOrDefault(m => m.Level.Equals(initLevelStr, StringComparison.InvariantCultureIgnoreCase));
+                    if(initLevle==null)
+                    {
+                        ModelState.AddModelError("", "系统用户等级参数错误!");
+                        return View(model);
+                    }
                     Member newUser = new Member
                     {
                         Email = model.Email,
                         Password1 = model.Password,
                         Password2 = model.Password,
-                        Password3 = model.Password,
                         RegisterTime = DateTime.Now,
                         Referral = myRef,
-                        Level = 用户等级.无等级.ToString(),
-                        Status = 会员状态.待审核.ToString(),
+                        MemberLevel = initLevle,
+                        //Status = 会员状态.待审核.ToString(),
+                        Status = 会员状态.正常.ToString(),
                         Cash1 = 0,
                         Cash2 = 0,
                         Coin1 = 0,
@@ -189,7 +196,7 @@ namespace MemberCenter.Controllers
                                              UserName = row.UserName,
                                              RegisterTime = row.RegisterTime,
                                              Archievement = row.Achievement,
-                                             Level = row.Level,
+                                             Level = row.MemberLevel.Level,
                                          };
             return View(members);
         }
@@ -205,7 +212,7 @@ namespace MemberCenter.Controllers
                 Email = CurrentUser.Email,
                 RealName = CurrentUser.RealName,
                 UserName = CurrentUser.UserName,
-                Level = CurrentUser.Level,
+                Level = CurrentUser.MemberLevel.Level,
                 MyCash = CurrentUser.Cash1 + CurrentUser.Cash2,
                 MyCoins = CurrentUser.Coin1 + CurrentUser.Coin2,
                 MyPoints = CurrentUser.Point1 + CurrentUser.Point2,

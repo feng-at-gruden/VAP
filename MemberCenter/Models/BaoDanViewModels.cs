@@ -23,7 +23,29 @@ namespace MemberCenter.Models
 
         [Display(Name = "报单总额")]
         public decimal TotalCash { get; set; }
+
+        [Display(Name = "余额")]
+        public decimal CashLeft { get; set; }
     }
 
-
+    public class LockedCoinsViewModel
+    {
+        public Int32 BaoDanId { get; set; }
+        public DateTime BaoDanTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:n0}")]
+        public decimal BaoDanQuantity { get; set; }
+        [DisplayFormat(DataFormatString = "{0:n0}")]
+        public decimal BaoDanPrice { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0.00}")]
+        public decimal LastPrice { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0.00}")]
+        public decimal NextPrice { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0.00}")]
+        public decimal LockedAmount { get; set; }
+        [DisplayFormat(DataFormatString = "{0:#,##0.00}")]
+        public decimal AvailableAmount { get; set; }
+        [DisplayFormat(DataFormatString = "{0:0.00}")]
+        public decimal AmountLeft { get; set; }
+        public String Status { get; set; }
+    }
 }

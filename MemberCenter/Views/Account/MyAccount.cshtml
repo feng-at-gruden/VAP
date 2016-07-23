@@ -25,13 +25,13 @@
             </tr>
             <tr>
                 <td><b>我的等级：</b><em>@Model.Level</em></td>
-                <td><b>我的业绩：</b><em>￥@Model.Archievement</em></td>
+                <td><b>我的业绩：</b><em>￥@Model.Archievement.ToString("0,0.00")</em></td>
                 <td><b>会员量：</b><em>@Model.MyMember</em></td>
             </tr>
             <tr>
-                <td><b>资金总量：</b><em>￥@Model.MyCash</em></td>
-                <td><b>积分：</b><em>@Model.MyPoints</em></td>
-                <td><b>电子币：</b><em>@Model.MyCoins</em></td>
+                <td><b>资金总量：</b><em>￥@Model.MyCash.ToString("0,0.00")</em></td>
+                <td><b>积分：</b><em>@Model.MyPoints.ToString("0,0.00")</em></td>
+                <td><b>电子币：</b><em>@Model.MyCoins.ToString("0,0.00000000")</em></td>
             </tr>
         </table>
         <!-- /.Table -->

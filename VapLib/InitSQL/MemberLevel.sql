@@ -1,3 +1,5 @@
+USE [vap];
+GO
 INSERT INTO [MemberLevel] VALUES ('无等级', .00, 0, .00, .00);
 GO
 INSERT INTO [MemberLevel] VALUES ('一星', .10, 1, .00, 10000.00);
