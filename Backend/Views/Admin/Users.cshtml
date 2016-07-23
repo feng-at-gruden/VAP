@@ -4,47 +4,61 @@
     ViewBag.Title = "账号管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="page-header">
-    <h4>@ViewBag.Title</h4>
-    @Html.ActionLink("新建账号", "CreateUser")
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">后台账号管理</a></li>
+    </ul>
 </div>
 
-<table class="table">
+<ul class="seachform1">
+    <li class="sarchbtn">
+        <label>&nbsp;</label>
+        <input name="" type="button" class="scbtn" onclick="" value="查询" />
+        <input name="" type="button" class="scbtn1" value="更多条件" />
+        <input name="" type="button" class="scbtn2" value="导出" />
+    </li>
+</ul>
+<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>
+
+<div class="formtitle"><span>后台账号列表</span></div>
+<table class="tablelist">
     <tr>
-        <th>
+        <th style="width: 30%">
             用户名
         </th>
         <th>
-            科室
+            角色
         </th>
         <th>
             状态
         </th>
-       
-        
-        <th>操作</th>
+
+
+        <th style="width: 20%">操作</th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AspNetRoles.FirstOrDefault().Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-       
-        
-        <td>
-            @Html.ActionLink("重置密码", "ResetPassword", new { id=item.Id }) |
-            @Html.ActionLink("修改", "EditUser", new { uid = item.Id })
-            
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetRoles.FirstOrDefault().Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+
+
+            <td>
+                @Html.ActionLink("重置密码", "ResetPassword", new { uid = item.Id },new{@class="tablelink"}) |
+                @Html.ActionLink("修改", "EditUser", new { uid = item.Id }, new { @class = "tablelink" })
+
+            </td>
+        </tr>
+    }
 
 </table>

@@ -23,7 +23,7 @@
                     <a href="/Account/MyAccount"><i class="fa fa-user fa-fw"></i> 个人信息</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-gear fa-fw"></i> 个人设置</a>
+                    <a href="/Account/EditMyAccount"><i class="fa fa-gear fa-fw"></i> 个人设置</a>
                 </li>
                 <li class="divider"></li>
                 <li>
@@ -109,7 +109,7 @@
                     <a href="#"><i class="fa fa-ambulance fa-fw"></i> 安全中心<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            @Html.ActionLink("安全设置", "Secure", "Account")
+                            @Html.ActionLink("安全设置", "SecureSetting", "Account")
                         </li>
                         <li>
                             @Html.ActionLink("登录日志", "IPLog", "Account")

@@ -90,7 +90,7 @@ namespace MemberCenter.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, int? referral)
         {
             if (ModelState.IsValid)
             {
@@ -102,8 +102,8 @@ namespace MemberCenter.Controllers
 
                 //Check Referrall user is not null;
                 int referralId = Int32.Parse(model.Referral);
-                Member referral = db.Members.SingleOrDefault(m => m.Id == referralId);
-                if(referral==null)
+                Member myRef = db.Members.SingleOrDefault(m => m.Id == referralId);
+                if (myRef == null)
                 {
                     ModelState.AddModelError("", "请输入正确推荐人ID!");
                     return View(model);
@@ -117,8 +117,8 @@ namespace MemberCenter.Controllers
                         Password2 = model.Password,
                         Password3 = model.Password,
                         RegisterTime = DateTime.Now,
-                        Referral = referral,
-                        Level = 用户等级.一星.ToString(),
+                        Referral = myRef,
+                        Level = 用户等级.无等级.ToString(),
                         Status = 会员状态.待审核.ToString(),
                         Cash1 = 0,
                         Cash2 = 0,
@@ -132,6 +132,7 @@ namespace MemberCenter.Controllers
                     };
                     db.Members.Add(newUser);
                     db.SaveChanges();
+                    ViewBag.ActionMessage = "注册成功！请返回登录。";
                 }
                 catch (DbEntityValidationException dbEx)
                 {
@@ -143,14 +144,13 @@ namespace MemberCenter.Controllers
                         }
                     }
                 }
-                    
 
-                return RedirectToAction("Login");
+                return View(new RegisterViewModel());
+                //return RedirectToAction("Login");
             }
 
             return View(model);
         }
-
 
         //
         // POST: /Account/LogOff
@@ -160,7 +160,8 @@ namespace MemberCenter.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
+        //
+        // GET: /Account/MyAssets
         public ActionResult MyAssets()
         {
             MyAssetViewModel model = new MyAssetViewModel()
@@ -177,6 +178,8 @@ namespace MemberCenter.Controllers
             return View(model);
         }
 
+        //
+        // GET: /Account/MyMembers
         public ActionResult MyMembers()
         {
             IEnumerable<MyMemberViewModel> members = from row in CurrentUser.MyMembers where !row.Email.Equals(CurrentUser.Email, StringComparison.InvariantCultureIgnoreCase) orderby row.RegisterTime
@@ -191,7 +194,8 @@ namespace MemberCenter.Controllers
             return View(members);
         }
 
-
+        //
+        // GET: /Account/MyAccount
         public ActionResult MyAccount()
         {
             IPLog iplog = CurrentUser.IPLog.OrderByDescending(m=>m.DateTime).Take(1).ToArray()[0];
@@ -214,8 +218,80 @@ namespace MemberCenter.Controllers
             };
             return View(model);
         }
-        
 
+        //
+        // GET: /Account/EditMyAccount
+        public ActionResult EditMyAccount()
+        {
+            MyAccountViewModel model = new MyAccountViewModel
+            {
+                RealName = CurrentUser.RealName,
+                UserName = CurrentUser.UserName,
+            };
+            return View(model);
+        }
+
+        //
+        // POST: /Account/EditMyAccount
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditMyAccount(MyAccountViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CurrentUser.UserName = model.UserName;
+                CurrentUser.RealName = model.RealName;
+                db.SaveChanges();
+                ViewBag.ActionMessage = "更新成功!";
+            }
+            return View(model);
+        }
+
+        //
+        // GET: /Account/SecureSetting
+        public ActionResult SecureSetting()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/SecureSetting
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SecureSetting(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                String pwdType;
+                if (model.Type == "1")
+                {
+                    pwdType = "登录密码";
+                    if (CurrentUser.Password1 != model.OldPassword)
+                    {
+                        ModelState.AddModelError("", "原密码错误");
+                        return View(model);
+                    }
+                    CurrentUser.Password1 = model.Password;
+                }
+                else
+                {
+                    pwdType = "交易密码";
+                    if (CurrentUser.Password2 != model.OldPassword)
+                    {
+                        ModelState.AddModelError("", "原密码错误");
+                        return View(model);
+                    }
+                    CurrentUser.Password2 = model.Password;
+                }
+                    
+                db.SaveChanges();
+                ViewBag.ActionMessage = pwdType + "更新成功!";
+            }
+            return View(model);
+        }
+
+        //
+        // GET: /Account/IPLog
         public ActionResult IPLog()
         {
             IEnumerable<IPLogViewModel> model = from row in CurrentUser.IPLog

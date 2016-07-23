@@ -107,7 +107,8 @@
       <Private>True</Private>
       <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="VapLib">
+    <Reference Include="VapLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\VapLib\bin\Debug\VapLib.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">

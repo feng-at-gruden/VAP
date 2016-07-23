@@ -15,7 +15,7 @@ namespace MemberCenter
     public partial class BaoDanTransaction
     {
         public int Id { get; set; }
-        public System.TimeSpan DateTime { get; set; }
+        public System.DateTime DateTime { get; set; }
         public decimal Amount { get; set; }
         public decimal Price { get; set; }
         public short Type { get; set; }

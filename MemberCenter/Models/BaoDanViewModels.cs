@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MemberCenter.Models
 {
-    public class BaoDanBuyViewModels
+    public class BaoDanBuyViewModel
     {
         [Display(Name = "联和通用积分实时价格")]
         public decimal CurrentCoinPrice { get; set; }
