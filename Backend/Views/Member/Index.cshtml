@@ -4,165 +4,120 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">会员管理</a></li>
+    </ul>
+</div>
+<div class="formbody">
+    <ul class="seachform1">
 
-<h2>Index</h2>
+        <li><label>会员账号</label><input name="" type="text" class="scinput1" /></li>
+        <li>
+            <label>会员UID</label>
+            <input name="" type="text" class="scinput1" />
+        </li>
+
+        <li>
+            <label>会员状态</label>
+            <select class="scinput1">
+                <option>全部</option>
+                <option>待审核</option>
+                <option>正常</option>
+                <option>锁定</option>
+            </select>
+        </li>
 
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RealName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Password3)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cash1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cash2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Point1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Point2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ChongXiao1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ChongXiao2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Coin1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Coin2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RegisterTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Level)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Achievement)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TiXianStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TiBiStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IdSubmitted)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IdApproved)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApprovedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Member1.Email)
-        </th>
-        <th></th>
-    </tr>
+    </ul>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RealName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Password3)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cash1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cash2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Point1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Point2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ChongXiao1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ChongXiao2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Coin1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Coin2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RegisterTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Level)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Achievement)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TiXianStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TiBiStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdSubmitted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdApproved)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApprovedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Member1.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) 
-        </td>
-    </tr>
-}
 
-</table>
+
+    <ul class="seachform1">
+        <li class="sarchbtn">
+            <label>&nbsp;</label>
+            <input name="" type="button" class="scbtn" onclick="" value="查询" />
+            <input name="" type="button" class="scbtn2" value="导出" />
+        </li>
+    </ul>
+    @*<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>*@
+
+
+
+
+    <div class="formtitle"><span>会员列表</span></div>
+    <table class="tablelist">
+        <tr>
+            <th>
+                会员UID
+            </th>
+            <th>
+                推荐人UID
+            </th>
+            <th>
+                登录名
+            </th>
+            <th>
+                会员状态
+            </th>
+            <th>
+                提现状态
+            </th>
+            <th>
+                提币状态
+            </th>
+            <th>
+                昵称
+            </th>
+            <th>
+                真实姓名
+            </th>
+            <th>
+                会员等级
+            </th>
+
+            <th>操作</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Referral_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TiXianStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TiBiStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RealName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemberLevel.Level)
+                </td>
+
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
