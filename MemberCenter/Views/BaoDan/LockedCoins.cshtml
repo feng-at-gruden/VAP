@@ -15,7 +15,7 @@
             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                 <thead>
                     <tr class="success">
-                        <th>报单单号</th>
+                        <th>单号</th>
                         <th>报单时间</th>
                         <th>报单数量</th>
                         <th>报单价格</th>
@@ -30,7 +30,7 @@
                 @foreach (var item in Model) 
                 {
                     <tr class="odd">
-                        <td>@Html.DisplayFor(modelItem => item.BaoDanId)</td>
+                        <td class="center">@Html.DisplayFor(modelItem => item.BaoDanId)</td>
                         <td>@Html.DisplayFor(modelItem => item.BaoDanTime)</td>
                         <td>@Html.DisplayFor(modelItem => item.BaoDanQuantity)</td>
                         <td>￥@Html.DisplayFor(modelItem => item.BaoDanPrice)</td>
