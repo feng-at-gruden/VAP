@@ -14,9 +14,9 @@ namespace MemberCenter.Controllers
     [Authorize]
     public class TransactionController : BaseController
     {
-        private Model1Container db = new Model1Container();
 
-
+        //
+        // GET: /Transaction/CashTopup
         public ActionResult CashTopup()
         {
             IQueryable<PaymentMethodViewModel> paymentMethods = from row in db.PaymentMethods
@@ -33,6 +33,8 @@ namespace MemberCenter.Controllers
             return View(model);
         }
 
+        //
+        // POST: /Transaction/CashTopup
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CashTopup(CashTopupViewModel model)
@@ -48,127 +50,32 @@ namespace MemberCenter.Controllers
             return View();
         }
 
-
+        //
+        // GET: /Transaction/CashWithdraw
         public ActionResult CashWithdraw()
         {
             //TODO
             return View();
         }
 
-        
 
 
-        /////////////////////////////////////////////////////////
-
-
-        // GET: /Transaction/
-        public ActionResult Index()
+        //
+        // GET: /Transaction/History
+        public ActionResult History()
         {
-            var cashtransactions = db.CashTransactions.Include(c => c.Member).Include(c => c.PaymentMethod);
-            return View(cashtransactions.ToList());
-        }
-
-        // GET: /Transaction/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CashTransaction cashtransaction = db.CashTransactions.Find(id);
-            if (cashtransaction == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cashtransaction);
-        }
-
-        // GET: /Transaction/Create
-        public ActionResult Create()
-        {
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "Email");
-            ViewBag.Id = new SelectList(db.PaymentMethods, "Id", "Bank");
-            return View();
-        }
-
-        // POST: /Transaction/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,MemberId,Amount,DateTime,Type,Status")] CashTransaction cashtransaction)
-        {
-            if (ModelState.IsValid)
-            {
-                db.CashTransactions.Add(cashtransaction);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "Email", cashtransaction.MemberId);
-            ViewBag.Id = new SelectList(db.PaymentMethods, "Id", "Bank", cashtransaction.Id);
-            return View(cashtransaction);
-        }
-
-        // GET: /Transaction/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CashTransaction cashtransaction = db.CashTransactions.Find(id);
-            if (cashtransaction == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "Email", cashtransaction.MemberId);
-            ViewBag.Id = new SelectList(db.PaymentMethods, "Id", "Bank", cashtransaction.Id);
-            return View(cashtransaction);
-        }
-
-        // POST: /Transaction/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,MemberId,Amount,DateTime,Type,Status")] CashTransaction cashtransaction)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cashtransaction).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.MemberId = new SelectList(db.Members, "Id", "Email", cashtransaction.MemberId);
-            ViewBag.Id = new SelectList(db.PaymentMethods, "Id", "Bank", cashtransaction.Id);
-            return View(cashtransaction);
-        }
-
-        // GET: /Transaction/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CashTransaction cashtransaction = db.CashTransactions.Find(id);
-            if (cashtransaction == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cashtransaction);
-        }
-
-        // POST: /Transaction/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            CashTransaction cashtransaction = db.CashTransactions.Find(id);
-            db.CashTransactions.Remove(cashtransaction);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            IEnumerable<CashTransactionViewModel> model = from row in CurrentUser.CashTransaction
+                                                        orderby row.DateTime
+                                                          select new CashTransactionViewModel
+                                                        {
+                                                            Type = row.Type,
+                                                            Status = row.Status,
+                                                            DateTime = row.DateTime,
+                                                            Fee = row.Fee,
+                                                            Amount = row.Amount,
+                                                            ID = row.Id,
+                                                        };
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)

@@ -1052,11 +1052,6 @@
     <Content Include="Views\Shared\_Navigation.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_Term.cshtml" />
-    <Content Include="Views\Transaction\Create.cshtml" />
-    <Content Include="Views\Transaction\Delete.cshtml" />
-    <Content Include="Views\Transaction\Details.cshtml" />
-    <Content Include="Views\Transaction\Edit.cshtml" />
-    <Content Include="Views\Transaction\Index.cshtml" />
     <Content Include="Views\Transaction\CashTopup.cshtml" />
     <Content Include="Views\Transaction\CashWithdraw.cshtml" />
     <Content Include="Views\Account\MyAssets.cshtml" />
@@ -1069,6 +1064,7 @@
     <Content Include="Views\Account\EditMyAccount.cshtml" />
     <Content Include="Views\Account\SecureSetting.cshtml" />
     <Content Include="Views\BaoDan\History.cshtml" />
+    <Content Include="Views\Transaction\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

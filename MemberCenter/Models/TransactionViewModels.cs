@@ -1,8 +1,34 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MemberCenter.Models
 {
+
+    public class CashTransactionViewModel
+    {
+        [Display(Name = "交易ID")]
+        public int ID { get; set; }
+
+        [Display(Name = "交易时间")]
+        public DateTime DateTime { get; set; }
+
+        [Display(Name = "状态")]
+        public String Status { get; set; }
+
+        [Display(Name = "资金类型")]
+        public String Type { get; set; }
+
+        [Display(Name = "交易金额")]
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal Amount { get; set; }
+
+        [Display(Name = "手续费")]
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal Fee { get; set; }
+    }
+
+
     public class CashTopupViewModel
     {
         [Required(ErrorMessage = "请填写汇款金额")]
