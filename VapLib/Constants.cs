@@ -57,8 +57,8 @@ namespace VapLib
         充值 = 1,     //可用现金增加  审核通过后 Member.Cash1增加
         提现 = 2,     //可用现金减少  审核通过后 Member.Cash1减少
         下线返利 = 3, //冻结现金增加   Member.Cash2增加
-        购币 = 4,     //可用现金减少  审核通过后 Member.Cash1减少
-        售币 = 5,     //冻结现金增加  审核通过后 Member.Cash2增加
+        购币消费 = 4,     //可用现金减少  审核通过后 Member.Cash1减少
+        售币所得 = 5,     //冻结现金增加  审核通过后 Member.Cash2增加
     }
 
 

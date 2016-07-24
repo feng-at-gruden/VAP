@@ -18,6 +18,7 @@ namespace MemberCenter
         {
             this.ChongXiaoTransaction = new HashSet<ChongXiaoTransaction>();
             this.CashTransaction = new HashSet<CashTransaction>();
+            this.PointTransaction = new HashSet<PointTransaction>();
         }
     
         public int Id { get; set; }
@@ -30,9 +31,9 @@ namespace MemberCenter
         public decimal Fee { get; set; }
     
         public virtual Member Member { get; set; }
-        public virtual PointTransaction PointTransaction { get; set; }
-        public virtual LockedCoin LockedCoin { get; set; }
         public virtual ICollection<ChongXiaoTransaction> ChongXiaoTransaction { get; set; }
         public virtual ICollection<CashTransaction> CashTransaction { get; set; }
+        public virtual ICollection<PointTransaction> PointTransaction { get; set; }
+        public virtual LockedCoin LockedCoin { get; set; }
     }
 }

@@ -76,7 +76,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Status = 现金状态.可用.ToString(),
-                        Type = 现金交易类型.购币.ToString(),
+                        Type = 现金交易类型.购币消费.ToString(),
                         Amount = model.TotalCostCash,
                         Fee = 0,
                         BaoDanTransaction = mBaoDan,
