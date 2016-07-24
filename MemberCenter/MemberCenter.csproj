@@ -1064,11 +1064,11 @@
     <Content Include="Views\BaoDan\Buy.cshtml" />
     <Content Include="Views\BaoDan\Sell.cshtml" />
     <Content Include="Views\BaoDan\LockedCoins.cshtml" />
-    <Content Include="Views\BaoDan\MyRecords.cshtml" />
     <Content Include="Views\Account\MyAccount.cshtml" />
     <Content Include="Views\Account\IPLog.cshtml" />
     <Content Include="Views\Account\EditMyAccount.cshtml" />
     <Content Include="Views\Account\SecureSetting.cshtml" />
+    <Content Include="Views\BaoDan\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

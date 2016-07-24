@@ -21,6 +21,9 @@ namespace VapLib
         public const int MinCashBalance = 10000;         //最小报单金额
         public const int PointsRate = 1500;              //购币每消费10000现金 增长点数
         public const decimal ChongXiaoRate = 0.15m;      //重消所占返利比例
+        public const decimal BaoDanBuyFee = 5;           //报单 买入 手续费  后需定义在数据库中  
+        public const decimal BaoDanSellFee = 100;        //报单 售出 手续费  后需定义在数据库中  比率还是固定金额 待定
+
 
     }
     
@@ -66,14 +69,14 @@ namespace VapLib
 
     public enum 报单类型
     {
-        购入 = 0,
-        售出 = 1,
+        买入 = 0,
+        卖出 = 1,
     }
 
     public enum 报单状态
     {
-        待审核 = 0,
-        已审核 = 1,
+        未成交 = 0,
+        已成交 = 1,        //只有出售电子币需要审核
     }
 
 

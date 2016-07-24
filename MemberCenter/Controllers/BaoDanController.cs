@@ -54,7 +54,7 @@ namespace MemberCenter.Controllers
                         ModelState.AddModelError("", "会员状态异常");
                         return RedirectToAction("Login", "Account");
                     }
-                    if (CurrentUser.Cash1 < model.TotalCash)
+                    if (CurrentUser.Cash1 < model.TotalCostCash)
                     {
                         ModelState.AddModelError("", "报单金额错误");
                         return View(CalculateBaoDanBuyModel());
@@ -66,9 +66,9 @@ namespace MemberCenter.Controllers
                         DateTime = DateTime.Now,
                         Amount = model.RequestQuantity,
                         Price = model.RequestPrice,
-                        Fee = 0,
-                        Status = 报单状态.已审核.ToString(),
-                        Type = 报单类型.购入.ToString(),
+                        Fee = Constants.BaoDanBuyFee,
+                        Status = 报单状态.已成交.ToString(),
+                        Type = 报单类型.买入.ToString(),
                     };
                     CurrentUser.BaoDanTransaction.Add(mBaoDan);
                     CurrentUser.CashTransaction.Add(new CashTransaction
@@ -76,7 +76,7 @@ namespace MemberCenter.Controllers
                         DateTime = DateTime.Now,
                         Status = 现金状态.可用.ToString(),
                         Type = 现金交易类型.购币.ToString(),
-                        Amount = model.TotalCash,
+                        Amount = model.TotalCostCash,
                         Fee = 0,
                         BaoDanTransaction = mBaoDan, 
                     });
@@ -95,7 +95,7 @@ namespace MemberCenter.Controllers
                     });
 
                     //Step 2. 为自己增加积分
-                    decimal points = (model.TotalCash / Constants.MinCashBalance) * Constants.PointsRate;
+                    decimal points = (model.TotalCostCash / Constants.MinCashBalance) * Constants.PointsRate;
                     CurrentUser.Point2 += points;
                     CurrentUser.PointTransaction.Add(new PointTransaction
                     {
@@ -107,7 +107,7 @@ namespace MemberCenter.Controllers
                     });
 
                     //Step 2.5 为自己增加成就
-                    CurrentUser.Achievement += model.TotalCash;
+                    CurrentUser.Achievement += model.TotalCostCash;
 
                     //Step 3.0 设置更新自己等级
 
@@ -120,7 +120,7 @@ namespace MemberCenter.Controllers
                     //Step 3.6 设置更新上线等级
 
                     //Step 4. 扣除现金
-                    CurrentUser.Cash1 -= model.TotalCash;
+                    CurrentUser.Cash1 -= model.TotalCostCash;
 
                     //
 
@@ -141,6 +141,8 @@ namespace MemberCenter.Controllers
             return View(CalculateBaoDanBuyModel());
         }
 
+        //
+        // GET: /BaoDan/Buy
         public ActionResult Sell()
         {
             return View();
@@ -166,9 +168,24 @@ namespace MemberCenter.Controllers
             return View(model);
         }
 
-        public ActionResult MyRecords()
+        public ActionResult History()
         {
-            return View();
+            IEnumerable<BaoDanHistoryViewModel> model = from row in CurrentUser.BaoDanTransaction
+                                                      orderby row.DateTime
+                                                      select new BaoDanHistoryViewModel
+                                                      {
+                                                          Type = row.Type,
+                                                          Status = row.Status,
+                                                          BaoDanTime = row.DateTime,
+                                                          Fee = row.Fee,
+                                                          RequestQuantity = row.Amount,
+                                                          RequestPrice = row.Price,
+                                                          RequestAmount = row.CashTransaction.Amount - row.Fee,
+                                                          FinalQuantity = row.Amount,
+                                                          FinalAmount = row.CashTransaction.Amount,
+                                                          FinalPrice = row.CashTransaction.Amount / row.Amount,
+                                                      };
+            return View(model);
         }
 
 
@@ -178,10 +195,9 @@ namespace MemberCenter.Controllers
         private BaoDanBuyViewModel CalculateBaoDanBuyModel()
         {
             CoinPrice cPrice = db.CoinPrices.OrderByDescending(m => m.DateTime).Take(1).ToArray()[0];
-            decimal availableCash = Math.Floor(CurrentUser.Cash1 / Constants.MinCashBalance) * Constants.MinCashBalance;
+            decimal coinCash = Math.Floor(CurrentUser.Cash1 / Constants.MinCashBalance) * Constants.MinCashBalance;
             decimal price = cPrice.Price;
-            decimal qty = availableCash / price;
-            decimal cost = availableCash;
+            decimal qty = coinCash / price;
 
             BaoDanBuyViewModel model = new BaoDanBuyViewModel
             {
@@ -189,9 +205,10 @@ namespace MemberCenter.Controllers
                 RequestPrice = cPrice.Price,
                 AvailableCash = CurrentUser.Cash1,
                 RequestQuantity = qty,
-                TotalCash = availableCash,
-                CostCash = availableCash,
-                CashLeft = CurrentUser.Cash1 - availableCash,
+                RequestCash = coinCash,
+                Fee = Constants.BaoDanBuyFee,
+                TotalCostCash = coinCash + Constants.BaoDanBuyFee,
+                CashLeft = CurrentUser.Cash1 - coinCash - Constants.BaoDanBuyFee,
             };
             return model;
         }
