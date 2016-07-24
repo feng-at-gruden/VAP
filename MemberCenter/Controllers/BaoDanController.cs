@@ -77,7 +77,7 @@ namespace MemberCenter.Controllers
                         DateTime = DateTime.Now,
                         Status = 现金状态.可用.ToString(),
                         Type = 现金交易类型.购币消费.ToString(),
-                        Amount = model.TotalCostCash,
+                        Amount = -model.TotalCostCash,
                         Fee = 0,
                         BaoDanTransaction = mBaoDan,
                     });
@@ -117,7 +117,7 @@ namespace MemberCenter.Controllers
                     //Step 3.2 为上线增加重消记录
                     //Step 3.3 为上线增加总业绩
                     //Step 3.4 设置更新上线等级
-                    RefundForReferral(CurrentUser, model.RequestCash, mBaoDan);
+                    RefundForReferral(CurrentUser, model.RequestCash, mBaoDan, null);
 
 
                     //Step 4. 扣除现金
@@ -184,10 +184,10 @@ namespace MemberCenter.Controllers
                                                           Fee = row.Fee,
                                                           RequestQuantity = row.Amount,
                                                           RequestPrice = row.Price,
-                                                          RequestCash = row.Amount * row.Price - row.Fee,
+                                                          RequestCash = row.Amount * row.Price,
                                                           FinalQuantity = row.Amount,
-                                                          FinalCash = row.Amount * row.Price - row.Fee + row.Fee,
-                                                          FinalPrice = (row.Amount * row.Price - row.Fee + row.Fee) / row.Amount,
+                                                          FinalCash = row.Amount * row.Price + row.Fee,
+                                                          FinalPrice = (row.Amount * row.Price + row.Fee) / row.Amount,
                                                       };
             return View(model);
         }
@@ -266,12 +266,14 @@ namespace MemberCenter.Controllers
         /// Step 3.4 设置更新上线等级
         /// </summary>
         /// <param name="member"></param>
-        private void RefundForReferral(Member member, decimal amount, BaoDanTransaction mBaoDan)
+        /// <param name="lastRefundRate">向上遍历 如果某上线的级别等于或低于其自己 则跳过其上线, lastRefundRate为上一次等级高于自己的上线的rate</param>
+        private void RefundForReferral(Member member, decimal amount, BaoDanTransaction mBaoDan, decimal? lastRefundRate)
         {
             Member mRef = member.Referral;
             if (mRef == null)
                 return;
 
+            decimal? currentRefundRate = lastRefundRate.HasValue ? lastRefundRate : null;
             if (member.Id != mBaoDan.Member.Id && member.MemberLevel.RefundRate >= mRef.MemberLevel.RefundRate)
             {
                 //向上遍历 如果某上线的级别等于或低于其自己 则跳过其上线
@@ -280,8 +282,9 @@ namespace MemberCenter.Controllers
             else
             {
                 //直接上线获利最多
-                decimal finalRefundRate = (member.Id == mBaoDan.Member.Id) ? mRef.MemberLevel.RefundRate : (mRef.MemberLevel.RefundRate - member.MemberLevel.RefundRate);
+                decimal finalRefundRate = (member.Id == mBaoDan.Member.Id) ? mRef.MemberLevel.RefundRate : (mRef.MemberLevel.RefundRate - Math.Max(member.MemberLevel.RefundRate, lastRefundRate.Value));
                 decimal refTotalRefund = finalRefundRate * Constants.PV * amount;
+                currentRefundRate = finalRefundRate;
 
                 // Step 3.1 为自己所有上线增加返利
                 decimal refRfund = refTotalRefund * (1 - Constants.ChongXiaoRate);
@@ -321,7 +324,7 @@ namespace MemberCenter.Controllers
                 }
             }
 
-            RefundForReferral(mRef, amount, mBaoDan);
+            RefundForReferral(mRef, amount, mBaoDan, currentRefundRate);
         }
 
         #endregion
