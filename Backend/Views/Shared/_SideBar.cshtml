@@ -39,95 +39,71 @@ $(function(){
     @*<div class="lefttop"><span></span>主菜单</div>
 *@
     <dl class="leftmenu">
-
         <dd>
             <div class="title">
-                <span><img src="~/images/leftico01.png" /></span>主菜单
+                <span><img src="~/images/leftico02.png" /></span>新闻管理
+            </div>
+            <ul class="menuson">
+                <li><cite></cite><a href="@Url.Action("Index","News")">新闻列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create","News")">添加新闻</a><i></i></li>
+            </ul>
+        </dd>
+        <dd>
+            <div class="title">
+                <span><img src="~/images/leftico01.png" /></span>会员管理
             </div>
             <ul class="menuson">
 
-                <li class="active">
-                    <div class="header">
-                        <cite></cite>
-                        <a href="javascript:;" target="rightFrame">会员管理</a>
-                        <i></i>
-                    </div>
-                    <ul class="sub-menus">
-                        <li><a href="javascript:;">会员列表</a></li>
-                        <li><a href="javascript:;">会员业绩</a></li>
-                        <li><a href="javascript:;">会员操作日志</a></li>
-                        <li><a href="javascript:;">推广关系</a></li>
-                    </ul>
-                </li>
+                <li><cite></cite><a href="@Url.Action("Index","Member")">会员列表</a><i></i></li>
+                <li><cite></cite><a href="javascript:;">会员业绩</a><i></i></li>
+                <li><cite></cite><a href="javascript:;">会员操作日志</a><i></i></li>
+                <li><cite></cite><a href="javascript:;">推广关系</a><i></i></li>
 
-                <li>
-                    <div class="header">
-                        <cite></cite>
-                        <a href="javascript:;" target="rightFrame">新闻管理</a>
-                        <i></i>
-                    </div>
-                    <ul class="sub-menus">
-                        <li><a href="javascript:;">新闻列表</a></li>
-                        <li><a href="javascript:;">添加新闻</a></li>
-                    </ul>
-                </li>
-
-                <li>
-                    <div class="header">
-                        <cite></cite>
-                        <a href="javascript:;" target="rightFrame">虚拟管理</a>
-                        <i></i>
-                    </div>
-                    <ul class="sub-menus">
-                        <li><a href="javascript:;">价格列表</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="header">
-                        <cite></cite>
-                        <a href="javascript:;" target="rightFrame">资产管理</a>
-                        <i></i>
-                    </div>
-                    <ul class="sub-menus">
-                        <li><a href="javascript:;">待审核充值列表</a></li>
-                        <li><a href="javascript:;">待审核提现列表</a></li>
-                        <li><a href="javascript:;">报单列表</a></li>
-                        <li><a href="javascript:;">待审核虚拟币提现列表</a></li>
-                        <li><a href="javascript:;">虚拟币操作记录列表</a></li>
-                        <li><a href="javascript:;">奖金积分操作记录列表</a></li>
-                        <li><a href="javascript:;">会员资金列表</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="header">
-                        <cite></cite>
-                        <a href="javascript:;" target="rightFrame">报表统计</a>
-                        <i></i>
-                    </div>
-                    <ul class="sub-menus">
-                        <li><a href="javascript:;">汇总统计</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="header">
-                        <cite></cite>
-                        <a href="javascript:;" target="rightFrame">系统管理</a>
-                        <i></i>
-                    </div>
-                    <ul class="sub-menus">
-                        <li><a href="javascript:;">系统参数设置</a></li>
-                        <li><a href="javascript:;">银行账号列表</a></li>
-                        <li><a href="javascript:;">后台账号管理</a></li>
-                        <li><a href="javascript:;">关于我们</a></li>
-                    </ul>
-                </li>
-                
             </ul>
         </dd>
-
-
-       
-       
+        <dd>
+            <div class="title">
+                <span><img src="~/images/leftico03.png" /></span>虚拟管理
+            </div>
+            <ul class="menuson">
+                <li><cite></cite><a href="@Url.Action("Index","News")">价格列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create","News")">现价价格</a><i></i></li>
+            </ul>
+        </dd>
+        <dd>
+            <div class="title">
+                <span><img src="~/images/leftico04.png" /></span>资产管理
+            </div>
+            <ul class="menuson">
+                <li><cite></cite><a href="@Url.Action("Index","News")">待审核充值列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create","News")">待审核提现列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Index","News")">报单列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create","News")">待审核虚拟币提现列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Index","News")">虚拟币操作记录列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create","News")">奖金积分操作记录列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create","News")">会员资金列表</a><i></i></li>
+            </ul>
+        </dd>
+        <dd>
+            <div class="title">
+                <span><img src="~/images/leftico01.png" /></span>报表统计
+            </div>
+            <ul class="menuson">
+                <li><cite></cite><a href="@Url.Action("Index","News")">汇总统计</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create","News")">现价价格</a><i></i></li>
+            </ul>
+        </dd>
+        <dd>
+            <div class="title">
+                <span><img src="~/images/leftico02.png" /></span>系统管理
+            </div>
+            <ul class="menuson">
+                <li><cite></cite><a href="@Url.Action("MetaIndex","Admin")">系统参数设置</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create","News")">银行账号列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Users","Admin")">后台账号管理</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("About","Home")">关于我们</a><i></i></li>
+            </ul>
+        </dd>
         
     </dl>
 </div>

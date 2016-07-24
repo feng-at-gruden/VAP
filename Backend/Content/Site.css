@@ -274,6 +274,28 @@ h2{font-weight:normal;}
     -o-user-select: none;
     user-select: none;
 }
+.btn-new {
+    color: #ffffff;
+    margin-top: -3px;
+    /*background-color: #428bca;
+    border-color: #357ebd;*/
+    background: url(../images/btnbg3.png) repeat-x center;
+    display: inline-block;
+    padding: 10px 32px;
+    font-family: arial;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 3px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
 
 /*tip*/
 .tip{width:485px; height:260px; position:absolute;top:10%; left:30%;background:#fcfdfd;box-shadow:1px 8px 10px 1px #9b9b9b;border-radius:1px;behavior:url(js/pie.htc); display:none; z-index:111111;}

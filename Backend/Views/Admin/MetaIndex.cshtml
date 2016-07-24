@@ -2,13 +2,16 @@
 @model PagedList.IPagedList< Backend.Models.SystemSetting >
 
 @{
-    ViewBag.Title = "公共数据维护";
+    ViewBag.Title = "系统设置";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="page-header">
-    <h4>公共数据维护</h4>
-    @Html.ActionLink("新建", "EditMeta")
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">系统设置</a></li>
+    </ul>
 </div>
 
 @using (Html.BeginForm("MetaIndex", "Admin", FormMethod.Get))

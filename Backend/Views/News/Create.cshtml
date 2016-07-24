@@ -1,7 +1,7 @@
 ﻿@model Backend.Models.News
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "添加新闻";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,12 +15,12 @@
 
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="formbody">
-       
+
         @Html.ValidationSummary(true)
         <ul class="forminfo">
             <li>
@@ -28,30 +28,23 @@
                 @Html.TextBoxFor(model => model.Title, new { @class = "dfinput", placeholder = "请填写新闻标题" })
                 @Html.ValidationMessageFor(model => model.Title)
             </li>
-            
+
             <li>
                 <label>新闻分类<b>*</b></label>
-                
                 @{
-                    var roleOption = new List<SelectListItem>();
-                    roleOption.Insert(0, new SelectListItem
-                    {
-                        Text = "站内新闻",
-                        Value = "3"
-                    });
-                    roleOption.Insert(1, new SelectListItem
-                    {
-                        Text = "站外新闻",
-                        Value = "2"
-                    });
+                   var options = (from scl in VapLib.Constants.NewsType
+                   select new SelectListItem
+                   {
+                       Text = scl,
+                       Value = scl,
+                       Selected = scl == Model.Type
+                   }).ToList();
 
-                    roleOption.Insert(2, new SelectListItem
-                    {
-                        Text = "公告",
-                        Value = "1"
-                    });
                 }
-                @Html.DropDownListFor(model => model.Type, roleOption, new { @class = "dfinput" })<br />
+                @Html.DropDownListFor(model => model.Type, options, new { @class = "form-control", data_val = "true", requried = "required", data_val_required = "必选项" })
+
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+
             </li>
             <li>
                 <label>新闻内容<b>*</b></label>
@@ -64,11 +57,11 @@
             <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="马上发布" /></li>
 
 
-    </ul>       
+        </ul>
 
-          
-            
-</div>
+
+
+    </div>
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
