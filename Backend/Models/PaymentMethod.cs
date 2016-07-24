@@ -24,6 +24,7 @@ namespace Backend.Models
         public string Bank { get; set; }
         public string Account { get; set; }
         public string Description { get; set; }
+        public string URL { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CashTransaction> CashTransactions { get; set; }

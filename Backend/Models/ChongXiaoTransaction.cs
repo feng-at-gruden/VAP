@@ -17,18 +17,18 @@ namespace Backend.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ChongXiaoTransaction()
         {
-            this.CoinTransactions = new HashSet<CoinTransaction>();
+            this.BaoDanTransactions = new HashSet<BaoDanTransaction>();
         }
     
         public int Id { get; set; }
-        public System.TimeSpan DateTime { get; set; }
+        public System.DateTime DateTime { get; set; }
         public decimal Amount { get; set; }
         public int MemberId { get; set; }
-        public short Type { get; set; }
-        public short Status { get; set; }
+        public string Type { get; set; }
+        public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CoinTransaction> CoinTransactions { get; set; }
+        public virtual ICollection<BaoDanTransaction> BaoDanTransactions { get; set; }
         public virtual Member Member { get; set; }
     }
 }

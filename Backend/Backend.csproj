@@ -200,6 +200,9 @@
     <Compile Include="Models\BankInfo.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BaoDanTransaction.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CashTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
@@ -207,9 +210,6 @@
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CoinPrice.cs">
-      <DependentUpon>VpaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CoinTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
@@ -222,6 +222,9 @@
     <Compile Include="Models\Member.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MemberLevel.cs">
+      <DependentUpon>VpaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\News.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
@@ -229,9 +232,6 @@
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PointTransaction.cs">
-      <DependentUpon>VpaModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\RefoundRate.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SystemSetting.cs">
@@ -256,6 +256,61 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\editor\kindeditor.js" />
+    <Content Include="Content\editor\plugins\about.html" />
+    <Content Include="Content\editor\plugins\emoticons\etc_01.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_02.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_03.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_04.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_05.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_06.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_07.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_08.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_09.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_10.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_11.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_12.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_13.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_14.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_15.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_16.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_17.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_18.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_19.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_20.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_21.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_22.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_23.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_24.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_25.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_26.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_27.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_28.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_29.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_30.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_31.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_32.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_33.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_34.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_35.gif" />
+    <Content Include="Content\editor\plugins\emoticons\etc_36.gif" />
+    <Content Include="Content\editor\plugins\flash.html" />
+    <Content Include="Content\editor\plugins\image.html" />
+    <Content Include="Content\editor\plugins\link.html" />
+    <Content Include="Content\editor\plugins\media.html" />
+    <Content Include="Content\editor\plugins\plainpaste.html" />
+    <Content Include="Content\editor\plugins\remote_image.html" />
+    <Content Include="Content\editor\plugins\wordpaste.html" />
+    <Content Include="Content\editor\skins\default.css" />
+    <Content Include="Content\editor\skins\default.gif" />
+    <Content Include="Content\editor\skins\div.gif" />
+    <Content Include="Content\editor\skins\dl.gif" />
+    <Content Include="Content\editor\skins\editor.css" />
+    <Content Include="Content\editor\skins\ol.gif" />
+    <Content Include="Content\editor\skins\p.gif" />
+    <Content Include="Content\editor\skins\tinymce.css" />
+    <Content Include="Content\editor\skins\tinymce.gif" />
+    <Content Include="Content\editor\skins\ul.gif" />
     <Content Include="Content\PagedList.css" />
     <Content Include="images\001.jpg" />
     <Content Include="images\404.png" />
@@ -493,8 +548,6 @@
     <Content Include="Views\Admin\Users.cshtml" />
     <Content Include="Views\Shared\_Pager.cshtml" />
     <Content Include="Views\News\Create.cshtml" />
-    <Content Include="Views\News\Delete.cshtml" />
-    <Content Include="Views\News\Details.cshtml" />
     <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\Member\Edit.cshtml" />

@@ -16,7 +16,8 @@ namespace Backend.Models
     {
         public int Id { get; set; }
         public string IP { get; set; }
-        public string DateTime { get; set; }
+        public string Client { get; set; }
+        public System.DateTime DateTime { get; set; }
         public int MemberId { get; set; }
     
         public virtual Member Member { get; set; }

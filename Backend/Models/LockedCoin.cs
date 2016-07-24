@@ -14,15 +14,23 @@ namespace Backend.Models
     
     public partial class LockedCoin
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public LockedCoin()
+        {
+            this.BaoDanTransactions = new HashSet<BaoDanTransaction>();
+        }
+    
         public int Id { get; set; }
         public decimal LastPrice { get; set; }
-        public decimal NexPrice { get; set; }
+        public decimal NextPrice { get; set; }
         public decimal Price { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal LockedAmount { get; set; }
         public decimal AvailabeAmount { get; set; }
         public int MemberId { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BaoDanTransaction> BaoDanTransactions { get; set; }
         public virtual Member Member { get; set; }
     }
 }

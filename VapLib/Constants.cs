@@ -30,7 +30,13 @@ namespace VapLib
     /// <summary>
     /// 
     /// </summary>
-
+    public enum 新闻类型
+    {
+        站内新闻,
+        站外新闻,
+        公告,
+        其他
+    }
     public enum 会员状态
     {
         待审核 = 0,
