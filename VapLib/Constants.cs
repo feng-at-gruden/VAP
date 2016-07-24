@@ -16,7 +16,7 @@ namespace VapLib
        
 
         public static readonly string[] MetaType = Enum.GetNames(typeof(现金交易类型));
-
+        public static readonly string[] NewsType = Enum.GetNames(typeof(新闻类型));
 
         public const int MinCashBalance = 10000;         //最小报单金额
         public const int PointsRate = 1500;              //购币每消费10000现金 增长点数

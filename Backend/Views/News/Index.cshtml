@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Backend.Models.News>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "新闻管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -37,6 +37,7 @@
             <label>&nbsp;</label>
             <input name="" type="button" class="scbtn" onclick="" value="查询" />
             <input name="" type="button" class="scbtn1" value="添加新闻" />
+            <a href="@Url.Action("Index","Home")" class="btn-new">添加新闻</a>
         </li>
         
     </ul>
@@ -88,3 +89,4 @@
 
     </table>
 </div>
+<a href="@Url.Action("Index","Home")" class="btn-primary">返回</a>
