@@ -60,7 +60,7 @@ namespace MemberCenter.Controllers
                         return View(CalculateBaoDanBuyModel());
                     }
 
-                    //Step 0. 报单交易记录、现金交易记录
+                    //Step 1. 报单交易记录、现金交易记录
                     BaoDanTransaction mBaoDan = new BaoDanTransaction
                     {
                         DateTime = DateTime.Now,
@@ -69,6 +69,7 @@ namespace MemberCenter.Controllers
                         Fee = Constants.BaoDanBuyFee,
                         Status = 报单状态.已成交.ToString(),
                         Type = 报单类型.买入.ToString(),
+                        Member = CurrentUser,
                     };
                     CurrentUser.BaoDanTransaction.Add(mBaoDan);
                     CurrentUser.CashTransaction.Add(new CashTransaction
@@ -78,10 +79,10 @@ namespace MemberCenter.Controllers
                         Type = 现金交易类型.购币.ToString(),
                         Amount = model.TotalCostCash,
                         Fee = 0,
-                        BaoDanTransaction = mBaoDan, 
+                        BaoDanTransaction = mBaoDan,
                     });
 
-                    //Step 1. 增加虚拟币 并冻结
+                    //Step 1.5 增加虚拟币 并冻结
                     CurrentUser.Coin2 += model.RequestQuantity;
                     CurrentUser.LockedCoin.Add(new LockedCoin
                     {
@@ -94,8 +95,8 @@ namespace MemberCenter.Controllers
                         BaoDanTransaction = mBaoDan,
                     });
 
-                    //Step 2. 为自己增加积分
-                    decimal points = (model.TotalCostCash / Constants.MinCashBalance) * Constants.PointsRate;
+                    //Step 2.0 为自己增加积分
+                    decimal points = (model.RequestCash / Constants.MinCashBalance) * Constants.PointsRate;
                     CurrentUser.Point2 += points;
                     CurrentUser.PointTransaction.Add(new PointTransaction
                     {
@@ -106,24 +107,23 @@ namespace MemberCenter.Controllers
                         BaoDanTransaction = mBaoDan,
                     });
 
-                    //Step 2.5 为自己增加成就
-                    CurrentUser.Achievement += model.TotalCostCash;
+                    //Step 2.5 为自己增加总业绩
+                    CurrentUser.Achievement += model.RequestCash;
 
                     //Step 3.0 设置更新自己等级
+                    RefreshMemberLevel(CurrentUser);
 
                     //Step 3.1 为自己所有上线增加返利
-
                     //Step 3.2 为上线增加重消记录
+                    //Step 3.3 为上线增加总业绩
+                    //Step 3.4 设置更新上线等级
+                    RefundForReferral(CurrentUser, model.RequestCash, mBaoDan);
 
-                    //Step 3.5 为上线增加总成就
-
-                    //Step 3.6 设置更新上线等级
 
                     //Step 4. 扣除现金
                     CurrentUser.Cash1 -= model.TotalCostCash;
 
                     //
-
                     db.SaveChanges();
                     ViewBag.ActionMessage = "报单成功！";
                 }
@@ -142,12 +142,14 @@ namespace MemberCenter.Controllers
         }
 
         //
-        // GET: /BaoDan/Buy
+        // GET: /BaoDan/Sell
         public ActionResult Sell()
         {
             return View();
         }
 
+        //
+        // GET: /BaoDan/LockedCoins
         public ActionResult LockedCoins()
         {
             IEnumerable<LockedCoinsViewModel> model = from row in CurrentUser.LockedCoin
@@ -168,6 +170,8 @@ namespace MemberCenter.Controllers
             return View(model);
         }
 
+        //
+        // GET: /BaoDan/History
         public ActionResult History()
         {
             IEnumerable<BaoDanHistoryViewModel> model = from row in CurrentUser.BaoDanTransaction
@@ -180,10 +184,10 @@ namespace MemberCenter.Controllers
                                                           Fee = row.Fee,
                                                           RequestQuantity = row.Amount,
                                                           RequestPrice = row.Price,
-                                                          RequestAmount = row.CashTransaction.Amount - row.Fee,
+                                                          RequestCash = row.Amount * row.Price - row.Fee,
                                                           FinalQuantity = row.Amount,
-                                                          FinalAmount = row.CashTransaction.Amount,
-                                                          FinalPrice = row.CashTransaction.Amount / row.Amount,
+                                                          FinalCash = row.Amount * row.Price - row.Fee + row.Fee,
+                                                          FinalPrice = (row.Amount * row.Price - row.Fee + row.Fee) / row.Amount,
                                                       };
             return View(model);
         }
@@ -192,6 +196,10 @@ namespace MemberCenter.Controllers
 
         #region private methods
 
+        /// <summary>
+        /// 计算可购币数及ViewModel值
+        /// </summary>
+        /// <returns></returns>
         private BaoDanBuyViewModel CalculateBaoDanBuyModel()
         {
             CoinPrice cPrice = db.CoinPrices.OrderByDescending(m => m.DateTime).Take(1).ToArray()[0];
@@ -211,6 +219,109 @@ namespace MemberCenter.Controllers
                 CashLeft = CurrentUser.Cash1 - coinCash - Constants.BaoDanBuyFee,
             };
             return model;
+        }
+
+        /// <summary>
+        /// 根据用户等级规则 计算更新用户等级
+        /// </summary>
+        /// <param name="member"></param>
+        private void RefreshMemberLevel(Member member)
+        {
+            if (member.MemberLevel.Level.Equals(会员等级.七钻.ToString()))
+                return;
+
+            int nLevelId = member.MemberLevel.Id + 1;
+            MemberLevel nextLevel = db.MemberLevel.SingleOrDefault(m => m.Id == nLevelId);
+            if (nextLevel == null)
+                return;
+
+            if (member.Achievement < nextLevel.Achievement)
+                return;
+
+            if (nextLevel.MemberCount > 0)
+            {
+                int myValidMemberCount = 0;
+                foreach(Member myMember in member.MyMembers)
+                {
+                    if (myMember.Achievement >= nextLevel.MemberAchievement)
+                        myValidMemberCount++;
+                }
+                if (myValidMemberCount >= nextLevel.MemberCount)
+                    member.MemberLevel = nextLevel;
+                else
+                    return;
+            }
+            else
+            {
+                member.MemberLevel = nextLevel;
+            }
+
+            RefreshMemberLevel(member);
+        }
+
+        /// <summary>
+        /// Step 3.1 为自己所有上线增加返利
+        /// Step 3.2 为上线增加重消记录
+        /// Step 3.3 为上线增加总业绩
+        /// Step 3.4 设置更新上线等级
+        /// </summary>
+        /// <param name="member"></param>
+        private void RefundForReferral(Member member, decimal amount, BaoDanTransaction mBaoDan)
+        {
+            Member mRef = member.Referral;
+            if (mRef == null)
+                return;
+
+            if (member.Id != mBaoDan.Member.Id && member.MemberLevel.RefundRate >= mRef.MemberLevel.RefundRate)
+            {
+                //向上遍历 如果某上线的级别等于或低于其自己 则跳过其上线
+                //Nothing
+            }
+            else
+            {
+                //直接上线获利最多
+                decimal finalRefundRate = (member.Id == mBaoDan.Member.Id) ? mRef.MemberLevel.RefundRate : (mRef.MemberLevel.RefundRate - member.MemberLevel.RefundRate);
+                decimal refTotalRefund = finalRefundRate * Constants.PV * amount;
+
+                // Step 3.1 为自己所有上线增加返利
+                decimal refRfund = refTotalRefund * (1 - Constants.ChongXiaoRate);
+                mRef.CashTransaction.Add(new CashTransaction
+                {
+                    DateTime = DateTime.Now,
+                    Status = 现金状态.冻结.ToString(),
+                    Type = 现金交易类型.下线返利.ToString(),
+                    Amount = refRfund,
+                    Fee = 0,
+                    BaoDanTransaction = mBaoDan,
+                });
+                mRef.Cash2 += refRfund;
+
+                // Step 3.2 为上线增加重消记录
+                decimal refChonXiao = refTotalRefund * Constants.ChongXiaoRate;
+                mRef.ChongXiaoTransaction.Add(new ChongXiaoTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Status = 重消状态.冻结.ToString(),
+                        Type = 重消记录类型.下线返利重消.ToString(),
+                        Amount = refChonXiao,
+                        BaoDanTransaction = mBaoDan,
+                    });
+                mRef.ChongXiao2 = refChonXiao;
+
+                // Step 3.3 为上线增加总业绩
+                //mRef.Achievement += refTotalRefund;   去掉！ 下线返利不计算入总业绩
+
+                // Step 3.4 设置更新上线等级
+                RefreshMemberLevel(mRef);
+
+                // 直到最高价 七钻结束
+                if (mRef.MemberLevel.Level.Equals(会员等级.七钻.ToString()))
+                {
+                    return;
+                }
+            }
+
+            RefundForReferral(mRef, amount, mBaoDan);
         }
 
         #endregion

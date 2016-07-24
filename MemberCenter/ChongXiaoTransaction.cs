@@ -20,6 +20,7 @@ namespace MemberCenter
         public int MemberId { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
+        public Nullable<int> BaoDanTransactionId { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual BaoDanTransaction BaoDanTransaction { get; set; }

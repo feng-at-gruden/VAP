@@ -14,6 +14,12 @@ namespace MemberCenter
     
     public partial class BaoDanTransaction
     {
+        public BaoDanTransaction()
+        {
+            this.ChongXiaoTransaction = new HashSet<ChongXiaoTransaction>();
+            this.CashTransaction = new HashSet<CashTransaction>();
+        }
+    
         public int Id { get; set; }
         public System.DateTime DateTime { get; set; }
         public decimal Amount { get; set; }
@@ -25,8 +31,8 @@ namespace MemberCenter
     
         public virtual Member Member { get; set; }
         public virtual PointTransaction PointTransaction { get; set; }
-        public virtual ChongXiaoTransaction ChongXiaoTransaction { get; set; }
-        public virtual CashTransaction CashTransaction { get; set; }
         public virtual LockedCoin LockedCoin { get; set; }
+        public virtual ICollection<ChongXiaoTransaction> ChongXiaoTransaction { get; set; }
+        public virtual ICollection<CashTransaction> CashTransaction { get; set; }
     }
 }

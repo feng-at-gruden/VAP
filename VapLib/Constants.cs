@@ -19,10 +19,11 @@ namespace VapLib
 
 
         public const int MinCashBalance = 10000;         //最小报单金额
-        public const int PointsRate = 1500;              //购币每消费10000现金 增长点数
-        public const decimal ChongXiaoRate = 0.15m;      //重消所占返利比例
+        public const int PointsRate = 1500;              //购币每消费10000现金 增长点数1500
         public const decimal BaoDanBuyFee = 5;           //报单 买入 手续费  后需定义在数据库中  
         public const decimal BaoDanSellFee = 100;        //报单 售出 手续费  后需定义在数据库中  比率还是固定金额 待定
+        public const decimal PV = 0.6m;                  //返利PV值 后需定义在数据库中     上线返利 = 下线消费金额 x 上线等级返利比例 × PV × 85%
+        public const decimal ChongXiaoRate = 0.15m;      //重消所占比例 后需定义在数据库中  上线重消 = 下线消费金额 x 上线等级返利比例 × PV × 15%
 
 
     }

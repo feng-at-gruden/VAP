@@ -14,13 +14,18 @@ namespace MemberCenter
     
     public partial class MemberLevel
     {
+        public MemberLevel()
+        {
+            this.Member = new HashSet<Member>();
+        }
+    
         public int Id { get; set; }
         public string Level { get; set; }
         public decimal RefundRate { get; set; }
         public int MemberCount { get; set; }
-        public decimal MemberArchievement { get; set; }
-        public decimal Archievement { get; set; }
+        public decimal MemberAchievement { get; set; }
+        public decimal Achievement { get; set; }
     
-        public virtual Member Member { get; set; }
+        public virtual ICollection<Member> Member { get; set; }
     }
 }

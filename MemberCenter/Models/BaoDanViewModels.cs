@@ -73,7 +73,7 @@ namespace MemberCenter.Models
         public decimal RequestQuantity { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal RequestAmount { get; set; }
+        public decimal RequestCash { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal Fee { get; set; }
@@ -88,7 +88,7 @@ namespace MemberCenter.Models
         public decimal FinalQuantity { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal FinalAmount { get; set; }
+        public decimal FinalCash { get; set; }
     }
 
 
