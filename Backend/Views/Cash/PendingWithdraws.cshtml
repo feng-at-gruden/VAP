@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Backend.Models.CashTransaction>
+
+@{
+    ViewBag.Title = "待审批现金提现";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">待审批现金提现</a></li>
+    </ul>
+</div>
+<div class="formbody">
+    @*<ul class="seachform1">
+
+        <li><label>会员账号</label><input name="" type="text" class="scinput1" /></li>
+        <li>
+            <label>会员UID</label>
+            <input name="" type="text" class="scinput1" />
+        </li>
+
+        <li>
+            <label>状态</label>
+            <select class="scinput1">
+                <option>全部</option>
+                <option>待审核</option>
+                <option>可用</option>
+                <option>冻结</option>
+            </select>
+        </li>
+
+
+    </ul>
+
+
+
+    <ul class="seachform1">
+        <li class="sarchbtn">
+            <label>&nbsp;</label>
+            <input name="" type="button" class="scbtn" onclick="" value="查询" />
+        </li>
+    </ul>
+
+*@
+
+
+    <div class="formtitle"><span>待审批现金提现列表</span></div>
+    <table class="tablelist">
+        <tr>
+            <th>
+                会员账号
+            </th>
+            <th>
+                会员UID
+            </th>
+            <th>
+                金额
+            </th>
+            <th>
+                类型
+            </th>
+            <th>
+                状态
+            </th>
+            <th>
+                银行
+            </th>
+            <th>
+                申请时间
+            </th>
+
+            <th>操作</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Member.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemberId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BankInfo.Bank)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTime)
+                </td>
+
+                <td>
+                    @Html.ActionLink("批准", "ApproveCashTrans", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
