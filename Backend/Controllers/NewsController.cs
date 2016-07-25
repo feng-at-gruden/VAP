@@ -16,9 +16,25 @@ namespace Backend.Controllers
         private vapEntities1 db = new vapEntities1();
 
         // GET: /News/
-        public ActionResult Index()
+        public ActionResult Index(string newsTitle,string newsType)
         {
-            return View(db.News.ToList());
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
+            var news = db.News.Where(c=>c.Id>0);
+            if (!string.IsNullOrEmpty(newsTitle))
+            {
+                news = news.Where(c => c.Title.Contains(newsTitle));
+            }
+            if (!string.IsNullOrEmpty(newsType))
+            {
+                news = news.Where(c => c.Type==newsType);
+            }
+
+            ViewBag.newsTitle = newsTitle;
+            ViewBag.newsType = newsType;
+            return View(news.ToList());
         }
 
         
@@ -38,9 +54,10 @@ namespace Backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.CreatedBy = User.Identity.GetUserId();
+                model.CreatedBy = User.Identity.Name;
                 model.DateTime = DateTime.Now;
                 model.Status = "";
+                model.Content = Server.HtmlDecode(model.Content);
                 db.News.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -74,7 +91,7 @@ namespace Backend.Controllers
             if (ModelState.IsValid)
             {
                 var record = db.News.Find(model.Id);
-                record.Content = model.Content;
+                record.Content = Server.HtmlDecode(model.Content);
                 record.Title = model.Title;
                 record.Type = model.Type;
                 db.Entry(record).State = EntityState.Modified;

@@ -13,40 +13,79 @@
     </ul>
 </div>
 <div class="formbody">
-    <ul class="seachform1">
+    @using (Html.BeginForm("Index", "News", FormMethod.Get))
+    {
+        <ul class="seachform1">
+            <li><label>新闻标题</label>
+            @Html.TextBox("newsTitle","", new { @class = "scinput1" })
+            @*<input name="newsTitle" type="text" class="scinput1" /></li>
+        *@
+            <li>
+                <label>新闻种类</label>
+                @{
+        /*var options = (from scl in VapLib.Constants.NewsType
+                   select new SelectListItem
+                   {
+                       Text = scl,
+                       Value = scl,
+                       Selected = scl == Model.Type
+                   }).ToList();
+                    */
+                    var options = new List<SelectListItem>();
+                    options.Insert(0, new SelectListItem
+                    {
+                        Text = "全部",
+                        Value = ""
+                    });
+                    options.Insert(1, new SelectListItem
+                    {
+                        Text = "站内新闻",
+                        Value = "站内新闻"
+                    });
+                    options.Insert(2, new SelectListItem
+                    {
+                        Text = "站外新闻",
+                        Value = "站外新闻"
+                    });
+                    options.Insert(3, new SelectListItem
+                    {
+                        Text = "公告",
+                        Value = "公告"
+                    });
+                    options.Insert(4, new SelectListItem
+                    {
+                        Text = "其他",
+                        Value = "其他"
+                    });
 
-        <li><label>新闻标题</label><input name="" type="text" class="scinput1" /></li>
+                }
+                @Html.DropDownList("newsType", options, new { @class = "scinput1" })
+                @*<select class="scinput1" name="newsType">
+                    <option>全部</option>
+                    <option>站内新闻</option>
+                    <option>站外新闻</option>
+                    <option>公告</option>
+                    <option>其他</option>
+                </select>*@
+            </li>
+
+        </ul>
+        <ul class="seachform1">
+            <li class="sarchbtn">
+                <label>&nbsp;</label>
+                <input name="" type="submit" class="scbtn" onclick="" value="查询" />
+                @*<input name="" type="button" class="scbtn1" value="添加新闻" />*@
+               
+            </li>
         
-        <li>
-            <label>新闻种类</label>
-            <select class="scinput1">
-                <option>全部</option>
-                <option>站内新闻</option>
-                <option>站外新闻</option>
-                <option>公告</option>
-            </select>
-        </li>
+        </ul>
 
-
-    </ul>
-
-
-
-    <ul class="seachform1">
-        <li class="sarchbtn">
-            <label>&nbsp;</label>
-            <input name="" type="button" class="scbtn" onclick="" value="查询" />
-            <input name="" type="button" class="scbtn1" value="添加新闻" />
-            <a href="@Url.Action("Index","Home")" class="btn-new">添加新闻</a>
-        </li>
-        
-    </ul>
-    
-
+    }
 
 
 
     <div class="formtitle"><span>新闻列表</span></div>
+    <a href="@Url.Action("Create", "News")" class="btn-new">添加新闻</a>
     <table class="tablelist">
         <tr>
             <th>
@@ -89,4 +128,4 @@
 
     </table>
 </div>
-<a href="@Url.Action("Index","Home")" class="btn-primary">返回</a>
+@*<a href="@Url.Action("Index","Home")" class="btn-primary">返回</a>*@
