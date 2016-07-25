@@ -26,15 +26,15 @@
             </div>
         }
         <table class="table">
-            <caption>联和通用积分实时价格：<b>@Model.CurrentCoinPrice.ToString("C")</b></caption>
+            <caption>联和通用积分实时价格：<b> ￥@Html.DisplayFor(m => m.CurrentCoinPrice)</b></caption>
             <tr>
-                <td>可用现金：<p>@Model.AvailableCash.ToString("C")</p></td>
-                <td>报单价格：<p>@Model.RequestPrice.ToString("C")</p></td>
-                <td>报单个数：<p>@Model.RequestQuantity.ToString("0,0.00000000")</p></td>
-                <td>报单总额：<p>@Model.RequestCash.ToString("C")</p></td>
-                <td>手续费：<p>@Model.Fee.ToString("C")</p></td>
-                <td>消耗现金：<p>@Model.TotalCostCash.ToString("C")</p></td>
-                <td>成交后余额：<p>@Model.CashLeft.ToString("C")</p></td>
+                <td>可用现金：<p>￥@Html.DisplayFor(m => m.AvailableCash) </p></td>
+                <td>报单价格：<p>￥@Html.DisplayFor(m => m.RequestPrice) </p></td>
+                <td>报单个数：<p>@Html.DisplayFor(m => m.RequestQuantity) </p></td>
+                <td>报单总额：<p>￥@Html.DisplayFor(m => m.RequestCash) </p></td>
+                <td>手续费：<p>￥@Html.DisplayFor(m => m.Fee) </p></td>
+                <td>消耗现金：<p>￥@Html.DisplayFor(m => m.TotalCostCash) </p></td>
+                <td>成交后余额：<p>￥@Html.DisplayFor(m => m.CashLeft) </p></td>
                 @if (ViewData.ModelState.IsValid && Model.RequestQuantity>0)
                 { 
                     <td><button type="submit" class="btn btn-primary">报单</button></td>

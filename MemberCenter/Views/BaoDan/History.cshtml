@@ -22,7 +22,7 @@
                         <th>成交数量</th>
                         <th>成交金额</th>
                         <th>均价</th>
-                        <th>状态</th>
+                        <!--<th>状态</th>-->
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +38,7 @@
                         <td>@Html.DisplayFor(modelItem => item.FinalQuantity)</td>
                         <td>￥@Html.DisplayFor(modelItem => item.FinalCash)</td>
                         <td>￥@Html.DisplayFor(modelItem => item.FinalPrice)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                        <!--<td>@Html.DisplayFor(modelItem => item.Status)</td>-->
                     </tr>
                     }
                 </tbody>
@@ -57,7 +57,7 @@
         $('#dataTables-example').DataTable({
             "responsive": true,
             "paging": true,
-            "ordering": false,
+            "ordering": true,
             "info": false,
             "searching": false,
         });

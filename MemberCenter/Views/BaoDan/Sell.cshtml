@@ -1,4 +1,6 @@
-﻿@{
+﻿@model MemberCenter.Models.BaoDanSellViewModel
+
+@{
     
     ViewBag.Title = "LHTY卖出";
 }
@@ -9,31 +11,55 @@
 
     <div class="col-lg-5">
         <div class="well">
-            <form role="form" method="post" action="#">
+            @using (Html.BeginForm("Sell", "BaoDan", FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                if(!ViewData.ModelState.IsValid)
+                { 
+                    <div class="alert alert-danger">
+                        @Html.ValidationSummary()
+                    </div>
+                }
+                if (ViewBag.ActionMessage != null)
+                {
+                    <div class="alert alert-success">
+                        @ViewBag.ActionMessage
+                    </div>
+                }
                 <div class="form-group">
-                    <span class="left">当前价格：1.7</span>
-                    <span class="right">可用LHTY：2000000.00</span>
+                    <span class="left">@Html.DisplayNameFor(m=>m.CurrentPrice)：￥@Html.DisplayFor(m=>m.CurrentPrice)</span>
+                    <span class="right">@Html.DisplayNameFor(m => m.AvailabeAmount)：@Html.DisplayFor(m => m.AvailabeAmount)</span>
                     <br class="clear" />
                 </div>
                 <div class="form-group input-group">
-                    <input class="form-control" placeholder="卖出价格1.7" name="login" maxlength="5">
-                    <span class="input-group-addon">&nbsp;CNY</span>
+                    <input class="form-control" value="@Model.CurrentPrice" disabled>
+                    <span class="input-group-addon">&nbsp;卖出价格</span>
                 </div>
                 <div class="form-group input-group">
-                    <input class="form-control" placeholder="卖出数量" name="login" maxlength="20">
-                    <span class="input-group-addon">LHTY</span>
+                    @Html.TextBoxFor(m => m.RequestAmount, new { @class = "form-control", placeholder = "卖出数量", maxlength = "20", id="CoinAmount"})
+                    <span class="input-group-addon">&nbsp;卖出数量</span>
                 </div>
                 <div class="form-group input-group">
-                    <input class="form-control" placeholder="交易金额" name="login" maxlength="30" disabled>
-                    <span class="input-group-addon">&nbsp;CNY</span>
+                    <input class="form-control" placeholder="交易金额" id="CoinCost" maxlength="30" disabled>
+                    <span class="input-group-addon">&nbsp;交易金额</span>
+                </div>
+                <div class="form-group input-group">
+                    @Html.TextBoxFor(m => m.Fee, new { @class = "form-control", placeholder = "手续费", disabled = "true", maxlength = "30" })
+                    <span class="input-group-addon">&nbsp;手 续 费&nbsp;</span>
+                </div>
+                <div class="form-group input-group">
+                    <input class="form-control" placeholder="总计" id="TotalCost" maxlength="30" disabled style="text-align: right;">
+                    <span class="input-group-addon">&nbsp;总计金额</span>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" placeholder="交易密码" name="password" type="password" maxlength="20">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "交易密码", maxlength = "20" })
                 </div>
                 <button type="submit" class="btn btn-warning btn-block">卖出</button>
-            </form>
+                @Html.HiddenFor(m=>m.CurrentPrice)
+                @Html.HiddenFor(m=>m.AvailabeAmount)
+                @Html.HiddenFor(m=>m.Fee)
+            }
             <!-- /.form -->
-
         </div>
     </div>
     <!-- /.col-lg-6 -->
@@ -46,29 +72,24 @@
                     <tr>
                         <th>卖出时间</th>
                         <th>数量</th>
+                        <th>价格</th>
                         <th>金额</th>
                         <th>手续费</th>
-                        <th>价格</th>
                         <th>状态/操作</th>
                     </tr>
                 </thead>
                 <tbody>
+                @foreach (var item in Model.RecentPendingRequests)
+                {
                     <tr class="odd">
-                        <td>2016-07-19 23:30:00</td>
-                        <td>1000</td>
-                        <td>$17000</td>
-                        <td>0</td>
-                        <td>$1.7</td>
-                        <td>未成交|取消</td>
+                        <td>@Html.DisplayFor(modelItem => item.BaoDanTime)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RequestQuantity)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RequestPrice)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RequestCash)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Fee)</td>
+                        <td>未成交|@Html.ActionLink("取消", "Cancel", new { id = item.Id})</td>
                     </tr>
-                    <tr class="odd">
-                        <td>2016-07-19 23:30:00</td>
-                        <td>1000</td>
-                        <td>$17000</td>
-                        <td>0</td>
-                        <td>$1.7</td>
-                        <td>未成交|取消</td>
-                    </tr>
+                }
                 </tbody>
             </table>
 
@@ -77,3 +98,50 @@
     <!-- /.col-lg-6 -->
 </div>
 <!-- /.row -->
+
+
+<script>
+
+    var maxAmount = @Model.MaxAmount;
+    var price = @Model.CurrentPrice;
+    var fee = @Model.Fee;
+
+    function calculate()
+    {
+        var coinCost = $("#CoinAmount").val() * price;
+        $("#CoinCost").val(coinCost.toFixed(2));
+        $("#TotalCost").val( '￥' + (coinCost + fee).toFixed(2));
+    }
+    
+    $(document).ready(function () {
+
+        $("#CoinAmount").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .190
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+
+        
+        $("#CoinAmount").change(function() {
+            if ($(this).val() > maxAmount)
+            {
+                $(this).val(maxAmount);
+            }
+            calculate();
+        });
+
+        calculate();
+    });
+
+
+</script>

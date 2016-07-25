@@ -24,15 +24,9 @@ namespace MemberCenter.Controllers
         // GET: /BaoDan/Buy
         public ActionResult Buy()
         {
-            var cPrice = db.CoinPrices.OrderByDescending(m => m.DateTime).Take(1);
-            if (cPrice == null || cPrice.Count()==0)
+            if (CurrentUser.Cash1 < Constants.MinBaoDanCashBalance)
             {
-                ModelState.AddModelError("", "当前系统没有足够虚拟币！");
-                return View(new BaoDanBuyViewModel());
-            }
-            if (CurrentUser.Cash1 < Constants.MinCashBalance)
-            {
-                ModelState.AddModelError("", "对不起，您的账户可用资金不足￥" + Constants.MinCashBalance.ToString("0,0.00") + "，请先充值。");
+                ModelState.AddModelError("", "对不起，您的账户可用资金不足￥" + Constants.MinBaoDanCashBalance.ToString("0,0.00") + "，请先充值。");
                 return View(new BaoDanBuyViewModel());
             }
 
@@ -49,14 +43,21 @@ namespace MemberCenter.Controllers
                 try
                 {
                     //Step 0. Prevent hack, do validation
+                    //Force overwrite model to prevent hack
+                    model = CalculateBaoDanBuyModel();
                     if(!CurrentUser.Status.Equals(会员状态.正常.ToString()))
                     {
                         ModelState.AddModelError("", "会员状态异常");
                         return RedirectToAction("Login", "Account");
                     }
-                    if (CurrentUser.Cash1 < model.TotalCostCash)
+                    if (CurrentUser.Cash1 < model.TotalCostCash || CurrentUser.Cash1 < Constants.MinBaoDanCashBalance)
                     {
-                        ModelState.AddModelError("", "报单金额错误");
+                        ModelState.AddModelError("", "账户可用资金不足");
+                        return View(CalculateBaoDanBuyModel());
+                    }
+                    if (model.RequestQuantity <= 0)
+                    {
+                        ModelState.AddModelError("", "报单数量错误");
                         return View(CalculateBaoDanBuyModel());
                     }
 
@@ -96,7 +97,7 @@ namespace MemberCenter.Controllers
                     });
 
                     //Step 2.0 为自己增加积分
-                    decimal points = (model.RequestCash / Constants.MinCashBalance) * Constants.PointsRate;
+                    decimal points = (model.RequestCash / Constants.MinBaoDanCashBalance) * Constants.PointsRate;
                     CurrentUser.Point2 += points;
                     CurrentUser.PointTransaction.Add(new PointTransaction
                     {
@@ -145,7 +146,66 @@ namespace MemberCenter.Controllers
         // GET: /BaoDan/Sell
         public ActionResult Sell()
         {
-            return View();
+            return View(GetBaoDanSellModel());
+        }
+
+        // POST: /BaoDan/Sell
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Sell(BaoDanSellViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.RequestAmount > CurrentUser.Coin1 || model.RequestAmount <= 0)
+                {
+                    ModelState.AddModelError("", "报单数量错误 - " + model.RequestAmount);
+                }
+                else if (!CurrentUser.Password2.Equals(model.Password))
+                {
+                    ModelState.AddModelError("", "交易密码错误");
+                }
+                else
+                {
+                    //Step 增加报单记录
+                    CurrentUser.BaoDanTransaction.Add(new BaoDanTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Amount = model.RequestAmount,
+                        Price = CurrentCoinPrice.Price,
+                        Fee = Constants.BaoDanSellFee,
+                        Status = 报单状态.未成交.ToString(),
+                        Type = 报单类型.卖出.ToString(),
+                    });
+
+                    //Step 减少Coin1 
+                    CurrentUser.Coin1 -= model.RequestAmount;
+                    db.SaveChanges();
+                    ViewBag.ActionMessage = "报单成功！";
+
+                    //NOTE: Admin后台操作， (1)审核通过BaoDanTransaction记录, (2)增加CashTransaction记录, (3)更新Member.Cash2 
+                }
+            }
+
+            return View(GetBaoDanSellModel());
+        }
+
+        //
+        // GET: /BaoDan/Cancel/123
+        public ActionResult Cancel(int id)
+        {
+            BaoDanTransaction mBaoDan = CurrentUser.BaoDanTransaction.SingleOrDefault(m => m.Id == id);
+            if (mBaoDan!=null)
+            {
+                mBaoDan.Status = 报单状态.用户已取消.ToString();
+                CurrentUser.Coin1 += mBaoDan.Amount;
+                db.SaveChanges();
+            }
+            else
+            {
+                ModelState.AddModelError("", "找不到该报单记录！");
+            }
+            
+            return RedirectToAction("Sell", "BaoDan");
         }
 
         //
@@ -174,21 +234,24 @@ namespace MemberCenter.Controllers
         // GET: /BaoDan/History
         public ActionResult History()
         {
+            String status = 报单状态.已成交.ToString();
             IEnumerable<BaoDanHistoryViewModel> model = from row in CurrentUser.BaoDanTransaction
-                                                      orderby row.DateTime
-                                                      select new BaoDanHistoryViewModel
-                                                      {
-                                                          Type = row.Type,
-                                                          Status = row.Status,
-                                                          BaoDanTime = row.DateTime,
-                                                          Fee = row.Fee,
-                                                          RequestQuantity = row.Amount,
-                                                          RequestPrice = row.Price,
-                                                          RequestCash = row.Amount * row.Price,
-                                                          FinalQuantity = row.Amount,
-                                                          FinalCash = row.Amount * row.Price + row.Fee,
-                                                          FinalPrice = (row.Amount * row.Price + row.Fee) / row.Amount,
-                                                      };
+                                                        where row.Status.Equals(status)
+                                                        orderby row.DateTime descending
+                                                        select new BaoDanHistoryViewModel
+                                                        {
+                                                            Id = row.Id,
+                                                            Type = row.Type,
+                                                            Status = row.Status,
+                                                            BaoDanTime = row.DateTime,
+                                                            Fee = row.Fee,
+                                                            RequestQuantity = row.Amount,
+                                                            RequestPrice = row.Price,
+                                                            RequestCash = row.Amount * row.Price,
+                                                            FinalQuantity = row.Amount,
+                                                            FinalCash = row.Amount * row.Price + row.Fee,
+                                                            FinalPrice = (row.Amount * row.Price + row.Fee) / row.Amount,
+                                                        };
             return View(model);
         }
 
@@ -202,15 +265,14 @@ namespace MemberCenter.Controllers
         /// <returns></returns>
         private BaoDanBuyViewModel CalculateBaoDanBuyModel()
         {
-            CoinPrice cPrice = db.CoinPrices.OrderByDescending(m => m.DateTime).Take(1).ToArray()[0];
-            decimal coinCash = Math.Floor(CurrentUser.Cash1 / Constants.MinCashBalance) * Constants.MinCashBalance;
-            decimal price = cPrice.Price;
+            decimal coinCash = Math.Floor(CurrentUser.Cash1 / Constants.MinBaoDanCashBalance) * Constants.MinBaoDanCashBalance;
+            decimal price = CurrentCoinPrice.Price;
             decimal qty = coinCash / price;
 
             BaoDanBuyViewModel model = new BaoDanBuyViewModel
             {
-                CurrentCoinPrice = cPrice.Price,
-                RequestPrice = cPrice.Price,
+                CurrentCoinPrice = CurrentCoinPrice.Price,
+                RequestPrice = CurrentCoinPrice.Price,
                 AvailableCash = CurrentUser.Cash1,
                 RequestQuantity = qty,
                 RequestCash = coinCash,
@@ -218,6 +280,39 @@ namespace MemberCenter.Controllers
                 TotalCostCash = coinCash + Constants.BaoDanBuyFee,
                 CashLeft = CurrentUser.Cash1 - coinCash - Constants.BaoDanBuyFee,
             };
+            return model;
+        }
+
+
+        private BaoDanSellViewModel GetBaoDanSellModel()
+        {
+            BaoDanSellViewModel model = new BaoDanSellViewModel
+            {
+                CurrentPrice = CurrentCoinPrice.Price,
+                AvailabeAmount = CurrentUser.Coin1,
+                RequestAmount = 0,
+                Fee = Constants.BaoDanSellFee,
+            };
+
+            String status = 报单状态.未成交.ToString();
+            String type = 报单类型.卖出.ToString();
+            model.RecentPendingRequests = from row in CurrentUser.BaoDanTransaction
+                                                        where row.Status.Equals(status) && row.Type.Equals(type)
+                                                        orderby row.DateTime descending
+                                                        select new BaoDanHistoryViewModel
+                                                        {
+                                                            Id = row.Id,
+                                                            Type = row.Type,
+                                                            Status = row.Status,
+                                                            BaoDanTime = row.DateTime,
+                                                            Fee = row.Fee,
+                                                            RequestQuantity = row.Amount,
+                                                            RequestPrice = row.Price,
+                                                            RequestCash = row.Amount * row.Price,
+                                                            FinalQuantity = row.Amount,
+                                                            FinalCash = row.Amount * row.Price + row.Fee,
+                                                            FinalPrice = (row.Amount * row.Price + row.Fee) / row.Amount,
+                                                        };
             return model;
         }
 

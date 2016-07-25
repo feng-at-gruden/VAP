@@ -11,27 +11,27 @@
         </div>
         <div class="panel-body">
 
-            <table class="table table-hover">
+            <table class="table">
                 <caption> </caption>
                 <tr>
-                    <td>可用奖金积分：<p class="available-qty"><em><b>@Model.AvailableCash.ToString("0,0.00")</b></em></p></td>
-                    <td>冻结：<em>@Model.LockedCash.ToString("0,0.00")</em></td>
-                    <td>总量：<em>@Model.TotalCash.ToString("0,0.00")</em></td>
+                    <td>可用现金：<p class="available-qty"><em><b>￥@Html.DisplayFor(m => m.AvailableCash)</b></em></p></td>
+                    <td>冻结：<em>￥@Html.DisplayFor(m => m.LockedCash)</em></td>
+                    <td>总量：<em>￥@Html.DisplayFor(m => m.TotalCash)</em></td>
                 </tr>
                 <tr>
-                    <td>可用兑换积分：<p class="available-qty"><em><b>@Model.AvailablePoints.ToString("0,0.00")</b></em></p></td>
-                    <td>冻结：<em>@Model.LockedPoints.ToString("0,0.00")</em></td>
-                    <td>总量：<em>@Model.TotalPoints.ToString("0,0.00")</em></td>
+                    <td>可用积分：<p class="available-qty"><em><b>@Html.DisplayFor(m => m.AvailablePoints)</b></em></p></td>
+                    <td>冻结：<em>@Html.DisplayFor(m => m.LockedPoints)</em></td>
+                    <td>总量：<em>@Html.DisplayFor(m => m.TotalPoints)</em></td>
                 </tr>
                 <tr>
-                    <td>可用重消：<p class="available-qty"><em><b>@Model.AvailableChongXiao.ToString("0,0.00")</b></em></p></td>
-                    <td>冻结：<em>@Model.LockedChongXiao.ToString("0,0.00")</em></td>
-                    <td>总量：<em>@Model.TotalChongXiao.ToString("0,0.00")</em></td>
+                    <td>可用重消：<p class="available-qty"><em><b>￥@Html.DisplayFor(m => m.AvailableChongXiao)</b></em></p></td>
+                    <td>冻结：<em>￥@Html.DisplayFor(m => m.LockedChongXiao)</em></td>
+                    <td>总量：<em>￥@Html.DisplayFor(m => m.TotalChongXiao)</em></td>
                 </tr>
                 <tr>
-                    <td>可用LHTY：<p class="available-qty"><em><b>@Model.AvailableCoin.ToString("0,0.00000000")</em></b></p></td>
-                    <td>冻结：<em>@Model.LockedCoin.ToString("0,0.00000000")</em></td>
-                    <td>总量：<em>@Model.TotalCoin.ToString("0,0.00000000")</em></td>
+                    <td>可用LHTY：<p class="available-qty"><em><b>@Html.DisplayFor(m => m.AvailableCoin)</em></b></p></td>
+                    <td>冻结：<em>@Html.DisplayFor(m => m.LockedCoin)</em></td>
+                    <td>总量：<em>@Html.DisplayFor(m => m.TotalCoin)</em></td>
                 </tr>
             </table>
             <!-- /.Table -->

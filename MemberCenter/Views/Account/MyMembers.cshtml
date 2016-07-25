@@ -19,7 +19,7 @@
                         <th>@Html.DisplayNameFor(model => model.UserName)</th>
                         <th>@Html.DisplayNameFor(model => model.Email)</th>
                         <th>@Html.DisplayNameFor(model => model.Level)</th>
-                        <th>@Html.DisplayNameFor(model => model.Archievement)</th>
+                        <th>@Html.DisplayNameFor(model => model.Achievement)</th>
                         <th>@Html.DisplayNameFor(model => model.RegisterTime)</th>
                     </tr>
                 </thead>
@@ -29,7 +29,7 @@
                         <td>@Html.DisplayFor(modelItem => item.UserName)</td>
                         <td>@Html.DisplayFor(modelItem => item.Email)</td>
                         <td>@Html.DisplayFor(modelItem => item.Level)</td>
-                        <td class="center">@Html.DisplayFor(modelItem => item.Archievement.ToString("0,0.00"))</td>
+                        <td class="center">@Html.DisplayFor(modelItem => item.Achievement)</td>
                         <td class="center">@Html.DisplayFor(modelItem => item.RegisterTime)</td>
                     </tr>
                 }

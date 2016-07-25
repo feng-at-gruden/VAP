@@ -18,13 +18,15 @@ namespace VapLib
         public static readonly string[] MetaType = Enum.GetNames(typeof(现金交易类型));
         public static readonly string[] NewsType = Enum.GetNames(typeof(新闻类型));
 
-        public const int MinCashBalance = 10000;         //最小报单金额
-        public const int PointsRate = 1500;              //购币每消费10000现金 增长点数1500
-        public const decimal BaoDanBuyFee = 5;           //报单 买入 手续费  后需定义在数据库中  
-        public const decimal BaoDanSellFee = 100;        //报单 售出 手续费  后需定义在数据库中  比率还是固定金额 待定
-        public const decimal PV = 0.6m;                  //返利PV值 后需定义在数据库中     上线返利 = 下线消费金额 x 上线等级返利比例 × PV × 85%
-        public const decimal ChongXiaoRate = 0.15m;      //重消所占比例 后需定义在数据库中  上线重消 = 下线消费金额 x 上线等级返利比例 × PV × 15%
-
+        public const decimal MinBaoDanCashBalance = 10000m;       //最小报单金额
+        public const decimal PointsRate = 1500m;            //购币每消费10000现金 增长点数1500
+        public const decimal PV = 0.6m;                     //返利PV值 后需定义在数据库中     上线返利 = 下线消费金额 x 上线等级返利比例 × PV × 90%
+        public const decimal ChongXiaoRate = 0.1m;          //重消所占比例 后需定义在数据库中  上线重消 = 下线消费金额 x 上线等级返利比例 × PV × 10%
+        public const decimal BaoDanBuyFee = 0m;             //报单 买入 手续费  后需定义在数据库中  
+        public const decimal BaoDanSellFee = 10m;            //报单 售出 手续费  后需定义在数据库中  比率还是固定金额 待定
+        public const decimal CashTopupFee = 0m;             //资金充值手续费
+        public const decimal CashWithdrawFee = 30m;         //资金提现手续费
+        
 
     }
     
@@ -78,6 +80,7 @@ namespace VapLib
     {
         未成交 = 0,
         已成交 = 1,        //只有出售电子币需要审核
+        用户已取消 = 2,
     }
 
 

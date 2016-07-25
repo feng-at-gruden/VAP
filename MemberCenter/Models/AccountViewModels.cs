@@ -57,20 +57,40 @@ namespace MemberCenter.Models
 
     public class MyAssetViewModel
     {
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal AvailableCash { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal LockedCash { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalCash { get { return AvailableCash + LockedCash; } }
 
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal AvailablePoints { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal LockedPoints { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalPoints { get { return AvailablePoints + LockedPoints; } }
 
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal AvailableChongXiao { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal LockedChongXiao { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalChongXiao { get { return AvailableChongXiao + LockedChongXiao; } }
 
+        [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal AvailableCoin { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal LockedCoin { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal TotalCoin { get { return AvailableCoin + LockedCoin; } }
     }
 
@@ -85,8 +105,9 @@ namespace MemberCenter.Models
         [Display(Name = "等级")]
         public string Level { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         [Display(Name = "总业绩")]
-        public decimal Archievement { get; set; }
+        public decimal Achievement { get; set; }
 
         [Display(Name = "注册日期")]
         public DateTime RegisterTime { get; set; }
@@ -103,16 +124,31 @@ namespace MemberCenter.Models
         [Required(ErrorMessage = "请输入{0}")]
         [Display(Name = "真实姓名")]
         public string RealName { get; set; }
+
         public string Email { get; set; }
+
         public DateTime RegisterTime { get; set; }
+
         public DateTime LastLoginTime { get; set; }
+
         public string LastLoginIP { get; set; }
+
         public string Level { get; set; }
-        public decimal Archievement { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal Achievement { get; set; }
+
         public int MyMember { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal MyCash { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal MyPoints { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal MyCoins { get; set; }
+
         public string MyLink { get; set; }
     }
 
@@ -142,7 +178,6 @@ namespace MemberCenter.Models
         public string OldPassword { get; set; }
 
         public string Type { get; set; }
-
     }
 
 }

@@ -94,6 +94,12 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(!model.AcceptTerm)
+                {
+                    ModelState.AddModelError("", "请阅读并同意用户协议!");
+                    return View(model);
+                }
+
                 if (db.Members.Count(m => m.Email.Equals(model.Email, StringComparison.InvariantCultureIgnoreCase)) > 0)
                 {
                     ModelState.AddModelError("", "邮箱已被注册!");
@@ -195,7 +201,7 @@ namespace MemberCenter.Controllers
                                              Email = row.Email,
                                              UserName = row.UserName,
                                              RegisterTime = row.RegisterTime,
-                                             Archievement = row.Achievement,
+                                             Achievement = row.Achievement,
                                              Level = row.MemberLevel.Level,
                                          };
             return View(members);
@@ -217,7 +223,7 @@ namespace MemberCenter.Controllers
                 MyCoins = CurrentUser.Coin1 + CurrentUser.Coin2,
                 MyPoints = CurrentUser.Point1 + CurrentUser.Point2,
                 MyMember = CurrentUser.MyMembers.Count(),
-                Archievement = CurrentUser.Achievement,
+                Achievement = CurrentUser.Achievement,
                 RegisterTime = CurrentUser.RegisterTime,
                 LastLoginIP = iplog.IP,
                 LastLoginTime = iplog.DateTime,

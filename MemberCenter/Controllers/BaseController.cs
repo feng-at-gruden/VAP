@@ -22,6 +22,19 @@ namespace MemberCenter.Controllers
             }
         }
 
+        protected CoinPrice CurrentCoinPrice
+        {
+            get
+            {
+                var price = db.CoinPrices.OrderByDescending(m => m.DateTime).Take(1);
+                if (price == null || price.Count() == 0)
+                {
+                    throw new HttpException(500, "当前没有足够虚拟币");
+                }
+                return price.ToArray()[0];
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && db != null)
