@@ -179,7 +179,7 @@ namespace MemberCenter.Controllers
                     //Step 减少Coin1 
                     CurrentUser.Coin1 -= model.RequestAmount;
                     db.SaveChanges();
-                    ViewBag.ActionMessage = "报单成功！";
+                    ViewBag.ActionMessage = "报单已提交，等待审核！";
 
                     //NOTE: Admin后台操作， (1)审核通过BaoDanTransaction记录, (2)增加CashTransaction记录, (3)更新Member.Cash2 
                 }

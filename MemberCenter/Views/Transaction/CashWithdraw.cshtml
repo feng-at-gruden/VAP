@@ -53,6 +53,7 @@
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "交易密码", maxlength = "20" })
                     </div>
                     <button type="submit" class="btn btn-warning btn-block">确定提现</button>
+                    @Html.HiddenFor(m=>m.BankInfoId)
 
                 }
                 <!-- /.form -->

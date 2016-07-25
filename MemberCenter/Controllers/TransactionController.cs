@@ -50,7 +50,48 @@ namespace MemberCenter.Controllers
             return View(GetCashWithdrawViewMode());
         }
 
-
+        //
+        // POST: /Transaction/CashWithdraw
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CashWithdraw(CashWithdrawViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.RequestAmount > CurrentUser.Cash1 || model.RequestAmount < Constants.CashWithdrawMin || model.RequestAmount > Constants.CashWithdrawMax)
+                {
+                    ModelState.AddModelError("", "提现金额有误(" + model.RequestAmount + ")");
+                }
+                else if (model.BankInfoId==0 && false)       //TODO
+                {
+                    ModelState.AddModelError("", "还没有设置提现银行帐号信息");
+                }
+                else if (!CurrentUser.Password2.Equals(model.Password))
+                {
+                    ModelState.AddModelError("", "交易密码错误");
+                }
+                else
+                { 
+                    //增加CashTransaction记录
+                    CurrentUser.CashTransaction.Add(new CashTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Type = 现金交易类型.提现.ToString(),
+                        Status = 现金状态.待审核.ToString(),
+                        Amount = -model.RequestAmount,
+                        Fee = Constants.CashWithdrawFee,
+                        Bank = "a bank",
+                        BankAccount = "XXXX",
+                        BankName = "AAAA",
+                    });
+                    //修改自己Cash1 数值
+                    CurrentUser.Cash1 -= model.RequestAmount;
+                    db.SaveChanges();
+                    ViewBag.ActionMessage = "提现申请已提交，等待审核！";
+                }
+            }
+            return View(GetCashWithdrawViewMode());
+        }
 
         //
         // GET: /Transaction/History
