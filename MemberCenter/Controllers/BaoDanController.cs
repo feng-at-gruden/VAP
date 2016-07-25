@@ -24,10 +24,9 @@ namespace MemberCenter.Controllers
         // GET: /BaoDan/Buy
         public ActionResult Buy()
         {
-            if (CurrentUser.Cash1 < Constants.MinBaoDanCashBalance)
+            if (CurrentUser.Cash1 < Constants.MinBaoDanCashBalance + Constants.BaoDanBuyFee)
             {
-                ModelState.AddModelError("", "对不起，您的账户可用资金不足￥" + Constants.MinBaoDanCashBalance.ToString("0,0.00") + "，请先充值。");
-                return View(new BaoDanBuyViewModel());
+                ModelState.AddModelError("", "对不起，您的账户可用资金不足￥" + (Constants.MinBaoDanCashBalance + Constants.BaoDanBuyFee).ToString("0,0.00") + "，请先充值。");
             }
 
             return View(CalculateBaoDanBuyModel());
@@ -265,7 +264,7 @@ namespace MemberCenter.Controllers
         /// <returns></returns>
         private BaoDanBuyViewModel CalculateBaoDanBuyModel()
         {
-            decimal coinCash = Math.Floor(CurrentUser.Cash1 / Constants.MinBaoDanCashBalance) * Constants.MinBaoDanCashBalance;
+            decimal coinCash = Math.Floor((CurrentUser.Cash1 - Constants.BaoDanBuyFee) / Constants.MinBaoDanCashBalance) * Constants.MinBaoDanCashBalance;
             decimal price = CurrentCoinPrice.Price;
             decimal qty = coinCash / price;
 
