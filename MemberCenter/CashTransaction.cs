@@ -22,10 +22,11 @@ namespace MemberCenter
         public string Type { get; set; }
         public string Status { get; set; }
         public Nullable<int> BaoDanTransactionId { get; set; }
+        public string Bank { get; set; }
+        public string BankName { get; set; }
+        public string BankAccount { get; set; }
     
         public virtual Member Member { get; set; }
-        public virtual PaymentMethod PaymentMethod { get; set; }
-        public virtual BankInfo BankInfo { get; set; }
         public virtual BaoDanTransaction BaoDanTransaction { get; set; }
     }
 }

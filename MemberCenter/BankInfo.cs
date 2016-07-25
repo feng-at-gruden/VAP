@@ -14,18 +14,15 @@ namespace MemberCenter
     
     public partial class BankInfo
     {
-        public BankInfo()
-        {
-            this.CashTransaction = new HashSet<CashTransaction>();
-        }
-    
         public int Id { get; set; }
         public string Bank { get; set; }
+        public string Name { get; set; }
         public string Account { get; set; }
         public string Description { get; set; }
         public Nullable<int> MemberId { get; set; }
+        public string URL { get; set; }
+        public string Type { get; set; }
     
         public virtual Member Member { get; set; }
-        public virtual ICollection<CashTransaction> CashTransaction { get; set; }
     }
 }

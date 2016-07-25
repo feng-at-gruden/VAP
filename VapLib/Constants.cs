@@ -28,7 +28,8 @@ namespace VapLib
         public const decimal BaoDanSellFee = 10m;           //报单 售出 手续费  后需定义在数据库中  比率还是固定金额 待定
         public const decimal CashTopupFee = 0m;             //资金充值手续费
         public const decimal CashWithdrawFee = 30m;         //资金提现手续费
-        
+        public const decimal CashWithdrawMax = 5000m;       //资金提现每笔最大额度
+        public const decimal CashWithdrawMin = 100m;        //资金提现每笔最小额度
 
     }
     
@@ -42,6 +43,7 @@ namespace VapLib
         公告,
         其他
     }
+
     public enum 会员状态
     {
         待审核 = 0,
@@ -52,7 +54,7 @@ namespace VapLib
     public enum 现金状态
     {
         待审核 = 0,
-        可用 = 1,
+        可用 = 1,     //审核通过后为可用状态，  可表示为 提现审核通过， 充值审核通过， 返利及售币冻结资金记录解冻 
         冻结 = 2,     //只给售币情况使用
     }
 
@@ -65,12 +67,13 @@ namespace VapLib
         售币所得 = 5,     //冻结现金增加  审核通过后 Member.Cash2增加
     }
 
-
+    /*
     public enum 货币状态
     {
         冻结 = 0,
         可用 = 1,
     }
+    */
 
     public enum 报单类型
     {
@@ -106,6 +109,7 @@ namespace VapLib
         下线返利重消 = 1,
         消费 = 2,
     }
+
     public enum 重消状态
     {
         冻结 = 0,
@@ -132,6 +136,12 @@ namespace VapLib
         七钻 = 14,
     }
 
+
+    public enum 银行账户信息类型
+    {
+        系统账户 = 0,
+        会员账户 = 1,
+    }
 
 
 }

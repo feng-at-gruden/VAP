@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MemberCenter;
 using MemberCenter.Models;
+using VapLib;
 
 namespace MemberCenter.Controllers
 {
@@ -19,16 +20,8 @@ namespace MemberCenter.Controllers
         // GET: /Transaction/CashTopup
         public ActionResult CashTopup()
         {
-            IQueryable<PaymentMethodViewModel> paymentMethods = from row in db.PaymentMethods
-                                 select new PaymentMethodViewModel
-                                 {
-                                     Account = row.Account,
-                                     Bank = row.Bank,
-                                     Description = row.Description,
-                                 };
-
+            
             CashTopupViewModel model = new CashTopupViewModel {
-                PaymentMethods = paymentMethods.ToList(),
             };
             return View(model);
         }
@@ -54,8 +47,7 @@ namespace MemberCenter.Controllers
         // GET: /Transaction/CashWithdraw
         public ActionResult CashWithdraw()
         {
-            //TODO
-            return View();
+            return View(GetCashWithdrawViewMode());
         }
 
 
@@ -65,7 +57,7 @@ namespace MemberCenter.Controllers
         public ActionResult History()
         {
             IEnumerable<CashTransactionViewModel> model = from row in CurrentUser.CashTransaction
-                                                        orderby row.DateTime
+                                                            orderby row.DateTime descending
                                                           select new CashTransactionViewModel
                                                         {
                                                             Type = row.Type,
@@ -77,14 +69,41 @@ namespace MemberCenter.Controllers
                                                         };
             return View(model);
         }
+       
 
-        protected override void Dispose(bool disposing)
+        #region Private Methods
+
+        private CashWithdrawViewModel GetCashWithdrawViewMode()
         {
-            if (disposing)
+            BankInfo mBankInfo = CurrentUser.BankInfo.OrderByDescending(m => m.Id).SingleOrDefault();
+            int bankInfoId = mBankInfo == null ? 0 : mBankInfo.Id;
+            CashWithdrawViewModel model = new CashWithdrawViewModel
             {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+                RequestAmount = 0,      //TODO
+                AvailableAmount = CurrentUser.Cash1,
+                BankInfoId = bankInfoId,
+                MaxWithdrawAmount = Constants.CashWithdrawMax,
+                MinWithdrawAmount = Constants.CashWithdrawMin,
+                Fee = Constants.CashWithdrawFee,
+            };
+
+            String type = 现金交易类型.提现.ToString();
+            String statusDone = 现金状态.可用.ToString();
+            model.WithdrawHistory = from row in CurrentUser.CashTransaction
+                                          where row.Type.Equals(type)
+                                          orderby row.DateTime descending
+                                          select new CashWithdrawHistoryViewModel
+                                          {
+                                              Status = statusDone.Equals(row.Status)? "已处理": "未处理",
+                                              WithdrawTime = row.DateTime,
+                                              Fee = row.Fee,
+                                              Amount = row.Amount,
+                                              Bank = row.Bank,
+                                              BankAccount = row.BankAccount,
+                                          };
+            return model;
         }
+
+        #endregion
     }
 }

@@ -219,9 +219,6 @@
     <Compile Include="News.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="PaymentMethod.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="PointTransaction.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

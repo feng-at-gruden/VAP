@@ -9,30 +9,27 @@
         <EntityTypeShape EntityType="Model1.CashTransaction" Width="1.5" PointX="2.625" PointY="0.5" />
         <AssociationConnector Association="Model1.MemberCashTransaction" />
         <EntityTypeShape EntityType="Model1.PointTransaction" Width="1.5" PointX="2.625" PointY="8.75" />
-        <EntityTypeShape EntityType="Model1.PaymentMethod" Width="1.5" PointX="4.875" PointY="0.5" />
         <AssociationConnector Association="Model1.MemberPointTransaction" />
         <AssociationConnector Association="Model1.MemberMember" />
         <EntityTypeShape EntityType="Model1.BaoDanTransaction" Width="1.5" PointX="2.625" PointY="4.5" />
         <EntityTypeShape EntityType="Model1.ChongXiaoTransaction" Width="1.5" PointX="4.875" PointY="9.25" />
         <AssociationConnector Association="Model1.MemberBaoDanTransaction" />
         <AssociationConnector Association="Model1.MemberChongXiaoTransaction" />
-        <AssociationConnector Association="Model1.PaymentMethodCashTransaction" />
         <EntityTypeShape EntityType="Model1.CoinPrice" Width="1.5" PointX="7" PointY="0.5" />
         <EntityTypeShape EntityType="Model1.SystemSetting" Width="1.5" PointX="8.875" PointY="0.5" />
         <EntityTypeShape EntityType="Model1.MemberLevel" Width="1.5" PointX="0.5" PointY="0.5" />
         <EntityTypeShape EntityType="Model1.LockedCoin" Width="1.5" PointX="4.875" PointY="5.375" />
         <AssociationConnector Association="Model1.MemberLockedCoin" />
-        <EntityTypeShape EntityType="Model1.BankInfo" Width="1.5" PointX="4.875" PointY="2.875" />
-        <AssociationConnector Association="Model1.MemberBankInfo" />
+        <EntityTypeShape EntityType="Model1.BankInfo" Width="1.5" PointX="4.75" PointY="0.5" />
         <EntityTypeShape EntityType="Model1.News" Width="1.5" PointX="7" PointY="2.5" />
         <EntityTypeShape EntityType="Model1.IPLog" Width="1.5" PointX="0.5" PointY="11" />
         <AssociationConnector Association="Model1.MemberIPLog" />
         <AssociationConnector Association="Model1.MemberMemberLevel" />
-        <AssociationConnector Association="Model1.BankInfoCashTransaction" />
         <AssociationConnector Association="Model1.BaoDanTransactionChongXiaoTransaction" />
         <AssociationConnector Association="Model1.BaoDanTransactionCashTransaction" />
         <AssociationConnector Association="Model1.BaoDanTransactionPointTransaction" />
         <AssociationConnector Association="Model1.BaoDanTransactionLockedCoin" />
+        <AssociationConnector Association="Model1.MemberBankInfo" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
