@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VapModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VapModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -79,10 +79,6 @@
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="Fee" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="PointTransaction_Id" Type="int" />
-          <Property Name="ChongXiaoTransaction_Id" Type="int" />
-          <Property Name="CashTransaction_Id" Type="int" Nullable="false" />
-          <Property Name="LockedCoin_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CashTransactions">
           <Key>
@@ -95,6 +91,7 @@
           <Property Name="DateTime" Type="datetime" Nullable="false" />
           <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="BaoDanTransactionId" Type="int" />
           <Property Name="PaymentMethod_Id" Type="int" />
           <Property Name="BankInfo_Id" Type="int" />
         </EntityType>
@@ -108,6 +105,7 @@
           <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="BaoDanTransactionId" Type="int" />
         </EntityType>
         <EntityType Name="CoinPrices">
           <Key>
@@ -139,6 +137,7 @@
           <Property Name="LockedAmount" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="AvailabeAmount" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="MemberId" Type="int" Nullable="false" />
+          <Property Name="BaoDanTransaction_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="MemberLevel">
           <Key>
@@ -148,8 +147,8 @@
           <Property Name="Level" Type="nvarchar(max)" Nullable="false" />
           <Property Name="RefundRate" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="MemberCount" Type="int" Nullable="false" />
-          <Property Name="MemberArchievement" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Archievement" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MemberAchievement" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Achievement" Type="decimal" Precision="18" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Members">
           <Key>
@@ -212,6 +211,7 @@
           <Property Name="DateTime" Type="datetime" Nullable="false" />
           <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="BaoDanTransactionId" Type="int" />
         </EntityType>
         <EntityType Name="SystemSettings">
           <Key>
@@ -233,39 +233,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BaoDanTransactionCashTransaction">
+          <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="0..1" />
+          <End Role="CashTransactions" Type="Self.CashTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaoDanTransactions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CashTransactions">
+              <PropertyRef Name="BaoDanTransactionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BaoDanTransactionChongXiaoTransaction">
+          <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="0..1" />
+          <End Role="ChongXiaoTransactions" Type="Self.ChongXiaoTransactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaoDanTransactions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChongXiaoTransactions">
+              <PropertyRef Name="BaoDanTransactionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BaoDanTransactionLockedCoin">
-          <End Role="LockedCoins" Type="Self.LockedCoins" Multiplicity="1" />
-          <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="*" />
+          <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="1" />
+          <End Role="LockedCoins" Type="Self.LockedCoins" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="LockedCoins">
+            <Principal Role="BaoDanTransactions">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="BaoDanTransactions">
-              <PropertyRef Name="LockedCoin_Id" />
+            <Dependent Role="LockedCoins">
+              <PropertyRef Name="BaoDanTransaction_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CashTransactionBaoDanTransaction">
-          <End Role="CashTransactions" Type="Self.CashTransactions" Multiplicity="1" />
-          <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="*" />
+        <Association Name="FK_BaoDanTransactionPointTransaction">
+          <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="0..1" />
+          <End Role="PointTransactions" Type="Self.PointTransactions" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="CashTransactions">
+            <Principal Role="BaoDanTransactions">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="BaoDanTransactions">
-              <PropertyRef Name="CashTransaction_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChongXiaoTransactionBaoDanTransaction">
-          <End Role="ChongXiaoTransactions" Type="Self.ChongXiaoTransactions" Multiplicity="0..1" />
-          <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ChongXiaoTransactions">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="BaoDanTransactions">
-              <PropertyRef Name="ChongXiaoTransaction_Id" />
+            <Dependent Role="PointTransactions">
+              <PropertyRef Name="BaoDanTransactionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -445,18 +457,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PointTransactionBaoDanTransaction">
-          <End Role="PointTransactions" Type="Self.PointTransactions" Multiplicity="0..1" />
-          <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PointTransactions">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="BaoDanTransactions">
-              <PropertyRef Name="PointTransaction_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="VapModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -480,17 +480,21 @@
             <End Role="BankInfos" EntitySet="BankInfos" />
             <End Role="CashTransactions" EntitySet="CashTransactions" />
           </AssociationSet>
-          <AssociationSet Name="FK_BaoDanTransactionLockedCoin" Association="Self.FK_BaoDanTransactionLockedCoin">
-            <End Role="LockedCoins" EntitySet="LockedCoins" />
+          <AssociationSet Name="FK_BaoDanTransactionCashTransaction" Association="Self.FK_BaoDanTransactionCashTransaction">
             <End Role="BaoDanTransactions" EntitySet="BaoDanTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CashTransactionBaoDanTransaction" Association="Self.FK_CashTransactionBaoDanTransaction">
             <End Role="CashTransactions" EntitySet="CashTransactions" />
-            <End Role="BaoDanTransactions" EntitySet="BaoDanTransactions" />
           </AssociationSet>
-          <AssociationSet Name="FK_ChongXiaoTransactionBaoDanTransaction" Association="Self.FK_ChongXiaoTransactionBaoDanTransaction">
-            <End Role="ChongXiaoTransactions" EntitySet="ChongXiaoTransactions" />
+          <AssociationSet Name="FK_BaoDanTransactionChongXiaoTransaction" Association="Self.FK_BaoDanTransactionChongXiaoTransaction">
             <End Role="BaoDanTransactions" EntitySet="BaoDanTransactions" />
+            <End Role="ChongXiaoTransactions" EntitySet="ChongXiaoTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaoDanTransactionLockedCoin" Association="Self.FK_BaoDanTransactionLockedCoin">
+            <End Role="BaoDanTransactions" EntitySet="BaoDanTransactions" />
+            <End Role="LockedCoins" EntitySet="LockedCoins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaoDanTransactionPointTransaction" Association="Self.FK_BaoDanTransactionPointTransaction">
+            <End Role="BaoDanTransactions" EntitySet="BaoDanTransactions" />
+            <End Role="PointTransactions" EntitySet="PointTransactions" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -548,10 +552,6 @@
             <End Role="PaymentMethods" EntitySet="PaymentMethods" />
             <End Role="CashTransactions" EntitySet="CashTransactions" />
           </AssociationSet>
-          <AssociationSet Name="FK_PointTransactionBaoDanTransaction" Association="Self.FK_PointTransactionBaoDanTransaction">
-            <End Role="PointTransactions" EntitySet="PointTransactions" />
-            <End Role="BaoDanTransactions" EntitySet="BaoDanTransactions" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -595,24 +595,24 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="BankInfo" EntitySet="BankInfos" />
           </AssociationSet>
-          <AssociationSet Name="FK_BaoDanTransactionLockedCoin" Association="VapModel.FK_BaoDanTransactionLockedCoin">
-            <End Role="LockedCoin" EntitySet="LockedCoins" />
+          <AssociationSet Name="FK_BaoDanTransactionCashTransaction" Association="VapModel.FK_BaoDanTransactionCashTransaction">
             <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CashTransactionBaoDanTransaction" Association="VapModel.FK_CashTransactionBaoDanTransaction">
             <End Role="CashTransaction" EntitySet="CashTransactions" />
-            <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
           </AssociationSet>
-          <AssociationSet Name="FK_ChongXiaoTransactionBaoDanTransaction" Association="VapModel.FK_ChongXiaoTransactionBaoDanTransaction">
-            <End Role="ChongXiaoTransaction" EntitySet="ChongXiaoTransactions" />
+          <AssociationSet Name="FK_BaoDanTransactionChongXiaoTransaction" Association="VapModel.FK_BaoDanTransactionChongXiaoTransaction">
             <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
+            <End Role="ChongXiaoTransaction" EntitySet="ChongXiaoTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaoDanTransactionLockedCoin" Association="VapModel.FK_BaoDanTransactionLockedCoin">
+            <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
+            <End Role="LockedCoin" EntitySet="LockedCoins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaoDanTransactionPointTransaction" Association="VapModel.FK_BaoDanTransactionPointTransaction">
+            <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
+            <End Role="PointTransaction" EntitySet="PointTransactions" />
           </AssociationSet>
           <AssociationSet Name="FK_MemberBaoDanTransaction" Association="VapModel.FK_MemberBaoDanTransaction">
             <End Role="Member" EntitySet="Members" />
-            <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PointTransactionBaoDanTransaction" Association="VapModel.FK_PointTransactionBaoDanTransaction">
-            <End Role="PointTransaction" EntitySet="PointTransactions" />
             <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
           </AssociationSet>
           <AssociationSet Name="FK_MemberCashTransaction" Association="VapModel.FK_MemberCashTransaction">
@@ -754,15 +754,11 @@
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
           <Property Name="Fee" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="PointTransaction_Id" Type="Int32" />
-          <Property Name="ChongXiaoTransaction_Id" Type="Int32" />
-          <Property Name="CashTransaction_Id" Type="Int32" Nullable="false" />
-          <Property Name="LockedCoin_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="LockedCoin" Relationship="VapModel.FK_BaoDanTransactionLockedCoin" FromRole="BaoDanTransaction" ToRole="LockedCoin" />
-          <NavigationProperty Name="CashTransaction" Relationship="VapModel.FK_CashTransactionBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="CashTransaction" />
-          <NavigationProperty Name="ChongXiaoTransaction" Relationship="VapModel.FK_ChongXiaoTransactionBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="ChongXiaoTransaction" />
+          <NavigationProperty Name="CashTransactions" Relationship="VapModel.FK_BaoDanTransactionCashTransaction" FromRole="BaoDanTransaction" ToRole="CashTransaction" />
+          <NavigationProperty Name="ChongXiaoTransactions" Relationship="VapModel.FK_BaoDanTransactionChongXiaoTransaction" FromRole="BaoDanTransaction" ToRole="ChongXiaoTransaction" />
+          <NavigationProperty Name="LockedCoins" Relationship="VapModel.FK_BaoDanTransactionLockedCoin" FromRole="BaoDanTransaction" ToRole="LockedCoin" />
+          <NavigationProperty Name="PointTransactions" Relationship="VapModel.FK_BaoDanTransactionPointTransaction" FromRole="BaoDanTransaction" ToRole="PointTransaction" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="Member" />
-          <NavigationProperty Name="PointTransaction" Relationship="VapModel.FK_PointTransactionBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="PointTransaction" />
         </EntityType>
         <EntityType Name="CashTransaction">
           <Key>
@@ -775,10 +771,11 @@
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BaoDanTransactionId" Type="Int32" />
           <Property Name="PaymentMethod_Id" Type="Int32" />
           <Property Name="BankInfo_Id" Type="Int32" />
           <NavigationProperty Name="BankInfo" Relationship="VapModel.FK_BankInfoCashTransaction" FromRole="CashTransaction" ToRole="BankInfo" />
-          <NavigationProperty Name="BaoDanTransactions" Relationship="VapModel.FK_CashTransactionBaoDanTransaction" FromRole="CashTransaction" ToRole="BaoDanTransaction" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionCashTransaction" FromRole="CashTransaction" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberCashTransaction" FromRole="CashTransaction" ToRole="Member" />
           <NavigationProperty Name="PaymentMethod" Relationship="VapModel.FK_PaymentMethodCashTransaction" FromRole="CashTransaction" ToRole="PaymentMethod" />
         </EntityType>
@@ -792,7 +789,8 @@
           <Property Name="MemberId" Type="Int32" Nullable="false" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BaoDanTransactions" Relationship="VapModel.FK_ChongXiaoTransactionBaoDanTransaction" FromRole="ChongXiaoTransaction" ToRole="BaoDanTransaction" />
+          <Property Name="BaoDanTransactionId" Type="Int32" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionChongXiaoTransaction" FromRole="ChongXiaoTransaction" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberChongXiaoTransaction" FromRole="ChongXiaoTransaction" ToRole="Member" />
         </EntityType>
         <EntityType Name="CoinPrice">
@@ -826,7 +824,8 @@
           <Property Name="LockedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
           <Property Name="AvailabeAmount" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BaoDanTransactions" Relationship="VapModel.FK_BaoDanTransactionLockedCoin" FromRole="LockedCoin" ToRole="BaoDanTransaction" />
+          <Property Name="BaoDanTransaction_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionLockedCoin" FromRole="LockedCoin" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberLockedCoin" FromRole="LockedCoin" ToRole="Member" />
         </EntityType>
         <EntityType Name="MemberLevel">
@@ -837,8 +836,8 @@
           <Property Name="Level" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RefundRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="MemberCount" Type="Int32" Nullable="false" />
-          <Property Name="MemberArchievement" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Archievement" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MemberAchievement" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Achievement" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <NavigationProperty Name="Members" Relationship="VapModel.FK_MemberMemberLevel" FromRole="MemberLevel" ToRole="Member" />
         </EntityType>
         <EntityType Name="Member">
@@ -913,7 +912,8 @@
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BaoDanTransactions" Relationship="VapModel.FK_PointTransactionBaoDanTransaction" FromRole="PointTransaction" ToRole="BaoDanTransaction" />
+          <Property Name="BaoDanTransactionId" Type="Int32" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionPointTransaction" FromRole="PointTransaction" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberPointTransaction" FromRole="PointTransaction" ToRole="Member" />
         </EntityType>
         <EntityType Name="SystemSetting">
@@ -948,39 +948,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BaoDanTransactionCashTransaction">
+          <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="0..1" />
+          <End Type="VapModel.CashTransaction" Role="CashTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaoDanTransaction">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CashTransaction">
+              <PropertyRef Name="BaoDanTransactionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BaoDanTransactionChongXiaoTransaction">
+          <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="0..1" />
+          <End Type="VapModel.ChongXiaoTransaction" Role="ChongXiaoTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaoDanTransaction">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ChongXiaoTransaction">
+              <PropertyRef Name="BaoDanTransactionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BaoDanTransactionLockedCoin">
-          <End Type="VapModel.LockedCoin" Role="LockedCoin" Multiplicity="1" />
-          <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="*" />
+          <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="1" />
+          <End Type="VapModel.LockedCoin" Role="LockedCoin" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="LockedCoin">
+            <Principal Role="BaoDanTransaction">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="BaoDanTransaction">
-              <PropertyRef Name="LockedCoin_Id" />
+            <Dependent Role="LockedCoin">
+              <PropertyRef Name="BaoDanTransaction_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CashTransactionBaoDanTransaction">
-          <End Type="VapModel.CashTransaction" Role="CashTransaction" Multiplicity="1" />
-          <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="*" />
+        <Association Name="FK_BaoDanTransactionPointTransaction">
+          <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="0..1" />
+          <End Type="VapModel.PointTransaction" Role="PointTransaction" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="CashTransaction">
+            <Principal Role="BaoDanTransaction">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="BaoDanTransaction">
-              <PropertyRef Name="CashTransaction_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ChongXiaoTransactionBaoDanTransaction">
-          <End Type="VapModel.ChongXiaoTransaction" Role="ChongXiaoTransaction" Multiplicity="0..1" />
-          <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ChongXiaoTransaction">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="BaoDanTransaction">
-              <PropertyRef Name="ChongXiaoTransaction_Id" />
+            <Dependent Role="PointTransaction">
+              <PropertyRef Name="BaoDanTransactionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -993,18 +1005,6 @@
             </Principal>
             <Dependent Role="BaoDanTransaction">
               <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PointTransactionBaoDanTransaction">
-          <End Type="VapModel.PointTransaction" Role="PointTransaction" Multiplicity="0..1" />
-          <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PointTransaction">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="BaoDanTransaction">
-              <PropertyRef Name="PointTransaction_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1178,10 +1178,6 @@
           <EntitySetMapping Name="BaoDanTransactions">
             <EntityTypeMapping TypeName="VapModel.BaoDanTransaction">
               <MappingFragment StoreEntitySet="BaoDanTransactions">
-                <ScalarProperty Name="LockedCoin_Id" ColumnName="LockedCoin_Id" />
-                <ScalarProperty Name="CashTransaction_Id" ColumnName="CashTransaction_Id" />
-                <ScalarProperty Name="ChongXiaoTransaction_Id" ColumnName="ChongXiaoTransaction_Id" />
-                <ScalarProperty Name="PointTransaction_Id" ColumnName="PointTransaction_Id" />
                 <ScalarProperty Name="Fee" ColumnName="Fee" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
@@ -1198,6 +1194,7 @@
               <MappingFragment StoreEntitySet="CashTransactions">
                 <ScalarProperty Name="BankInfo_Id" ColumnName="BankInfo_Id" />
                 <ScalarProperty Name="PaymentMethod_Id" ColumnName="PaymentMethod_Id" />
+                <ScalarProperty Name="BaoDanTransactionId" ColumnName="BaoDanTransactionId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
@@ -1211,6 +1208,7 @@
           <EntitySetMapping Name="ChongXiaoTransactions">
             <EntityTypeMapping TypeName="VapModel.ChongXiaoTransaction">
               <MappingFragment StoreEntitySet="ChongXiaoTransactions">
+                <ScalarProperty Name="BaoDanTransactionId" ColumnName="BaoDanTransactionId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
@@ -1243,6 +1241,7 @@
           <EntitySetMapping Name="LockedCoins">
             <EntityTypeMapping TypeName="VapModel.LockedCoin">
               <MappingFragment StoreEntitySet="LockedCoins">
+                <ScalarProperty Name="BaoDanTransaction_Id" ColumnName="BaoDanTransaction_Id" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="AvailabeAmount" ColumnName="AvailabeAmount" />
                 <ScalarProperty Name="LockedAmount" ColumnName="LockedAmount" />
@@ -1257,8 +1256,8 @@
           <EntitySetMapping Name="MemberLevels">
             <EntityTypeMapping TypeName="VapModel.MemberLevel">
               <MappingFragment StoreEntitySet="MemberLevel">
-                <ScalarProperty Name="Archievement" ColumnName="Archievement" />
-                <ScalarProperty Name="MemberArchievement" ColumnName="MemberArchievement" />
+                <ScalarProperty Name="Achievement" ColumnName="Achievement" />
+                <ScalarProperty Name="MemberAchievement" ColumnName="MemberAchievement" />
                 <ScalarProperty Name="MemberCount" ColumnName="MemberCount" />
                 <ScalarProperty Name="RefundRate" ColumnName="RefundRate" />
                 <ScalarProperty Name="Level" ColumnName="Level" />
@@ -1323,6 +1322,7 @@
           <EntitySetMapping Name="PointTransactions">
             <EntityTypeMapping TypeName="VapModel.PointTransaction">
               <MappingFragment StoreEntitySet="PointTransactions">
+                <ScalarProperty Name="BaoDanTransactionId" ColumnName="BaoDanTransactionId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />

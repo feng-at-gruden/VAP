@@ -24,8 +24,8 @@ namespace Backend.Models
         public string Level { get; set; }
         public decimal RefundRate { get; set; }
         public int MemberCount { get; set; }
-        public decimal MemberArchievement { get; set; }
-        public decimal Archievement { get; set; }
+        public decimal MemberAchievement { get; set; }
+        public decimal Achievement { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Member> Members { get; set; }

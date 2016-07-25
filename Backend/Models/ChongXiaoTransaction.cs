@@ -14,21 +14,15 @@ namespace Backend.Models
     
     public partial class ChongXiaoTransaction
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ChongXiaoTransaction()
-        {
-            this.BaoDanTransactions = new HashSet<BaoDanTransaction>();
-        }
-    
         public int Id { get; set; }
         public System.DateTime DateTime { get; set; }
         public decimal Amount { get; set; }
         public int MemberId { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
+        public Nullable<int> BaoDanTransactionId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BaoDanTransaction> BaoDanTransactions { get; set; }
+        public virtual BaoDanTransaction BaoDanTransaction { get; set; }
         public virtual Member Member { get; set; }
     }
 }

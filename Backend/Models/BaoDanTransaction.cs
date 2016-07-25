@@ -14,6 +14,15 @@ namespace Backend.Models
     
     public partial class BaoDanTransaction
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public BaoDanTransaction()
+        {
+            this.CashTransactions = new HashSet<CashTransaction>();
+            this.ChongXiaoTransactions = new HashSet<ChongXiaoTransaction>();
+            this.LockedCoins = new HashSet<LockedCoin>();
+            this.PointTransactions = new HashSet<PointTransaction>();
+        }
+    
         public int Id { get; set; }
         public System.DateTime DateTime { get; set; }
         public decimal Amount { get; set; }
@@ -22,15 +31,15 @@ namespace Backend.Models
         public string Status { get; set; }
         public int MemberId { get; set; }
         public decimal Fee { get; set; }
-        public Nullable<int> PointTransaction_Id { get; set; }
-        public Nullable<int> ChongXiaoTransaction_Id { get; set; }
-        public int CashTransaction_Id { get; set; }
-        public int LockedCoin_Id { get; set; }
     
-        public virtual LockedCoin LockedCoin { get; set; }
-        public virtual CashTransaction CashTransaction { get; set; }
-        public virtual ChongXiaoTransaction ChongXiaoTransaction { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CashTransaction> CashTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChongXiaoTransaction> ChongXiaoTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LockedCoin> LockedCoins { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PointTransaction> PointTransactions { get; set; }
         public virtual Member Member { get; set; }
-        public virtual PointTransaction PointTransaction { get; set; }
     }
 }
