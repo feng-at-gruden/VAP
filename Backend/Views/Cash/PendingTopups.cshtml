@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Backend.Models.CashTransaction>
 
 @{
-    ViewBag.Title = "会员管理";
+    ViewBag.Title = "待审批现金充值";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,11 +9,11 @@
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="@Url.Action("Index","Home")">首页</a></li>
-        <li><a href="#">会员管理</a></li>
+        <li><a href="#">待审批现金充值</a></li>
     </ul>
 </div>
 <div class="formbody">
-    <ul class="seachform1">
+    @*<ul class="seachform1">
 
         <li><label>会员账号</label><input name="" type="text" class="scinput1" /></li>
         <li>
@@ -43,10 +43,10 @@
         </li>
     </ul>
 
+*@
 
 
-
-    <div class="formtitle"><span>会员列表</span></div>
+    <div class="formtitle"><span>待审批现金充值列表</span></div>
     <table class="tablelist">
         <tr>
             <th>
@@ -68,7 +68,7 @@
                 银行
             </th>
             <th>
-                时间
+                申请时间
             </th>
 
             <th>操作</th>
@@ -100,7 +100,7 @@
                 </td>
 
                 <td>
-                    @Html.ActionLink("批准", "Edit", new { id = item.Id })
+                    @Html.ActionLink("批准", "ApproveCashTrans", new { id = item.Id })
                 </td>
             </tr>
         }
