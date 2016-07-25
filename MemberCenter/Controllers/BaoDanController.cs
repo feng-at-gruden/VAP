@@ -156,9 +156,9 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.RequestAmount > CurrentUser.Coin1 || model.RequestAmount <= 0)
+                if (model.RequestAmount > CurrentUser.Coin1 || model.RequestAmount <= Constants.MinBaoDanSell)
                 {
-                    ModelState.AddModelError("", "报单数量错误 - " + model.RequestAmount);
+                    ModelState.AddModelError("", "报单数量错误(" + model.RequestAmount + ")");
                 }
                 else if (!CurrentUser.Password2.Equals(model.Password))
                 {
