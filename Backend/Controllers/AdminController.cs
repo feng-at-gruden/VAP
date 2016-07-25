@@ -15,7 +15,7 @@ using PagedList;
 
 namespace Backend.Controllers
 {
-    [MyAuthorize(Users = "Admin")]
+    [MyAuthorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private vapEntities1 db = new vapEntities1();

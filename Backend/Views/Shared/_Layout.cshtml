@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,28 +69,29 @@
                 <i><a href="@Url.Action("Manage","Account")" style="color: #ffffff">修改密码</a></i>
                 <b>&nbsp;</b>
                 @*<i>消息</i>
-                <b>5</b>*@
+                    <b>5</b>*@
             </div>
 
         </div>
 
-       
+
     </div>
-     <div>
-            @Html.Partial("_SideBar")
-            <!--  SIDEBAR - END -->
-            <!-- START CONTENT -->
-           
-                <section >
-                    <div class="mainContent">
-                        @RenderBody()
-                    </div>
-                </section>
-           
-           
-        </div>
-    
+    <div>
+        @Html.Partial("_SideBar")
+        <!--  SIDEBAR - END -->
+        <!-- START CONTENT -->
+
+        <section>
+            <div class="mainContent">
+                @RenderBody()
+            </div>
+        </section>
+
+
+    </div>
+
     @*@Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+

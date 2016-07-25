@@ -236,7 +236,7 @@ h2{font-weight:normal;}
     line-height:35px;
     position:relative; 
     height:35px;
-    margin-bottom:28px;
+    margin-bottom:10px;
 
 }
 .formtitle1{margin-bottom:15px;}
@@ -282,7 +282,7 @@ h2{font-weight:normal;}
 }
 .btn-new {
     color: #ffffff;
-    margin-top: -3px;
+    margin-bottom: 5px;
     /*background-color: #428bca;
     border-color: #357ebd;*/
     background: url(../images/btnbg3.png) repeat-x center;
