@@ -1,8 +1,10 @@
-﻿@model Backend.Models.News
+﻿@using VapLib
+@model Backend.Models.News
 
 @{
     ViewBag.Title = "添加新闻";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string[] newsType =  { "站内新闻", "站外新闻", "公告", "其他" };
 }
 
 <div class="place">
@@ -32,16 +34,37 @@
             <li>
                 <label>新闻分类<b>*</b></label>
                 @{
-                   var options = (from scl in VapLib.Constants.NewsType
+                   /*var options = (from scl in newsType
                    select new SelectListItem
                    {
                        Text = scl,
                        Value = scl,
                        Selected = scl == Model.Type
-                   }).ToList();
+                   }).ToList();*/
+                    var options = new List<SelectListItem>();
+                    options.Insert(0, new SelectListItem
+                    {
+                        Text = "站内新闻",
+                        Value = "站内新闻"
+                    });
+                    options.Insert(1, new SelectListItem
+                    {
+                        Text = "站外新闻",
+                        Value = "站外新闻"
+                    });
+                    options.Insert(2, new SelectListItem
+                    {
+                        Text = "公告",
+                        Value = "公告"
+                    });
+                    options.Insert(3, new SelectListItem
+                    {
+                        Text = "其他",
+                        Value = "其他"
+                    });
 
                 }
-                @Html.DropDownListFor(model => model.Type, options, new { @class = "form-control", data_val = "true", requried = "required", data_val_required = "必选项" })
+                @Html.DropDownListFor(model => model.Type, options, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必选项" })
 
                 @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
 

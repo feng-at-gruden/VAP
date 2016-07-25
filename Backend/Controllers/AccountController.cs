@@ -56,7 +56,7 @@ namespace Backend.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    ModelState.AddModelError("", "用户名或密码错误。");
                 }
             }
 
@@ -66,15 +66,15 @@ namespace Backend.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+     /*   [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
-        }
+        }*/
 
         //
         // POST: /Account/Register
-        [HttpPost]
+      /*  [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
@@ -97,7 +97,7 @@ namespace Backend.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+*/
         //
         // POST: /Account/Disassociate
         [HttpPost]
@@ -123,7 +123,7 @@ namespace Backend.Controllers
         public ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                message == ManageMessageId.ChangePasswordSuccess ? "密码修改成功。"
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : message == ManageMessageId.Error ? "An error has occurred."
@@ -186,18 +186,18 @@ namespace Backend.Controllers
 
         //
         // POST: /Account/ExternalLogin
-        [HttpPost]
+     /*   [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-        }
+        }*/
 
         //
         // GET: /Account/ExternalLoginCallback
-        [AllowAnonymous]
+        /*[AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
@@ -220,21 +220,21 @@ namespace Backend.Controllers
                 ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                 return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = loginInfo.DefaultUserName });
             }
-        }
+        }*/
 
         //
         // POST: /Account/LinkLogin
-        [HttpPost]
+        /*[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
         {
             // Request a redirect to the external login provider to link a login for the current user
             return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
         }
-
+*/
         //
         // GET: /Account/LinkLoginCallback
-        public async Task<ActionResult> LinkLoginCallback()
+       /* public async Task<ActionResult> LinkLoginCallback()
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
             if (loginInfo == null)
@@ -248,10 +248,10 @@ namespace Backend.Controllers
             }
             return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
         }
-
+*/
         //
         // POST: /Account/ExternalLoginConfirmation
-        [HttpPost]
+       /* [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
@@ -287,7 +287,7 @@ namespace Backend.Controllers
             return View(model);
         }
 
-        //
+      */  //
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -299,7 +299,7 @@ namespace Backend.Controllers
 
         //
         // GET: /Account/ExternalLoginFailure
-        [AllowAnonymous]
+      /*  [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
             return View();
@@ -311,7 +311,7 @@ namespace Backend.Controllers
             var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
             ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
             return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
-        }
+        }*/
 
         protected override void Dispose(bool disposing)
         {

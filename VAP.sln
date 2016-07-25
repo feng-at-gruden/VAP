@@ -9,6 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemberCenter", "MemberCente
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{76D8753F-6CFC-4810-9294-B8B71139B6EF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{143EE46B-0DF8-4C7D-A774-CC259FFEC975} = {143EE46B-0DF8-4C7D-A774-CC259FFEC975}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VapLib", "VapLib\VapLib.csproj", "{143EE46B-0DF8-4C7D-A774-CC259FFEC975}"
 EndProject

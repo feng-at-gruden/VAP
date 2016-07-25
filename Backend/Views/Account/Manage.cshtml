@@ -1,15 +1,13 @@
 ﻿@using Backend.Models;
 @using Microsoft.AspNet.Identity;
 @{
-    ViewBag.Title = "Manage Account";
+    ViewBag.Title = "密码修改";
 }
 
-<h2>@ViewBag.Title.</h2>
-
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div class="row">
-    <div class="col-md-12">
-        @if (ViewBag.HasLocalPassword)
+<div >
+    
+        @Html.Partial("_ChangePasswordPartial")
+       @* @if (ViewBag.HasLocalPassword)
         {
             @Html.Partial("_ChangePasswordPartial")
         }
@@ -21,8 +19,8 @@
         <section id="externalLogins">
             @Html.Action("RemoveAccountList")
             @Html.Partial("_ExternalLoginsListPartial", new { Action = "LinkLogin", ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
+        </section>*@
+   
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
