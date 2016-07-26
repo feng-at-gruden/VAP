@@ -174,6 +174,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaoDanController.cs" />
     <Compile Include="Controllers\CashController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
@@ -577,6 +578,7 @@
     <Content Include="Views\Cash\PendingTopups.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Cash\PendingWithdraws.cshtml" />
+    <Content Include="Views\BaoDan\PendingSells.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

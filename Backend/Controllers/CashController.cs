@@ -21,15 +21,19 @@ namespace Backend.Controllers
         /// <returns></returns>
         public ActionResult PendingTopups()
         {
-            var cashtransactions = db.CashTransactions.Where(c => c.Status == 现金状态.待审核.ToString()
-                                                                  && c.Type == 现金交易类型.充值.ToString())
+            var status =现金状态.待审核.ToString();
+            var type = 现金交易类型.充值.ToString();
+            var cashtransactions = db.CashTransactions.Where(c => c.Status == status
+                                                                  && c.Type == type)
                                                                   .OrderBy(c=>c.DateTime); 
             return View(cashtransactions.ToList());
         }
         public ActionResult PendingWithdraws()
         {
-            var cashtransactions = db.CashTransactions.Where(c => c.Status == 现金状态.待审核.ToString()
-                                                                  && c.Type == 现金交易类型.提现.ToString())
+            var status = 现金状态.待审核.ToString();
+            var type = 现金交易类型.提现.ToString();
+            var cashtransactions = db.CashTransactions.Where(c => c.Status == status
+                                                                  && c.Type == type)
                                                                   .OrderBy(c => c.DateTime);
             return View(cashtransactions.ToList());
         }
@@ -43,27 +47,35 @@ namespace Backend.Controllers
             CashTransaction cashtransaction = db.CashTransactions.Find(id);
             if (cashtransaction != null)
             {
-                //充值，会员可用现金增加
-                if (cashtransaction.Type == 现金交易类型.充值.ToString())
+                //验证现金状态为 待审核
+                if (cashtransaction.Status == 现金状态.待审核.ToString())
                 {
-                    var member = db.Members.Find(cashtransaction.Member.Id); 
-                    cashtransaction.Status = 现金状态.可用.ToString();
-                    member.Cash1 = member.Cash1 + cashtransaction.Amount;
-                    db.Entry(member).State = EntityState.Modified;
-                    db.Entry(cashtransaction).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("PendingTopups");
-                    
-                }//提现 会员可用现金再提交申请时已经扣除
-                else if (cashtransaction.Type == 现金交易类型.提现.ToString())
-                {
-                    cashtransaction.Status = 现金状态.可用.ToString();
-                    db.Entry(cashtransaction).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("PendingWithdraws");
-                    
+                    //充值，会员可用现金增加
+                    if (cashtransaction.Type == 现金交易类型.充值.ToString())
+                    {
+                        var member = db.Members.Find(cashtransaction.Member.Id);
+                        cashtransaction.Status = 现金状态.可用.ToString();
+                        member.Cash1 = member.Cash1 + cashtransaction.Amount;
+                        db.Entry(member).State = EntityState.Modified;
+                        db.Entry(cashtransaction).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("PendingTopups");
+
+                    } //提现 会员可用现金再提交申请时已经扣除
+                    else if (cashtransaction.Type == 现金交易类型.提现.ToString())
+                    {
+                        cashtransaction.Status = 现金状态.可用.ToString();
+                        db.Entry(cashtransaction).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("PendingWithdraws");
+
+                    }
                 }
-                
+                else
+                {
+                    ModelState.AddModelError("", "该记录状态不是待审核状态。");
+                }
+
             }
             //无此记录，跳转到首页
             ModelState.AddModelError("", "该记录不存在。");
