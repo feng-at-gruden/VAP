@@ -43,24 +43,31 @@ namespace Backend.Controllers
             CashTransaction cashtransaction = db.CashTransactions.Find(id);
             if (cashtransaction != null)
             {
-                var member = db.Members.Find(cashtransaction.Member.Id); 
+                //充值，会员可用现金增加
                 if (cashtransaction.Type == 现金交易类型.充值.ToString())
                 {
+                    var member = db.Members.Find(cashtransaction.Member.Id); 
                     cashtransaction.Status = 现金状态.可用.ToString();
                     member.Cash1 = member.Cash1 + cashtransaction.Amount;
+                    db.Entry(member).State = EntityState.Modified;
+                    db.Entry(cashtransaction).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("PendingTopups");
                     
-                }
+                }//提现 会员可用现金再提交申请时已经扣除
                 else if (cashtransaction.Type == 现金交易类型.提现.ToString())
                 {
                     cashtransaction.Status = 现金状态.可用.ToString();
-                    member.Cash1 = member.Cash1 - cashtransaction.Amount;
+                    db.Entry(cashtransaction).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("PendingWithdraws");
                     
                 }
-                db.Entry(member).State = EntityState.Modified;
-                db.Entry(cashtransaction).State = EntityState.Modified;
-                db.SaveChanges();
+                
             }
-            return RedirectToAction("PendingTopups");
+            //无此记录，跳转到首页
+            ModelState.AddModelError("", "该记录不存在。");
+            return RedirectToAction("Index","Home");
         }
 
         

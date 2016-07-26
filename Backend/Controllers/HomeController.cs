@@ -12,6 +12,10 @@ namespace Backend.Controllers
         [MyAuthorize]
         public ActionResult Index()
         {
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
             return View();
         }
 

@@ -15,12 +15,45 @@ namespace Backend.Controllers
         private vapEntities1 db = new vapEntities1();
 
         // GET: /Member/
-        public ActionResult Index()
+        public ActionResult Index(string account,string uId, string status)
         {
-            var members = db.Members.Include(m => m.Member1);
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
+            var members = db.Members.Where(c=>c.Id>0);
+            if (!string.IsNullOrEmpty(account))
+            {
+                members = members.Where(c => c.Email.Contains(account));
+            }
+            if (!string.IsNullOrEmpty(uId))
+            {
+                members = members.Where(c => c.Id.ToString() == uId);
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                members = members.Where(c => c.Status == status);
+            }
+            ViewBag.account = account;
+            ViewBag.status = status;
+            ViewBag.uId = uId;
             return View(members.ToList());
         }
+        public ActionResult ApproveMember(int id)
+        {
 
+            var member = db.Members.Find(id);
+            if (member != null)
+            {
+                member.Status = VapLib.会员状态.正常.ToString();
+                db.Entry(member).State = EntityState.Modified;
+                db.SaveChanges();
+                ModelState.AddModelError("", "会员批准成功。");
+            }
+            //无此记录
+            ModelState.AddModelError("", "该记录不存在。");
+            return RedirectToAction("Index");
+        }
       
 
 
@@ -57,17 +90,7 @@ namespace Backend.Controllers
             return View(member);
         }
 
-       
-        // POST: /Member/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Member member = db.Members.Find(id);
-            db.Members.Remove(member);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+      
 
         protected override void Dispose(bool disposing)
         {
