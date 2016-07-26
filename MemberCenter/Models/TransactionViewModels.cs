@@ -133,6 +133,7 @@ namespace MemberCenter.Models
 
         [Display(Name = "银行帐号")]
         [Required(ErrorMessage = "请填写银行帐号")]
+        [StringLength(19, MinimumLength = 19, ErrorMessage = "请输入19位银行帐号")]
         public string Account { get; set; }
 
         [Display(Name = "备注")]
@@ -141,7 +142,7 @@ namespace MemberCenter.Models
         [Display(Name = "网银链接")]
         public string URL { get; set; }
 
-        public Int16 Id { get; set; }
+        public int Id { get; set; }
     }
 
 }

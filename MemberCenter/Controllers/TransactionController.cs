@@ -62,7 +62,7 @@ namespace MemberCenter.Controllers
                 {
                     ModelState.AddModelError("", "提现金额有误(" + model.RequestAmount + ")");
                 }
-                else if (model.BankInfoId==0 && false)       //TODO
+                else if (CurrentUser.BankInfo.Count<=0)       
                 {
                     ModelState.AddModelError("", "还没有设置提现银行帐号信息");
                 }
@@ -73,6 +73,7 @@ namespace MemberCenter.Controllers
                 else
                 { 
                     //增加CashTransaction记录
+                    BankInfo bankInfo = CurrentUser.BankInfo.SingleOrDefault();
                     CurrentUser.CashTransaction.Add(new CashTransaction
                     {
                         DateTime = DateTime.Now,
@@ -80,9 +81,9 @@ namespace MemberCenter.Controllers
                         Status = 现金状态.待审核.ToString(),
                         Amount = -model.RequestAmount,
                         Fee = Constants.CashWithdrawFee,
-                        Bank = "a bank",
-                        BankAccount = "XXXX",
-                        BankName = "AAAA",
+                        Bank = bankInfo.Bank,
+                        BankAccount = bankInfo.Account,
+                        BankName = bankInfo.Name,
                     });
                     //修改自己Cash1 数值
                     CurrentUser.Cash1 -= model.RequestAmount;

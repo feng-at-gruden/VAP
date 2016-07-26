@@ -264,14 +264,41 @@ namespace MemberCenter.Controllers
         // GET: /Account/SecureSetting
         public ActionResult SecureSetting()
         {
-            return View();
+            SecureSettingViewModel model = new SecureSettingViewModel
+            {
+                BankInfoAdded = CurrentUser.BankInfo.Count >0,
+                BankInfo = (from row in CurrentUser.BankInfo
+                            orderby row.Id descending
+                            select new BankInfoViewModel
+                            {
+                                Account = row.Account,
+                                Name = row.Name,
+                                Bank = row.Bank,
+                                Description = row.Description,
+                                Id = row.Id,
+                            }).SingleOrDefault(),
+            };
+            if (TempData["ModelState"]!=null)
+            {
+                ModelStateDictionary lastModelState = (ModelStateDictionary)TempData["ModelState"];
+                foreach(var key in lastModelState.Keys)
+                {
+                    String error = GetErrorMessageForKey(lastModelState, key);
+                    if (error!=null)
+                        ModelState.AddModelError(key, error);
+                }
+            }
+            if (TempData["ActionMessage"] != null)
+            {
+                ViewBag.ActionMessage = TempData["ActionMessage"];
+            }
+            return View(model);
         }
 
         //
-        // POST: /Account/SecureSetting
+        // POST: /Account/UpdatePassword
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SecureSetting(ChangePasswordViewModel model)
+        public async Task<ActionResult> UpdatePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -282,7 +309,9 @@ namespace MemberCenter.Controllers
                     if (CurrentUser.Password1 != model.OldPassword)
                     {
                         ModelState.AddModelError("", "原密码错误");
-                        return View(model);
+                        //
+                        TempData["ModelState"] = ModelState;
+                        return RedirectToAction("SecureSetting");
                     }
                     CurrentUser.Password1 = model.Password;
                 }
@@ -292,15 +321,54 @@ namespace MemberCenter.Controllers
                     if (CurrentUser.Password2 != model.OldPassword)
                     {
                         ModelState.AddModelError("", "原密码错误");
-                        return View(model);
+                        //
+                        TempData["ModelState"] = ModelState;
+                        return RedirectToAction("SecureSetting");
                     }
                     CurrentUser.Password2 = model.Password;
                 }
                     
                 db.SaveChanges();
                 ViewBag.ActionMessage = pwdType + "更新成功!";
+                TempData["ActionMessage"] = ViewBag.ActionMessage;
             }
-            return View(model);
+            TempData["ModelState"] = ModelState;
+            return RedirectToAction("SecureSetting");
+        }
+
+        //
+        // POST: /Account/BankInfo
+        [HttpPost]
+        public async Task<ActionResult> BankInfo(BankInfoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if(CurrentUser.BankInfo.Count<=0)
+                {
+                    CurrentUser.BankInfo.Add(new BankInfo
+                    {
+                        Bank = model.Bank,
+                        Name = model.Name,
+                        Account = model.Account,
+                        Type = 银行账户信息类型.会员账户.ToString(),
+                        Description = "",
+                        URL = "",
+                    });
+                }
+                else
+                {
+                    BankInfo newBankInfo = CurrentUser.BankInfo.SingleOrDefault();
+                    newBankInfo.Bank = model.Bank;
+                    newBankInfo.Name = model.Name;
+                    newBankInfo.Account = model.Account;
+                }
+                
+                db.SaveChanges();
+                ViewBag.ActionMessage = "银行账户信息更新成功!";
+                TempData["ActionMessage"] = ViewBag.ActionMessage;
+            }
+            TempData["ModelState"] = ModelState;
+            return RedirectToAction("SecureSetting");
         }
 
         //
@@ -328,6 +396,10 @@ namespace MemberCenter.Controllers
             }
         }
 
+        public string GetErrorMessageForKey(ModelStateDictionary dictionary, string key)
+        {
+            return dictionary[key].Errors.Count>0? dictionary[key].Errors.First().ErrorMessage : null;
+        }
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
