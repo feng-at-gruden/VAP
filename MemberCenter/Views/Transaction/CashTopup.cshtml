@@ -3,19 +3,32 @@
     ViewBag.Title = "现金充值";
 }
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+
     
     <h1 class="page-header">@ViewBag.Title</h1>
-    
+    @using (Html.BeginForm("CashTopup", "Transaction", FormMethod.Post, new { role = "form" }))
+    {
     <div class="panel panel-default">
 		<div class="panel-heading">
 			CASH TOPUP
 		</div>
 		<!-- /.panel-heading -->
 		<div class="panel-body">
+
+            @Html.AntiForgeryToken()
+            @if (!ViewData.ModelState.IsValid)
+            {
+            <div class="alert alert-danger">
+                @Html.ValidationSummary()
+            </div>
+            }
+            @if (ViewBag.ActionMessage != null)
+            {
+            <div class="alert alert-success">
+                @ViewBag.ActionMessage
+            </div>
+            }
+
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#step1" data-toggle="tab">填写汇款金额</a></li>
@@ -26,59 +39,88 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div class="tab-pane fade in active" id="step1">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Amount, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.Amount)
-                            @Html.ValidationMessageFor(model => model.Amount)
+                <div class="tab-pane fade in active" id="step1" >
+                    <div style="padding-top: 20px; height: 200px;">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Amount, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", placeholder = "充值金额", maxlength = "10", id = "CashAmount", style = "width:auto;" })
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 50px;">
+                            @Html.LabelFor(model => model.Comment, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(m => m.Comment, new { @class = "form-control", placeholder = "备注", style = "width:300px;" })
+                            </div>
                         </div>
                     </div>
-					<a href="javascript:showStep('step2');" class="right btn btn-success" >下一步</a>
-				</div>
-				<div class="tab-pane fade" id="step2">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.PaymentMethod, new { @class = "control-label col-md-2" })
+                    <a href="javascript:showStep('step2');" class="right btn btn-success">下一步</a>
+                </div>
+                <div class="tab-pane fade" id="step2">
+                    <div class="form-group" style="padding-top: 20px; height: 200px;">
+                        @Html.LabelFor(model => model.SysBankInfos, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownListFor(m => m.PaymentMethod, Model.PaymentMethods.Select(a => new SelectListItem() { Text = a.Bank, Value = a.Bank }))
+                            @Html.DropDownListFor(m => m.BankInfoId, Model.SysBankInfos.Select(a => new SelectListItem() { Text = a.Bank, Value = a.Id + "" }), new { @class = "form-control", style = "width:auto;" })
                         </div>
-                    </div>                    
+                    </div>
                     <a href="javascript:showStep('step3');" class="right btn btn-success">下一步</a>
-					<a href="javascript:showStep('step1');" class="right btn btn-success" style="margin-right:10px;">上一步</a>
-				</div>
+                    <a href="javascript:showStep('step1');" class="right btn btn-success" style="margin-right:10px;">上一步</a>
+                </div>
 				<div class="tab-pane fade" id="step3">
-					<div class="form-group">
+                    <div class="form-group" style="padding-top: 20px; height: 200px;">
                         @Html.LabelFor(model => model.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            <input type="file" id="uploadImageButton" name="uploadImageButton" required="required" />
+                            <input type="file" id="uploadImageButton" name="uploadImageButton" />
                         </div>
                     </div>
 					<a href="javascript:showStep('step4');" class="right btn btn-success">下一步</a>
 					<a href="javascript:showStep('step2');" class="right btn btn-success" style="margin-right:10px;">上一步</a>
 				</div>
-				<div class="tab-pane fade" id="step4">
-                    <div class="col-md-10">
-                        
+                <div class="tab-pane fade" id="step4" >
+                    <div class="col-md-12" style="padding-top: 20px; height: 200px;">
+                        <div class="well">
+                            请确认以上各步骤信息正确，点击完成按钮，提交充值信息。
+
+                        </div>
                         <div id="imageHolder">
                             <img />
                         </div>
                     </div>
-
-					<button type="submit" class="right btn btn-warning">完成</button>
-					<a href="javascript:showStep('step3');" class="right btn btn-success" style="margin-right:10px;">上一步</a>
-				</div>
+                    <button type="submit" class="right btn btn-warning">完成</button>
+                    <a href="javascript:showStep('step3');" class="right btn btn-success" style="margin-right:10px;">上一步</a>
+                </div>
 			</div>
-		</div>
+        	
+        </div>
 		<!-- /.panel-body -->
 	</div>
+    }
 	<!-- /.panel -->
+
     
-    <script type="text/javascript">
-	<!--
-		 function showStep(tab)
-		 {
-			$('.nav-tabs a[href="#' + tab + '"]').tab('show');
-		 }
-	//-->
-	</script>
-}
+<script type="text/javascript">
+<!--
+		function showStep(tab)
+		{
+		$('.nav-tabs a[href="#' + tab + '"]').tab('show');
+		}
+
+		$(document).ready(function () {
+		    $("#CashAmount").keydown(function (e) {
+		        // Allow: backspace, delete, tab, escape, enter and .190
+		        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+		            // Allow: Ctrl+A, Command+A
+                    (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+		            // Allow: home, end, left, right, down, up
+                    (e.keyCode >= 35 && e.keyCode <= 40)) {
+		            // let it happen, don't do anything
+		            return;
+		        }
+		        // Ensure that it is a number and stop the keypress
+		        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+		            e.preventDefault();
+		        }
+		    });
+		});
+//-->
+</script>

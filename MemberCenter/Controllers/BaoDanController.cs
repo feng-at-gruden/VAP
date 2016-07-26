@@ -75,7 +75,7 @@ namespace MemberCenter.Controllers
                     CurrentUser.CashTransaction.Add(new CashTransaction
                     {
                         DateTime = DateTime.Now,
-                        Status = 现金状态.可用.ToString(),
+                        Status = 现金状态.已审核.ToString(),
                         Type = 现金交易类型.购币消费.ToString(),
                         Amount = -model.TotalCostCash,
                         Fee = 0,

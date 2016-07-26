@@ -75,8 +75,8 @@
         <thead>
             <tr>
                 <th>提现时间</th>
-                <th>提交金额</th>
-                <th>手续费</th>
+                <th style="text-align:right;">提交金额</th>
+                <th style="text-align:right;">手续费</th>
                 <th>银行</th>
                 <th>提现账户</th>
                 <th>状态</th>
@@ -87,8 +87,8 @@
         {
             <tr class="odd gradeX">
                 <td>@Html.DisplayFor(modelItem => item.WithdrawTime)</td>
-                <td>@Html.DisplayFor(modelItem => item.Amount)</td>
-                <td>@Html.DisplayFor(modelItem => item.Fee)</td>
+                <td style="text-align:right;">@Html.DisplayFor(modelItem => item.Amount)</td>
+                <td style="text-align:right;">@Html.DisplayFor(modelItem => item.Fee)</td>
                 <td class="center">@Html.DisplayFor(modelItem => item.Bank)</td>
                 <td class="center">@Html.DisplayFor(modelItem => item.BankAccount)</td>
                 <td class="center">@Html.DisplayFor(modelItem => item.Status)</td>

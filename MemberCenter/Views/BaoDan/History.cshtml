@@ -31,13 +31,13 @@
                     <tr class="odd">
                         <td>@Html.DisplayFor(modelItem => item.BaoDanTime)</td>
                         <td>@Html.DisplayFor(modelItem => item.Type)</td>
-                        <td>@Html.DisplayFor(modelItem => item.RequestQuantity)</td>
-                        <td>@Html.DisplayFor(modelItem => item.RequestCash)</td>
-                        <td>￥@Html.DisplayFor(modelItem => item.Fee)</td>
-                        <td>￥@Html.DisplayFor(modelItem => item.RequestPrice)</td>
-                        <td>@Html.DisplayFor(modelItem => item.FinalQuantity)</td>
-                        <td>￥@Html.DisplayFor(modelItem => item.FinalCash)</td>
-                        <td>￥@Html.DisplayFor(modelItem => item.FinalPrice)</td>
+                        <td style="text-align:right;">@Html.DisplayFor(modelItem => item.RequestQuantity)</td>
+                        <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.RequestCash)</td>
+                        <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.Fee)</td>
+                        <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.RequestPrice)</td>
+                        <td style="text-align:right;">@Html.DisplayFor(modelItem => item.FinalQuantity)</td>
+                        <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.FinalCash)</td>
+                        <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.FinalPrice)</td>
                         <!--<td>@Html.DisplayFor(modelItem => item.Status)</td>-->
                     </tr>
                     }

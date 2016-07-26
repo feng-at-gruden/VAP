@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MemberCenter.Models
 {
-
     public class CashTransactionViewModel
     {
         [Display(Name = "交易ID")]
@@ -28,18 +27,18 @@ namespace MemberCenter.Models
         public decimal Fee { get; set; }
     }
 
-
-
     public class CashTopupViewModel
     {
+
         [Required(ErrorMessage = "请填写汇款金额")]
         [Display(Name = "汇款金额")]
+        //[Range(10000, 200000, ErrorMessage = "金额输入有误")]
         public decimal Amount { get; set; }
 
 
         [Required(ErrorMessage = "请选择汇款方式")]
         [Display(Name = "汇款方式")]
-        public PaymentMethodViewModel PaymentMethod { get; set; }
+        public int BankInfoId { get; set; }
 
 
         [Display(Name = "备注")]
@@ -48,20 +47,9 @@ namespace MemberCenter.Models
         [Display(Name = "汇款凭证")]
         public string FileUrl { get; set; }
 
-
-        public List<PaymentMethodViewModel> PaymentMethods { get; set; }
+        [Display(Name = "汇款银行")]
+        public IEnumerable<BankInfoViewModel> SysBankInfos { get; set; }
     }
-
-    public class PaymentMethodViewModel
-    {
-        public string Bank { get; set; }
-        public string Account { get; set; }
-        public string Description { get; set; }
-    }
-
-
-
-
 
     public class CashWithdrawViewModel
     {
