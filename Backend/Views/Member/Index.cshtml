@@ -12,112 +12,160 @@
     </ul>
 </div>
 <div class="formbody">
-    <ul class="seachform1">
+    @using (Html.BeginForm("Index", "Member", FormMethod.Get))
+    {
+        @Html.ValidationSummary()
+        <ul class="seachform1">
 
-        <li><label>会员账号</label><input name="" type="text" class="scinput1" /></li>
-        <li>
-            <label>会员UID</label>
-            <input name="" type="text" class="scinput1" />
-        </li>
+            <li>
+                <label>会员账号</label>
+                @Html.TextBox("account", "", new { @class = "scinput1" })
 
-        <li>
-            <label>会员状态</label>
-            <select class="scinput1">
-                <option>全部</option>
-                <option>待审核</option>
-                <option>正常</option>
-                <option>锁定</option>
-            </select>
-        </li>
+            </li>
+            <li>
+                <label>会员UID</label>
+                @Html.TextBox("uId", "", new { @class = "scinput1" })
+
+            </li>
+
+            <li>
+                <label>会员状态</label>
+
+                @{
+                    var options = new List<SelectListItem>();
+                    options.Insert(0, new SelectListItem
+                    {
+                        Text = "全部",
+                        Value = ""
+                    });
+                    options.Insert(1, new SelectListItem
+                    {
+                        Text = "待审核",
+                        Value = "待审核"
+                    });
+                    options.Insert(2, new SelectListItem
+                    {
+                        Text = "正常",
+                        Value = "正常"
+                    });
+                    options.Insert(3, new SelectListItem
+                    {
+                        Text = "锁定",
+                        Value = "锁定"
+                    });
 
 
-    </ul>
+                }
+                @Html.DropDownList("status", options, new { @class = "scinput1" })
+
+
+            </li>
+
+
+        </ul>
 
 
 
-    <ul class="seachform1">
-        <li class="sarchbtn">
-            <label>&nbsp;</label>
-            <input name="" type="button" class="scbtn" onclick="" value="查询" />
-            <input name="" type="button" class="scbtn2" value="导出" />
-        </li>
-    </ul>
-    @*<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>*@
+        <ul class="seachform1">
+            <li class="sarchbtn">
+                <label>&nbsp;</label>
+                <input name="" type="submit" class="scbtn" onclick="" value="查询" />
+                @*<input name="" type="button" class="scbtn2" value="导出" />*@
+            </li>
+        </ul>
+        @*<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>*@
 
-
+    }
 
 
     <div class="formtitle"><span>会员列表</span></div>
-    <table class="tablelist">
-        <tr>
-            <th>
-                会员UID
-            </th>
-            <th>
-                推荐人UID
-            </th>
-            <th>
-                登录名
-            </th>
-            <th>
-                会员状态
-            </th>
-            <th>
-                提现状态
-            </th>
-            <th>
-                提币状态
-            </th>
-            <th>
-                昵称
-            </th>
-            <th>
-                真实姓名
-            </th>
-            <th>
-                会员等级
-            </th>
-
-            <th>操作</th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <table @*class="tablelist"*@ id="dataTable-Members">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Referral_Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TiXianStatus)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TiBiStatus)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RealName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MemberLevel.Level)
-                </td>
+                <th>
+                    会员UID
+                </th>
+                <th>
+                    推荐人UID
+                </th>
+                <th>
+                    登录名
+                </th>
+                <th>
+                    会员状态
+                </th>
+                <th>
+                    提现状态
+                </th>
+                <th>
+                    提币状态
+                </th>
+                <th>
+                    昵称
+                </th>
+                <th>
+                    真实姓名
+                </th>
+                <th>
+                    会员等级
+                </th>
 
-
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                </td>
+                <th>操作</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Referral_Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TiXianStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TiBiStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RealName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MemberLevel.Level)
+                    </td>
 
+
+                    <td>
+                        @if (item.Status == VapLib.会员状态.待审核.ToString())
+                        {
+                            @Html.ActionLink("批准", "ApproveMember", new { id = item.Id })
+                        }
+                        else if (item.Status == VapLib.会员状态.锁定.ToString())
+                        {
+                            @Html.ActionLink("解锁", "ApproveMember", new { id = item.Id })
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable-Members').DataTable({
+            "searching": false,
+        });
+    });
+</script>

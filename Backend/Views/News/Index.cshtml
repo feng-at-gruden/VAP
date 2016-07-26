@@ -86,46 +86,55 @@
 
     <div class="formtitle"><span>新闻列表</span></div>
     <a href="@Url.Action("Create", "News")" class="btn-new">添加新闻</a>
-    <table class="tablelist">
-        <tr>
-            <th>
-                新闻类型
-            </th>
-            <th>
-                标题
-            </th>
-            <th>
-                发布时间
-            </th>
-            <th>
-                发布人
-            </th>
-
-            <th>操作</th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <table @*class="tablelist"*@ id="dataTable-News">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy)
-                </td>
-                <td>
-                    @Html.ActionLink("编辑", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("删除", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
+                <th>
+                    新闻类型
+                </th>
+                <th>
+                    标题
+                </th>
+                <th>
+                    发布时间
+                </th>
+                <th>
+                    发布人
+                </th>
 
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedBy)
+                    </td>
+                    <td>
+                        @Html.ActionLink("编辑", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("删除", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
 @*<a href="@Url.Action("Index","Home")" class="btn-primary">返回</a>*@
+<script>
+    $(document).ready(function () {
+        $('#dataTable-News').DataTable({
+            "searching": false,
+        });
+    });
+</script>

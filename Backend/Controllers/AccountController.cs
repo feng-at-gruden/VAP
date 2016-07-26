@@ -119,7 +119,7 @@ namespace Backend.Controllers
 
         //
         // GET: /Account/Manage
-        [MyAuthorize(Roles = "ClientService")]
+        
         public ActionResult Manage(ManageMessageId? message)
         {
             ViewBag.StatusMessage =

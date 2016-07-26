@@ -47,63 +47,72 @@
 
 
     <div class="formtitle"><span>待审批现金提现列表</span></div>
-    <table class="tablelist">
-        <tr>
-            <th>
-                会员账号
-            </th>
-            <th>
-                会员UID
-            </th>
-            <th>
-                金额
-            </th>
-            <th>
-                类型
-            </th>
-            <th>
-                状态
-            </th>
-            <th>
-                银行
-            </th>
-            <th>
-                申请时间
-            </th>
-
-            <th>操作</th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <table @*class="tablelist"*@ id="dataTable-Withdraws">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Member.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MemberId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BankInfo.Bank)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateTime)
-                </td>
+                <th>
+                    会员账号
+                </th>
+                <th>
+                    会员UID
+                </th>
+                <th>
+                    金额
+                </th>
+                <th>
+                    类型
+                </th>
+                <th>
+                    状态
+                </th>
+                <th>
+                    银行
+                </th>
+                <th>
+                    申请时间
+                </th>
 
-                <td>
-                    @Html.ActionLink("批准", "ApproveCashTrans", new { id = item.Id })
-                </td>
+                <th>操作</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Member.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MemberId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankInfo.Bank)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTime)
+                    </td>
 
+                    <td>
+                        @Html.ActionLink("批准", "ApproveCashTrans", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable-Withdraws').DataTable({
+            "searching": false,
+        });
+    });
+</script>
