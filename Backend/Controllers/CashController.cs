@@ -76,9 +76,14 @@ namespace Backend.Controllers
                     ModelState.AddModelError("", "该记录状态不是待审核状态。");
                 }
 
+            }//无此记录，跳转到首页
+            else
+            {
+                ModelState.AddModelError("", "该记录不存在。");
             }
-            //无此记录，跳转到首页
-            ModelState.AddModelError("", "该记录不存在。");
+            TempData["ModelState"] = ModelState;
+            
+            
             return RedirectToAction("Index","Home");
         }
 

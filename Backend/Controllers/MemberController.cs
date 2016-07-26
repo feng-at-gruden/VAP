@@ -51,7 +51,12 @@ namespace Backend.Controllers
                 ModelState.AddModelError("", "会员批准成功。");
             }
             //无此记录
-            ModelState.AddModelError("", "该记录不存在。");
+            else
+            {
+                ModelState.AddModelError("", "该记录不存在。");
+            }
+            
+            TempData["ModelState"] = ModelState;
             return RedirectToAction("Index");
         }
       

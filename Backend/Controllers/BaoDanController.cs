@@ -71,6 +71,7 @@ namespace Backend.Controllers
             }
             //无此记录，跳转到首页
             ModelState.AddModelError("", "该记录不存在。");
+            TempData["ModelState"] = ModelState;
             return RedirectToAction("PendingSells");
         }
 
