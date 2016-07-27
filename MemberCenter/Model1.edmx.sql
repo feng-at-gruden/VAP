@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/25/2016 21:31:04
+-- Date Created: 07/27/2016 15:51:30
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -35,17 +35,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_MemberLockedCoin]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LockedCoins] DROP CONSTRAINT [FK_MemberLockedCoin];
 GO
-IF OBJECT_ID(N'[dbo].[FK_MemberBankInfo]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[BankInfos] DROP CONSTRAINT [FK_MemberBankInfo];
-GO
 IF OBJECT_ID(N'[dbo].[FK_MemberIPLog]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[IPLogs] DROP CONSTRAINT [FK_MemberIPLog];
 GO
 IF OBJECT_ID(N'[dbo].[FK_MemberMemberLevel]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Members] DROP CONSTRAINT [FK_MemberMemberLevel];
-GO
-IF OBJECT_ID(N'[dbo].[FK_BankInfoCashTransaction]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[CashTransactions] DROP CONSTRAINT [FK_BankInfoCashTransaction];
 GO
 IF OBJECT_ID(N'[dbo].[FK_BaoDanTransactionChongXiaoTransaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ChongXiaoTransactions] DROP CONSTRAINT [FK_BaoDanTransactionChongXiaoTransaction];
@@ -58,6 +52,9 @@ IF OBJECT_ID(N'[dbo].[FK_BaoDanTransactionPointTransaction]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_BaoDanTransactionLockedCoin]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[LockedCoins] DROP CONSTRAINT [FK_BaoDanTransactionLockedCoin];
+GO
+IF OBJECT_ID(N'[dbo].[FK_MemberBankInfo]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[BankInfo] DROP CONSTRAINT [FK_MemberBankInfo];
 GO
 
 -- --------------------------------------------------
@@ -91,8 +88,8 @@ GO
 IF OBJECT_ID(N'[dbo].[LockedCoins]', 'U') IS NOT NULL
     DROP TABLE [dbo].[LockedCoins];
 GO
-IF OBJECT_ID(N'[dbo].[BankInfos]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[BankInfos];
+IF OBJECT_ID(N'[dbo].[BankInfo]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[BankInfo];
 GO
 IF OBJECT_ID(N'[dbo].[News]', 'U') IS NOT NULL
     DROP TABLE [dbo].[News];
@@ -146,7 +143,9 @@ CREATE TABLE [dbo].[CashTransactions] (
     [BaoDanTransactionId] int  NULL,
     [Bank] nvarchar(max)  NULL,
     [BankName] nvarchar(max)  NULL,
-    [BankAccount] nvarchar(max)  NULL
+    [BankAccount] nvarchar(max)  NULL,
+    [Comment] nvarchar(max)  NULL,
+    [FileUrl] nvarchar(max)  NULL
 );
 GO
 

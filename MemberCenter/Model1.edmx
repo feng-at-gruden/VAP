@@ -115,6 +115,8 @@
     <Property Name="Bank" Type="nvarchar(max)" Nullable="true" />
     <Property Name="BankName" Type="nvarchar(max)" Nullable="true" />
     <Property Name="BankAccount" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="FileUrl" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="PointTransactions">
     <Key>
@@ -510,6 +512,8 @@
           <Property Name="Bank" Type="String" Nullable="true" />
           <Property Name="BankName" Type="String" Nullable="true" />
           <Property Name="BankAccount" Type="String" Nullable="true" />
+          <Property Name="Comment" Type="String" Nullable="true" />
+          <Property Name="FileUrl" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="MemberCashTransaction">
           <End Type="Model1.Member" Role="Member" Multiplicity="1" />
@@ -809,6 +813,8 @@
           <ScalarProperty Name="Bank" ColumnName="Bank" />
           <ScalarProperty Name="BankName" ColumnName="BankName" />
           <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

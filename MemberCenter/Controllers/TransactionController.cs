@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MemberCenter;
 using MemberCenter.Models;
+using MemberCenter.Helper;
 using VapLib;
 
 namespace MemberCenter.Controllers
@@ -43,22 +44,28 @@ namespace MemberCenter.Controllers
                 }
                 else
                 {
-                    //TODO, display bank info
-                    //TODO, add Comment, FileUrl field to modle,
-                    //TODO, add file upload
-                    CurrentUser.CashTransaction.Add(new CashTransaction
-                    {
-                        DateTime = DateTime.Now,
-                        Amount = model.Amount,
-                        Fee = Constants.CashTopupFee,
-                        Bank = bankInfo.Bank,
-                        BankName = bankInfo.Name,
-                        BankAccount = bankInfo.Account,
-                        Type = 现金交易类型.充值.ToString(),
-                        Status = 现金状态.待审核.ToString(),
-                    });
-                    db.SaveChanges();
-                    ViewBag.ActionMessage = "充值信息已提交，请等待审核！";
+                    var requestHelper = new RequestHelper(this.Request);
+                    try{
+                        var filePath = requestHelper.SaveImageToServer(Constants.MemberUploadFilePath);
+                        CurrentUser.CashTransaction.Add(new CashTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Amount = model.Amount,
+                            Fee = Constants.CashTopupFee,
+                            Bank = bankInfo.Bank,
+                            BankName = bankInfo.Name,
+                            BankAccount = bankInfo.Account,
+                            Type = 现金交易类型.充值.ToString(),
+                            Status = 现金状态.待审核.ToString(),
+                            Comment = model.Comment,
+                            FileUrl = filePath,
+                        });
+                        db.SaveChanges();
+                        ViewBag.ActionMessage = "充值信息已提交，请等待审核！";
+                    }catch(Exception e){
+                        ModelState.AddModelError("", e.Message);
+                    }
+                    
                 }
             }
 
