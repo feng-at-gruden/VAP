@@ -186,6 +186,7 @@
     </Compile>
     <Compile Include="Helper\BusinessLogic.cs" />
     <Compile Include="Helper\NetworkHelper.cs" />
+    <Compile Include="Helper\RequestHelper.cs" />
     <Compile Include="IPLog.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -1066,6 +1067,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\images\" />
+    <Folder Include="Upload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

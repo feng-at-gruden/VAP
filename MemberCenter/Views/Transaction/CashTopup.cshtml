@@ -6,7 +6,7 @@
 
     
     <h1 class="page-header">@ViewBag.Title</h1>
-    @using (Html.BeginForm("CashTopup", "Transaction", FormMethod.Post, new { role = "form" }))
+    @using (Html.BeginForm("CashTopup", "Transaction", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
     {
     <div class="panel panel-default">
 		<div class="panel-heading">
@@ -50,17 +50,30 @@
                         <div class="form-group" style="margin-top: 50px;">
                             @Html.LabelFor(model => model.Comment, new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.TextAreaFor(m => m.Comment, new { @class = "form-control", placeholder = "备注", style = "width:300px;" })
+                                @Html.TextAreaFor(m => m.Comment, new { @class = "form-control", placeholder = "备注", style = "width:300px;", rows = "6" })
                             </div>
                         </div>
                     </div>
-                    <a href="javascript:showStep('step2');" class="right btn btn-success">下一步</a>
+                    <a href="javascript:showStep('step2');" class="right btn btn-success" style="margin-top: 11px;">下一步</a>
                 </div>
                 <div class="tab-pane fade" id="step2">
                     <div class="form-group" style="padding-top: 20px; height: 200px;">
-                        @Html.LabelFor(model => model.SysBankInfos, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(m => m.BankInfoId, Model.SysBankInfos.Select(a => new SelectListItem() { Text = a.Bank, Value = a.Id + "" }), new { @class = "form-control", style = "width:auto;" })
+                        <label class="control-label col-md-2" for="BankDropDown">选择汇款银行</label>
+                        <div class="col-md-10" style="margin-bottom:15px; ">
+                            @Html.DropDownListFor(m => m.BankInfoId, Model.SysBankInfos.Select(a => new SelectListItem() {  Text = a.Bank, Value = a.Id + "" }), new { @class = "form-control", style = "width:auto;", @Id = "BankDropDown" })
+                        </div> 
+                        <div class="col-md-4 well" id="BankInfoContent" style="margin-left: 15px;">
+                            @for (int i=0;  i<Model.SysBankInfos.Count();i++) 
+                            { 
+                                var bank = Model.SysBankInfos.ToArray()[i];
+                                var cssClass = i==0? "":"hide";
+                                <div id="Bank_@bank.Id" class="bankinfo @cssClass" bank-id="@bank.Id">
+                                    汇款银行：@bank.Bank    <br />
+                                    收款人：@bank.Name     <br />
+                                    收款帐号：@bank.Account <br /><br />
+                                    <a href="@bank.URL" target="_blank" class="right">前往网银</a>
+                                </div>
+                            }
                         </div>
                     </div>
                     <a href="javascript:showStep('step3');" class="right btn btn-success">下一步</a>
@@ -72,22 +85,24 @@
                         <div class="col-md-10">
                             <input type="file" id="uploadImageButton" name="uploadImageButton" />
                         </div>
+                        <div id="imageHolder" class="col-md-12">
+                            <img style=" /* width: 100px; */ height: 150px; " />
+                        </div>
                     </div>
 					<a href="javascript:showStep('step4');" class="right btn btn-success">下一步</a>
 					<a href="javascript:showStep('step2');" class="right btn btn-success" style="margin-right:10px;">上一步</a>
 				</div>
                 <div class="tab-pane fade" id="step4" >
-                    <div class="col-md-12" style="padding-top: 20px; height: 200px;">
+                    <div class="col-md-12" style="height: 200px;">
                         <div class="well">
                             请确认以上各步骤信息正确，点击完成按钮，提交充值信息。
 
                         </div>
-                        <div id="imageHolder">
-                            <img />
-                        </div>
                     </div>
-                    <button type="submit" class="right btn btn-warning">完成</button>
-                    <a href="javascript:showStep('step3');" class="right btn btn-success" style="margin-right:10px;">上一步</a>
+                    <div style="margin-top:15px;">
+                        <button type="submit" class="right btn btn-warning">完成</button>
+                        <a href="javascript:showStep('step3');" class="right btn btn-success" style="margin-right:10px;">上一步</a>
+                    </div>
                 </div>
 			</div>
         	
@@ -121,6 +136,46 @@
 		            e.preventDefault();
 		        }
 		    });
+
+		    $('#BankDropDown').change(function () {
+		        $('#BankInfoContent div').each(function () {
+		            $(this).hide();
+		            $(this).removeClass('hide');
+		        });
+		        $('#Bank_' + $(this).val()).show();
+		    });
+		    
 		});
+
+		function setupFileLoaderButton(button, imageHolder) {
+		    var upload = document.getElementById(button);
+		    var holder = document.getElementById(imageHolder);
+
+		    if (typeof window.FileReader === 'undefined') {
+		        console.error('File API & FileReader not available');
+		    }
+
+		    upload.onchange = function (e) {
+		        e.preventDefault();
+
+		        var file = upload.files[0],
+                    reader = new FileReader();
+		        reader.onload = function (event) {
+		            var img = new Image();
+		            img.src = event.target.result;
+                    if (img.src != undefined && img.src != '')
+		                img.className = 'thumbnail uploading-img';
+		            else
+		                img.className = '';
+		            holder.innerHTML = '';
+		            holder.appendChild(img);
+		        };
+		        reader.readAsDataURL(file);
+
+		        return false;
+		    };
+		}
+
+		setupFileLoaderButton('uploadImageButton', 'imageHolder');
 //-->
 </script>
