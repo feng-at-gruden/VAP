@@ -57,15 +57,19 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
-        <EntityType Name="BankInfos">
+        <EntityType Name="BankInfo">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Bank" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Account" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="MemberId" Type="int" />
+          <Property Name="URL" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Member_Id" Type="int" />
         </EntityType>
         <EntityType Name="BaoDanTransactions">
           <Key>
@@ -92,8 +96,9 @@
           <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="BaoDanTransactionId" Type="int" />
-          <Property Name="PaymentMethod_Id" Type="int" />
-          <Property Name="BankInfo_Id" Type="int" />
+          <Property Name="Bank" Type="nvarchar(max)" />
+          <Property Name="BankName" Type="nvarchar(max)" />
+          <Property Name="BankAccount" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="ChongXiaoTransactions">
           <Key>
@@ -191,16 +196,6 @@
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
-        <EntityType Name="PaymentMethods">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Bank" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Account" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="URL" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
         <EntityType Name="PointTransactions">
           <Key>
             <PropertyRef Name="Id" />
@@ -221,18 +216,6 @@
           <Property Name="Key" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
-        <Association Name="FK_BankInfoCashTransaction">
-          <End Role="BankInfos" Type="Self.BankInfos" Multiplicity="0..1" />
-          <End Role="CashTransactions" Type="Self.CashTransactions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BankInfos">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CashTransactions">
-              <PropertyRef Name="BankInfo_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BaoDanTransactionCashTransaction">
           <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="0..1" />
           <End Role="CashTransactions" Type="Self.CashTransactions" Multiplicity="*" />
@@ -339,13 +322,13 @@
         </Association>
         <Association Name="FK_MemberBankInfo">
           <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
-          <End Role="BankInfos" Type="Self.BankInfos" Multiplicity="*" />
+          <End Role="BankInfo" Type="Self.BankInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Members">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="BankInfos">
-              <PropertyRef Name="MemberId" />
+            <Dependent Role="BankInfo">
+              <PropertyRef Name="Member_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -445,25 +428,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PaymentMethodCashTransaction">
-          <End Role="PaymentMethods" Type="Self.PaymentMethods" Multiplicity="0..1" />
-          <End Role="CashTransactions" Type="Self.CashTransactions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentMethods">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CashTransactions">
-              <PropertyRef Name="PaymentMethod_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="VapModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="BankInfos" EntityType="Self.BankInfos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BankInfo" EntityType="Self.BankInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BaoDanTransactions" EntityType="Self.BaoDanTransactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CashTransactions" EntityType="Self.CashTransactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChongXiaoTransactions" EntityType="Self.ChongXiaoTransactions" Schema="dbo" store:Type="Tables" />
@@ -473,13 +444,8 @@
           <EntitySet Name="MemberLevel" EntityType="Self.MemberLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PointTransactions" EntityType="Self.PointTransactions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemSettings" EntityType="Self.SystemSettings" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_BankInfoCashTransaction" Association="Self.FK_BankInfoCashTransaction">
-            <End Role="BankInfos" EntitySet="BankInfos" />
-            <End Role="CashTransactions" EntitySet="CashTransactions" />
-          </AssociationSet>
           <AssociationSet Name="FK_BaoDanTransactionCashTransaction" Association="Self.FK_BaoDanTransactionCashTransaction">
             <End Role="BaoDanTransactions" EntitySet="BaoDanTransactions" />
             <End Role="CashTransactions" EntitySet="CashTransactions" />
@@ -514,7 +480,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_MemberBankInfo" Association="Self.FK_MemberBankInfo">
             <End Role="Members" EntitySet="Members" />
-            <End Role="BankInfos" EntitySet="BankInfos" />
+            <End Role="BankInfo" EntitySet="BankInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_MemberBaoDanTransaction" Association="Self.FK_MemberBaoDanTransaction">
             <End Role="Members" EntitySet="Members" />
@@ -548,10 +514,6 @@
             <End Role="Members" EntitySet="Members" />
             <End Role="PointTransactions" EntitySet="PointTransactions" />
           </AssociationSet>
-          <AssociationSet Name="FK_PaymentMethodCashTransaction" Association="Self.FK_PaymentMethodCashTransaction">
-            <End Role="PaymentMethods" EntitySet="PaymentMethods" />
-            <End Role="CashTransactions" EntitySet="CashTransactions" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -574,7 +536,7 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="BankInfos" EntityType="VapModel.BankInfo" />
+          <EntitySet Name="BankInfoes" EntityType="VapModel.BankInfo" />
           <EntitySet Name="BaoDanTransactions" EntityType="VapModel.BaoDanTransaction" />
           <EntitySet Name="CashTransactions" EntityType="VapModel.CashTransaction" />
           <EntitySet Name="ChongXiaoTransactions" EntityType="VapModel.ChongXiaoTransaction" />
@@ -584,16 +546,11 @@
           <EntitySet Name="MemberLevels" EntityType="VapModel.MemberLevel" />
           <EntitySet Name="Members" EntityType="VapModel.Member" />
           <EntitySet Name="News" EntityType="VapModel.News" />
-          <EntitySet Name="PaymentMethods" EntityType="VapModel.PaymentMethod" />
           <EntitySet Name="PointTransactions" EntityType="VapModel.PointTransaction" />
           <EntitySet Name="SystemSettings" EntityType="VapModel.SystemSetting" />
-          <AssociationSet Name="FK_BankInfoCashTransaction" Association="VapModel.FK_BankInfoCashTransaction">
-            <End Role="BankInfo" EntitySet="BankInfos" />
-            <End Role="CashTransaction" EntitySet="CashTransactions" />
-          </AssociationSet>
           <AssociationSet Name="FK_MemberBankInfo" Association="VapModel.FK_MemberBankInfo">
             <End Role="Member" EntitySet="Members" />
-            <End Role="BankInfo" EntitySet="BankInfos" />
+            <End Role="BankInfo" EntitySet="BankInfoes" />
           </AssociationSet>
           <AssociationSet Name="FK_BaoDanTransactionCashTransaction" Association="VapModel.FK_BaoDanTransactionCashTransaction">
             <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
@@ -617,10 +574,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_MemberCashTransaction" Association="VapModel.FK_MemberCashTransaction">
             <End Role="Member" EntitySet="Members" />
-            <End Role="CashTransaction" EntitySet="CashTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PaymentMethodCashTransaction" Association="VapModel.FK_PaymentMethodCashTransaction">
-            <End Role="PaymentMethod" EntitySet="PaymentMethods" />
             <End Role="CashTransaction" EntitySet="CashTransactions" />
           </AssociationSet>
           <AssociationSet Name="FK_MemberChongXiaoTransaction" Association="VapModel.FK_MemberChongXiaoTransaction">
@@ -736,10 +689,13 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Bank" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Account" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MemberId" Type="Int32" />
-          <NavigationProperty Name="CashTransactions" Relationship="VapModel.FK_BankInfoCashTransaction" FromRole="BankInfo" ToRole="CashTransaction" />
+          <Property Name="URL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Member_Id" Type="Int32" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberBankInfo" FromRole="BankInfo" ToRole="Member" />
         </EntityType>
         <EntityType Name="BaoDanTransaction">
@@ -772,12 +728,11 @@
           <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="BaoDanTransactionId" Type="Int32" />
-          <Property Name="PaymentMethod_Id" Type="Int32" />
-          <Property Name="BankInfo_Id" Type="Int32" />
-          <NavigationProperty Name="BankInfo" Relationship="VapModel.FK_BankInfoCashTransaction" FromRole="CashTransaction" ToRole="BankInfo" />
+          <Property Name="Bank" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BankName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BankAccount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionCashTransaction" FromRole="CashTransaction" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberCashTransaction" FromRole="CashTransaction" ToRole="Member" />
-          <NavigationProperty Name="PaymentMethod" Relationship="VapModel.FK_PaymentMethodCashTransaction" FromRole="CashTransaction" ToRole="PaymentMethod" />
         </EntityType>
         <EntityType Name="ChongXiaoTransaction">
           <Key>
@@ -868,7 +823,7 @@
           <Property Name="ApprovedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Referral_Id" Type="Int32" />
           <Property Name="MemberLevel_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BankInfos" Relationship="VapModel.FK_MemberBankInfo" FromRole="Member" ToRole="BankInfo" />
+          <NavigationProperty Name="BankInfoes" Relationship="VapModel.FK_MemberBankInfo" FromRole="Member" ToRole="BankInfo" />
           <NavigationProperty Name="BaoDanTransactions" Relationship="VapModel.FK_MemberBaoDanTransaction" FromRole="Member" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="CashTransactions" Relationship="VapModel.FK_MemberCashTransaction" FromRole="Member" ToRole="CashTransaction" />
           <NavigationProperty Name="ChongXiaoTransactions" Relationship="VapModel.FK_MemberChongXiaoTransaction" FromRole="Member" ToRole="ChongXiaoTransaction" />
@@ -890,17 +845,6 @@
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="PaymentMethod">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Bank" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Account" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="URL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CashTransactions" Relationship="VapModel.FK_PaymentMethodCashTransaction" FromRole="PaymentMethod" ToRole="CashTransaction" />
         </EntityType>
         <EntityType Name="PointTransaction">
           <Key>
@@ -924,18 +868,6 @@
           <Property Name="Key" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <Association Name="FK_BankInfoCashTransaction">
-          <End Type="VapModel.BankInfo" Role="BankInfo" Multiplicity="0..1" />
-          <End Type="VapModel.CashTransaction" Role="CashTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BankInfo">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CashTransaction">
-              <PropertyRef Name="BankInfo_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MemberBankInfo">
           <End Type="VapModel.Member" Role="Member" Multiplicity="0..1" />
           <End Type="VapModel.BankInfo" Role="BankInfo" Multiplicity="*" />
@@ -944,7 +876,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="BankInfo">
-              <PropertyRef Name="MemberId" />
+              <PropertyRef Name="Member_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1017,18 +949,6 @@
             </Principal>
             <Dependent Role="CashTransaction">
               <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PaymentMethodCashTransaction">
-          <End Type="VapModel.PaymentMethod" Role="PaymentMethod" Multiplicity="0..1" />
-          <End Type="VapModel.CashTransaction" Role="CashTransaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PaymentMethod">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CashTransaction">
-              <PropertyRef Name="PaymentMethod_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1164,12 +1084,16 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="BankInfos">
+          <EntitySetMapping Name="BankInfoes">
             <EntityTypeMapping TypeName="VapModel.BankInfo">
-              <MappingFragment StoreEntitySet="BankInfos">
+              <MappingFragment StoreEntitySet="BankInfo">
+                <ScalarProperty Name="Member_Id" ColumnName="Member_Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Bank" ColumnName="Bank" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -1192,8 +1116,9 @@
           <EntitySetMapping Name="CashTransactions">
             <EntityTypeMapping TypeName="VapModel.CashTransaction">
               <MappingFragment StoreEntitySet="CashTransactions">
-                <ScalarProperty Name="BankInfo_Id" ColumnName="BankInfo_Id" />
-                <ScalarProperty Name="PaymentMethod_Id" ColumnName="PaymentMethod_Id" />
+                <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="Bank" ColumnName="Bank" />
                 <ScalarProperty Name="BaoDanTransactionId" ColumnName="BaoDanTransactionId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1304,17 +1229,6 @@
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PaymentMethods">
-            <EntityTypeMapping TypeName="VapModel.PaymentMethod">
-              <MappingFragment StoreEntitySet="PaymentMethods">
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Account" ColumnName="Account" />
-                <ScalarProperty Name="Bank" ColumnName="Bank" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
