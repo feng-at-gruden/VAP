@@ -179,6 +179,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -235,6 +236,7 @@
     <Compile Include="Models\PointTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReportViewModels.cs" />
     <Compile Include="Models\SystemSetting.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
@@ -579,6 +581,7 @@
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Cash\PendingWithdraws.cshtml" />
     <Content Include="Views\BaoDan\PendingSells.cshtml" />
+    <Content Include="Views\Reports\GeneralReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

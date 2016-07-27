@@ -45,10 +45,18 @@ namespace Backend.Controllers
             var member = db.Members.Find(id);
             if (member != null)
             {
+                if (member.Status == VapLib.会员状态.待审核.ToString())
+                {
+                    ModelState.AddModelError("", "会员批准成功。");
+                }
+                if (member.Status == VapLib.会员状态.锁定.ToString())
+                {
+                    ModelState.AddModelError("", "会员解锁成功。");
+                }
                 member.Status = VapLib.会员状态.正常.ToString();
                 db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
-                ModelState.AddModelError("", "会员批准成功。");
+                
             }
             //无此记录
             else
@@ -56,6 +64,26 @@ namespace Backend.Controllers
                 ModelState.AddModelError("", "该记录不存在。");
             }
             
+            TempData["ModelState"] = ModelState;
+            return RedirectToAction("Index");
+        }
+        public ActionResult LockMember(int id)
+        {
+
+            var member = db.Members.Find(id);
+            if (member != null)
+            {
+                member.Status = VapLib.会员状态.锁定.ToString();
+                db.Entry(member).State = EntityState.Modified;
+                db.SaveChanges();
+                ModelState.AddModelError("", "会员锁定成功。");
+            }
+            //无此记录
+            else
+            {
+                ModelState.AddModelError("", "该记录不存在。");
+            }
+
             TempData["ModelState"] = ModelState;
             return RedirectToAction("Index");
         }

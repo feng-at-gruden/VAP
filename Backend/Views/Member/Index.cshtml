@@ -118,7 +118,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayNameFor(model => model.Id)
+                        @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Referral_Id)
@@ -149,11 +149,15 @@
                     <td>
                         @if (item.Status == VapLib.会员状态.待审核.ToString())
                         {
-                            @Html.ActionLink("批准", "ApproveMember", new { id = item.Id })
+                            @Html.ActionLink("批准", "ApproveMember", new { id = item.Id }, new { @class = "tablelink" })
                         }
                         else if (item.Status == VapLib.会员状态.锁定.ToString())
                         {
-                            @Html.ActionLink("解锁", "ApproveMember", new { id = item.Id })
+                            @Html.ActionLink("解锁", "ApproveMember", new { id = item.Id }, new { @class = "tablelink" })
+                        }
+                        else if(item.Status == VapLib.会员状态.正常.ToString())
+                        {
+                            @Html.ActionLink("锁定", "LockMember", new { id = item.Id },new{@class="tablelink"})
                         }
 
                     </td>

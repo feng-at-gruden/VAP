@@ -64,7 +64,7 @@
                         @Html.DisplayFor(modelItem => item.DateTime)
                     </td>
                     <td>
-                        @Html.ActionLink("批准", "ApproveSell", new { id = item.Id })
+                        @Html.ActionLink("批准", "ApproveSell", new { id = item.Id }, new { @class = "tablelink" })
                     </td>
                 </tr>
             }

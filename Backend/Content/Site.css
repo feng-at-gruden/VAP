@@ -321,7 +321,14 @@ h2{font-weight:normal;}
 /*tools*/
 .toolsli{clear:both; overflow:hidden; margin-bottom:20px;}
 .toollist{margin-left:20px; overflow:hidden; float:left;}
-.toollist li{width:66px; text-align:center; float:left; margin-right:32px;}
+.toollist li
+{
+    width: 266px;
+    text-align: left; 
+    float:left;
+    margin-right:32px;
+
+}
 .toollist li a{width:65px; height:65px; background:#fafbfb; border-right:solid 1px #E8DECE;border-bottom:solid 1px #E8DECE; display:block;}
 .toollist li a:hover{background:#FFEED2;border-right:solid 1px #E0C599;border-bottom:solid 1px #E0C599;}
 .toollist li h2{line-height:35px;}
@@ -477,19 +484,19 @@ h2{font-weight:normal;}
 .page-sidebar {
     height: 800px;
     width: 187px;
-    position: fixed;
+    position: absolute;
     background-color: #fff3e1;
     margin-top: 88px;
 }
 .mainContent {
-    height: 800px;
+    height: auto;
     width: 85%;
-    max-width: 1500px;
-    position: fixed;
+    position: relative;
     margin-top: 88px;
     margin-left: 188px;
     padding-right: 10px;
     padding-left: 1px;
+    overflow-y:auto;
 }
 
 
@@ -503,3 +510,4 @@ h2{font-weight:normal;}
 .text-info {
   color: #3a87ad;
 }
+.validation-summary-errors { font-weight: bold; color: #f00;margin-bottom: 10px; } 

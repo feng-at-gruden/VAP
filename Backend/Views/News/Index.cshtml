@@ -122,8 +122,8 @@
                         @Html.DisplayFor(modelItem => item.CreatedBy)
                     </td>
                     <td>
-                        @Html.ActionLink("编辑", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("删除", "Delete", new { id = item.Id })
+                        @Html.ActionLink("编辑", "Edit", new { id = item.Id }, new { @class = "tablelink" }) |
+                        @Html.ActionLink("删除", "Delete", new { id = item.Id }, new { @class = "tablelink" })
                     </td>
                 </tr>
             }

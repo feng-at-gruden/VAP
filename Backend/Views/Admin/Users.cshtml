@@ -50,8 +50,8 @@
 
 
                 <td>
-                    @Html.ActionLink("重置密码", "ResetPassword", new { uid = item.Id }) |
-                    @Html.ActionLink("修改", "EditUser", new { uid = item.Id })
+                    @Html.ActionLink("重置密码", "ResetPassword", new { uid = item.Id }, new { @class = "tablelink" }) |
+                    @Html.ActionLink("修改", "EditUser", new { uid = item.Id }, new { @class = "tablelink" })
 
                 </td>
             </tr>

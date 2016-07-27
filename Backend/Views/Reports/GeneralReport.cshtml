@@ -1,0 +1,69 @@
+﻿@model Backend.Models.GeneralReportViewModel
+
+@{
+    ViewBag.Title = "综合统计表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">综合统计表</a></li>
+    </ul>
+</div>
+<div class="formbody">
+
+    <div class="formtitle"><span>会员信息</span></div>
+
+    <div class="toolsli">
+        <ul class="toollist">
+            <li><h2>注册会员总数： @Html.DisplayFor(model=>model.MemberCount) </h2></li>
+            <li><h2>今日注册会员数： @Html.DisplayFor(model => model.TodayMemberCount)</h2></li>
+        </ul>
+    </div>
+    <div class="formtitle"><span>会员充值信息</span></div>
+
+    <div class="toolsli">
+        <ul class="toollist">
+            <li><h2>累计充值： @Html.DisplayFor(model => model.TotalTopup)</h2></li>
+            <li><h2>今日充值： @Html.DisplayFor(model => model.TodayTotalTopup)</h2></li>
+        </ul>
+    </div>
+    <div class="formtitle"><span>会员提现信息</span></div>
+
+    <div class="toolsli">
+        <ul class="toollist">
+            <li><h2>累计提现： @Html.DisplayFor(model => model.TotalWithdraw)</h2></li>
+            <li><h2>今日提现： @Html.DisplayFor(model => model.TodayTotalWithdraw)</h2></li>
+            <li><h2>累计提现手续费： @Html.DisplayFor(model => model.TotalWithdrawFee)</h2></li>
+            <li><h2>今日提现手续费： @Html.DisplayFor(model => model.TodayTotalWithdrawFee)</h2></li>
+        </ul>
+    </div>
+    <div class="formtitle"><span>会员钱包信息</span></div>
+
+    <div class="toolsli">
+        <ul class="toollist">
+            <li><h2>全站现金金额： @Html.DisplayFor(model => model.TotalCash)</h2></li>
+            <li><h2>全站冻结现金金额： @Html.DisplayFor(model => model.TotalLockCash)</h2></li>
+            <li><h2>全站虚拟币数量： @Html.DisplayFor(model => model.TotalCoin)</h2></li>
+            <li><h2>全站冻结虚拟币数量： @Html.DisplayFor(model => model.TotalLockCoin)</h2></li>
+            <li><h2>全站积分： @Html.DisplayFor(model => model.TotalPoint)</h2></li>
+            <li><h2>全站冻结积分： @Html.DisplayFor(model => model.TotalLockPoint)</h2></li>
+            <li><h2>全站冲销： @Html.DisplayFor(model => model.TotalCx)</h2></li>
+            <li><h2>全站冻结冲销： @Html.DisplayFor(model => model.TotalLockCx)</h2></li>
+        </ul>
+    </div>
+    <div class="formtitle"><span>当前待审核信息</span></div>
+
+    <div class="toolsli">
+        <ul class="toollist">
+            <li><h2>待审核会员： @Html.DisplayFor(model => model.PendingMemberCount)</h2></li>
+            <li><h2>待审核充值金额： @Html.DisplayFor(model => model.TotalPendingTopup)</h2></li>
+            <li><h2>待审核提现金额： @Html.DisplayFor(model => model.TotalPendingWithdraw)</h2></li>
+            <li><h2>待审核售币数量： @Html.DisplayFor(model => model.TotalPendingSells)</h2></li>
+        </ul>
+    </div>
+
+
+</div>

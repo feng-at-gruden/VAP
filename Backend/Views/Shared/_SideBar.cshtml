@@ -63,7 +63,7 @@ $(function(){
         </dd>
         <dd>
             <div class="title">
-                <span><img src="~/images/leftico03.png" /></span>虚拟管理
+                <span><img src="~/images/leftico03.png" /></span>虚拟币管理
             </div>
             <ul class="menuson">
                 <li><cite></cite><a href="@Url.Action("Index","News")">价格列表</a><i></i></li>
@@ -75,10 +75,10 @@ $(function(){
                 <span><img src="~/images/leftico04.png" /></span>资产管理
             </div>
             <ul class="menuson">
-                <li><cite></cite><a href="@Url.Action("Index","News")">待审核充值列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create","News")">待审核提现列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Index","News")">报单列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create","News")">待审核虚拟币提现列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("PendingTopups","Cash")">待审核充值列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("PendingWithdraws","Cash")">待审核提现列表</a><i></i></li>
+                @*<li><cite></cite><a href="@Url.Action("Index","News")">报单列表</a><i></i></li>*@
+                <li><cite></cite><a href="@Url.Action("PendingSells","BaoDan")">待审核虚拟币提现列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Index","News")">虚拟币操作记录列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Create","News")">奖金积分操作记录列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Create","News")">会员资金列表</a><i></i></li>
@@ -89,8 +89,8 @@ $(function(){
                 <span><img src="~/images/leftico01.png" /></span>报表统计
             </div>
             <ul class="menuson">
-                <li><cite></cite><a href="@Url.Action("Index","News")">汇总统计</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create","News")">现价价格</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("GeneralReport","Reports")">汇总统计</a><i></i></li>
+                
             </ul>
         </dd>
         <dd>
@@ -99,7 +99,7 @@ $(function(){
             </div>
             <ul class="menuson">
                 <li><cite></cite><a href="@Url.Action("MetaIndex","Admin")">系统参数设置</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create","News")">银行账号列表</a><i></i></li>
+                <li><cite></cite><a href="">银行账号列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Users","Admin")">后台账号管理</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("About","Home")">关于我们</a><i></i></li>
             </ul>
