@@ -1,4 +1,5 @@
 ﻿@model MemberCenter.Models.RegisterViewModel
+@using CaptchaMvc.HtmlHelpers
 @{
     ViewBag.Title = "会员注册";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
@@ -53,9 +54,8 @@
                                     @Html.TextBoxFor(m => m.Referral, new { @class = "form-control", maxlength = "10", placeholder = "请输入推广人ID", disabled = "true" })
                                 </div>
                             }
-                            <div class="form-group input-group">
-                                @Html.TextBoxFor(m => m.Captcha, new { @class = "form-control", placeholder = "请输入验证码", maxlength = "4" })
-                                <span class="input-group-addon">XXXX</span>
+                            <div class="form-group">
+                                @Html.Captcha(4, "~/Views/Shared/_CaptchaPartial.cshtml")
                             </div>
                             <div class="form-group">
                                 <div class="checkbox">

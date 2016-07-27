@@ -34,6 +34,7 @@ namespace MemberCenter.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [CaptchaMvc.Attributes.CaptchaVerify("验证码错误")]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
@@ -90,6 +91,7 @@ namespace MemberCenter.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [CaptchaMvc.Attributes.CaptchaVerify("验证码错误")]
         public async Task<ActionResult> Register(RegisterViewModel model, int? referral)
         {
             if (ModelState.IsValid)

@@ -17,9 +17,11 @@ namespace MemberCenter.Models
         [Display(Name = "密码")]
         public string Password { get; set; }
 
+        /*
         [Display(Name = "验证码")]
         [Required(ErrorMessage = "请输入{0}")]
         public string Captcha { get; set; }
+        */
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
@@ -46,10 +48,6 @@ namespace MemberCenter.Models
         [Required(ErrorMessage = "请输入{0}")]
         [Display(Name = "推荐人")]
         public string Referral { get; set; }
-
-        [Display(Name = "验证码")]
-        [Required(ErrorMessage = "请输入{0}")]
-        public string Captcha { get; set; }
 
         [Display(Name = "同意条款")]
         public bool AcceptTerm { get; set; }
