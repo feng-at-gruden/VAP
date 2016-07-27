@@ -6,11 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Backend.Helper;
 using Backend.Models;
 using Microsoft.AspNet.Identity;
 
 namespace Backend.Controllers
 {
+    [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
     public class NewsController : Controller
     {
         private vapEntities1 db = new vapEntities1();

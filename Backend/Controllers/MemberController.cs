@@ -6,16 +6,18 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Backend.Helper;
 using Backend.Models;
 
 namespace Backend.Controllers
 {
+    [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
     public class MemberController : Controller
     {
         private vapEntities1 db = new vapEntities1();
 
         // GET: /Member/
-        public ActionResult Index(string account,string uId, string status)
+        public ActionResult Index(string account, string status)
         {
             if (TempData.ContainsKey("ModelState"))
             {
@@ -26,17 +28,13 @@ namespace Backend.Controllers
             {
                 members = members.Where(c => c.Email.Contains(account));
             }
-            if (!string.IsNullOrEmpty(uId))
-            {
-                members = members.Where(c => c.Id.ToString() == uId);
-            }
+           
             if (!string.IsNullOrEmpty(status))
             {
                 members = members.Where(c => c.Status == status);
             }
             ViewBag.account = account;
             ViewBag.status = status;
-            ViewBag.uId = uId;
             return View(members.ToList());
         }
         public ActionResult ApproveMember(int id)

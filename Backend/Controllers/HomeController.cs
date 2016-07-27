@@ -9,7 +9,7 @@ namespace Backend.Controllers
 {
     public class HomeController : Controller
     {
-        [MyAuthorize]
+        [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
         public ActionResult Index()
         {
             if (TempData.ContainsKey("ModelState"))
