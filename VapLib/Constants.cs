@@ -30,6 +30,7 @@ namespace VapLib
         public const decimal CashWithdrawFee = 30m;         //资金提现手续费
         public const decimal CashWithdrawMax = 5000m;       //资金提现每笔最大额度
         public const decimal CashWithdrawMin = 100m;        //资金提现每笔最小额度
+        public const decimal CashTopupMin = 10000m;         //资金充值每笔最小额度
 
     }
     
@@ -54,7 +55,7 @@ namespace VapLib
     public enum 现金状态
     {
         待审核 = 0,
-        可用 = 1,     //审核通过后为可用状态，  可表示为 提现审核通过， 充值审核通过， 返利及售币冻结资金记录解冻 
+        已审核 = 1,     //审核通过后为可用状态，  可表示为 提现审核通过， 充值审核通过， 返利及售币冻结资金记录解冻 
         冻结 = 2,     //只给售币情况使用
     }
 

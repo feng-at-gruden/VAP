@@ -33,7 +33,7 @@
                     if(Model.BankInfoId==0)
                     {
                         <div class="form-group">
-                            <a href="#" class="right">请设置提现银行帐号信息</a>
+                            <a href="/Account/SecureSetting" class="right">请设置提现银行帐号信息</a>
                             <br class="clear" />
                         </div>
                     }
@@ -41,12 +41,12 @@
                     {
                         <div class="form-group">
                             <span class="left">提现方式：银行卡</span>
-                            <a href="#" class="right">修改银行卡提现信息</a>
+                            <a href="/Account/SecureSetting" class="right">修改银行卡提现信息</a>
                             <br class="clear" />
                         </div>
                     }
                     <div class="form-group input-group">
-                        @Html.TextBoxFor(m => m.RequestAmount, new { @class = "form-control", placeholder = "提现金额", maxlength = "30" })
+                        @Html.TextBoxFor(m => m.RequestAmount, new { @class = "form-control", placeholder = "提现金额", maxlength = "7", id="CashAmount" })
                         <span class="input-group-addon">提现金额</span>
                     </div>
                     <div class="form-group">
@@ -75,8 +75,8 @@
         <thead>
             <tr>
                 <th>提现时间</th>
-                <th>提交金额</th>
-                <th>手续费</th>
+                <th style="text-align:right;">提交金额</th>
+                <th style="text-align:right;">手续费</th>
                 <th>银行</th>
                 <th>提现账户</th>
                 <th>状态</th>
@@ -87,8 +87,8 @@
         {
             <tr class="odd gradeX">
                 <td>@Html.DisplayFor(modelItem => item.WithdrawTime)</td>
-                <td>@Html.DisplayFor(modelItem => item.Amount)</td>
-                <td>@Html.DisplayFor(modelItem => item.Fee)</td>
+                <td style="text-align:right;">@Html.DisplayFor(modelItem => item.Amount)</td>
+                <td style="text-align:right;">@Html.DisplayFor(modelItem => item.Fee)</td>
                 <td class="center">@Html.DisplayFor(modelItem => item.Bank)</td>
                 <td class="center">@Html.DisplayFor(modelItem => item.BankAccount)</td>
                 <td class="center">@Html.DisplayFor(modelItem => item.Status)</td>
@@ -99,3 +99,29 @@
     <!-- /.Tbale -->
 </div>
 <!-- /.row -->
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#CashAmount").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .190
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+
+    });
+
+
+</script>

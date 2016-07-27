@@ -44,6 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="InitSQL\BankInfo.sql" />
     <Content Include="InitSQL\CoinPrices.sql" />
     <Content Include="InitSQL\IdentityInitial.sql" />
     <Content Include="InitSQL\MemberLevel.sql" />

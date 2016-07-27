@@ -1,11 +1,8 @@
-﻿
-@model MemberCenter.Models.ChangePasswordViewModel
+﻿@model MemberCenter.Models.SecureSettingViewModel
 
 @{
-    
     ViewBag.Title = "安全设置";
 }
-
 
 <h1 class="page-header">@ViewBag.Title</h1>
 <div class="panel panel-default">
@@ -13,7 +10,7 @@
         SECURE SETTING
     </div>
     <div class="panel-body">
-        @if(!ViewData.ModelState.IsValid)
+        @if (!ViewData.ModelState.IsValid)
         { 
             <div class="alert alert-danger">
                 @Html.ValidationSummary()
@@ -30,25 +27,37 @@
             <caption><em>重要提示：客服不会要求QQ远程控制您的电脑、所有要求远程的都是骗子。登录密码、二级密码、交易密码请勿透漏给任何人，包括客服！</em></caption>
             <!--
             <tr>
-                <td>未验证</td>
                 <td>邮箱验证</td>
                 <td>用于登录和找回密码</td>
                 <td><a href="#" class="btn btn-primary">验证</a></td>
             </tr>
             -->
             <tr>
-                <td>已设置</td>
                 <td>登录密码</td>
                 <td>用于登录</td>
                 <td><a href="javascript:ChangePassword(1);" class="btn btn-primary">修改</a></td>
             </tr>
-
             <tr>
-                <td>已设置</td>
                 <td>交易密码</td>
                 <td>用于买卖积分、奖金积分提现和虚拟币提现</td>
                 <td><a href="javascript:ChangePassword(2);" class="btn btn-primary">修改</a></td>
             </tr>
+            @if(!Model.BankInfoAdded)
+            { 
+            <tr>
+                <td>银行信息</td>
+                <td>用于资金提现，您还没有设置提现银行账户信息。</td>
+                <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#bankModal">设置</a></td>
+            </tr>
+            }
+            else 
+            { 
+            <tr>
+                <td>银行信息</td>
+                <td>用于资金提现。当前提现账户：@Model.BankInfo.Bank @Model.BankInfo.Name (@Model.BankInfo.Account) </td>
+                <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#bankModal">修改</a></td>
+            </tr>
+            }
         </table>
         <!-- /.Table -->
     </div>
@@ -58,44 +67,112 @@
     </div>
 </div>
 
-@using (Html.BeginForm("SecureSetting", "Account",  null, FormMethod.Post, new { role = "form", id = "ActionForm" }))
-{
-@Html.AntiForgeryToken()   
-<!-- Modal Dialog -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    @Html.PasswordFor(m => m.OldPassword, new { @class = "form-control", placeholder = "请输入原密码", maxlength = "20" })
+
+<!--Form Change Password-->
+<form action="/Account/UpdatePassword" method="post" role="form" id="ActionForm">
+    <!-- Modal Dialog -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">修改密码</h4>
                 </div>
-                <div class="form-group">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "请输入新的密码", maxlength = "20" })
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="请输入原密码" name="OldPassword" type="password" maxlength="30">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="请输入新的密码" name="Password" type="password" maxlength="30">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="请确认新的密码" name="ConfirmPassword" type="password" maxlength="30">
+                    </div>
                 </div>
-                <div class="form-group">
-                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "请确认新的密码", maxlength = "20" })
+                <input type="hidden" name="Type" id="PasswordType" />
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">保存</button>
                 </div>
             </div>
-            @Html.HiddenFor(m => m.Type, new { id = "PasswordType"})
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success" >保存</button>
-            </div>
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
+        <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-}
+    <!-- /.modal -->
+</form>
+
+<!--Form Update Bank info-->
+<form action="/Account/BankInfo" method="post" role="form">
+    <!-- Modal Dialog -->
+    <div class="modal fade" id="bankModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">银行信息</h4>
+                </div>
+                <div class="modal-body">
+                    @if(Model.BankInfo == null)
+                    { 
+                        <div class="form-group">
+                            <input class="form-control" placeholder="开户银行" name="Bank" maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="户名" name="Name" maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="银行帐号" name="Account" maxlength="30">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <input class="form-control" placeholder="开户银行" name="Bank" maxlength="30" value="@Model.BankInfo.Bank">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="户名" name="Name" maxlength="30" value="@Model.BankInfo.Name">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="银行帐号" name="Account" id="BankAccount" maxlength="19" value="@Model.BankInfo.Account">
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">保存</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</form>
+
 <script>
-    function ChangePassword(type)
-    {
+    function ChangePassword(type) {
         $('#PasswordType').val(type);
         $('#myModalLabel').text(type == 1 ? '修改登录密码' : '修改交易密码');
         $('#myModal').modal('show');
     }
+
+
+    $(document).ready(function () {
+
+        $("#BankAccount").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .190
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    });
+
 </script>

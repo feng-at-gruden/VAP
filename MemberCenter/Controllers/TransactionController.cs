@@ -20,10 +20,7 @@ namespace MemberCenter.Controllers
         // GET: /Transaction/CashTopup
         public ActionResult CashTopup()
         {
-            
-            CashTopupViewModel model = new CashTopupViewModel {
-            };
-            return View(model);
+            return View(GetCashTopupViewModel());
         }
 
         //
@@ -34,20 +31,45 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO
-                //db.Entry(cashtransaction).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                String bankInfoType = 银行账户信息类型.系统账户.ToString();
+                BankInfo bankInfo= db.BankInfo.SingleOrDefault(m => m.Id == model.BankInfoId && m.Type.Equals(bankInfoType));
+                if(bankInfo == null)
+                {
+                    ModelState.AddModelError("", "银行汇款信息错误");
+                }
+                else if (model.Amount < Constants.CashTopupMin)
+                {
+                    ModelState.AddModelError("", "充值金额错误，每次最少充值￥" + Constants.CashTopupMin);
+                }
+                else
+                {
+                    //TODO, display bank info
+                    //TODO, add Comment, FileUrl field to modle,
+                    //TODO, add file upload
+                    CurrentUser.CashTransaction.Add(new CashTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Amount = model.Amount,
+                        Fee = Constants.CashTopupFee,
+                        Bank = bankInfo.Bank,
+                        BankName = bankInfo.Name,
+                        BankAccount = bankInfo.Account,
+                        Type = 现金交易类型.充值.ToString(),
+                        Status = 现金状态.待审核.ToString(),
+                    });
+                    db.SaveChanges();
+                    ViewBag.ActionMessage = "充值信息已提交，请等待审核！";
+                }
             }
-            
-            return View();
+
+            return View(GetCashTopupViewModel());
         }
 
         //
         // GET: /Transaction/CashWithdraw
         public ActionResult CashWithdraw()
         {
-            return View(GetCashWithdrawViewMode());
+            return View(GetCashWithdrawViewModel());
         }
 
         //
@@ -62,7 +84,7 @@ namespace MemberCenter.Controllers
                 {
                     ModelState.AddModelError("", "提现金额有误(" + model.RequestAmount + ")");
                 }
-                else if (model.BankInfoId==0 && false)       //TODO
+                else if (CurrentUser.BankInfo.Count<=0)       
                 {
                     ModelState.AddModelError("", "还没有设置提现银行帐号信息");
                 }
@@ -73,6 +95,7 @@ namespace MemberCenter.Controllers
                 else
                 { 
                     //增加CashTransaction记录
+                    BankInfo bankInfo = CurrentUser.BankInfo.SingleOrDefault();
                     CurrentUser.CashTransaction.Add(new CashTransaction
                     {
                         DateTime = DateTime.Now,
@@ -80,9 +103,9 @@ namespace MemberCenter.Controllers
                         Status = 现金状态.待审核.ToString(),
                         Amount = -model.RequestAmount,
                         Fee = Constants.CashWithdrawFee,
-                        Bank = "a bank",
-                        BankAccount = "XXXX",
-                        BankName = "AAAA",
+                        Bank = bankInfo.Bank,
+                        BankAccount = bankInfo.Account,
+                        BankName = bankInfo.Name,
                     });
                     //修改自己Cash1 数值
                     CurrentUser.Cash1 -= model.RequestAmount;
@@ -90,7 +113,7 @@ namespace MemberCenter.Controllers
                     ViewBag.ActionMessage = "提现申请已提交，等待审核！";
                 }
             }
-            return View(GetCashWithdrawViewMode());
+            return View(GetCashWithdrawViewModel());
         }
 
         //
@@ -114,13 +137,34 @@ namespace MemberCenter.Controllers
 
         #region Private Methods
 
-        private CashWithdrawViewModel GetCashWithdrawViewMode()
+        private CashTopupViewModel GetCashTopupViewModel()
+        {
+            String bankInfoType = 银行账户信息类型.系统账户.ToString();
+            CashTopupViewModel model = new CashTopupViewModel
+            {
+                Amount = 0,
+                SysBankInfos = from row in db.BankInfo
+                               where row.Type.Equals(bankInfoType)
+                               select new BankInfoViewModel
+                               {
+                                   Id = row.Id,
+                                   Account = row.Account,
+                                   Bank = row.Bank,
+                                   Name = row.Name,
+                                   Description = row.Description,
+                                   URL = row.URL
+                               },
+            };
+            return model;
+        }
+
+        private CashWithdrawViewModel GetCashWithdrawViewModel()
         {
             BankInfo mBankInfo = CurrentUser.BankInfo.OrderByDescending(m => m.Id).SingleOrDefault();
             int bankInfoId = mBankInfo == null ? 0 : mBankInfo.Id;
             CashWithdrawViewModel model = new CashWithdrawViewModel
             {
-                RequestAmount = 0,      //TODO
+                RequestAmount = 0,
                 AvailableAmount = CurrentUser.Cash1,
                 BankInfoId = bankInfoId,
                 MaxWithdrawAmount = Constants.CashWithdrawMax,
@@ -129,7 +173,7 @@ namespace MemberCenter.Controllers
             };
 
             String type = 现金交易类型.提现.ToString();
-            String statusDone = 现金状态.可用.ToString();
+            String statusDone = 现金状态.已审核.ToString();
             model.WithdrawHistory = from row in CurrentUser.CashTransaction
                                           where row.Type.Equals(type)
                                           orderby row.DateTime descending

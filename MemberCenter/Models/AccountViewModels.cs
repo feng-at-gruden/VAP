@@ -180,4 +180,12 @@ namespace MemberCenter.Models
         public string Type { get; set; }
     }
 
+    public class SecureSettingViewModel
+    {
+        public bool BankInfoAdded { get; set; }
+
+        public BankInfoViewModel BankInfo { get; set; }
+    }
+
+
 }
