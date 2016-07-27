@@ -21,6 +21,10 @@ namespace Backend.Controllers
         /// <returns></returns>
         public ActionResult PendingTopups()
         {
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
             var status =现金状态.待审核.ToString();
             var type = 现金交易类型.充值.ToString();
             var cashtransactions = db.CashTransactions.Where(c => c.Status == status
@@ -30,6 +34,10 @@ namespace Backend.Controllers
         }
         public ActionResult PendingWithdraws()
         {
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
             var status = 现金状态.待审核.ToString();
             var type = 现金交易类型.提现.ToString();
             var cashtransactions = db.CashTransactions.Where(c => c.Status == status
@@ -59,6 +67,7 @@ namespace Backend.Controllers
                         db.Entry(member).State = EntityState.Modified;
                         db.Entry(cashtransaction).State = EntityState.Modified;
                         db.SaveChanges();
+                        ModelState.AddModelError("", "审批成功。");
                         return RedirectToAction("PendingTopups");
 
                     } //提现 会员可用现金再提交申请时已经扣除
@@ -67,6 +76,7 @@ namespace Backend.Controllers
                         cashtransaction.Status = 现金状态.可用.ToString();
                         db.Entry(cashtransaction).State = EntityState.Modified;
                         db.SaveChanges();
+                        ModelState.AddModelError("", "审批成功。");
                         return RedirectToAction("PendingWithdraws");
 
                     }
