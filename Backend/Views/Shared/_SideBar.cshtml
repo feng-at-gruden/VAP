@@ -77,9 +77,8 @@ $(function(){
             <ul class="menuson">
                 <li><cite></cite><a href="@Url.Action("PendingTopups","Cash")">待审核充值列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("PendingWithdraws","Cash")">待审核提现列表</a><i></i></li>
-                @*<li><cite></cite><a href="@Url.Action("Index","News")">报单列表</a><i></i></li>*@
                 <li><cite></cite><a href="@Url.Action("PendingSells","BaoDan")">待审核虚拟币提现列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Index","News")">虚拟币操作记录列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("GetBaodanTrans","BaoDan")">虚拟币报单记录列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Create","News")">奖金积分操作记录列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Create","News")">会员资金列表</a><i></i></li>
             </ul>

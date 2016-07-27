@@ -578,6 +578,8 @@
     <Content Include="Views\Cash\PendingWithdraws.cshtml" />
     <Content Include="Views\BaoDan\PendingSells.cshtml" />
     <Content Include="Views\Reports\GeneralReport.cshtml" />
+    <Content Include="Views\BaoDan\GetBaodanTrans.cshtml" />
+    <Content Include="Views\Member\IpLogs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

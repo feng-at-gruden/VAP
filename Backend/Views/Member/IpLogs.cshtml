@@ -1,0 +1,94 @@
+﻿@model System.Collections.Generic.List<Backend.Models.IPLog>
+
+@{
+    ViewBag.Title = "会员操作记录";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">会员操作记录</a></li>
+    </ul>
+</div>
+<div class="formbody">
+    @using (Html.BeginForm("IpLogs", "Member", FormMethod.Get))
+    {
+        @Html.ValidationSummary()
+        <ul class="seachform1">
+            <li>
+                <label>会员账号</label>
+                @Html.TextBox("memberAccount", "", new { @class = "scinput1" })
+            </li>
+
+        </ul>
+
+
+
+        <ul class="seachform1">
+            <li class="sarchbtn">
+                <label>&nbsp;</label>
+                <input name="" type="submit" class="scbtn" onclick="" value="查询" />
+                @*<input name="" type="button" class="scbtn2" value="导出" />*@
+            </li>
+        </ul>
+        @*<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>*@
+
+    }
+    <div class="formtitle"><span>会员操作记录列表</span></div>
+    <table id="dataTable-IpLogs">
+        <thead>
+            <tr>
+                <th>
+                    会员账号
+                </th>
+                <th>
+                    会员UID
+                </th>
+                <th>
+                    Ip地址
+                </th>
+                <th>
+                    客户端
+                </th>
+                
+                <th>
+                    操作时间
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Member.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Member.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IP)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client)
+                    </td>
+                    
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTime)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable-IpLogs').DataTable({
+            "searching": false,
+        });
+    });
+</script>

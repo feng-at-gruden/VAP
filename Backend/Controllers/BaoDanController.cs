@@ -30,7 +30,28 @@ namespace Backend.Controllers
                 &&c.Type==type).OrderBy(c=>c.DateTime);
             return View(records.ToList());
         }
+        public ActionResult GetBaodanTrans(string type,string status,string memberAccount)
+        {
 
+
+            var records = db.BaoDanTransactions.Include(b => b.Member);
+            if (!string.IsNullOrEmpty(type))
+            {
+                records = records.Where(c => c.Type == type);
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                records = records.Where(c => c.Status == status);
+            }
+            if (!string.IsNullOrEmpty(memberAccount))
+            {
+                records = records.Where(c => c.Member.Email.Contains(memberAccount));
+            }
+            ViewBag.memberAccount = memberAccount;
+            ViewBag.status = status;
+            ViewBag.type = type;
+            return View(records.OrderBy(c=>c.DateTime).ToList());
+        }
 
         public ActionResult ApproveSell(int id)
         {

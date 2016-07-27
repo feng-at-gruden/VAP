@@ -1,0 +1,160 @@
+﻿@model IEnumerable<Backend.Models.BaoDanTransaction>
+
+@{
+    ViewBag.Title = "虚拟币报单记录";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">虚拟币报单记录</a></li>
+    </ul>
+</div>
+<div class="formbody">
+    @using (Html.BeginForm("GetBaodanTrans", "BaoDan", FormMethod.Get))
+    {
+        @Html.ValidationSummary()
+        <ul class="seachform1">
+            <li>
+                <label>会员账号</label>
+                @Html.TextBox("memberAccount", "", new { @class = "scinput1" })
+            </li>
+            <li>
+                <label>报单状态</label>
+                @{
+                    var options = new List<SelectListItem>();
+                    options.Insert(0, new SelectListItem
+                    {
+                        Text = "全部",
+                        Value = ""
+                    });
+                    options.Insert(1, new SelectListItem
+                    {
+                        Text = "未成交",
+                        Value = "未成交"
+                    });
+                    options.Insert(2, new SelectListItem
+                    {
+                        Text = "已成交",
+                        Value = "已成交"
+                    });
+                    options.Insert(3, new SelectListItem
+                    {
+                        Text = "用户已取消",
+                        Value = "用户已取消"
+                    });
+
+
+                }
+                @Html.DropDownList("status", options, new { @class = "scinput1" })
+
+            </li>
+            <li>
+                <label>报单类型</label>
+                @{
+                    var options1 = new List<SelectListItem>();
+                    options1.Insert(0, new SelectListItem
+                    {
+                        Text = "全部",
+                        Value = ""
+                    });
+                    options1.Insert(1, new SelectListItem
+                    {
+                        Text = "买入",
+                        Value = "买入"
+                    });
+                    options1.Insert(2, new SelectListItem
+                    {
+                        Text = "卖出",
+                        Value = "卖出"
+                    });
+                    
+
+
+                }
+                @Html.DropDownList("type", options1, new { @class = "scinput1" })
+
+            </li>
+
+        </ul>
+
+
+
+        <ul class="seachform1">
+            <li class="sarchbtn">
+                <label>&nbsp;</label>
+                <input name="" type="submit" class="scbtn" onclick="" value="查询" />
+                @*<input name="" type="button" class="scbtn2" value="导出" />*@
+            </li>
+        </ul>
+        @*<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>*@
+
+    }
+    <div class="formtitle"><span>虚拟币报单记录列表</span></div>
+    <table id="dataTable-Baodan">
+        <thead>
+            <tr>
+                <th>
+                    会员账号
+                </th>
+                <th>
+                    会员UID
+                </th>
+                <th>
+                    虚拟币数量
+                </th>
+                <th>
+                    虚拟币价格
+                </th>
+                <th>
+                    交易类型
+                </th>
+                <th>
+                    交易状态
+                </th>
+                <th>
+                    报单时间
+                </th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Member.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Member.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTime)
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable-Baodan').DataTable({
+            "searching": false,
+        });
+    });
+</script>
