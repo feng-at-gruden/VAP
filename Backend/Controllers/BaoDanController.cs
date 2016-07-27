@@ -6,11 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Backend.Helper;
 using Backend.Models;
 using VapLib;
 
 namespace Backend.Controllers
 {
+    [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
     public class BaoDanController : Controller
     {
         private vapEntities1 db = new vapEntities1();
@@ -59,18 +61,21 @@ namespace Backend.Controllers
                     db.Entry(sell).State = EntityState.Modified;
 
                     db.SaveChanges();
-                    
+                    ModelState.AddModelError("", "该记录不存在。");
 
                 }
                 else
                 {
-                    ModelState.AddModelError("", "该记录不是未成交的卖出报单。");
-                    
+                    ModelState.AddModelError("", "审批成功。");
                 }
 
             }
+            else
+            {
+                ModelState.AddModelError("", "该记录不存在。");
+            }
             //无此记录，跳转到首页
-            ModelState.AddModelError("", "该记录不存在。");
+            
             TempData["ModelState"] = ModelState;
             return RedirectToAction("PendingSells");
         }

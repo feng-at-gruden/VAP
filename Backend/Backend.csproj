@@ -573,7 +573,6 @@
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\Member\Edit.cshtml" />
     <Content Include="Views\Member\Index.cshtml" />
-    <Content Include="Views\Cash\Edit.cshtml" />
     <Content Include="Views\Cash\PendingTopups.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Cash\PendingWithdraws.cshtml" />
