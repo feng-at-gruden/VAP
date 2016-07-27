@@ -14,20 +14,16 @@ namespace Backend.Models
     
     public partial class BankInfo
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BankInfo()
-        {
-            this.CashTransactions = new HashSet<CashTransaction>();
-        }
-    
         public int Id { get; set; }
         public string Bank { get; set; }
+        public string Name { get; set; }
         public string Account { get; set; }
         public string Description { get; set; }
         public Nullable<int> MemberId { get; set; }
+        public string URL { get; set; }
+        public string Type { get; set; }
+        public Nullable<int> Member_Id { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CashTransaction> CashTransactions { get; set; }
         public virtual Member Member { get; set; }
     }
 }

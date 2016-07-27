@@ -17,7 +17,7 @@ namespace Backend.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
         {
-            this.BankInfos = new HashSet<BankInfo>();
+            this.BankInfoes = new HashSet<BankInfo>();
             this.BaoDanTransactions = new HashSet<BaoDanTransaction>();
             this.CashTransactions = new HashSet<CashTransaction>();
             this.ChongXiaoTransactions = new HashSet<ChongXiaoTransaction>();
@@ -53,7 +53,7 @@ namespace Backend.Models
         public int MemberLevel_Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BankInfo> BankInfos { get; set; }
+        public virtual ICollection<BankInfo> BankInfoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BaoDanTransaction> BaoDanTransactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

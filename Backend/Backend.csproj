@@ -230,9 +230,6 @@
     <Compile Include="Models\News.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PaymentMethod.cs">
-      <DependentUpon>VpaModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\PointTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
