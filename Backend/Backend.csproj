@@ -580,6 +580,7 @@
     <Content Include="Views\Reports\GeneralReport.cshtml" />
     <Content Include="Views\BaoDan\GetBaodanTrans.cshtml" />
     <Content Include="Views\Member\IpLogs.cshtml" />
+    <Content Include="Views\Cash\CashTrans.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

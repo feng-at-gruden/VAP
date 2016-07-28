@@ -43,7 +43,7 @@ $(function(){
             <div class="title">
                 <span><img src="~/images/leftico02.png" /></span>新闻管理
             </div>
-            <ul class="menuson">
+            <ul class="menuson" id="newsParent">
                 <li><cite></cite><a href="@Url.Action("Index","News")">新闻列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Create","News")">添加新闻</a><i></i></li>
             </ul>
@@ -52,12 +52,10 @@ $(function(){
             <div class="title">
                 <span><img src="~/images/leftico01.png" /></span>会员管理
             </div>
-            <ul class="menuson">
+            <ul class="menuson" id="memberParent">
 
                 <li><cite></cite><a href="@Url.Action("Index","Member")">会员列表</a><i></i></li>
-                <li><cite></cite><a href="javascript:;">会员业绩</a><i></i></li>
-                <li><cite></cite><a href="javascript:;">会员操作日志</a><i></i></li>
-                <li><cite></cite><a href="javascript:;">推广关系</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("IpLogs","Member")">会员操作日志</a><i></i></li>
 
             </ul>
         </dd>
@@ -74,29 +72,28 @@ $(function(){
             <div class="title">
                 <span><img src="~/images/leftico04.png" /></span>资产管理
             </div>
-            <ul class="menuson">
+            <ul class="menuson" id="cashParent">
                 <li><cite></cite><a href="@Url.Action("PendingTopups","Cash")">待审核充值列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("PendingWithdraws","Cash")">待审核提现列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("PendingSells","BaoDan")">待审核虚拟币提现列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("GetBaodanTrans","BaoDan")">虚拟币报单记录列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create","News")">奖金积分操作记录列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create","News")">会员资金列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("CashTrans","Cash")">奖金积分操作记录列表</a><i></i></li>
             </ul>
         </dd>
         <dd>
             <div class="title">
                 <span><img src="~/images/leftico01.png" /></span>报表统计
             </div>
-            <ul class="menuson">
+            <ul class="menuson" id="reportParent">
                 <li><cite></cite><a href="@Url.Action("GeneralReport","Reports")">汇总统计</a><i></i></li>
-                
+
             </ul>
         </dd>
         <dd>
             <div class="title">
                 <span><img src="~/images/leftico02.png" /></span>系统管理
             </div>
-            <ul class="menuson">
+            <ul class="menuson" id="adminParent">
                 <li><cite></cite><a href="@Url.Action("MetaIndex","Admin")">系统参数设置</a><i></i></li>
                 <li><cite></cite><a href="">银行账号列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Users","Admin")">后台账号管理</a><i></i></li>
