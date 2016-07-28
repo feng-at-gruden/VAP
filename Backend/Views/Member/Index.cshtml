@@ -15,16 +15,14 @@
     @using (Html.BeginForm("Index", "Member", FormMethod.Get))
     {
         @Html.ValidationSummary()
-        <ul class="seachform1">
-
+        
+        <ul class="seachform1 hide">
             <li>
                 <label>会员账号</label>
                 @Html.TextBox("account", "", new { @class = "scinput1" })
-
             </li>
             <li>
                 <label>会员状态</label>
-
                 @{
                     var options = new List<SelectListItem>();
                     options.Insert(0, new SelectListItem
@@ -47,28 +45,16 @@
                         Text = "锁定",
                         Value = "锁定"
                     });
-
-
                 }
                 @Html.DropDownList("status", options, new { @class = "scinput1" })
-
-
             </li>
-
-
         </ul>
-
-
-
-        <ul class="seachform1">
+        <ul class="seachform1 hide">
             <li class="sarchbtn">
                 <label>&nbsp;</label>
                 <input name="" type="submit" class="scbtn" onclick="" value="查询" />
-                @*<input name="" type="button" class="scbtn2" value="导出" />*@
             </li>
         </ul>
-        @*<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>*@
-
     }
 
 
@@ -77,10 +63,13 @@
         <thead>
             <tr>
                 <th>
-                    会员UID
+                    UID
                 </th>
                 <th>
                     推荐人UID
+                </th>
+                <th>
+                    注册日期
                 </th>
                 <th>
                     登录名
@@ -88,12 +77,13 @@
                 <th>
                     会员状态
                 </th>
+                <!--
                 <th>
                     提现状态
                 </th>
                 <th>
                     提币状态
-                </th>
+                </th>-->
                 <th>
                     昵称
                 </th>
@@ -101,7 +91,7 @@
                     真实姓名
                 </th>
                 <th>
-                    会员等级
+                    等级
                 </th>
                 <th>
                     会员业绩
@@ -120,17 +110,21 @@
                         @Html.DisplayFor(modelItem => item.Referral_Id)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.RegisterTime)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Status)
                     </td>
+                    <!--
                     <td>
                         @Html.DisplayFor(modelItem => item.TiXianStatus)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TiBiStatus)
-                    </td>
+                    </td>-->
                     <td>
                         @Html.DisplayFor(modelItem => item.UserName)
                     </td>
@@ -140,8 +134,8 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.MemberLevel.Level)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Achievement)
+                    <td style="text-align:right;">
+                        ￥@Html.DisplayFor(modelItem => item.Achievement)
                     </td>
                     
                     <td>
@@ -167,7 +161,7 @@
 <script>
     $(document).ready(function () {
         $('#dataTable-Members').DataTable({
-            "searching": false,
+            "searching": true,
         });
         $('#memberParent').slideDown();
     });

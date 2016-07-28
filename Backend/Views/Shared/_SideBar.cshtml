@@ -53,19 +53,8 @@ $(function(){
                 <span><img src="~/images/leftico01.png" /></span>会员管理
             </div>
             <ul class="menuson" id="memberParent">
-
                 <li><cite></cite><a href="@Url.Action("Index","Member")">会员列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("IpLogs","Member")">会员操作日志</a><i></i></li>
-
-            </ul>
-        </dd>
-        <dd>
-            <div class="title">
-                <span><img src="~/images/leftico03.png" /></span>虚拟币管理
-            </div>
-            <ul class="menuson">
-                <li><cite></cite><a href="@Url.Action("Index","News")">价格列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create","News")">现价价格</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("IpLogs","Member")">会员登录日志</a><i></i></li>
             </ul>
         </dd>
         <dd>
@@ -73,11 +62,20 @@ $(function(){
                 <span><img src="~/images/leftico04.png" /></span>资产管理
             </div>
             <ul class="menuson" id="cashParent">
-                <li><cite></cite><a href="@Url.Action("PendingTopups","Cash")">待审核充值列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("PendingWithdraws","Cash")">待审核提现列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("PendingSells","BaoDan")">待审核虚拟币提现列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("GetBaodanTrans","BaoDan")">虚拟币报单记录列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("CashTrans","Cash")">奖金积分操作记录列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("PendingTopups","Cash")">现金充值审核</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("PendingWithdraws","Cash")">现金提现审核</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("PendingSells","BaoDan")">电子币提现审核</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("GetBaodanTrans","BaoDan")">电子币报单记录</a><i></i></li>
+                <!--<li><cite></cite><a href="@Url.Action("CashTrans","Cash")">奖金积分操作记录列表</a><i></i></li>-->
+            </ul>
+        </dd>
+        <dd>
+            <div class="title">
+                <span><img src="~/images/leftico03.png" /></span>电子币管理
+            </div>
+            <ul class="menuson">
+                <li><cite></cite><a href="@Url.Action("Index","Coin")">价格历史</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create", "Coin")">价格调整</a><i></i></li>
             </ul>
         </dd>
         <dd>
@@ -94,10 +92,10 @@ $(function(){
                 <span><img src="~/images/leftico02.png" /></span>系统管理
             </div>
             <ul class="menuson" id="adminParent">
+                <li><cite></cite><a href="@Url.Action("UnlockCash","Admin")">解锁冻结资金</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("MetaIndex","Admin")">系统参数设置</a><i></i></li>
                 <li><cite></cite><a href="">银行账号列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Users","Admin")">后台账号管理</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("About","Home")">关于我们</a><i></i></li>
             </ul>
         </dd>
         
