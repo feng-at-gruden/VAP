@@ -580,6 +580,10 @@
     <Content Include="Views\Reports\GeneralReport.cshtml" />
     <Content Include="Views\BaoDan\GetBaodanTrans.cshtml" />
     <Content Include="Views\Member\IpLogs.cshtml" />
+    <Content Include="Views\Cash\CashTrans.cshtml" />
+    <Content Include="Views\Admin\CreateBank.cshtml" />
+    <Content Include="Views\Admin\EditBank.cshtml" />
+    <Content Include="Views\Admin\Banks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

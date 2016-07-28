@@ -88,8 +88,8 @@ h2{font-weight:normal;}
 .topleft img{margin-top:12px; margin-left:10px;}
 .topright{height:88px;background:url(../images/topright.jpg) no-repeat right;float:right;}
 .nav{float:left; position: absolute; left:320px;}
-.nav li{float:left;width:90px;height:88px; text-align:center;}
-.nav li a{display:block;width:87px;height:88px;-moz-transition: none; transition: background-color 0.3s linear; -moz-transition: background-color 0.3s linear; -webkit-transition: background-color 0.3s linear; -o-transition: background-color 0.3s linear; }
+.nav li{float:left;width:110px;height:88px; text-align:center;}
+.nav li a{display:block;width:100px;height:88px;-moz-transition: none; transition: background-color 0.3s linear; -moz-transition: background-color 0.3s linear; -webkit-transition: background-color 0.3s linear; -o-transition: background-color 0.3s linear; }
 .nav li a.selected{background:url(../images/navbg.png) no-repeat;}
 .nav li a:hover{display:block;background:#000;color:#fff;background: none repeat scroll 0% 0% rgb(235, 84, 9);}
 .nav li img{margin-top:10px;}
@@ -449,13 +449,13 @@ h2{font-weight:normal;}
 
 
 /*seachform1*/
-.seachform1,.seachform2{height:42px; width:720px;}
+.seachform1,.seachform2{height:42px; }
 .seachform2{height:auto; overflow:hidden;display:none;}
 .seachform1 li,.seachform2 li{float:left; margin-right:15px;}
 .seachform2 li{margin-bottom:8px;}
 .seachform1 li label,.seachform2 li label{padding-right:10px; float:left; line-height:32px; width:60px; text-align:center;}
-.scinput1{width:150px; height:32px; line-height:32px; border-top:solid 1px #c3ab7d; border-left:solid 1px #c3ab7d; border-right:solid 1px #e7d5ba; border-bottom:solid 1px #e7d5ba; background:url(../images/inputbg.gif) repeat-x; text-indent:10px;}
-.sarchbtn{margin-top:8px;}
+.scinput1{width:150px; height:25px; line-height:25px; border-top:solid 1px #c3ab7d; border-left:solid 1px #c3ab7d; border-right:solid 1px #e7d5ba; border-bottom:solid 1px #e7d5ba; background:url(../images/inputbg.gif) repeat-x; text-indent:10px;}
+.sarchbtn{margin-top:-8px;}
 .scbtn1
  {
      width:95px;
@@ -511,3 +511,5 @@ h2{font-weight:normal;}
   color: #3a87ad;
 }
 .validation-summary-errors { font-weight: bold; color: #f00;margin-bottom: 10px; } 
+
+.hide{display:none;}

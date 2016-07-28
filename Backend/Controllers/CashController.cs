@@ -16,7 +16,31 @@ namespace Backend.Controllers
     public class CashController : Controller
     {
         private vapEntities1 db = new vapEntities1();
+        /// <summary>
+        /// 所有cash 操作记录
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CashTrans(string type,string status,string memberAccount)
+        {
 
+            var records = db.CashTransactions.Include(c=>c.Member);
+            if (!string.IsNullOrEmpty(type))
+            {
+                records = records.Where(c => c.Type == type);
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                records = records.Where(c => c.Status == status);
+            }
+            if (!string.IsNullOrEmpty(memberAccount))
+            {
+                records = records.Where(c => c.Member.Email.Contains(memberAccount));
+            }
+            ViewBag.memberAccount = memberAccount;
+            ViewBag.status = status;
+            ViewBag.type = type;
+            return View(records.ToList());
+        }
         /// <summary>
         /// 待审批现金充值记录
         /// </summary>

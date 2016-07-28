@@ -1,18 +1,19 @@
-﻿@model IEnumerable<Backend.Models.BaoDanTransaction>
+﻿@model System.Collections.Generic.List<Backend.Models.CashTransaction>
 
 @{
-    ViewBag.Title = "虚拟币报单记录";
+    ViewBag.Title = "奖金积分操作记录列表";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="@Url.Action("Index","Home")">首页</a></li>
-        <li><a href="#">虚拟币报单记录</a></li>
+        <li><a href="#">奖金积分操作记录列表</a></li>
     </ul>
 </div>
 <div class="formbody">
-    @using (Html.BeginForm("GetBaodanTrans", "BaoDan", FormMethod.Get))
+    @using (Html.BeginForm("CashTrans", "Cash", FormMethod.Get))
     {
         @Html.ValidationSummary()
         <ul class="seachform1">
@@ -21,7 +22,7 @@
                 @Html.TextBox("memberAccount", "", new { @class = "scinput1" })
             </li>
             <li>
-                <label>报单状态</label>
+                <label>状态</label>
                 @{
                     var options = new List<SelectListItem>();
                     options.Insert(0, new SelectListItem
@@ -31,25 +32,27 @@
                     });
                     options.Insert(1, new SelectListItem
                     {
-                        Text = "未成交",
-                        Value = "未成交"
+                        Text = "待审核",
+                        Value = "待审核"
                     });
                     options.Insert(2, new SelectListItem
                     {
-                        Text = "已成交",
-                        Value = "已成交"
+                        Text = "已审核",
+                        Value = "已审核"
                     });
                     options.Insert(3, new SelectListItem
                     {
-                        Text = "用户已取消",
-                        Value = "用户已取消"
+                        Text = "冻结",
+                        Value = "冻结"
                     });
+
+
                 }
                 @Html.DropDownList("status", options, new { @class = "scinput1" })
 
             </li>
             <li>
-                <label>报单类型</label>
+                <label>类型</label>
                 @{
                     var options1 = new List<SelectListItem>();
                     options1.Insert(0, new SelectListItem
@@ -59,28 +62,51 @@
                     });
                     options1.Insert(1, new SelectListItem
                     {
-                        Text = "买入",
-                        Value = "买入"
+                        Text = "充值",
+                        Value = "充值"
                     });
                     options1.Insert(2, new SelectListItem
                     {
-                        Text = "卖出",
-                        Value = "卖出"
+                        Text = "提现",
+                        Value = "提现"
                     });
+                    options1.Insert(3, new SelectListItem
+                    {
+                        Text = "下线返利",
+                        Value = "下线返利"
+                    });
+                    options1.Insert(4, new SelectListItem
+                    {
+                        Text = "购币消费",
+                        Value = "购币消费"
+                    });
+                    options1.Insert(5, new SelectListItem
+                    {
+                        Text = "售币所得",
+                        Value = "售币所得"
+                    });
+                    
                 }
                 @Html.DropDownList("type", options1, new { @class = "scinput1" })
 
             </li>
-            <li class="sarchbtn">
-                <input name="" type="submit" class="scbtn" onclick="" value="查询" />
-                @*<input name="" type="button" class="scbtn2" value="导出" />*@
-            </li>
 
         </ul>
 
+
+
+        <ul class="seachform1">
+            <li class="sarchbtn">
+                <label>&nbsp;</label>
+                <input name="" type="submit" class="scbtn" value="查询" />
+                @*<input name="" type="button" class="scbtn2" value="导出" />*@
+            </li>
+        </ul>
+        @*<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>*@
+
     }
-    <div class="formtitle"><span>虚拟币报单记录列表</span></div>
-    <table id="dataTable-Baodan">
+    <div class="formtitle"><span>奖金积分操作记录列表</span></div>
+    <table id="dataTable-Cah">
         <thead>
             <tr>
                 <th>
@@ -90,21 +116,18 @@
                     会员UID
                 </th>
                 <th>
-                    虚拟币数量
+                    金额
                 </th>
                 <th>
-                    虚拟币价格
+                    类型
                 </th>
                 <th>
-                    交易类型
+                    状态
                 </th>
                 <th>
-                    交易状态
+                    时间
                 </th>
-                <th>
-                    报单时间
-                </th>
-               
+
             </tr>
         </thead>
         <tbody>
@@ -121,19 +144,16 @@
                         @Html.DisplayFor(modelItem => item.Amount)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Type)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Status)
                     </td>
-                   
+
                     <td>
                         @Html.DisplayFor(modelItem => item.DateTime)
                     </td>
-                    
+
                 </tr>
             }
         </tbody>
@@ -141,7 +161,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        $('#dataTable-Baodan').DataTable({
+        $('#dataTable-Cash').DataTable({
             "searching": false,
         });
         $('#cashParent').slideDown();
