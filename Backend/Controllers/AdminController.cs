@@ -255,6 +255,81 @@ namespace Backend.Controllers
             }
             return RedirectToAction("MetaIndex");
         }
+        public ActionResult Banks()
+        {
+            var type = VapLib.银行账户信息类型.系统账户.ToString();
+            var bankInfoes = db.BankInfoes.Include(b => b.Member).Where(c => c.Type == type);
+            return View(bankInfoes.ToList());
+        }
+
+
+
+        // GET: BankInfoes/Create
+        public ActionResult CreateBank()
+        {
+           return View();
+        }
+
+        // POST: BankInfoes/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateBank(BankInfo bankInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                db.BankInfoes.Add(bankInfo);
+                db.SaveChanges();
+                return RedirectToAction("Banks");
+            }
+
+            ViewBag.Member_Id = new SelectList(db.Members, "Id", "Email", bankInfo.Member_Id);
+            return View(bankInfo);
+        }
+
+        // GET: BankInfoes/Edit/5
+        public ActionResult EditBank(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            BankInfo bankInfo = db.BankInfoes.Find(id);
+            if (bankInfo == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Member_Id = new SelectList(db.Members, "Id", "Email", bankInfo.Member_Id);
+            return View(bankInfo);
+        }
+
+        // POST: BankInfoes/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditBank(BankInfo bankInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(bankInfo).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Banks");
+            }
+            return View(bankInfo);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteBank(int id)
+        {
+            BankInfo bankInfo = db.BankInfoes.Find(id);
+            db.BankInfoes.Remove(bankInfo);
+            db.SaveChanges();
+            return RedirectToAction("Banks");
+        }
 
 
 

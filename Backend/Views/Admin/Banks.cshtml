@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Backend.Models.BankInfo>
+
+@{
+    ViewBag.Title = "银行账号列表";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">银行账号列表</a></li>
+    </ul>
+</div>
+
+<div class="formbody">
+    <div class="formtitle"><span>银行账号列表</span></div>
+    <a href="@Url.Action("CreateBank", "Admin")" class="btn-new">添加银行账号</a>
+    <table @*class="tablelist"*@ id="dataTable-Banks">
+        <thead>
+            <tr>
+                <th>
+                    银行名称
+                </th>
+                <th>
+                    开户名称
+                </th>
+                <th>
+                    账号
+                </th>
+                <th>
+                    描述
+                </th>
+                
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Bank)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Account)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    
+                    <td>
+                        @Html.ActionLink("编辑", "EditBank", new { id = item.Id }, new { @class = "tablelink" }) |
+                        @Html.ActionLink("删除", "DeleteBank", new { id = item.Id }, new { @class = "tablelink" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+</table>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable-Banks').DataTable({
+            "searching": true,
+        });
+        $('#adminParent').slideDown();
+    });
+</script>
