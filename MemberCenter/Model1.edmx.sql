@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/27/2016 15:51:30
+-- Date Created: 07/28/2016 16:32:31
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -234,7 +234,6 @@ CREATE TABLE [dbo].[BankInfo] (
     [Name] nvarchar(max)  NOT NULL,
     [Account] nvarchar(max)  NOT NULL,
     [Description] nvarchar(max)  NOT NULL,
-    [MemberId] int  NULL,
     [URL] nvarchar(max)  NOT NULL,
     [Type] nvarchar(max)  NOT NULL,
     [Member_Id] int  NULL
