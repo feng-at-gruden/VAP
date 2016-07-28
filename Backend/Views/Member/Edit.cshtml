@@ -1,212 +1,100 @@
 ﻿@model Backend.Models.Member
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "会员编辑";
     Layout = "~/Views/Shared/_Layout.cshtml";
+   // List<string> subs = ViewBag.subordinates;
 }
 
-<h2>Edit</h2>
-
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Member</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email)
-                @Html.ValidationMessageFor(model => model.Email)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserName)
-                @Html.ValidationMessageFor(model => model.UserName)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RealName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RealName)
-                @Html.ValidationMessageFor(model => model.RealName)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password1, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password1)
-                @Html.ValidationMessageFor(model => model.Password1)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password2, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password2)
-                @Html.ValidationMessageFor(model => model.Password2)
-            </div>
-        </div>
-
-        
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cash1, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cash1)
-                @Html.ValidationMessageFor(model => model.Cash1)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cash2, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cash2)
-                @Html.ValidationMessageFor(model => model.Cash2)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Point1, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Point1)
-                @Html.ValidationMessageFor(model => model.Point1)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Point2, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Point2)
-                @Html.ValidationMessageFor(model => model.Point2)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ChongXiao1, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ChongXiao1)
-                @Html.ValidationMessageFor(model => model.ChongXiao1)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ChongXiao2, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ChongXiao2)
-                @Html.ValidationMessageFor(model => model.ChongXiao2)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Coin1, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Coin1)
-                @Html.ValidationMessageFor(model => model.Coin1)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Coin2, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Coin2)
-                @Html.ValidationMessageFor(model => model.Coin2)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RegisterTime, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RegisterTime)
-                @Html.ValidationMessageFor(model => model.RegisterTime)
-            </div>
-        </div>
-       
-        <div class="form-group">
-            @Html.LabelFor(model => model.Achievement, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Achievement)
-                @Html.ValidationMessageFor(model => model.Achievement)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Status)
-                @Html.ValidationMessageFor(model => model.Status)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TiXianStatus, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TiXianStatus)
-                @Html.ValidationMessageFor(model => model.TiXianStatus)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TiBiStatus, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TiBiStatus)
-                @Html.ValidationMessageFor(model => model.TiBiStatus)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdSubmitted, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdSubmitted)
-                @Html.ValidationMessageFor(model => model.IdSubmitted)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdApproved, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdApproved)
-                @Html.ValidationMessageFor(model => model.IdApproved)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ApprovedBy, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ApprovedBy)
-                @Html.ValidationMessageFor(model => model.ApprovedBy)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Referral_Id, "Referral_Id", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Referral_Id", String.Empty)
-                @Html.ValidationMessageFor(model => model.Referral_Id)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">会员编辑</a></li>
+    </ul>
 </div>
+<div class="formbody">
+    <div class="formtitle"><span>会员信息</span></div>
+    <div class="toolsli">
+        <ul class="toollist">
+            <li><h2>账号： @Html.DisplayFor(model => model.Email) </h2></li>
+            <li><h2>注册时间： @Html.DisplayFor(model => model.RegisterTime)</h2></li>
+            <li><h2>级别： @Html.DisplayFor(model => model.MemberLevel.Level)</h2></li>
+            <li><h2>业绩： @Html.DisplayFor(model => model.Achievement)</h2></li>
+        </ul>
+    </div>
+    <div class="formtitle"><span>下级会员</span></div>
+    <div class="toolsli">
+        <ul class="toollist">
+            @if (Model.Members1.Any())
+            {
+                foreach (var sub in Model.Members1)
+                {
+                    <li><h2>@sub.Email</h2></li>
+                }
+            }
+
+        </ul>
+    </div>
+
+    <div class="formtitle"><span>会员钱包信息</span></div>
+    <div class="toolsli">
+        <ul class="toollist">
+            <li><h2>可用现金金额： @Html.DisplayFor(model => model.Cash1)</h2></li>
+            <li><h2>冻结现金金额： @Html.DisplayFor(model => model.Cash2)</h2></li>
+            <li><h2>可用电子币数量： @Html.DisplayFor(model => model.Coin1)</h2></li>
+            <li><h2>冻结子币数量： @Html.DisplayFor(model => model.Coin2)</h2></li>
+            <li><h2>可用积分： @Html.DisplayFor(model => model.Point1)</h2></li>
+            <li><h2>冻结积分： @Html.DisplayFor(model => model.Point2)</h2></li>
+            <li><h2>可用冲销： @Html.DisplayFor(model => model.ChongXiao1)</h2></li>
+            <li><h2>冻结冲销： @Html.DisplayFor(model => model.ChongXiao2)</h2></li>
+        </ul>
+    </div>
+    <div class="formtitle"><span>密码重置和级别调整</span></div>
+    <div class="toolsli">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="toolsli">
+
+                <ul class="toollist">
+                    <li><h2>登录密码： @Html.DisplayFor(model => model.Password1)</h2></li>
+
+                    <li>
+                        <label>级别<b>*</b></label>
+                        @{
+                            var options = (from scl in VapLib.Constants.MemberLevels
+                           select new SelectListItem
+                           {
+                               Text = scl,
+                               Value = scl,
+                               Selected = scl == Model.MemberLevel.Level
+                           }).ToList();
+                            
+                        }
+                        @Html.DropDownListFor(model => model.MemberLevel.Level, options, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必选项" })
+
+
+                    </li>
+
+                    <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="保存" /></li>
+
+
+                </ul>
+
+
+
+            </div>
+        }
+
+    </div>
+
+</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

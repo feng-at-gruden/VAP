@@ -113,7 +113,9 @@ namespace Backend.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Referral_Id = new SelectList(db.Members, "Id", "Email", member.Referral_Id);
+           /* var temp=
+            db.Members.Where(c => c.Referral_Id == member.Id).Select(c => c.Email).ToList();
+            ViewBag.subordinates = temp;*/
             return View(member);
         }
 
@@ -122,16 +124,20 @@ namespace Backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,Email,UserName,RealName,Password1,Password2,Password3,Cash1,Cash2,Point1,Point2,ChongXiao1,ChongXiao2,Coin1,Coin2,RegisterTime,Level,Achievement,Status,TiXianStatus,TiBiStatus,IdSubmitted,IdApproved,ApprovedBy,Referral_Id")] Member member)
+        public ActionResult Edit(Member model)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(member).State = EntityState.Modified;
+                var record = db.Members.Find(model.Id);
+                record.Password1 = model.Password1;
+                var currentLevel = db.MemberLevels.First(c => c.Level == model.MemberLevel.Level);
+                record.MemberLevel_Id = currentLevel.Id;
+                db.Entry(record).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Referral_Id = new SelectList(db.Members, "Id", "Email", member.Referral_Id);
-            return View(member);
+            
+            return View(model);
         }
 
       

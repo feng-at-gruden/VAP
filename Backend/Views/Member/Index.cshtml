@@ -151,7 +151,7 @@
                         {
                             @Html.ActionLink("锁定", "LockMember", new { id = item.Id },new{@class="tablelink"})
                         }
-
+                        | @Html.ActionLink("修改", "Edit", new { id = item.Id }, new { @class = "tablelink" })
                     </td>
                 </tr>
             }

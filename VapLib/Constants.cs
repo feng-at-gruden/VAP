@@ -17,7 +17,7 @@ namespace VapLib
 
         public static readonly string[] MetaType = Enum.GetNames(typeof(现金交易类型));
         public static readonly string[] NewsType = Enum.GetNames(typeof(新闻类型));
-
+        public static readonly string[] MemberLevels = Enum.GetNames(typeof(会员等级));
       
         public const decimal PointsRate = 1500m;            //购币每消费10000现金 增长点数1500
         public const decimal PV = 0.6m;                     //返利PV值 后需定义在数据库中     上线返利 = 下线消费金额 x 上线等级返利比例 × PV × 90%
