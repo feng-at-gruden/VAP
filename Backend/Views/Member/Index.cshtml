@@ -103,7 +103,9 @@
                 <th>
                     会员等级
                 </th>
-
+                <th>
+                    会员业绩
+                </th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -138,8 +140,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.MemberLevel.Level)
                     </td>
-
-
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Achievement)
+                    </td>
+                    
                     <td>
                         @if (item.Status == VapLib.会员状态.待审核.ToString())
                         {
@@ -165,5 +169,6 @@
         $('#dataTable-Members').DataTable({
             "searching": false,
         });
+        $('#memberParent').slideDown();
     });
 </script>
