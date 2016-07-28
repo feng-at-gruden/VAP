@@ -44,8 +44,6 @@
                         Text = "用户已取消",
                         Value = "用户已取消"
                     });
-
-
                 }
                 @Html.DropDownList("status", options, new { @class = "scinput1" })
 
@@ -69,26 +67,16 @@
                         Text = "卖出",
                         Value = "卖出"
                     });
-                    
-
-
                 }
                 @Html.DropDownList("type", options1, new { @class = "scinput1" })
 
             </li>
-
-        </ul>
-
-
-
-        <ul class="seachform1">
             <li class="sarchbtn">
-                <label>&nbsp;</label>
                 <input name="" type="submit" class="scbtn" onclick="" value="查询" />
                 @*<input name="" type="button" class="scbtn2" value="导出" />*@
             </li>
+
         </ul>
-        @*<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>*@
 
     }
     <div class="formtitle"><span>虚拟币报单记录列表</span></div>

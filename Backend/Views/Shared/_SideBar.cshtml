@@ -41,15 +41,6 @@ $(function(){
     <dl class="leftmenu">
         <dd>
             <div class="title">
-                <span><img src="~/images/leftico02.png" /></span>新闻管理
-            </div>
-            <ul class="menuson" id="newsParent">
-                <li><cite></cite><a href="@Url.Action("Index","News")">新闻列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create","News")">添加新闻</a><i></i></li>
-            </ul>
-        </dd>
-        <dd>
-            <div class="title">
                 <span><img src="~/images/leftico01.png" /></span>会员管理
             </div>
             <ul class="menuson" id="memberParent">
@@ -71,20 +62,28 @@ $(function(){
         </dd>
         <dd>
             <div class="title">
-                <span><img src="~/images/leftico03.png" /></span>电子币管理
+                <span><img src="~/images/leftico01.png" /></span>报表统计
+            </div>
+            <ul class="menuson" id="reportParent">
+                <li><cite></cite><a href="@Url.Action("GeneralReport","Reports")">汇总统计</a><i></i></li>
+            </ul>
+        </dd>
+        <dd>
+            <div class="title">
+                <span><img src="~/images/leftico03.png" /></span>电子货币管理
             </div>
             <ul class="menuson">
-                <li><cite></cite><a href="@Url.Action("Index","Coin")">价格历史</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Index","Coin")">历史价格</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Create", "Coin")">价格调整</a><i></i></li>
             </ul>
         </dd>
         <dd>
             <div class="title">
-                <span><img src="~/images/leftico01.png" /></span>报表统计
+                <span><img src="~/images/leftico02.png" /></span>新闻管理
             </div>
-            <ul class="menuson" id="reportParent">
-                <li><cite></cite><a href="@Url.Action("GeneralReport","Reports")">汇总统计</a><i></i></li>
-
+            <ul class="menuson" id="newsParent">
+                <li><cite></cite><a href="@Url.Action("Index","News")">新闻列表</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create","News")">添加新闻</a><i></i></li>
             </ul>
         </dd>
         <dd>
@@ -92,7 +91,7 @@ $(function(){
                 <span><img src="~/images/leftico02.png" /></span>系统管理
             </div>
             <ul class="menuson" id="adminParent">
-                <li><cite></cite><a href="@Url.Action("UnlockCash","Admin")">解锁冻结资金</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("UnlockCash","Admin")">资金解冻</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("MetaIndex","Admin")">系统参数设置</a><i></i></li>
                 <li><cite></cite><a href="">银行账号列表</a><i></i></li>
                 <li><cite></cite><a href="@Url.Action("Users","Admin")">后台账号管理</a><i></i></li>
