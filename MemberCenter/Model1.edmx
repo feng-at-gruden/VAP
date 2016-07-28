@@ -205,7 +205,6 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Account" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="MemberId" Type="int" Nullable="true" />
     <Property Name="URL" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Member_Id" Type="int" Nullable="true" />
@@ -677,7 +676,6 @@
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="Account" Type="String" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" />
-          <Property Name="MemberId" Type="Int32" Nullable="true" />
           <Property Name="URL" Type="String" Nullable="false" />
           <Property Name="Type" Type="String" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="Model1.MemberBankInfo" FromRole="BankInfo" ToRole="Member" />
@@ -910,7 +908,6 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Account" ColumnName="Account" />
           <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="MemberId" ColumnName="MemberId" />
           <ScalarProperty Name="URL" ColumnName="URL" />
           <ScalarProperty Name="Type" ColumnName="Type" />
         </MappingFragment>

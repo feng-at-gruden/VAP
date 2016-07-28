@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace MemberCenter.Controllers
 {
@@ -16,7 +17,13 @@ namespace MemberCenter.Controllers
             {
                 if(HttpContext.User.Identity.Name!=null)
                 {
-                    return db.Members.SingleOrDefault(m => m.Email.Equals(HttpContext.User.Identity.Name, StringComparison.InvariantCultureIgnoreCase));
+                    Member me = db.Members.SingleOrDefault(m => m.Email.Equals(HttpContext.User.Identity.Name, StringComparison.InvariantCultureIgnoreCase));
+                    if (me == null)
+                    {
+                        FormsAuthentication.SignOut();
+                        Response.Redirect("~/Account/Login");
+                    }
+                    return me;
                 }
                 return null;
             }

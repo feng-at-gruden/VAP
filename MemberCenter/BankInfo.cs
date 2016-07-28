@@ -19,7 +19,6 @@ namespace MemberCenter
         public string Name { get; set; }
         public string Account { get; set; }
         public string Description { get; set; }
-        public Nullable<int> MemberId { get; set; }
         public string URL { get; set; }
         public string Type { get; set; }
     
