@@ -2,76 +2,55 @@
 @model Backend.Models.SystemSetting
 
 @{
-    ViewBag.Title = "添加与修改";
+    ViewBag.Title = "系统参数修改";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">系统参数修改</a></li>
+    </ul>
+</div>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4> 添加与修改 </h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-       @* <div class="form-group">
-            @Html.LabelFor(model => model.Key,"类型", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @{
-    var options = (from scl in VapLib.Constants.MetaType
-                         select new SelectListItem
-                         {
-                             Text = scl,
-                             Value = scl,
-                             Selected = scl == Model.Key
-                         }).ToList();
-                    options.Insert(0, new SelectListItem
-                    {
-                        Text = "请选择类型",
-                        Value = ""
-                    });
-                }
-                @Html.DropDownListFor(model => model.Key, options, new { @class = "form-control", data_val = "true", requried = "required", data_val_required = "必选项" })
-                
-                @Html.ValidationMessageFor(model => model.Key, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Value, "名称",htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control", data_val = "true", requried = "required", data_val_required = "必填项" } })
-                @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @Html.HiddenFor(model => model.Id)
+    <div class="formbody">
         
-        @*<div class="form-group" id="jc" style="display: none">
-            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="formtitle"><span>系统参数信息</span></div>
+        <ul class="forminfo">
+            <li>
+                <label>参数名称</label>
+                @Html.TextBoxFor(model => model.Key, new { @class = "dfinput", @readonly = true })
 
-      
+            </li>
+            <li>
+                <label>参数值<b>*</b></label>
+                @Html.TextBoxFor(model => model.Value, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必填字段" })
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="保存" class="btn btn-primary" />
-            </div>
-        </div>
-    </div>
+            </li>
+            <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="保存" /></li>
+
+        </ul>
+
+
+</div>
 }
 
-<div>
-    @Html.ActionLink("返回", "MetaIndex")
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
    
 }
+<script>
+    $(document).ready(function () {
+       
+        $('#adminParent').slideDown();
+    });
+</script>

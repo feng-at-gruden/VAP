@@ -14,51 +14,52 @@
 
 
 
-
-<div class="formtitle"><span>后台账号列表</span></div>
-<a class="btn-new" href="@Url.Action("CreateUser","Admin")">新建账号</a>
-<table @*class="tablelist"*@ id="dataTable-Users">
-    <thead>
-        <tr>
-            <th>
-                用户名
-            </th>
-            <th>
-                角色
-            </th>
-            <th>
-                状态
-            </th>
-
-
-            <th>操作</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="formbody">
+    <div class="formtitle"><span>后台账号列表</span></div>
+    <a class="btn-new" href="@Url.Action("CreateUser","Admin")">新建账号</a>
+    <table @*class="tablelist"*@ id="dataTable-Users">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AspNetRoles.FirstOrDefault().Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
+                <th>
+                    用户名
+                </th>
+                <th>
+                    角色
+                </th>
+                <th>
+                    状态
+                </th>
 
 
-                <td>
-                    @Html.ActionLink("重置密码", "ResetPassword", new { uid = item.Id }, new { @class = "tablelink" }) |
-                    @Html.ActionLink("修改", "EditUser", new { uid = item.Id }, new { @class = "tablelink" })
-
-                </td>
+                <th>操作</th>
             </tr>
-        }
-    </tbody>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AspNetRoles.FirstOrDefault().Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
 
-</table>
+
+                    <td>
+                        @Html.ActionLink("重置密码", "ResetPassword", new { uid = item.Id }, new { @class = "tablelink" }) |
+                        @Html.ActionLink("修改", "EditUser", new { uid = item.Id }, new { @class = "tablelink" })
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
 <script>
     $(document).ready(function () {
         $('#dataTable-Users').DataTable({

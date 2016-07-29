@@ -17,12 +17,12 @@
 {
     @Html.AntiForgeryToken()
     
-    @Html.ValidationSummary(true)
     @Html.HiddenFor(model => model.Id)
 
     <div class="formbody">
 
         @Html.ValidationSummary(true)
+        <div class="formtitle"><span>账号信息</span></div>
         <ul class="forminfo">
             <li>
                 <label>新闻标题<b>*</b></label>
