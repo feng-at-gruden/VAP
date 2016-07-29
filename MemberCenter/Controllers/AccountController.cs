@@ -229,7 +229,7 @@ namespace MemberCenter.Controllers
                 RegisterTime = CurrentUser.RegisterTime,
                 LastLoginIP = iplog.IP,
                 LastLoginTime = iplog.DateTime,
-                MyLink = Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "/Account/Register?referral=" + CurrentUser.Id),
+                MyLink = Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, "/Member/Account/Register?referral=" + CurrentUser.Id),
             };
             return View(model);
         }

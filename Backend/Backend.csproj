@@ -530,6 +530,7 @@
       <DependentUpon>VpaModel.edmx</DependentUpon>
       <LastGenOutput>VpaModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\UAT.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\cloud.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
