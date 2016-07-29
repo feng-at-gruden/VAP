@@ -71,7 +71,7 @@ namespace Backend.Models
             var chongzhi = VapLib.现金交易类型.充值.ToString();
             var tixian = VapLib.现金交易类型.提现.ToString();
             var daishenhe = VapLib.现金状态.待审核.ToString();
-            var topups = cashRecords.Where(c => c.Type == chongzhi);
+            var topups = cashRecords.Where(c => c.Type == chongzhi).ToList();
             if (topups.Any())
             {
                 TotalTopup = topups.Sum(c => c.Amount);
@@ -80,7 +80,7 @@ namespace Backend.Models
             }
             
 
-            var withdraws = cashRecords.Where(c => c.Type == tixian);
+            var withdraws = cashRecords.Where(c => c.Type == tixian).ToList();
             if (withdraws.Any())
             {
                 TotalWithdraw = withdraws.Sum(c => c.Amount);
@@ -93,7 +93,7 @@ namespace Backend.Models
             
             var tempType = VapLib.报单类型.卖出.ToString();
             var tempStatus = VapLib.报单状态.未成交.ToString();
-            var sells = db.BaoDanTransactions.Where(c => c.Type == tempType && c.Status == tempStatus);
+            var sells = db.BaoDanTransactions.Where(c => c.Type == tempType && c.Status == tempStatus).ToList();
             if (sells.Any())
             {
                 TotalPendingSells = sells.Sum(c => c.Amount);
