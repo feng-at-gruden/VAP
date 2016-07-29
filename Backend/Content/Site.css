@@ -511,5 +511,6 @@ h2{font-weight:normal;}
   color: #3a87ad;
 }
 .validation-summary-errors { font-weight: bold; color: #f00;margin-bottom: 10px; } 
+.field-validation-error{ font-weight: bold; color: #f00;margin-bottom: 10px; } 
 
 .hide{display:none;}

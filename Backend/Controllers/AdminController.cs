@@ -279,12 +279,12 @@ namespace Backend.Controllers
         {
             if (ModelState.IsValid)
             {
+                bankInfo.Type = VapLib.银行账户信息类型.系统账户.ToString();
                 db.BankInfoes.Add(bankInfo);
                 db.SaveChanges();
                 return RedirectToAction("Banks");
             }
 
-            ViewBag.Member_Id = new SelectList(db.Members, "Id", "Email", bankInfo.Member_Id);
             return View(bankInfo);
         }
 
@@ -300,7 +300,6 @@ namespace Backend.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Member_Id = new SelectList(db.Members, "Id", "Email", bankInfo.Member_Id);
             return View(bankInfo);
         }
 
@@ -313,7 +312,13 @@ namespace Backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(bankInfo).State = EntityState.Modified;
+                var record = db.BankInfoes.Find(bankInfo.Id);
+                record.Bank = bankInfo.Bank;
+                record.Name = bankInfo.Name;
+                record.Account = bankInfo.Account;
+                record.URL = bankInfo.URL;
+                record.Description = bankInfo.Description;
+                db.Entry(record).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Banks");
             }

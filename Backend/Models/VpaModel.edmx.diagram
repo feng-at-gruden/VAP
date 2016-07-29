@@ -12,7 +12,6 @@
         <AssociationConnector Association="VapModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="VapModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="VapModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="VapModel.BankInfo" Width="1.5" PointX="5.25" PointY="22.25" />
         <EntityTypeShape EntityType="VapModel.BaoDanTransaction" Width="1.5" PointX="5.25" PointY="25.875" />
         <EntityTypeShape EntityType="VapModel.CashTransaction" Width="1.5" PointX="10.5" PointY="27.25" />
         <EntityTypeShape EntityType="VapModel.ChongXiaoTransaction" Width="1.5" PointX="10.5" PointY="23.625" />
@@ -24,7 +23,6 @@
         <EntityTypeShape EntityType="VapModel.News" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="VapModel.PointTransaction" Width="1.5" PointX="7.5" PointY="27.625" />
         <EntityTypeShape EntityType="VapModel.SystemSetting" Width="1.5" PointX="4.75" PointY="0.75" />
-        <AssociationConnector Association="VapModel.FK_MemberBankInfo" />
         <AssociationConnector Association="VapModel.FK_BaoDanTransactionCashTransaction" />
         <AssociationConnector Association="VapModel.FK_BaoDanTransactionChongXiaoTransaction" />
         <AssociationConnector Association="VapModel.FK_BaoDanTransactionLockedCoin" />
@@ -37,6 +35,8 @@
         <AssociationConnector Association="VapModel.FK_MemberMemberLevel" />
         <AssociationConnector Association="VapModel.FK_MemberMember" />
         <AssociationConnector Association="VapModel.FK_MemberPointTransaction" />
+        <EntityTypeShape EntityType="VapModel.BankInfo" Width="1.5" PointX="5.25" PointY="31" />
+        <AssociationConnector Association="VapModel.FK_MemberBankInfo" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
