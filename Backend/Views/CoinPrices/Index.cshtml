@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Backend.Models.CoinPrice>
+
+@{
+    ViewBag.Title = "历史价格";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">历史价格</a></li>
+    </ul>
+</div>
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#coinParent').slideDown();
+    });
+</script>

@@ -17,17 +17,17 @@
 {
     @Html.AntiForgeryToken()
     
-    @Html.ValidationSummary(true)
     @Html.HiddenFor(model => model.Id)
 
     <div class="formbody">
 
         @Html.ValidationSummary(true)
+        <div class="formtitle"><span>账号信息</span></div>
         <ul class="forminfo">
             <li>
                 <label>新闻标题<b>*</b></label>
-                @Html.TextBoxFor(model => model.Title, new { @class = "dfinput", placeholder = "请填写新闻标题" })
-                @Html.ValidationMessageFor(model => model.Title)
+                @Html.TextBoxFor(model => model.Title, new { @class = "dfinput", placeholder = "请填写新闻标题", data_val = "true", requried = "required", data_val_required = "必填字段" })
+                @*@Html.ValidationMessageFor(model => model.Title)*@
             </li>
 
             <li>
@@ -66,16 +66,16 @@
                 }
                 @Html.DropDownListFor(model => model.Type, options, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必选项" })
 
-                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })*@
 
             </li>
             <li>
                 <label>新闻内容<b>*</b></label>
 
-                @Html.TextAreaFor(model => model.Content, new { id = "newContent", style = "width:700px;height:250px;visibility:hidden;" })
+                @Html.TextAreaFor(model => model.Content, new { id = "newContent", style = "width:700px;height:250px;visibility:hidden;", data_val = "true", requried = "required", data_val_required = "必填字段" })
                 @* <textarea id="newContent" name="content" style="width:700px;height:250px;visibility:hidden;"></textarea>
                 *@
-                @Html.ValidationMessageFor(model => model.Content)
+               @* @Html.ValidationMessageFor(model => model.Content)*@
             </li>
             <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="马上发布" /></li>
 

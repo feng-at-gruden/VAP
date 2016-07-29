@@ -178,34 +178,20 @@ namespace Backend.Controllers
             }
             return RedirectToAction("Users");
         }
-        public ActionResult MetaIndex(string metaType, string searchString, int? page)
+        public ActionResult MetaIndex()
         {
-            ViewBag.CurrentFilter = searchString;
+            
             var metas = db.SystemSettings.Where(c=>c.Id>0);
-            if (!String.IsNullOrEmpty(metaType))
-            {
-                metas = metas.Where(s => s.Key == metaType);
-            }
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                metas = metas.Where(s => s.Key.Contains(searchString));
-            }
-            return View(metas.OrderByDescending(c => c.Id).ToPagedList(page ?? 1, VapLib.Constants.PageSize));
+           
+            return View(metas.ToList());
 
         }
 
 
         // GET: PublicMetas/Edit/5
-        public ActionResult EditMeta(string type, int? id)
+        public ActionResult EditMeta(int id)
         {
-            var meta = new SystemSetting();
-            if (id != null)
-                meta = db.SystemSettings.Find(id);
-            else
-            {
-                meta.Key = type;
-            }
-
+            var meta=db.SystemSettings.Find(id);
             return View(meta);
         }
 
@@ -219,12 +205,12 @@ namespace Backend.Controllers
                 if (model.Id > 0)
                 {
                     var record = db.SystemSettings.Find(model.Id);
-                    record.Key = model.Key;
+                    //record.Key = model.Key;
                     record.Value = model.Value;
                     db.Entry(record).State = EntityState.Modified;
                     db.SaveChanges();
                 }
-                else
+                /*else
                 {
                     var record = new SystemSetting()
                     {
@@ -233,14 +219,14 @@ namespace Backend.Controllers
                     };
                     db.SystemSettings.Add(record);
                     db.SaveChanges();
-                }
+                }*/
 
                 return RedirectToAction("MetaIndex");
             }
             return View(model);
         }
 
-        // GET: PublicMetas/Delete/5
+        /*// GET: PublicMetas/Delete/5
         public ActionResult DeleteMeta(int? id)
         {
             if (id == null)
@@ -254,7 +240,7 @@ namespace Backend.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("MetaIndex");
-        }
+        }*/
         public ActionResult Banks()
         {
             var type = VapLib.银行账户信息类型.系统账户.ToString();
@@ -279,12 +265,12 @@ namespace Backend.Controllers
         {
             if (ModelState.IsValid)
             {
+                bankInfo.Type = VapLib.银行账户信息类型.系统账户.ToString();
                 db.BankInfoes.Add(bankInfo);
                 db.SaveChanges();
                 return RedirectToAction("Banks");
             }
 
-            ViewBag.Member_Id = new SelectList(db.Members, "Id", "Email", bankInfo.Member_Id);
             return View(bankInfo);
         }
 
@@ -300,7 +286,6 @@ namespace Backend.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Member_Id = new SelectList(db.Members, "Id", "Email", bankInfo.Member_Id);
             return View(bankInfo);
         }
 
@@ -313,7 +298,13 @@ namespace Backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(bankInfo).State = EntityState.Modified;
+                var record = db.BankInfoes.Find(bankInfo.Id);
+                record.Bank = bankInfo.Bank;
+                record.Name = bankInfo.Name;
+                record.Account = bankInfo.Account;
+                record.URL = bankInfo.URL;
+                record.Description = bankInfo.Description;
+                db.Entry(record).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Banks");
             }

@@ -63,14 +63,14 @@
 
                 <ul class="forminfo">
                     <li>
-                        <label>登录密码：<b>*</b></label>
-                        @Html.TextBoxFor(model => model.Password1, new { @class = "dfinput" })
+                        <label>登录密码<b>*</b></label>
+                        @Html.TextBoxFor(model => model.Password1, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必填字段" })
                     </li>
 
                     <li>
 
                         @{
-            var options = (from scl in VapLib.Constants.MemberLevels
+                           var options = (from scl in VapLib.Constants.MemberLevels
                            select new SelectListItem
                            {
                                Text = scl,
@@ -79,7 +79,7 @@
                            }).ToList();
 
                         }
-                        <label>会员级别：<b>*</b></label>
+                        <label>会员级别<b>*</b></label>
                         @Html.DropDownListFor(model => model.MemberLevel.Level, options, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必选项" })
 
                     </li>

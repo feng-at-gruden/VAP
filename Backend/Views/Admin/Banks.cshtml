@@ -53,7 +53,7 @@
                     
                     <td>
                         @Html.ActionLink("编辑", "EditBank", new { id = item.Id }, new { @class = "tablelink" }) |
-                        @Html.ActionLink("删除", "DeleteBank", new { id = item.Id }, new { @class = "tablelink" })
+                        @Html.ActionLink("删除", "DeleteBank", new { id = item.Id }, new { @class = "tablelink",onclick = "javascript:return confirm('确认删除？')"  })
                     </td>
                 </tr>
             }

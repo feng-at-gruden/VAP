@@ -17,7 +17,6 @@ namespace Backend.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
         {
-            this.BankInfoes = new HashSet<BankInfo>();
             this.BaoDanTransactions = new HashSet<BaoDanTransaction>();
             this.CashTransactions = new HashSet<CashTransaction>();
             this.ChongXiaoTransactions = new HashSet<ChongXiaoTransaction>();
@@ -25,6 +24,7 @@ namespace Backend.Models
             this.LockedCoins = new HashSet<LockedCoin>();
             this.Members1 = new HashSet<Member>();
             this.PointTransactions = new HashSet<PointTransaction>();
+            this.BankInfoes = new HashSet<BankInfo>();
         }
     
         public int Id { get; set; }
@@ -53,8 +53,6 @@ namespace Backend.Models
         public int MemberLevel_Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BankInfo> BankInfoes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BaoDanTransaction> BaoDanTransactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CashTransaction> CashTransactions { get; set; }
@@ -70,5 +68,7 @@ namespace Backend.Models
         public virtual Member Member1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PointTransaction> PointTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BankInfo> BankInfoes { get; set; }
     }
 }
