@@ -1,4 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Backend.Helper
+@{
+   
+    
+}
+
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -10,7 +16,7 @@
     @Scripts.Render("~/bundles/jquery")
 
 </head>
-<body style="background:url(./images/topbg.gif) repeat-x;">
+<body style="background:url(@SiteConfigurationHelper.SiteRootPath/images/topbg.gif) repeat-x;">
     <div>
         @*<div class="container">
                 <div class="navbar-header">

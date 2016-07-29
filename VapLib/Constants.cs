@@ -13,7 +13,6 @@ namespace VapLib
 
         public const string DefaultPass = "Abc123456";
         public const int PageSize = 10;
-       
 
         public static readonly string[] MetaType = Enum.GetNames(typeof(现金交易类型));
         public static readonly string[] NewsType = Enum.GetNames(typeof(新闻类型));
