@@ -24,7 +24,7 @@
         <ul class="forminfo">
             <li>
                 <label>银行名称<b>*</b></label>
-                @Html.TextBoxFor(model => model.Bank, new { @class = "dfinput", placeholder = "请填写银行名称", data_val = "true", requried = "required", data_val_required = "必选项"  })
+                @Html.TextBoxFor(model => model.Bank, new { @class = "dfinput", placeholder = "请填写银行名称", data_val = "true", requried = "required", data_val_required = "必填项"  })
                 @Html.ValidationMessageFor(model => model.Bank,"", new { @class = "text-danger" })
             </li>
             <li>
@@ -45,7 +45,7 @@
             <li>
                 <label>描述</label>
 
-                @Html.TextAreaFor(model => model.Description, new { style = "width:700px;height:250px;" })
+                @Html.TextAreaFor(model => model.Description, new { @class = "dfinput", style = "width:400px;height:150px;" })
 
                 @Html.ValidationMessageFor(model => model.Description)
             </li>

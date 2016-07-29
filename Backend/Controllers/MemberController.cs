@@ -37,17 +37,17 @@ namespace Backend.Controllers
             ViewBag.status = status;
             return View(members.ToList());
         }
-        public ActionResult IpLogs(string account)
+        public ActionResult IpLogs(string memberAccount)
         {
             
             var logs = db.IPLogs.Where(c => c.Id > 0);
-            if (!string.IsNullOrEmpty(account))
+            if (!string.IsNullOrEmpty(memberAccount))
             {
-                logs = logs.Where(c => c.Member.Email.Contains(account));
+                logs = logs.Where(c => c.Member.Email.Contains(memberAccount));
             }
 
-            
-            ViewBag.account = account;
+
+            ViewBag.memberAccount = memberAccount;
             return View(logs.ToList());
         }
         public ActionResult ApproveMember(int id)

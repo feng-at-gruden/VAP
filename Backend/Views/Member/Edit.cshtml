@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "会员编辑";
     Layout = "~/Views/Shared/_Layout.cshtml";
-   // List<string> subs = ViewBag.subordinates;
+    // List<string> subs = ViewBag.subordinates;
 }
 
 <div class="place">
@@ -61,23 +61,26 @@
 
             <div class="toolsli">
 
-                <ul class="toollist">
-                    <li><h2>登录密码： @Html.DisplayFor(model => model.Password1)</h2></li>
+                <ul class="forminfo">
+                    <li>
+                        <label>登录密码：<b>*</b></label>
+                        @Html.TextBoxFor(model => model.Password1, new { @class = "dfinput" })
+                    </li>
 
                     <li>
-                        <label>级别<b>*</b></label>
+
                         @{
-                            var options = (from scl in VapLib.Constants.MemberLevels
+            var options = (from scl in VapLib.Constants.MemberLevels
                            select new SelectListItem
                            {
                                Text = scl,
                                Value = scl,
                                Selected = scl == Model.MemberLevel.Level
                            }).ToList();
-                            
-                        }
-                        @Html.DropDownListFor(model => model.MemberLevel.Level, options, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必选项" })
 
+                        }
+                        <label>会员级别：<b>*</b></label>
+                        @Html.DropDownListFor(model => model.MemberLevel.Level, options, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必选项" })
 
                     </li>
 
@@ -85,6 +88,10 @@
 
 
                 </ul>
+
+
+
+
 
 
 
@@ -99,3 +106,9 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script>
+    $(document).ready(function () {
+        
+        $('#memberParent').slideDown();
+    });
+</script>
