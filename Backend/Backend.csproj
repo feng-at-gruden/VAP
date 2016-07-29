@@ -176,6 +176,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaoDanController.cs" />
     <Compile Include="Controllers\CashController.cs" />
+    <Compile Include="Controllers\CoinPricesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -584,6 +585,8 @@
     <Content Include="Views\Admin\CreateBank.cshtml" />
     <Content Include="Views\Admin\EditBank.cshtml" />
     <Content Include="Views\Admin\Banks.cshtml" />
+    <Content Include="Views\CoinPrices\Create.cshtml" />
+    <Content Include="Views\CoinPrices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

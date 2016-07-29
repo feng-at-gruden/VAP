@@ -1,0 +1,53 @@
+﻿@model Backend.Models.CoinPrice
+
+@{
+    ViewBag.Title = "电子币价格";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    decimal temp = ViewBag.LastPrice;
+}
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="#">首页</a></li>
+        <li><a href="#">电子币价格</a></li>
+    </ul>
+</div>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <div class="formbody">
+
+        <div class="formtitle"><span>电子币价格</span></div>
+
+        <ul class="forminfo">
+            <li>
+                <label>上次价格</label>
+                @Html.TextBox("LastPrice",@temp, new { @class = "dfinput", @readonly = true })
+                
+
+            </li>
+            <li>
+                <label>本次价格<b>*</b></label>
+                @Html.TextBoxFor(model => model.Price, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必填字段" })
+                
+            </li>
+            
+            <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="保存" /></li>
+        </ul>
+
+
+    </div>
+    
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    $(document).ready(function () {
+        
+        $('#coinParent').slideDown();
+    });
+</script>
