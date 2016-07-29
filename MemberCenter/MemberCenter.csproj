@@ -1024,6 +1024,8 @@
     <Content Include="Content\less\mixins.less" />
     <Content Include="Content\less\sb-admin-2.less" />
     <Content Include="Content\less\variables.less" />
+    <Content Include="Environment.PROD.config" />
+    <Content Include="Environment.UAT.config" />
     <None Include="Properties\PublishProfiles\UAT.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

@@ -8,7 +8,7 @@ namespace MemberCenter.Helper
 {
     public static class SiteConfigurationHelper
     {
-        public string SiteRootPath
+        public static string SiteRootPath
         {
             get { return ConfigurationManager.AppSettings["WebRootFolder"]; }
         }

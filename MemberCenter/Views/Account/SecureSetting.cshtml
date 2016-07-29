@@ -1,4 +1,5 @@
-﻿@model MemberCenter.Models.SecureSettingViewModel
+﻿@using MemberCenter.Helper
+@model MemberCenter.Models.SecureSettingViewModel
 
 @{
     ViewBag.Title = "安全设置";
@@ -69,7 +70,7 @@
 
 
 <!--Form Change Password-->
-<form action="/Member/Account/UpdatePassword" method="post" role="form" id="ActionForm">
+<form action="@SiteConfigurationHelper.SiteRootPath/Account/UpdatePassword" method="post" role="form" id="ActionForm">
     <!-- Modal Dialog -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -102,7 +103,7 @@
 </form>
 
 <!--Form Update Bank info-->
-<form action="/Member/Account/BankInfo" method="post" role="form">
+<form action="@SiteConfigurationHelper.SiteRootPath/Account/BankInfo" method="post" role="form">
     <!-- Modal Dialog -->
     <div class="modal fade" id="bankModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -112,8 +113,8 @@
                     <h4 class="modal-title" id="myModalLabel">银行信息</h4>
                 </div>
                 <div class="modal-body">
-                    @if(Model.BankInfo == null)
-                    { 
+                    @if (Model.BankInfo == null)
+                    {
                         <div class="form-group">
                             <input class="form-control" placeholder="开户银行" name="Bank" maxlength="30">
                         </div>
