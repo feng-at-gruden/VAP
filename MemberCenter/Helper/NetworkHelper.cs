@@ -9,8 +9,6 @@ namespace MemberCenter.Helper
     public static class NetworkHelper
     {
 
-
-
         public static string GetClientIPv4Address()
         {
             string ipv4 = String.Empty;
@@ -53,6 +51,15 @@ namespace MemberCenter.Helper
             {
                 return HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             }
+        }
+
+        public static bool CheckIsTencent()
+        {
+            string ip = GetClientIPv4Address();
+            if(HttpContext.Current.Request.ServerVariables["HTTP_USER_AGENT"].IndexOf("tencent")>=0 || ip=="180.153.202.198" || ip=="101.227.131.139"){
+                return true;
+            }
+            return false;
         }
 
     }

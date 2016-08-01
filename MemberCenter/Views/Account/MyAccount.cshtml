@@ -12,7 +12,11 @@
     <div class="panel-body">
 
         <table class="table">
-            <caption><b>用户ID：</b><em>@Model.Id</em>    <span class="right">我的推广链接：<a href="@Model.MyLink" target="_blank"><em>@Model.MyLink</em></a></span></caption>
+            <caption><b>用户UID：</b><em>@Model.Id</em>    
+                <img src="http://qr.topscan.com/api.php?text=@Model.MyLink" width="100" height="100" style="float:right;" />
+                <span class="right" style="margin-top:77px;">我的推广链接：<a href="@Model.MyLink" target="_blank"><em>@Model.MyLink</em></a></span>
+                
+            </caption>
             <tr>
                 <td><b>用户名：</b><em>@Model.UserName</em></td>
                 <td><b>真实姓名：</b><em>@Model.RealName</em></td>
