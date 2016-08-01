@@ -2,15 +2,15 @@ USE [vap];
 GO
 INSERT INTO [MemberLevel] VALUES ('无等级', .00, 0, .00, .00);
 GO
-INSERT INTO [MemberLevel] VALUES ('一星', .10, 1, .00, 10000.00);
+INSERT INTO [MemberLevel] VALUES ('一星', .10, 0, .00, 10000.00);
 GO
-INSERT INTO [MemberLevel] VALUES ('二星', .15, 1, .00, 100000.00);
+INSERT INTO [MemberLevel] VALUES ('二星', .15, 0, .00, 100000.00);
 GO
-INSERT INTO [MemberLevel] VALUES ('三星', .20, 1, .00, 200000.00);
+INSERT INTO [MemberLevel] VALUES ('三星', .20, 0, .00, 200000.00);
 GO
-INSERT INTO [MemberLevel] VALUES ('四星', .25, 1, .00, 300000.00);
+INSERT INTO [MemberLevel] VALUES ('四星', .25, 0, .00, 300000.00);
 GO
-INSERT INTO [MemberLevel] VALUES ('五星', .30, 1, .00, 400000.00);
+INSERT INTO [MemberLevel] VALUES ('五星', .30, 0, .00, 400000.00);
 GO
 INSERT INTO [MemberLevel] VALUES ('六星', .35, 2, 150000.00, 1000000.00);
 GO

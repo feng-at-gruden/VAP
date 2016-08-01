@@ -27,6 +27,9 @@ namespace MemberCenter
         public string BankAccount { get; set; }
         public string Comment { get; set; }
         public string FileUrl { get; set; }
+        public string RemitBank { get; set; }
+        public string RemitUserName { get; set; }
+        public string RemitAccount { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual BaoDanTransaction BaoDanTransaction { get; set; }

@@ -91,11 +91,13 @@
     <Property Name="Coin2" Type="decimal" Nullable="false" Scale="6" />
     <Property Name="RegisterTime" Type="datetime" Nullable="false" />
     <Property Name="Achievement" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Mobile" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="TiXianStatus" Type="nvarchar(max)" Nullable="true" />
     <Property Name="TiBiStatus" Type="nvarchar(max)" Nullable="true" />
     <Property Name="IdSubmitted" Type="bit" Nullable="true" />
     <Property Name="IdApproved" Type="bit" Nullable="true" />
+    <Property Name="IdentityPath" Type="nvarchar(max)" Nullable="true" />
     <Property Name="ApprovedBy" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Referral_Id" Type="int" Nullable="true" />
     <Property Name="MemberLevel_Id" Type="int" Nullable="false" />
@@ -117,6 +119,9 @@
     <Property Name="BankAccount" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
     <Property Name="FileUrl" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RemitBank" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RemitUserName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RemitAccount" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="PointTransactions">
     <Key>
@@ -170,6 +175,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Key" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="MemberLevel">
     <Key>
@@ -481,11 +487,13 @@
           <NavigationProperty Name="Referral" Relationship="Model1.MemberMember" FromRole="Member" ToRole="Member1" />
           <NavigationProperty Name="MyMembers" Relationship="Model1.MemberMember" FromRole="Member1" ToRole="Member" />
           <Property Name="Achievement" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="Mobile" Type="String" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="TiXianStatus" Type="String" Nullable="true" />
           <Property Name="TiBiStatus" Type="String" Nullable="true" />
           <Property Name="IdSubmitted" Type="Boolean" Nullable="true" />
           <Property Name="IdApproved" Type="Boolean" Nullable="true" />
+          <Property Name="IdentityPath" Type="String" Nullable="true" />
           <Property Name="ApprovedBy" Type="String" Nullable="true" />
           <NavigationProperty Name="BaoDanTransaction" Relationship="Model1.MemberBaoDanTransaction" FromRole="Member" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="ChongXiaoTransaction" Relationship="Model1.MemberChongXiaoTransaction" FromRole="Member" ToRole="ChongXiaoTransaction" />
@@ -513,6 +521,9 @@
           <Property Name="BankAccount" Type="String" Nullable="true" />
           <Property Name="Comment" Type="String" Nullable="true" />
           <Property Name="FileUrl" Type="String" Nullable="true" />
+          <Property Name="RemitBank" Type="String" Nullable="true" />
+          <Property Name="RemitUserName" Type="String" Nullable="true" />
+          <Property Name="RemitAccount" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="MemberCashTransaction">
           <End Type="Model1.Member" Role="Member" Multiplicity="1" />
@@ -627,6 +638,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Key" Type="String" Nullable="false" />
           <Property Name="Value" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="MemberLevel">
           <Key>
@@ -788,11 +800,13 @@
           <ScalarProperty Name="Coin2" ColumnName="Coin2" />
           <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
           <ScalarProperty Name="Achievement" ColumnName="Achievement" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="TiXianStatus" ColumnName="TiXianStatus" />
           <ScalarProperty Name="TiBiStatus" ColumnName="TiBiStatus" />
           <ScalarProperty Name="IdSubmitted" ColumnName="IdSubmitted" />
           <ScalarProperty Name="IdApproved" ColumnName="IdApproved" />
+          <ScalarProperty Name="IdentityPath" ColumnName="IdentityPath" />
           <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -813,6 +827,9 @@
           <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
           <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+          <ScalarProperty Name="RemitBank" ColumnName="RemitBank" />
+          <ScalarProperty Name="RemitUserName" ColumnName="RemitUserName" />
+          <ScalarProperty Name="RemitAccount" ColumnName="RemitAccount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -871,6 +888,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Key" ColumnName="Key" />
           <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

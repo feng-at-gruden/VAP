@@ -149,7 +149,7 @@ namespace MemberCenter.Controllers
             String bankInfoType = 银行账户信息类型.系统账户.ToString();
             CashTopupViewModel model = new CashTopupViewModel
             {
-                Amount = 0,
+                Amount = GetDailyTopupNextOdd(),
                 SysBankInfos = from row in db.BankInfo
                                where row.Type.Equals(bankInfoType)
                                select new BankInfoViewModel
@@ -164,6 +164,18 @@ namespace MemberCenter.Controllers
             };
             return model;
         }
+
+
+        private decimal GetDailyTopupNextOdd()
+        {
+            DateTime stTime = new DateTime(DateTime.Now.Year,  DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+            DateTime edTime = new DateTime(DateTime.Now.Year,  DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
+
+            int odd = db.CashTransactions.Count(m => m.DateTime >= stTime && m.DateTime <= edTime) + 1;
+            decimal odds = (odd % 100) * 0.01m;
+            return odds;
+        }
+
 
         private CashWithdrawViewModel GetCashWithdrawViewModel()
         {

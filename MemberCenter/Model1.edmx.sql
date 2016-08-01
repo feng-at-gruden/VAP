@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/28/2016 16:32:31
+-- Date Created: 08/01/2016 10:51:27
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -120,11 +120,13 @@ CREATE TABLE [dbo].[Members] (
     [Coin2] decimal(18,6)  NOT NULL,
     [RegisterTime] datetime  NOT NULL,
     [Achievement] decimal(18,2)  NOT NULL,
+    [Mobile] nvarchar(max)  NULL,
     [Status] nvarchar(max)  NOT NULL,
     [TiXianStatus] nvarchar(max)  NULL,
     [TiBiStatus] nvarchar(max)  NULL,
     [IdSubmitted] bit  NULL,
     [IdApproved] bit  NULL,
+    [IdentityPath] nvarchar(max)  NULL,
     [ApprovedBy] nvarchar(max)  NULL,
     [Referral_Id] int  NULL,
     [MemberLevel_Id] int  NOT NULL
@@ -145,7 +147,10 @@ CREATE TABLE [dbo].[CashTransactions] (
     [BankName] nvarchar(max)  NULL,
     [BankAccount] nvarchar(max)  NULL,
     [Comment] nvarchar(max)  NULL,
-    [FileUrl] nvarchar(max)  NULL
+    [FileUrl] nvarchar(max)  NULL,
+    [RemitBank] nvarchar(max)  NULL,
+    [RemitUserName] nvarchar(max)  NULL,
+    [RemitAccount] nvarchar(max)  NULL
 );
 GO
 
@@ -198,7 +203,8 @@ GO
 CREATE TABLE [dbo].[SystemSettings] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Key] nvarchar(max)  NOT NULL,
-    [Value] nvarchar(max)  NOT NULL
+    [Value] nvarchar(max)  NOT NULL,
+    [Description] nvarchar(max)  NULL
 );
 GO
 

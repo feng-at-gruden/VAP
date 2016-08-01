@@ -406,7 +406,7 @@ namespace MemberCenter.Controllers
                 mRef.ChongXiao2 = refChonXiao;
 
                 // Step 3.3 为上线增加总业绩
-                //mRef.Achievement += refTotalRefund;   去掉！ 下线返利不计算入总业绩
+                mRef.Achievement += amount;   // 各个上线总业绩 + 消费现金金额
 
                 // Step 3.4 设置更新上线等级
                 RefreshMemberLevel(mRef);

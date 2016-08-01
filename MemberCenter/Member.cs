@@ -42,11 +42,13 @@ namespace MemberCenter
         public decimal Coin2 { get; set; }
         public System.DateTime RegisterTime { get; set; }
         public decimal Achievement { get; set; }
+        public string Mobile { get; set; }
         public string Status { get; set; }
         public string TiXianStatus { get; set; }
         public string TiBiStatus { get; set; }
         public Nullable<bool> IdSubmitted { get; set; }
         public Nullable<bool> IdApproved { get; set; }
+        public string IdentityPath { get; set; }
         public string ApprovedBy { get; set; }
     
         public virtual ICollection<CashTransaction> CashTransaction { get; set; }
