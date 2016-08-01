@@ -97,13 +97,13 @@ namespace MemberCenter.Controllers
 
                     //Step 2.0 为自己增加积分
                     decimal points = (model.RequestCash / Constants.MinBaoDanCashBalance) * Constants.PointsRate;
-                    CurrentUser.Point2 += points;
+                    CurrentUser.Point1 += points;
                     CurrentUser.PointTransaction.Add(new PointTransaction
                     {
                         DateTime = DateTime.Now,
                         Amount = points,
                         Type = 积分记录类型.购币所得积分.ToString(),
-                        Status = 积分状态.冻结.ToString(),
+                        Status = 积分状态.可用.ToString(),
                         BaoDanTransaction = mBaoDan,
                     });
 
@@ -398,12 +398,12 @@ namespace MemberCenter.Controllers
                 mRef.ChongXiaoTransaction.Add(new ChongXiaoTransaction
                     {
                         DateTime = DateTime.Now,
-                        Status = 重消状态.冻结.ToString(),
+                        Status = 重消状态.可用.ToString(),
                         Type = 重消记录类型.下线返利重消.ToString(),
                         Amount = refChonXiao,
                         BaoDanTransaction = mBaoDan,
                     });
-                mRef.ChongXiao2 = refChonXiao;
+                mRef.ChongXiao1 += refChonXiao;
 
                 // Step 3.3 为上线增加总业绩
                 mRef.Achievement += amount;   // 各个上线总业绩 + 消费现金金额
