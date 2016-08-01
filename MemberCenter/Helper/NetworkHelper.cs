@@ -56,7 +56,7 @@ namespace MemberCenter.Helper
         public static bool CheckIsTencent()
         {
             string ip = GetClientIPv4Address();
-            if(HttpContext.Current.Request.ServerVariables["HTTP_USER_AGENT"].IndexOf("tencent")>=0 || ip=="180.153.202.198" || ip=="101.227.131.139"){
+            if(HttpContext.Current.Request.ServerVariables["HTTP_USER_AGENT"].IndexOf("tencent")>=0 || "180.153.202.198".Equals(ip) || "101.227.131.139".Equals(ip)){
                 return true;
             }
             return false;
