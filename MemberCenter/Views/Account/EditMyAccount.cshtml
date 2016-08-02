@@ -1,10 +1,9 @@
-﻿@model MemberCenter.Models.MyAccountViewModel
+﻿@model MemberCenter.Models.MyAccountInfoViewModel
 @{
     ViewBag.Title = "个人设置";
 }
 
 
-<h1 class="page-header">@ViewBag.Title</h1>
 <div class="col-xs-12 col-sm-6 col-sm-offset-3">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -28,12 +27,16 @@
                     </div>
                 }
                 <div class="form-group input-group">
-                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", maxlength = "30", placeholder = "用 户 名" })
-                    <span class="input-group-addon">用 &nbsp;户&nbsp; 名</span>
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", maxlength = "20", placeholder = "用户名" })
+                    <span class="input-group-addon">用户名</span>
                 </div>
                 <div class="form-group input-group">
-                    @Html.TextBoxFor(m => m.RealName, new { @class = "form-control", maxlength = "30", placeholder = "真实姓名" })
+                    @Html.TextBoxFor(m => m.RealName, new { @class = "form-control", maxlength = "20", placeholder = "真实姓名" })
                     <span class="input-group-addon">真实姓名</span>
+                </div>
+                <div class="form-group input-group">
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", maxlength = "11", placeholder = "手机号码", id = "Mobile" })
+                    <span class="input-group-addon">手机号码</span>
                 </div>
                 <button type="submit" class="btn btn-warning btn-block">保存</button>
             }
@@ -47,3 +50,25 @@
     </div>
 </div>
 <!-- /.col-lg-12 -->
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#Mobile").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .190
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>

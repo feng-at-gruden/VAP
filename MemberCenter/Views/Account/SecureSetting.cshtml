@@ -5,7 +5,6 @@
     ViewBag.Title = "安全设置";
 }
 
-<h1 class="page-header">@ViewBag.Title</h1>
 <div class="panel panel-default">
     <div class="panel-heading">
         SECURE SETTING
@@ -25,7 +24,7 @@
         </div>
         }
         <table class="table">
-            <caption><em>重要提示：客服不会要求QQ远程控制您的电脑、所有要求远程的都是骗子。登录密码、二级密码、交易密码请勿透漏给任何人，包括客服！</em></caption>
+            <caption style="text-align:left; margin-bottom:10px;"><em>重要提示：客服不会要求QQ远程控制您的电脑、所有要求远程的都是骗子。登录密码、二级密码、交易密码请勿透漏给任何人，包括客服！</em></caption>
             <!--
             <tr>
                 <td>邮箱验证</td>
@@ -56,7 +55,7 @@
             <tr>
                 <td>银行信息</td>
                 <td>用于资金提现。当前提现账户：@Model.BankInfo.Bank @Model.BankInfo.Name (@Model.BankInfo.Account) </td>
-                <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#bankModal">修改</a></td>
+                <td><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#bankModal" disabled>修改提现帐号请与客服联系</a></td>
             </tr>
             }
         </table>

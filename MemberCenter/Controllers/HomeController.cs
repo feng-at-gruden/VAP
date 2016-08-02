@@ -10,14 +10,17 @@ namespace MemberCenter.Controllers
     [Authorize]
     public class HomeController : BaseController
     {
+        [AllowAnonymous]
         public ActionResult Index()
         {
-
-            return RedirectToAction("MyAssets", "Account");
+            return View();
         }
 
 
-
+        public ActionResult DashBoard()
+        {
+            return RedirectToAction("MyAssets", "Account");
+        }
 
 
     }

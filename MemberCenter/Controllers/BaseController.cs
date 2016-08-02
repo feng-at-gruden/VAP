@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using MemberCenter.Models;
 
 namespace MemberCenter.Controllers
 {
@@ -51,6 +52,31 @@ namespace MemberCenter.Controllers
             }
             base.Dispose(disposing);
         }
+
+        protected void SetMyAccountViewModel()
+        {
+            Member user = CurrentUser;
+            TempData["MyAccount"] = GetMyAccountViewModel(user);
+        }
+
+        protected MyAccountViewModel GetMyAccountViewModel(Member user)
+        {
+            return new MyAccountViewModel
+            {
+                RealName = user.RealName,
+                Level = user.MemberLevel.Level + "会员",
+                Achievement = user.Achievement,
+                AvailableCash = user.Cash1,
+                LockedCash = user.Cash2,
+                AvailablePoints = user.Point1,
+                LockedPoints = user.Point2,
+                AvailableChongXiao = user.ChongXiao1,
+                LockedChongXiao = user.ChongXiao2,
+                AvailableCoin = user.Coin1,
+                LockedCoin = user.Coin2,
+            };
+        }
+
 
 	}
 }

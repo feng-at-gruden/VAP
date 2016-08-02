@@ -53,44 +53,6 @@ namespace MemberCenter.Models
         public bool AcceptTerm { get; set; }
     }
 
-    public class MyAssetViewModel
-    {
-        [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal AvailableCash { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal LockedCash { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal TotalCash { get { return AvailableCash + LockedCash; } }
-
-        [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal AvailablePoints { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal LockedPoints { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal TotalPoints { get { return AvailablePoints + LockedPoints; } }
-
-        [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal AvailableChongXiao { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal LockedChongXiao { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal TotalChongXiao { get { return AvailableChongXiao + LockedChongXiao; } }
-
-        [DisplayFormat(DataFormatString = "{0:n6}")]
-        public decimal AvailableCoin { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:n6}")]
-        public decimal LockedCoin { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:n6}")]
-        public decimal TotalCoin { get { return AvailableCoin + LockedCoin; } }
-    }
 
     public class MyMemberViewModel
     {
@@ -111,7 +73,7 @@ namespace MemberCenter.Models
         public DateTime RegisterTime { get; set; }
     }
 
-    public class MyAccountViewModel
+    public class MyAccountInfoViewModel
     {
         public Int32 Id { get; set; }
 
@@ -124,6 +86,8 @@ namespace MemberCenter.Models
         public string RealName { get; set; }
 
         public string Email { get; set; }
+
+        public string Mobile { get; set; }
 
         public DateTime RegisterTime { get; set; }
 
@@ -183,6 +147,54 @@ namespace MemberCenter.Models
         public bool BankInfoAdded { get; set; }
 
         public BankInfoViewModel BankInfo { get; set; }
+    }
+
+    public class MyAccountViewModel
+    {
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal AvailableCash { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal LockedCash { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal TotalCash { get { return AvailableCash + LockedCash; } }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal AvailablePoints { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal LockedPoints { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal TotalPoints { get { return AvailablePoints + LockedPoints; } }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal AvailableChongXiao { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal LockedChongXiao { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal TotalChongXiao { get { return AvailableChongXiao + LockedChongXiao; } }
+
+        [DisplayFormat(DataFormatString = "{0:n6}")]
+        public decimal AvailableCoin { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n6}")]
+        public decimal LockedCoin { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n6}")]
+        public decimal TotalCoin { get { return AvailableCoin + LockedCoin; } }
+
+        [Display(Name = "等级")]
+        public string Level { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [Display(Name = "总业绩")]
+        public decimal Achievement { get; set; }
+
+        public string RealName { get; set; }
     }
 
 

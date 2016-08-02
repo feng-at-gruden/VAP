@@ -1,0 +1,390 @@
+﻿@using MemberCenter.Helper
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>联合通用积分会员系统 - @ViewBag.Title</title>
+    @Styles.Render("~/Content/new-skin/css/bootstrap.min.css")
+    @Styles.Render("~/Content/new-skin/css/font-awesome.min.css")
+    @Styles.Render("~/Content/new-skin/css/prettyPhoto.css")
+    @Styles.Render("~/Content/new-skin/css/main.css")
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="~/Content/new-skin/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/Content/new-skin/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/Content/new-skin/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/Content/new-skin/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="~/Content/new-skin/images/ico/apple-touch-icon-57-precomposed.png">
+</head><!--/head-->
+<body data-spy="scroll" data-target="#navbar" data-offset="0">
+    <header id="header" role="banner">
+        <div class="container">
+            <div id="navbar" class="navbar navbar-default">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html"></a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#main-slider"><i class="icon-home"></i></a></li>
+                        <li><a href="#services">数字资产</a></li>
+                        <li><a href="#" onclick="window.open('@SiteConfigurationHelper.SiteRootPath/Home/Dashboard', '_blank');">交易中心</a></li>
+                        <li><a href="#portfolio">实时行情</a></li>
+                        <li><a href="#pricing">交易数据</a></li>
+                        <li><a href="#about-us">关于我们</a></li>
+                        <li><a href="#contact">客服中心</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header><!--/#header-->
+    @RenderBody()
+    <section id="main-slider" class="carousel">
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="container">
+                    <div class="carousel-content">
+                        <h1>目前最具投资价值的虚拟资产</h1>
+                        <p class="lead">联合通用积分是商家联盟的新型数字加密资产，整合商家电商平台形成联盟，将数字加密进行流通，变为资产。联合通用积分不仅仅可以用来购物，消费，它也是我们每个人的个人银行，具有货币功能。联合通用积分，自发行以来，每天都稳步增长，最低年收益3-5倍，公司签订合同，保证本金</p>
+                    </div>
+                </div>
+            </div><!--/.item-->
+            <div class="item">
+                <div class="container">
+                    <div class="carousel-content">
+                        <h1>最新动态</h1>
+                        <p class="lead">热烈庆祝本站注册会员到达300,000人 <br>立即注册加盟</p>
+                    </div>
+                </div>
+            </div><!--/.item-->
+        </div><!--/.carousel-inner-->
+        <a class="prev" href="#main-slider" data-slide="prev"><i class="icon-angle-left"></i></a>
+        <a class="next" href="#main-slider" data-slide="next"><i class="icon-angle-right"></i></a>
+    </section><!--/#main-slider-->
+
+    <section id="services">
+        <div class="container">
+            <div class="box first">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="center">
+                            <i class="icon-trophy icon-md icon-color1"></i>
+                            <h4>存币即得利息</h4>
+                            <p>您存在好比特币的每一笔资产（保险箱业务除外）都将给您带来丰厚的利息回报，这部分收益来自好比特币的自建矿场。</p>
+                        </div>
+                    </div><!--/.col-md-4-->
+                    <div class="col-md-4 col-sm-6">
+                        <div class="center">
+                            <i class="icon-lock icon-md icon-color2"></i>
+                            <h4>多重安全保护等级</h4>
+                            <p>这是好比特币众多安全措施中的一项，我们将特定资产中的3把私钥分别放置在不同的地方：用户自身账户、好比特币服务器以及独立第三方矿池，以确保资产高度安全。</p>
+                        </div>
+                    </div><!--/.col-md-4-->
+                    <div class="col-md-4 col-sm-6">
+                        <div class="center">
+                            <i class="icon-money icon-md icon-color3"></i>
+                            <h4>一处充值，多处买币</h4>
+                            <p>得益于好比特币工程师的惊人成就，是时候跟繁琐的买币流程说再见了。仅需单次充值，即可完成国内外各平台比特币的购买，智能挂单。现已支持各大主流银行充值提现。</p>
+                        </div>
+                    </div><!--/.col-md-4-->
+                    <div class="col-md-4 col-sm-6">
+                        <div class="center">
+                            <i class="icon-briefcase icon-md icon-color4"></i>
+                            <h4>企业级保险箱</h4>
+                            <p>得益于好比特币工程师的惊人成就，是时候跟繁琐的买币流程说再见了。仅需单次充值，即可完成国内外各平台比特币的购买，智能挂单。现已支持各大主流银行充值提现。</p>
+                        </div>
+                    </div><!--/.col-md-4-->
+                    <div class="col-md-4 col-sm-6">
+                        <div class="center">
+                            <i class="icon-globe icon-md icon-color5"></i>
+                            <h4>广阔的升值前景</h4>
+                            <p>数字资产升值前景空间广阔，以每年200%的升值幅度。</p>
+                        </div>
+                    </div><!--/.col-md-4-->
+                    <div class="col-md-4 col-sm-6">
+                        <div class="center">
+                            <i class="icon-qrcode icon-md icon-color6"></i>
+                            <h4>数字积分 多种用途</h4>
+                            <p>数字积分 唯一真实有效 可以在多处消费 变现方便</p>
+                        </div>
+                    </div><!--/.col-md-4-->
+                </div><!--/.row-->
+            </div><!--/.box-->
+        </div><!--/.container-->
+    </section><!--/#services-->
+
+    <section id="portfolio">
+        <div class="container">
+            <div class="box">
+                <div class="center gap">
+                    <h2>实时价格曲线</h2>
+                </div><!--/.center-->
+                <!--TODO >
+
+                </div><!--/.box-->
+            </div><!--/.container-->
+    </section><!--/#portfolio-->
+
+    <section id="pricing">
+        <div class="container">
+            <div class="box">
+                <div class="center">
+                    <h2>交易数据</h2>
+                    <p class="lead">累计注册用户3,504,392人<br>历史成交金额<br><span style="font-size: 65px; font-weight: bold; font-family: impact; color: #c09853">￥2,350,934,667,834</span></p>
+                </div><!--/.center-->
+                <div class="big-gap"></div>
+                <div id="pricing-table" class="row">
+                    <div class="col-sm-4">
+                        <ul class="plan featured">
+                            <li class="plan-name">当前价格</li>
+                            <li class="plan-price">￥5.45</li>
+                            <li>最高价格：<span class="red">￥8.45</span></li>
+                            <li>最低价格：<span class="green">￥1.45</span></li>
+                            <li>今日成交量：84,544,453</li>
+                            <li>今日成交额：￥200,034</li>
+                            <li>历史成交额：￥27,234,200,034</li>
+                            <li class="plan-action"><a href="@SiteConfigurationHelper.SiteRootPath/Home/Dashboard" class="btn btn-primary btn-lg">进入交易中心</a></li>
+                        </ul>
+                    </div><!--/.col-sm-4-->
+                    <div class="col-sm-4">
+                        <ul class="plan ">
+                            <li class="plan-name">买盘</li>
+                            <li>
+                                <table class="table">
+                                    <tr style="background: #eee;">
+                                        <th>买入</th>
+                                        <th>买入价￥</th>
+                                        <th>买入量</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="green">买1</td>
+                                        <td>1.55</td>
+                                        <td class="red">1,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="green">买1</td>
+                                        <td>1.55</td>
+                                        <td class="red">1,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="green">买1</td>
+                                        <td>1.55</td>
+                                        <td class="red">1,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="green">买1</td>
+                                        <td>1.55</td>
+                                        <td class="red">1,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="green">买1</td>
+                                        <td>1.55</td>
+                                        <td class="red">1,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="green">买1</td>
+                                        <td>1.55</td>
+                                        <td class="red">1,000</td>
+                                    </tr>
+                                </table>
+                            </li>
+                            <li class="plan-action"><a href="@SiteConfigurationHelper.SiteRootPath/BaoDan/Buy" class="btn btn-primary btn-lg">买入</a></li>
+                        </ul>
+                    </div><!--/.col-sm-4-->
+                    <div class="col-sm-4">
+                        <ul class="plan">
+                            <li class="plan-name">卖盘</li>
+                            <li>
+                                <table class="table">
+                                    <tr style="background: #eee;">
+                                        <th>卖出</th>
+                                        <th>卖出价￥</th>
+                                        <th>卖出量</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="red">卖1</td>
+                                        <td>1.55</td>
+                                        <td class="green">1,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="red">卖1</td>
+                                        <td>1.55</td>
+                                        <td class="green">1,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="red">卖1</td>
+                                        <td>1.55</td>
+                                        <td class="green">1,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="red">卖1</td>
+                                        <td>1.55</td>
+                                        <td class="green">1,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="red">卖1</td>
+                                        <td>1.55</td>
+                                        <td class="green">1,000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="red">卖1</td>
+                                        <td>1.55</td>
+                                        <td class="green">1,000</td>
+                                    </tr>
+                                </table>
+                            </li>
+                            <li class="plan-action"><a href="@SiteConfigurationHelper.SiteRootPath/BaoDan/Sell" class="btn btn-primary btn-lg">卖出</a></li>
+                        </ul>
+                    </div><!--/.col-sm-4-->
+                </div>
+            </div>
+        </div>
+    </section><!--/#pricing-->
+
+    <section id="about-us">
+        <div class="container">
+            <div class="box">
+                <div class="center">
+                    <h2>我们的服务</h2>
+                    <p class="lead">选择山东宏仁国际,安全可信赖</p>
+                </div>
+                <div class="gap"></div>
+                <div id="team-scroller" class="carousel scale">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="member">
+                                        <p><img class="img-responsive img-thumbnail img-circle" src="~/Content/new-skin/images/team1.jpg" alt=""></p>
+                                        <h3>安全<small class="designation">超过10年金融风控经验团队 全方位可定制的安全策略体系 98%比特币资产存储多重签名冷钱包</small></h3>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="member">
+                                        <p><img class="img-responsive img-thumbnail img-circle" src="~/Content/new-skin/images/team2.jpg" alt=""></p>
+                                        <h3>专业<small class="designation">创下日交易量纪录354万枚比特币 人民币、美元市场一站式交易 业内专业级操盘工具“闪电手”</small></h3>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="member">
+                                        <p><img class="img-responsive img-thumbnail img-circle" src="~/Content/new-skin/images/team3.jpg" alt=""></p>
+                                        <h3>用户至上<small class="designation">人民币交易免费 充值提现快速到账，比特币实时到账 7x24 小时中英双语客服服务</small></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div><!--/.carousel-->
+            </div><!--/.box-->
+        </div><!--/.container-->
+    </section><!--/#about-us-->
+
+    <section id="contact">
+        <div class="container">
+            <div class="box last">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>投资咨询</h1>
+                        <p>如果您想更深入了解数字资产投资，请填写以下咨询表，我们会有专人与您联系。</p>
+                        <div class="status alert alert-success" style="display: none"></div>
+                        <form id="main-contact-form" class="contact-form" name="contact-form" method="post" action="#" role="form">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required="required" placeholder="您的姓名">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" required="required" placeholder="联系方式">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="您想咨询的问题"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-danger btn-lg">发送</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div><!--/.col-sm-6-->
+                    <div class="col-sm-6">
+                        <h1>联系我们</h1>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <address>
+                                    <strong>山东宏仁国际贸易有限公司</strong><br>
+                                    山东省日照市东港区<br>
+                                    山东路荟阳路江豪大厦15F<br>
+
+                                </address>
+                            </div>
+                            <div class="col-md-6">
+                                <address>
+                                    <strong>电话</strong><br>
+                                    <abbr title="Phone">P:</abbr> (0633) 88888888 <br />
+                                    <strong>邮箱</strong><br>
+                                    <a href="mailto:first.last@example.com">first.last@example.com</a><br>
+
+
+                                </address>
+                            </div>
+                        </div>
+                        <h1>合作伙伴</h1>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="social">
+                                    <li><a href="#"><i class="icon-facebook icon-social"></i> 汇民惠商城</a></li>
+                                    <li><a href="#"><i class="icon-google-plus icon-social"></i> 百度</a></li>
+                                    <li><a href="#"><i class="icon-pinterest icon-social"></i> 腾讯科技</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="social">
+                                    <li><a href="#"><i class="icon-linkedin icon-social"></i> 阿里云</a></li>
+                                    <li><a href="#"><i class="icon-twitter icon-social"></i> Twitter</a></li>
+                                    <li><a href="#"><i class="icon-youtube icon-social"></i> Youtube</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!--/.col-sm-6-->
+                </div><!--/.row-->
+            </div><!--/.box-->
+        </div><!--/.container-->
+    </section><!--/#contact-->
+
+    <footer id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    &copy; 2016 SafenLife.com 山东宏仁国际贸易有限公司. All Rights Reserved.
+                </div>
+                <div class="col-sm-6">
+
+                </div>
+            </div>
+        </div>
+    </footer><!--/#footer-->
+    @Scripts.Render("~/Content/new-skin/js/jquery.js")
+    @Scripts.Render("~/Content/new-skin/js/bootstrap.min.js")
+    @Scripts.Render("~/Content/new-skin/js/jquery.isotope.min.js")
+    @Scripts.Render("~/Content/new-skin/js/jquery.prettyPhoto.js")
+    @Scripts.Render("~/Content/new-skin/js/main.js")
+</body>
+</html>

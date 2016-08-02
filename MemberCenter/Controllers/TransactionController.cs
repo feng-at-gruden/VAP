@@ -138,6 +138,7 @@ namespace MemberCenter.Controllers
                                                             Amount = row.Amount,
                                                             ID = row.Id,
                                                         };
+            SetMyAccountViewModel();
             return View(model);
         }
        
@@ -162,6 +163,7 @@ namespace MemberCenter.Controllers
                                    URL = row.URL
                                },
             };
+            SetMyAccountViewModel();
             return model;
         }
 
@@ -170,8 +172,8 @@ namespace MemberCenter.Controllers
         {
             DateTime stTime = new DateTime(DateTime.Now.Year,  DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             DateTime edTime = new DateTime(DateTime.Now.Year,  DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
-
-            int odd = db.CashTransactions.Count(m => m.DateTime >= stTime && m.DateTime <= edTime) + 1;
+            string transType = 现金交易类型.充值.ToString();
+            int odd = db.CashTransactions.Count(m => m.DateTime >= stTime && m.DateTime <= edTime && m.Type.Equals(transType)) + 1;
             decimal odds = (odd % 100) * 0.01m;
             return odds;
         }
@@ -205,6 +207,7 @@ namespace MemberCenter.Controllers
                                               Bank = row.Bank,
                                               BankAccount = row.BankAccount,
                                           };
+            SetMyAccountViewModel();
             return model;
         }
 

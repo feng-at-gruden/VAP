@@ -1,0 +1,72 @@
+﻿@using MemberCenter.Helper;
+@using MemberCenter.Models;
+@{
+    MyAccountViewModel myAccount = (MyAccountViewModel) TempData["MyAccount"];
+    
+    decimal cashUnLockedRate = myAccount.AvailableCash >= myAccount.TotalCash ? 100 : (myAccount.AvailableCash / myAccount.TotalCash) * 100;
+    decimal coinUnLockedRate = myAccount.AvailableCoin >= myAccount.TotalCoin ? 100 : (myAccount.AvailableCoin / myAccount.TotalCoin) * 100;
+    string cashUnLockedRateStr = cashUnLockedRate.ToString("#.##") + "%";
+    string coinUnLockedRateStr = coinUnLockedRate.ToString("#.##") + "%";
+}
+
+<div class="side-widgets overflow">
+    <!-- Profile Menu -->
+    <div class="text-center s-widget m-b-25 dropdown" id="profile-menu">
+        <a href="" data-toggle="dropdown">
+            <img class="profile-pic animated" src="~/Content/new-skin/img/btcoin.jpg" alt="">
+        </a>
+        <ul class="dropdown-menu profile-menu">
+            <li><a href="@SiteConfigurationHelper.SiteRootPath/Account/MyAccount">我的资料</a> <i class="icon left">&#61903;</i><i class="icon right">&#61815;</i></li>
+            <li><a href="@SiteConfigurationHelper.SiteRootPath/Account/EditMyAccount">个人设置</a> <i class="icon left">&#61903;</i><i class="icon right">&#61815;</i></li>
+            <li><a href="@SiteConfigurationHelper.SiteRootPath/Account/LogOff">退出</a> <i class="icon left">&#61903;</i><i class="icon right">&#61815;</i></li>
+        </ul>
+        <h4 class="m-0">@myAccount.RealName</h4>
+    </div>
+
+    <!-- Balance -->
+    <div class="s-widget m-b-25">
+        <h2 class="tile-title">
+            我的资产
+        </h2>
+
+        <div class="s-widget-body">
+            <div class="side-border">
+                <small>现金账户<br></small><em class="right">￥@myAccount.AvailableCash (可用)<br>￥@myAccount.LockedCash (冻结)</em><br class="clear">
+                <div class="progress progress-small">
+                    <a href="#" data-toggle="tooltip" title="" class="progress-bar tooltips progress-bar-danger" style="width: @cashUnLockedRateStr;" data-original-title="@cashUnLockedRateStr">
+                        <span class="sr-only"> </span>
+                    </a>.
+                </div>
+            </div>
+            <div class="side-border">
+                <small>电子货币<br></small><em class="right">@myAccount.AvailableCoin.ToString("0.00####") (可用)<br>@myAccount.LockedCoin.ToString("0.00###") (冻结)</em><br class="clear">
+                <div class="progress progress-small">
+                    <a href="#" data-toggle="tooltip" title="" class="tooltips progress-bar progress-bar-info" style="width: @coinUnLockedRateStr;" data-original-title="@coinUnLockedRateStr">
+                        <span class="sr-only"> </span>
+                    </a>
+                </div>
+            </div>
+            <div class="side-border">
+                <small>我的积分<br></small><em class="right">@myAccount.AvailablePoints (可用)</em><br class="clear">
+                <div class="progress progress-small">
+                    <a href="#" data-toggle="tooltip" title="" class="tooltips progress-bar progress-bar-warning" style="width: 100%;" data-original-title="100%">
+                        <span class="sr-only"> </span>
+                    </a>
+                </div>
+            </div>
+            <div class="side-border">
+                <small>重消<br></small><em class="right">@myAccount.AvailableChongXiao (可用)</em><br class="clear">
+                <div class="progress progress-small">
+                    <a href="#" data-toggle="tooltip" title="" class="tooltips progress-bar progress-bar-success" style="width:100%;" data-original-title="100%">
+                        <span class="sr-only"> </span>
+                    </a>
+                </div>
+            </div>
+            <div class="side-border">
+                <small>总业绩：</small><em class="right">￥@myAccount.Achievement</em><br class="clear">
+                <small>我的等级：</small><em class="right">@myAccount.Level</em><br class="clear">
+            </div>
+        </div>
+    </div>
+
+</div>

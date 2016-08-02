@@ -1,10 +1,39 @@
-﻿@model MemberCenter.Models.MyAssetViewModel
+﻿@model MemberCenter.Models.MyAccountViewModel
 
 @{
     ViewBag.Title = "个人资产";
 }
 
-    <h1 class="page-header">@ViewBag.Title</h1>
+<!-- Shortcuts -->
+<div class="block-area shortcut-area">
+    <a class="shortcut tile" href="~/Transaction/CashTopup">
+        <img src="~/Content/new-skin/img/shortcuts/money.png" alt="">
+        <small class="t-overflow">充值</small>
+    </a>
+    <a class="shortcut tile" href="~/Transaction/CashWithdraw">
+        <img src="~/Content/new-skin/img/shortcuts/twitter.png" alt="">
+        <small class="t-overflow">提现</small>
+    </a>
+    <a class="shortcut tile" href="~/BaoDan/Buy">
+        <img src="~/Content/new-skin/img/shortcuts/calendar.png" alt="">
+        <small class="t-overflow">报单</small>
+    </a>
+    <a class="shortcut tile" href="~/BaoDan/LockedCoins">
+        <img src="~/Content/new-skin/img/shortcuts/stats.png" alt="">
+        <small class="t-overflow">解冻</small>
+    </a>
+    <a class="shortcut tile" href="~/BaoDan/Sell">
+        <img src="~/Content/new-skin/img/shortcuts/connections.png" alt="">
+        <small class="t-overflow">出售</small>
+    </a>
+    <a class="shortcut tile" href="~/BaoDan/History">
+        <img src="~/Content/new-skin/img/shortcuts/reports.png" alt="">
+        <small class="t-overflow">记录</small>
+    </a>
+</div>
+
+<hr class="whiter" />
+
     <div class="panel panel-default">
         <div class="panel-heading">
             Personal Assets

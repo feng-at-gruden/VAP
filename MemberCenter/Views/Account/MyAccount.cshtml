@@ -1,10 +1,9 @@
-﻿@model MemberCenter.Models.MyAccountViewModel
+﻿@model MemberCenter.Models.MyAccountInfoViewModel
 
 @{
     ViewBag.Title = "个人信息";
 }
 
-<h1 class="page-header">@ViewBag.Title</h1>
 <div class="panel panel-default">
     <div class="panel-heading">
         MY ACCOUNT
@@ -12,9 +11,9 @@
     <div class="panel-body">
 
         <table class="table">
-            <caption><b>用户UID：</b><em>@Model.Id</em>    
+            <caption style="text-align: left;"><span class="left"><b>用户UID：</b><em>@Model.Id</span></em>    
                 <img src="http://qr.topscan.com/api.php?text=@Model.MyLink" width="100" height="100" style="float:right;" />
-                <span class="right" style="margin-top:77px;">我的推广链接：<a href="@Model.MyLink" target="_blank"><em>@Model.MyLink</em></a></span>
+                <span class="right" style="margin-top:77px; margin-right:10px;">我的推广链接：<a href="@Model.MyLink" target="_blank"><em>@Model.MyLink</em></a></span>
                 
             </caption>
             <tr>

@@ -226,6 +226,7 @@ namespace MemberCenter.Controllers
                                                          AmountLeft = row.TotalAmount - row.AvailabeAmount,
                                                          Status = row.TotalAmount>row.AvailabeAmount? "解冻中" :"全部解冻",
                                                      };
+            SetMyAccountViewModel();
             return View(model);
         }
 
@@ -251,6 +252,7 @@ namespace MemberCenter.Controllers
                                                             FinalCash = row.Amount * row.Price + row.Fee,
                                                             FinalPrice = (row.Amount * row.Price + row.Fee) / row.Amount,
                                                         };
+            SetMyAccountViewModel();
             return View(model);
         }
 
@@ -279,6 +281,7 @@ namespace MemberCenter.Controllers
                 TotalCostCash = coinCash + Constants.BaoDanBuyFee,
                 CashLeft = CurrentUser.Cash1 - coinCash - Constants.BaoDanBuyFee,
             };
+            SetMyAccountViewModel();
             return model;
         }
 
@@ -312,6 +315,7 @@ namespace MemberCenter.Controllers
                                                             FinalCash = row.Amount * row.Price + row.Fee,
                                                             FinalPrice = (row.Amount * row.Price + row.Fee) / row.Amount,
                                                         };
+            SetMyAccountViewModel();
             return model;
         }
 

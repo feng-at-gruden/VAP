@@ -11,3 +11,15 @@ body{font-family:"微软雅黑", "黑体", sans-serif;}
 
 .uploading-img{height:150px;}
 .navbar-right{float:right !important;}
+
+.login {
+    background:url(../new-skin/login/images/login_bg_0.jpg) #f8f6e9;
+}
+#page-wrapper{
+    background-color:transparent;
+}
+
+.page-header {
+    border-bottom: 1px solid #9091B7;
+    color: #2F628E;
+}
