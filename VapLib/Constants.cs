@@ -30,6 +30,7 @@ namespace VapLib
         public const decimal CashWithdrawMax = 5000m;       //资金提现每笔最大额度
         public const decimal CashWithdrawMin = 100m;        //资金提现每笔最小额度
         public const decimal CashTopupMin = 10000m;         //资金充值每笔最小额度
+        public const decimal CoinPriceRate = 0.05m;         //电子币解冻比例
 
         public const String MemberUploadFilePath = "Upload";       //用户上传汇款凭证存储路径
 

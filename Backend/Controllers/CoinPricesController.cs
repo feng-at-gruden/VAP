@@ -48,9 +48,30 @@ namespace Backend.Controllers
             if (ModelState.IsValid)
             {
                 model.DateTime = DateTime.Now;
+                var currentPrice = model.Price;
                 db.CoinPrices.Add(model);
                 db.SaveChanges();
-                //todo 触发可用币释放 逻辑
+                // 触发可用币释放 逻辑
+                var lockRecords = db.LockedCoins;
+                foreach (var lockRecord in lockRecords)
+                {
+                    if (currentPrice >= lockRecord.NextPrice)
+                    {
+                        var member = db.Members.Find(lockRecord.MemberId);
+                        var amount = lockRecord.LockedAmount*VapLib.Constants.CoinPriceRate;
+                        lockRecord.LockedAmount -= amount;
+                        lockRecord.AvailabeAmount += amount;
+                        lockRecord.LastPrice = currentPrice;
+                        lockRecord.NextPrice = Math.Round(currentPrice + currentPrice * VapLib.Constants.CoinPriceRate, 2);
+
+                        member.Coin1 += amount;
+                        member.Coin2 -= amount;
+
+                        db.Entry(lockRecord).State = EntityState.Modified;
+                        db.Entry(member).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
                 return RedirectToAction("Index");
             }
 
