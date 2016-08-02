@@ -179,17 +179,8 @@ namespace MemberCenter.Controllers
         // GET: /Account/MyAssets
         public ActionResult MyAssets()
         {
-            MyAssetViewModel model = new MyAssetViewModel()
-            {
-                AvailableCash = CurrentUser.Cash1,
-                LockedCash = CurrentUser.Cash2,
-                AvailablePoints = CurrentUser.Point1,
-                LockedPoints = CurrentUser.Point2,
-                AvailableChongXiao = CurrentUser.ChongXiao1,
-                LockedChongXiao = CurrentUser.ChongXiao2,
-                AvailableCoin = CurrentUser.Coin1,
-                LockedCoin = CurrentUser.Coin2,
-            };
+            MyAccountViewModel model = GetMyAccountViewModel(CurrentUser);
+            SetMyAccountViewModel();
             return View(model);
         }
 
@@ -206,6 +197,7 @@ namespace MemberCenter.Controllers
                                              Achievement = row.Achievement,
                                              Level = row.MemberLevel.Level,
                                          };
+            SetMyAccountViewModel();
             return View(members);
         }
 
@@ -214,10 +206,11 @@ namespace MemberCenter.Controllers
         public ActionResult MyAccount()
         {
             IPLog iplog = CurrentUser.IPLog.OrderByDescending(m=>m.DateTime).Take(1).ToArray()[0];
-            MyAccountViewModel model = new MyAccountViewModel
+            MyAccountInfoViewModel model = new MyAccountInfoViewModel
             {
                 Id = CurrentUser.Id,
                 Email = CurrentUser.Email,
+                Mobile = CurrentUser.Mobile,
                 RealName = CurrentUser.RealName,
                 UserName = CurrentUser.UserName,
                 Level = CurrentUser.MemberLevel.Level,
@@ -231,6 +224,8 @@ namespace MemberCenter.Controllers
                 LastLoginTime = iplog.DateTime,
                 MyLink = Request.Url.AbsoluteUri.Replace(Request.Url.AbsolutePath, SiteConfigurationHelper.SiteRootPath + "/Account/Register?referral=" + CurrentUser.Id),
             };
+            
+            SetMyAccountViewModel();
             return View(model);
         }
 
@@ -238,11 +233,13 @@ namespace MemberCenter.Controllers
         // GET: /Account/EditMyAccount
         public ActionResult EditMyAccount()
         {
-            MyAccountViewModel model = new MyAccountViewModel
+            MyAccountInfoViewModel model = new MyAccountInfoViewModel
             {
                 RealName = CurrentUser.RealName,
                 UserName = CurrentUser.UserName,
+                Mobile = CurrentUser.Mobile,
             };
+            SetMyAccountViewModel();
             return View(model);
         }
 
@@ -250,15 +247,17 @@ namespace MemberCenter.Controllers
         // POST: /Account/EditMyAccount
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditMyAccount(MyAccountViewModel model)
+        public async Task<ActionResult> EditMyAccount(MyAccountInfoViewModel model)
         {
             if (ModelState.IsValid)
             {
                 CurrentUser.UserName = model.UserName;
                 CurrentUser.RealName = model.RealName;
+                CurrentUser.Mobile = model.Mobile;
                 db.SaveChanges();
                 ViewBag.ActionMessage = "更新成功!";
             }
+            SetMyAccountViewModel();
             return View(model);
         }
 
@@ -294,6 +293,7 @@ namespace MemberCenter.Controllers
             {
                 ViewBag.ActionMessage = TempData["ActionMessage"];
             }
+            SetMyAccountViewModel();
             return View(model);
         }
 
@@ -335,6 +335,7 @@ namespace MemberCenter.Controllers
                 TempData["ActionMessage"] = ViewBag.ActionMessage;
             }
             TempData["ModelState"] = ModelState;
+            SetMyAccountViewModel();
             return RedirectToAction("SecureSetting");
         }
 
@@ -370,6 +371,7 @@ namespace MemberCenter.Controllers
                 TempData["ActionMessage"] = ViewBag.ActionMessage;
             }
             TempData["ModelState"] = ModelState;
+            SetMyAccountViewModel();
             return RedirectToAction("SecureSetting");
         }
 
@@ -385,6 +387,7 @@ namespace MemberCenter.Controllers
                                                     LoginTime = row.DateTime,
                                                     UserClient = row.Client,
                                                 };
+            SetMyAccountViewModel();
             return View(model);
         }
 
