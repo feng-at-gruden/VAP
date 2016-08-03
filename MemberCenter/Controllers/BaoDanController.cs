@@ -91,7 +91,7 @@ namespace MemberCenter.Controllers
                         TotalAmount = model.RequestQuantity,
                         Price = model.RequestPrice,
                         LastPrice = model.RequestPrice,
-                        NextPrice = model.RequestPrice * 1.05m,
+                        NextPrice = Math.Ceiling(model.RequestPrice * 1.05m),
                         BaoDanTransaction = mBaoDan,
                     });
 
