@@ -77,7 +77,13 @@ namespace Backend.Controllers
 
             return View(model);
         }
-
+        public ActionResult GetCoinPrices(int count)
+        {
+            var reportData = db.CoinPrices.OrderBy(c=>c.Id).Take(count).ToList().Select(c => new ReportData() {Title = c.DateTime.ToString("yy-MM-dd"), Price = c.Price});
+            return Json(new { Data = reportData }, JsonRequestBehavior.AllowGet); 
+            
+        }
+        
 
         protected override void Dispose(bool disposing)
         {
@@ -87,5 +93,10 @@ namespace Backend.Controllers
             }
             base.Dispose(disposing);
         }
+    }
+    public class ReportData
+    {
+        public string Title { get; set; }
+        public decimal Price { get; set; }
     }
 }
