@@ -11,6 +11,7 @@
     @Styles.Render("~/Content/new-skin/css/font-awesome.min.css")
     @Styles.Render("~/Content/new-skin/css/prettyPhoto.css")
     @Styles.Render("~/Content/new-skin/css/main.css")
+    @Styles.Render("~/Content/new-skin/custom.css")
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -20,6 +21,21 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/Content/new-skin/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/Content/new-skin/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="~/Content/new-skin/images/ico/apple-touch-icon-57-precomposed.png">
+
+    @Scripts.Render("~/Content/new-skin/js/jquery.js")
+    @Scripts.Render("~/Content/new-skin/js/bootstrap.min.js")
+    @Scripts.Render("~/Content/new-skin/js/jquery.isotope.min.js")
+    @Scripts.Render("~/Content/new-skin/js/jquery.prettyPhoto.js")
+    @Scripts.Render("~/Content/new-skin/js/main.js")
+
+    <!-- Charts -->
+    @Scripts.Render("~/Content/new-skin/js/charts/jquery.flot.js") <!-- Flot Main -->
+    @Scripts.Render("~/Content/new-skin/js/charts/jquery.flot.time.js") <!-- Flot sub -->
+    @Scripts.Render("~/Content/new-skin/js/charts/jquery.flot.animator.min.js") <!-- Flot sub -->
+    @Scripts.Render("~/Content/new-skin/js/charts/jquery.flot.resize.min.js") <!-- Flot sub - for repaint when resizing the screen -->
+    @Scripts.Render("~/Content/new-skin/js/charts/jquery.flot.orderBar.js") <!-- Flot Bar chart -->
+    @Scripts.Render("~/Content/new-skin/js/charts/jquery.flot.pie.min.js") <!-- Flot Pie chart -->
+
 </head><!--/head-->
 <body data-spy="scroll" data-target="#navbar" data-offset="0">
     <header id="header" role="banner">
@@ -48,7 +64,7 @@
             </div>
         </div>
     </header><!--/#header-->
-    @RenderBody()
+    
     <section id="main-slider" class="carousel">
         <div class="carousel-inner">
             <div class="item active">
@@ -123,133 +139,7 @@
         </div><!--/.container-->
     </section><!--/#services-->
 
-    <section id="portfolio">
-        <div class="container">
-            <div class="box">
-                <div class="center gap">
-                    <h2>实时价格曲线</h2>
-                </div><!--/.center-->
-                <!--TODO >
-
-                </div><!--/.box-->
-            </div><!--/.container-->
-    </section><!--/#portfolio-->
-
-    <section id="pricing">
-        <div class="container">
-            <div class="box">
-                <div class="center">
-                    <h2>交易数据</h2>
-                    <p class="lead">累计注册用户3,504,392人<br>历史成交金额<br><span style="font-size: 65px; font-weight: bold; font-family: impact; color: #c09853">￥2,350,934,667,834</span></p>
-                </div><!--/.center-->
-                <div class="big-gap"></div>
-                <div id="pricing-table" class="row">
-                    <div class="col-sm-4">
-                        <ul class="plan featured">
-                            <li class="plan-name">当前价格</li>
-                            <li class="plan-price">￥5.45</li>
-                            <li>最高价格：<span class="red">￥8.45</span></li>
-                            <li>最低价格：<span class="green">￥1.45</span></li>
-                            <li>今日成交量：84,544,453</li>
-                            <li>今日成交额：￥200,034</li>
-                            <li>历史成交额：￥27,234,200,034</li>
-                            <li class="plan-action"><a href="@SiteConfigurationHelper.SiteRootPath/Home/Dashboard" class="btn btn-primary btn-lg">进入交易中心</a></li>
-                        </ul>
-                    </div><!--/.col-sm-4-->
-                    <div class="col-sm-4">
-                        <ul class="plan ">
-                            <li class="plan-name">买盘</li>
-                            <li>
-                                <table class="table">
-                                    <tr style="background: #eee;">
-                                        <th>买入</th>
-                                        <th>买入价￥</th>
-                                        <th>买入量</th>
-                                    </tr>
-                                    <tr>
-                                        <td class="green">买1</td>
-                                        <td>1.55</td>
-                                        <td class="red">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="green">买1</td>
-                                        <td>1.55</td>
-                                        <td class="red">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="green">买1</td>
-                                        <td>1.55</td>
-                                        <td class="red">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="green">买1</td>
-                                        <td>1.55</td>
-                                        <td class="red">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="green">买1</td>
-                                        <td>1.55</td>
-                                        <td class="red">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="green">买1</td>
-                                        <td>1.55</td>
-                                        <td class="red">1,000</td>
-                                    </tr>
-                                </table>
-                            </li>
-                            <li class="plan-action"><a href="@SiteConfigurationHelper.SiteRootPath/BaoDan/Buy" class="btn btn-primary btn-lg">买入</a></li>
-                        </ul>
-                    </div><!--/.col-sm-4-->
-                    <div class="col-sm-4">
-                        <ul class="plan">
-                            <li class="plan-name">卖盘</li>
-                            <li>
-                                <table class="table">
-                                    <tr style="background: #eee;">
-                                        <th>卖出</th>
-                                        <th>卖出价￥</th>
-                                        <th>卖出量</th>
-                                    </tr>
-                                    <tr>
-                                        <td class="red">卖1</td>
-                                        <td>1.55</td>
-                                        <td class="green">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="red">卖1</td>
-                                        <td>1.55</td>
-                                        <td class="green">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="red">卖1</td>
-                                        <td>1.55</td>
-                                        <td class="green">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="red">卖1</td>
-                                        <td>1.55</td>
-                                        <td class="green">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="red">卖1</td>
-                                        <td>1.55</td>
-                                        <td class="green">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="red">卖1</td>
-                                        <td>1.55</td>
-                                        <td class="green">1,000</td>
-                                    </tr>
-                                </table>
-                            </li>
-                            <li class="plan-action"><a href="@SiteConfigurationHelper.SiteRootPath/BaoDan/Sell" class="btn btn-primary btn-lg">卖出</a></li>
-                        </ul>
-                    </div><!--/.col-sm-4-->
-                </div>
-            </div>
-        </div>
-    </section><!--/#pricing-->
+    @RenderBody()
 
     <section id="about-us">
         <div class="container">
@@ -381,10 +271,7 @@
             </div>
         </div>
     </footer><!--/#footer-->
-    @Scripts.Render("~/Content/new-skin/js/jquery.js")
-    @Scripts.Render("~/Content/new-skin/js/bootstrap.min.js")
-    @Scripts.Render("~/Content/new-skin/js/jquery.isotope.min.js")
-    @Scripts.Render("~/Content/new-skin/js/jquery.prettyPhoto.js")
-    @Scripts.Render("~/Content/new-skin/js/main.js")
+    
+
 </body>
 </html>

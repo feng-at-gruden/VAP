@@ -1,6 +1,152 @@
-﻿@model MemberCenter.Models.RegisterViewModel
+﻿@model MemberCenter.Models.HomeViewModel
+@using MemberCenter.Helper
 @using CaptchaMvc.HtmlHelpers
+
+
 @{
     ViewBag.Title = "首页";
     Layout = "~/Views/Shared/NewSkin/_LayoutHome.cshtml";
 }
+
+<section id="portfolio">
+    <div class="container">
+        <div class="box">
+            <div class="center gap">
+                <h2>实时行情</h2>
+            </div><!--/.center-->
+            <div class="chart-container">
+                <div id="PriceChart"> </div>
+            </div>
+        </div>
+    </div><!--/.container-->
+</section><!--/#portfolio-->
+
+<section id="pricing">
+    <div class="container">
+        <div class="box">
+            <div class="center">
+                <h2>交易数据</h2>
+                <p class="lead">累计注册用户 @Html.DisplayFor(m => m.MemberAmount) 人<br>历史成交金额<br><span style="font-size: 65px; font-weight: bold; font-family: impact; color: #c09853">￥@Html.DisplayFor(m => m.TotalTransactionCash)</span></p>
+            </div><!--/.center-->
+            <div class="big-gap"></div>
+            <div id="pricing-table" class="row">
+                <div class="col-sm-4">
+                    <ul class="plan featured">
+                        <li class="plan-name">当前价格</li>
+                        <li class="plan-price">￥@Html.DisplayFor(m => m.CurrentCoinPrice)</li>
+                        <li>最高价格：<span class="red">￥@Html.DisplayFor(m => m.MaxCoinPrice)</span></li>
+                        <li>最低价格：<span class="green">￥@Html.DisplayFor(m => m.MinCoinPrice)</span></li>
+                        <li>今日成交量：@Html.DisplayFor(m => m.TodayBaoDanAmount)</li>
+                        <li>今日成交额：￥@Html.DisplayFor(m => m.TodayBaoDanCash)</li>
+                        <li>历史成交额：￥@Html.DisplayFor(m => m.TotalTransactionCash)</li>
+                        <li class="plan-action"><a href="@SiteConfigurationHelper.SiteRootPath/Home/Dashboard" class="btn btn-primary btn-lg">进入交易中心</a></li>
+                    </ul>
+                </div><!--/.col-sm-4-->
+                <div class="col-sm-4">
+                    <ul class="plan ">
+                        <li class="plan-name">买盘</li>
+                        <li>
+                            <table class="table">
+                                <tr style="background: #eee;">
+                                    <th>买入</th>
+                                    <th>买入价￥</th>
+                                    <th>买入量</th>
+                                </tr>
+                                @for (int i = 1; i <= Model.RecentBaoDanBuy.Count(); i++ )
+                                {
+                                    var row = Model.RecentBaoDanBuy.ToArray()[i-1];
+                                <tr>
+                                    <td class="green">买 @i</td>
+                                    <td>@row.RequestPrice</td>
+                                    <td class="red">@row.RequestQuantity</td>
+                                </tr>
+                                }
+                            </table>
+                        </li>
+                        <li class="plan-action"><a href="@SiteConfigurationHelper.SiteRootPath/BaoDan/Buy" class="btn btn-primary btn-lg">买入</a></li>
+                    </ul>
+                </div><!--/.col-sm-4-->
+                <div class="col-sm-4">
+                    <ul class="plan">
+                        <li class="plan-name">卖盘</li>
+                        <li>
+                            <table class="table">
+                                <tr style="background: #eee;">
+                                    <th>卖出</th>
+                                    <th>卖出价￥</th>
+                                    <th>卖出量</th>
+                                </tr>
+                                @for (int i = 1; i <= Model.RecentBaoDanSell.Count(); i++)
+                                {
+                                    var row = Model.RecentBaoDanSell.ToArray()[i-1];
+                                    <tr>
+                                        <td class="green">卖 @i</td>
+                                        <td>@row.RequestPrice</td>
+                                        <td class="red">@row.RequestQuantity</td>
+                                    </tr>
+                                }
+                            </table>
+                        </li>
+                        <li class="plan-action"><a href="@SiteConfigurationHelper.SiteRootPath/BaoDan/Sell" class="btn btn-primary btn-lg">卖出</a></li>
+                    </ul>
+                </div><!--/.col-sm-4-->
+            </div>
+        </div>
+    </div>
+</section><!--/#pricing-->
+
+
+
+<script>
+
+    var exchangerates = [
+        @foreach(var p in Model.CoinPriceHistory)
+        { 
+            @: [@DateTimeHelper.ConvertDateTimeInt(p.DateTime), @p.Price],
+        }
+    ];
+
+    function euroFormatter(v, axis) {
+        return v.toFixed(axis.tickDecimals) + "￥";
+    }
+
+    function doPlot(position) {
+        $.plot($("#PriceChart"), [{
+            data: exchangerates,
+            label: "虚拟币价格走势",
+            yaxis: 2
+        }], {
+            xaxes: [{
+                mode: 'time'
+            }],
+            yaxes: [{
+                min: 0
+            }, {
+                // align if we are to the right
+                alignTicksWithAxis: position == "right" ? 1 : null,
+                position: position,
+                tickFormatter: euroFormatter
+            }],
+            legend: {
+                position: 'sw'
+            },
+            grid: {
+                hoverable: true //IMPORTANT! this is needed for tooltip to work
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%y",
+                xDateFormat: "%y-%m-%d",
+
+                onHover: function (flotItem, $tooltipEl) {
+                    // console.log(flotItem, $tooltipEl);
+                }
+            }
+
+        });
+    }
+
+    doPlot("right");
+
+
+</script>
