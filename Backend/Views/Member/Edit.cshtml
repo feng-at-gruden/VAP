@@ -23,6 +23,25 @@
             <li><h2>业绩： @Html.DisplayFor(model => model.Achievement)</h2></li>
         </ul>
     </div>
+    <div class="formtitle"><span>身份认证</span></div>
+    <div class="toolsli">
+        <ul class="toollist">
+            <li>
+                <img src="@Model.IdentityPath"/>
+                <h2>身份证 
+                    @if (Model.IdApproved.HasValue && Model.IdApproved.Value)
+                    {
+                        @:已认证
+                    }
+                    else
+                    {
+                        @:未认证
+                    }
+                </h2>
+            </li>
+           
+        </ul>
+    </div>
     <div class="formtitle"><span>下级会员</span></div>
     <div class="toolsli">
         <ul class="toollist">

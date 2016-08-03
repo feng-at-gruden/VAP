@@ -23,12 +23,12 @@ namespace Backend.Controllers
             {
                 ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
             }
-            var members = db.Members.Where(c=>c.Id>0);
+            var members = db.Members.Where(c => c.Id > 0);
             if (!string.IsNullOrEmpty(account))
             {
                 members = members.Where(c => c.Email.Contains(account));
             }
-           
+
             if (!string.IsNullOrEmpty(status))
             {
                 members = members.Where(c => c.Status == status);
@@ -39,7 +39,7 @@ namespace Backend.Controllers
         }
         public ActionResult IpLogs(string memberAccount)
         {
-            
+
             var logs = db.IPLogs.Where(c => c.Id > 0);
             if (!string.IsNullOrEmpty(memberAccount))
             {
@@ -67,14 +67,50 @@ namespace Backend.Controllers
                 member.Status = VapLib.会员状态.正常.ToString();
                 db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
-                
+
             }
             //无此记录
             else
             {
                 ModelState.AddModelError("", "该记录不存在。");
             }
-            
+
+            TempData["ModelState"] = ModelState;
+            return RedirectToAction("Index");
+        }
+        public ActionResult ApproveIdentity(int id)
+        {
+
+            var member = db.Members.Find(id);
+            if (member != null)
+            {
+                if (member.Status != VapLib.会员状态.正常.ToString())
+                {
+                    ModelState.AddModelError("", "请先修改会员为正常状态。");
+                }
+                else
+                {
+                    if (member.IdSubmitted.HasValue&&member.IdSubmitted.Value)
+                    {
+                        member.IdApproved = true;
+                        db.Entry(member).State = EntityState.Modified;
+                        db.SaveChanges();
+                        ModelState.AddModelError("", "会员身份认证成功。");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "会员没有上传身份证信息。");
+                    }
+
+                }
+
+            }
+            //无此记录
+            else
+            {
+                ModelState.AddModelError("", "该会员不存在。");
+            }
+
             TempData["ModelState"] = ModelState;
             return RedirectToAction("Index");
         }
@@ -98,7 +134,7 @@ namespace Backend.Controllers
             TempData["ModelState"] = ModelState;
             return RedirectToAction("Index");
         }
-      
+
 
 
         // GET: /Member/Edit/5
@@ -113,9 +149,9 @@ namespace Backend.Controllers
             {
                 return HttpNotFound();
             }
-           /* var temp=
-            db.Members.Where(c => c.Referral_Id == member.Id).Select(c => c.Email).ToList();
-            ViewBag.subordinates = temp;*/
+            /* var temp=
+             db.Members.Where(c => c.Referral_Id == member.Id).Select(c => c.Email).ToList();
+             ViewBag.subordinates = temp;*/
             return View(member);
         }
 
@@ -136,11 +172,11 @@ namespace Backend.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            
+
             return View(model);
         }
 
-      
+
 
         protected override void Dispose(bool disposing)
         {

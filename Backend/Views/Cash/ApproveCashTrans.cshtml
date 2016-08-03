@@ -1,0 +1,50 @@
+﻿@model Backend.Models.CashTransaction
+
+@{
+    ViewBag.Title = "现金业务审核";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">现金业务审核</a></li>
+    </ul>
+</div>
+<div class="formbody">
+    <div class="formtitle"><span>现金业务信息</span></div>
+    <div class="toolsli">
+        <ul class="toollist">
+            <li><h2>会员账号： @Html.DisplayFor(model => model.Member.Email) </h2></li>
+            <li><h2>类型： @Html.DisplayFor(model => model.Type) </h2></li>
+            <li><h2>银行： @Html.DisplayFor(model => model.Bank)</h2></li>
+            <li><h2>银行账号： @Html.DisplayFor(model => model.BankAccount)</h2></li>
+            <li><h2>账号名称： @Html.DisplayFor(model => model.BankName)</h2></li>
+            <li><h2>转账金额： @Html.DisplayFor(model => model.Amount)</h2></li>
+            <li><h2>转账时间： @Html.DisplayFor(model => model.DateTime)</h2></li>
+            @if (Model.Type == VapLib.现金交易类型.充值.ToString())
+            {
+                <li><img src="@Model.FileUrl" /><h2>凭证照片</h2></li>
+            }
+            
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(model => model.Id)
+
+                <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="保存" /></li>
+
+
+            }
+        </ul>
+
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        $('#cashParent').slideDown();
+    });
+</script>

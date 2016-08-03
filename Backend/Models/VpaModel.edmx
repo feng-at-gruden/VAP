@@ -98,6 +98,11 @@
           <Property Name="Bank" Type="nvarchar(max)" />
           <Property Name="BankName" Type="nvarchar(max)" />
           <Property Name="BankAccount" Type="nvarchar(max)" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="FileUrl" Type="nvarchar(max)" />
+          <Property Name="RemitBank" Type="nvarchar(max)" />
+          <Property Name="RemitUserName" Type="nvarchar(max)" />
+          <Property Name="RemitAccount" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="ChongXiaoTransactions">
           <Key>
@@ -174,11 +179,13 @@
           <Property Name="Coin2" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="RegisterTime" Type="datetime" Nullable="false" />
           <Property Name="Achievement" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Mobile" Type="nvarchar(max)" />
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TiXianStatus" Type="nvarchar(max)" />
           <Property Name="TiBiStatus" Type="nvarchar(max)" />
           <Property Name="IdSubmitted" Type="bit" />
           <Property Name="IdApproved" Type="bit" />
+          <Property Name="IdentityPath" Type="nvarchar(max)" />
           <Property Name="ApprovedBy" Type="nvarchar(max)" />
           <Property Name="Referral_Id" Type="int" />
           <Property Name="MemberLevel_Id" Type="int" Nullable="false" />
@@ -214,6 +221,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Key" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <Association Name="FK_BaoDanTransactionCashTransaction">
           <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="0..1" />
@@ -717,6 +725,11 @@
           <Property Name="BankAccount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionCashTransaction" FromRole="CashTransaction" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberCashTransaction" FromRole="CashTransaction" ToRole="Member" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FileUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RemitBank" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RemitUserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RemitAccount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ChongXiaoTransaction">
           <Key>
@@ -817,6 +830,8 @@
           <NavigationProperty Name="Member1" Relationship="VapModel.FK_MemberMember" FromRole="Member1" ToRole="Member" />
           <NavigationProperty Name="PointTransactions" Relationship="VapModel.FK_MemberPointTransaction" FromRole="Member" ToRole="PointTransaction" />
           <NavigationProperty Name="BankInfoes" Relationship="VapModel.FK_MemberBankInfo" FromRole="Member" ToRole="BankInfo" />
+          <Property Name="Mobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdentityPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="News">
           <Key>
@@ -851,6 +866,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Key" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_BaoDanTransactionCashTransaction">
           <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="0..1" />
@@ -1099,6 +1115,11 @@
           <EntitySetMapping Name="CashTransactions">
             <EntityTypeMapping TypeName="VapModel.CashTransaction">
               <MappingFragment StoreEntitySet="CashTransactions">
+                <ScalarProperty Name="RemitAccount" ColumnName="RemitAccount" />
+                <ScalarProperty Name="RemitUserName" ColumnName="RemitUserName" />
+                <ScalarProperty Name="RemitBank" ColumnName="RemitBank" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
                 <ScalarProperty Name="BankName" ColumnName="BankName" />
                 <ScalarProperty Name="Bank" ColumnName="Bank" />
@@ -1176,6 +1197,8 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="VapModel.Member">
               <MappingFragment StoreEntitySet="Members">
+                <ScalarProperty Name="IdentityPath" ColumnName="IdentityPath" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
                 <ScalarProperty Name="MemberLevel_Id" ColumnName="MemberLevel_Id" />
                 <ScalarProperty Name="Referral_Id" ColumnName="Referral_Id" />
                 <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
@@ -1232,6 +1255,7 @@
           <EntitySetMapping Name="SystemSettings">
             <EntityTypeMapping TypeName="VapModel.SystemSetting">
               <MappingFragment StoreEntitySet="SystemSettings">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Key" ColumnName="Key" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

@@ -150,8 +150,13 @@
                         else if(item.Status == VapLib.会员状态.正常.ToString())
                         {
                             @Html.ActionLink("锁定", "LockMember", new { id = item.Id },new{@class="tablelink"})
+                            @:|
+                            @Html.ActionLink("身份认证", "ApproveIdentity", new { id = item.Id }, new { @class = "tablelink", onclick = "javascript:return confirm('确认通过该会员身份认证？')" })
                         }
                         | @Html.ActionLink("修改", "Edit", new { id = item.Id }, new { @class = "tablelink" })
+                        
+                       
+                        
                     </td>
                 </tr>
             }

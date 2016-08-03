@@ -51,6 +51,8 @@ namespace Backend.Models
         public string ApprovedBy { get; set; }
         public Nullable<int> Referral_Id { get; set; }
         public int MemberLevel_Id { get; set; }
+        public string Mobile { get; set; }
+        public string IdentityPath { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BaoDanTransaction> BaoDanTransactions { get; set; }

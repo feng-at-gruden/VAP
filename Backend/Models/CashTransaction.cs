@@ -25,6 +25,11 @@ namespace Backend.Models
         public string Bank { get; set; }
         public string BankName { get; set; }
         public string BankAccount { get; set; }
+        public string Comment { get; set; }
+        public string FileUrl { get; set; }
+        public string RemitBank { get; set; }
+        public string RemitUserName { get; set; }
+        public string RemitAccount { get; set; }
     
         public virtual BaoDanTransaction BaoDanTransaction { get; set; }
         public virtual Member Member { get; set; }

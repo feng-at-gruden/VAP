@@ -71,14 +71,19 @@ namespace Backend.Controllers
                                                                   .OrderBy(c => c.DateTime);
             return View(cashtransactions.ToList());
         }
-       
-
-
         // GET: /Cash/Edit/5
         public ActionResult ApproveCashTrans(int id)
         {
-           
+
             CashTransaction cashtransaction = db.CashTransactions.Find(id);
+            return View(cashtransaction);
+        }
+
+        [HttpPost]
+        public ActionResult ApproveCashTrans(CashTransaction model)
+        {
+
+            CashTransaction cashtransaction = db.CashTransactions.Find(model.Id);
             if (cashtransaction != null)
             {
                 //验证现金状态为 待审核
