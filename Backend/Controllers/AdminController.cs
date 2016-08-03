@@ -247,7 +247,7 @@ namespace Backend.Controllers
             var bankInfoes = db.BankInfoes.Include(b => b.Member).Where(c => c.Type == type);
             return View(bankInfoes.ToList());
         }
-
+        
 
 
         // GET: BankInfoes/Create
@@ -322,7 +322,23 @@ namespace Backend.Controllers
             return RedirectToAction("Banks");
         }
 
-
+        public ActionResult UnlockCash()
+        {
+           
+            return View();
+        }
+       
+        public ActionResult UnlockCashTrans()
+        {
+            var type = VapLib.现金交易类型.售币所得.ToString();
+            var status = VapLib.现金状态.冻结.ToString();
+            var lockTrans = db.CashTransactions.Where(c=>c.Type==type&&c.Status==status).ToList();
+            foreach (var cashTransaction in lockTrans)
+            {
+                
+            }
+            return RedirectToAction("UnlockCash");
+        }
 
         private void AddErrors(IdentityResult result)
         {

@@ -1,0 +1,17 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "资金解冻";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">资金解冻</a></li>
+    </ul>
+</div>
+<div class="formbody">
+    <a href="@Url.Action("UnlockCashTrans", "Admin")" class="btn-new">解冻</a>
+</div>

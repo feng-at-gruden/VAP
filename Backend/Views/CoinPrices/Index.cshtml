@@ -4,21 +4,103 @@
     ViewBag.Title = "历史价格";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script type="text/javascript" src="~/Scripts/Chart.min.js"></script>
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
-        <li><a href="#">首页</a></li>
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
         <li><a href="#">历史价格</a></li>
     </ul>
 </div>
-
+<div class="formbody">
+    
+    
+    <div>
+        <canvas id="line-chartjs" height="250" width="600"></canvas>
+    </div>
+</div>
 
 
 
 <script>
     $(document).ready(function () {
-
+        
         $('#coinParent').slideDown();
+
+        /*var randomScalingFactor = function () {
+            return Math.round(Math.random() * 2);
+        };
+        var lineChartData = {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                label: "My First dataset",
+                fillColor: "rgba(31,181,172,0.5)",
+                strokeColor: "rgba(31,181,172,1)",
+                pointColor: "rgba(31,181,172,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(31,181,172,1)",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            }]
+
+        }
+
+        var ctx = document.getElementById("line-chartjs").getContext("2d");
+        window.myLine = new Chart(ctx).Line(lineChartData, {
+            responsive: true,
+            scaleOverlay: true,
+            scaleShowLabels: true,
+            bezierCurve: true,
+            bezierCurveTension: 0.1,
+            tooltipTemplate: "<%if (label){%><%=label%> 价格：<%}%><%= value %>元",
+            /*         scaleOverride: true,
+
+            scaleSteps: 20,
+
+            // scaleStepWidth: Math.ceil(Math.max.apply(null,data.datasets[0].data) / 0.1),
+
+            scaleStepWidth: 0.2,
+
+            scaleStartValue: 1#1#
+        });*/
+
+
+        var lbls = new Array();
+        var sds = new Array();
+        $.getJSON("/CoinPrices/GetCoinPrices", {
+            Count: 10
+        },
+            function (data) {
+                for (var i in data.Data) {
+                    var rd = data.Data[i];
+                    lbls.push(rd.Title);
+                    sds.push(rd.Price);
+                }
+                if (lbls.length > 0) {
+                    var lineChartData = {
+                        labels: lbls,
+                        datasets: [{
+                            fillColor: "rgba(31,181,172,0.5)",
+                            strokeColor: "rgba(31,181,172,1)",
+                            pointColor: "rgba(31,181,172,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(31,181,172,1)",
+                            data: sds
+                        }]
+
+                    }
+
+                    var ctx = document.getElementById("line-chartjs").getContext("2d");
+                    window.myLine = new Chart(ctx).Line(lineChartData, {
+                        responsive: true,
+                        scaleOverlay: true,
+                        scaleShowLabels: true,
+                        bezierCurve: true,
+                        bezierCurveTension: 0.1,
+                        tooltipTemplate: "<%if (label){%><%=label%> 价格：<%}%><%= value %>元",
+                    });
+                }
+            });
     });
 </script>
