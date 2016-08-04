@@ -13,5 +13,12 @@
     </ul>
 </div>
 <div class="formbody">
+    @Html.ValidationSummary()
     <a href="@Url.Action("UnlockCashTrans", "Admin")" class="btn-new">解冻</a>
 </div>
+<script>
+    $(document).ready(function () {
+       
+        $('#adminParent').slideDown();
+    });
+</script>

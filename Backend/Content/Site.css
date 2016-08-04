@@ -47,12 +47,14 @@ h2{font-weight:normal;}
 .loginbox ul li label input{margin-right:5px;}
 .loginbox,.loginbox1,.loginbox2,.loginbox3,.loginbox4{width:692px; height:373px;margin-top:30px;}
 .loginuser {
-    width:299px; height:38px; background:url(../images/loginuser.png) no-repeat; 
-    border:none; line-height:38px; padding-left:38px; font-size:14px; font-weight:bold;
+    width:299px; height:42px; background:url(../images/loginuser.png) no-repeat; 
+    border:none; line-height:40px; padding-left:38px; font-size:14px; font-weight:bold;
+    padding-top: 3px;
 }
 .loginpwd {
-    width:299px; height:38px; background:url(../images/loginpassword.png) no-repeat;
-     border:none;line-height:38px; padding-left:38px; font-size:14px; color:#de9852;
+    width:299px; height:42px; background:url(../images/loginpassword.png) no-repeat;
+     border:none;line-height:40px; padding-left:38px; font-size:14px; color:#de9852;
+     padding-top: 3px;
 }
 .loginbtn{width:111px;height:35px; background:url(../images/buttonbg.png) repeat-x; font-size:14px; font-weight:bold; color:#fff;cursor:pointer; line-height:35px;}
 .loginbm{height:50px; line-height:50px; text-align:center; background:url(../images/loginbg2.png) repeat-x;position:absolute; bottom:0; width:100%; color:#fff8f5;}

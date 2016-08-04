@@ -42,7 +42,6 @@ namespace Backend.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
@@ -294,7 +293,7 @@ namespace Backend.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //

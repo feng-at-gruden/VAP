@@ -324,19 +324,41 @@ namespace Backend.Controllers
 
         public ActionResult UnlockCash()
         {
-           
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
             return View();
         }
        
         public ActionResult UnlockCashTrans()
         {
-            var type = VapLib.现金交易类型.售币所得.ToString();
-            var status = VapLib.现金状态.冻结.ToString();
-            var lockTrans = db.CashTransactions.Where(c=>c.Type==type&&c.Status==status).ToList();
-            foreach (var cashTransaction in lockTrans)
+            if (DateTime.Today.DayOfWeek !=DayOfWeek.Monday)
             {
-                
+                ModelState.AddModelError("", "解冻操作只能在每周一执行。");
             }
+            else
+            {
+                var type = VapLib.现金交易类型.售币所得.ToString();
+                var status = VapLib.现金状态.冻结.ToString();
+                var lockTrans = db.CashTransactions.Where(c => c.Type == type 
+                    &&c.DateTime<DateTime.Today.Date
+                    && c.Status == status).ToList();
+                foreach (var cashTransaction in lockTrans)
+                {
+                    var member = db.Members.Find(cashTransaction.MemberId);
+                    member.Cash1 += cashTransaction.Amount;
+                    member.Cash2 -= cashTransaction.Amount;
+                    cashTransaction.Status = VapLib.现金状态.解冻.ToString();
+
+                    db.Entry(member).State = EntityState.Modified;
+                    db.Entry(cashTransaction).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                }
+                ModelState.AddModelError("", "解冻操作执行成功。");
+            }
+            TempData["ModelState"] = ModelState;
             return RedirectToAction("UnlockCash");
         }
 
