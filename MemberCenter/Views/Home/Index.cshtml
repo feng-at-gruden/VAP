@@ -17,11 +17,15 @@
             <div class="chart-container">
                 <div id="PriceChart"> </div>
             </div>
+
+            <div class="chart-container2">
+                <div id="BarChart"> </div>
+            </div>
         </div>
     </div><!--/.container-->
 </section><!--/#portfolio-->
 
-<section id="pricing">
+<section id="pricing" class="hide">
     <div class="container">
         <div class="box">
             <div class="center">
@@ -149,4 +153,67 @@
     doPlot("right");
 
 
+    //Bar Chart
+    $(function () {
+        if ($("#BarChart")[0]) {
+            var buyData = [
+                @foreach(var p in Model.BuyHistory)
+                { 
+                    @: [@DateTimeHelper.ConvertDateTimeInt(p.DateTime), @p.Amount],
+                }];
+            var sellData = [
+                @foreach(var p in Model.SellHistory)
+                { 
+                    @: [@DateTimeHelper.ConvertDateTimeInt(p.DateTime), @p.Amount],
+                }];
+
+            var data = [
+                {
+                    label: "买盘",
+                    bars: {
+                        show: true,
+                        order: 1,
+                        fill: 1,
+                        lineWidth: 0,
+                        fillColor: 'rgba(255,0,0,0.6)',
+                        barWidth: 60 * 60 * 1000 * 2,
+                    },
+                    data: buyData
+                },
+			    {
+			         label: "卖出",
+			         bars: {
+			             show: true,
+			             order: 2,
+			             fill: 1,
+			             lineWidth: 0,
+			             fillColor: 'rgba(1,157,10,0.8)',
+			             barWidth: 60 * 60 * 1000 * 2,
+			         },
+			         data: sellData
+			    }
+            ]
+
+            var options = {
+                
+                yaxes: {
+                    min: 0
+                },
+                xaxis: {
+                    mode: 'time',
+                    timeformat: "%b %d",
+                    minTickSize: [1, "day"],
+                    tickSize: [1, "day"],
+                    autoscaleMargin: 1,
+                },
+                legend: true,
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%y",
+                    xDateFormat: "%y-%m-%d",
+                }
+            };
+            $.plot($('#BarChart'), data, options);
+        }
+    });
 </script>

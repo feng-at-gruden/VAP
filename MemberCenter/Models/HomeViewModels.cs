@@ -43,6 +43,12 @@ namespace MemberCenter.Models
 
         [Display(Name = "历史价格数据")]
         public IEnumerable<CoinPriceHistoryViewModel> CoinPriceHistory { get; set; }
+
+        [Display(Name = "历史买入数据")]
+        public IEnumerable<DailyAmountViewModel> BuyHistory { get; set; }
+
+        [Display(Name = "历史卖出数据")]
+        public IEnumerable<DailyAmountViewModel> SellHistory { get; set; }
     }
 
 
@@ -51,6 +57,16 @@ namespace MemberCenter.Models
         [DisplayFormat(DataFormatString = "{0:n2}")]
         [Display(Name = "价格")]
         public decimal Price { get; set; }
+
+        [Display(Name = "日期")]
+        public DateTime DateTime { get; set; }
+    }
+
+    public class DailyAmountViewModel
+    {
+        [DisplayFormat(DataFormatString = "{0:n6}")]
+        [Display(Name = "数量")]
+        public decimal Amount { get; set; }
 
         [Display(Name = "日期")]
         public DateTime DateTime { get; set; }

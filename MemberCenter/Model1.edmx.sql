@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/01/2016 10:51:27
+-- Date Created: 08/04/2016 17:10:00
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -96,6 +96,9 @@ IF OBJECT_ID(N'[dbo].[News]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[IPLogs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[IPLogs];
+GO
+IF OBJECT_ID(N'[dbo].[SysStatisticsSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysStatisticsSet];
 GO
 
 -- --------------------------------------------------
@@ -268,6 +271,21 @@ CREATE TABLE [dbo].[IPLogs] (
 );
 GO
 
+-- Creating table 'SysStatistics'
+CREATE TABLE [dbo].[SysStatistics] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Date] datetime  NOT NULL,
+    [BaoDanBuyAmount] decimal(18,6)  NULL,
+    [BaoDanSellAmount] decimal(18,6)  NULL,
+    [NewMemberAmount] smallint  NULL,
+    [TotalCashTransactionAmount] decimal(18,2)  NULL,
+    [BeginCoinPrice] decimal(18,2)  NULL,
+    [EndCoinPrice] decimal(18,2)  NULL,
+    [MaxCoinPrice] decimal(18,2)  NULL,
+    [MinCoinPrice] decimal(18,2)  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -341,6 +359,12 @@ GO
 -- Creating primary key on [Id] in table 'IPLogs'
 ALTER TABLE [dbo].[IPLogs]
 ADD CONSTRAINT [PK_IPLogs]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'SysStatistics'
+ALTER TABLE [dbo].[SysStatistics]
+ADD CONSTRAINT [PK_SysStatistics]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

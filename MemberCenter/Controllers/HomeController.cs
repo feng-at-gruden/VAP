@@ -55,6 +55,18 @@ namespace MemberCenter.Controllers
                                         Price = row.Price,
                                         DateTime = row.DateTime
                                    },
+                BuyHistory = from row in db.SysStatistics
+                                   select new DailyAmountViewModel
+                                   {
+                                       Amount = row.BaoDanBuyAmount.Value,
+                                       DateTime = row.Date
+                                   },
+                SellHistory = from row in db.SysStatistics
+                             select new DailyAmountViewModel
+                             {
+                                 Amount = row.BaoDanSellAmount.Value,
+                                 DateTime = row.Date
+                             },
             };
 
             return View(model);

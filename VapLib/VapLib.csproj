@@ -49,6 +49,7 @@
     <Content Include="InitSQL\IdentityInitial.sql" />
     <Content Include="InitSQL\MemberLevel.sql" />
     <Content Include="InitSQL\Members.sql" />
+    <Content Include="InitSQL\SysStatistics.sql" />
     <Content Include="InitSQL\SystemSettings.sql" />
     <Content Include="InitSQL\VAP说明.txt" />
   </ItemGroup>

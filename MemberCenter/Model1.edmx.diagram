@@ -30,6 +30,7 @@
         <AssociationConnector Association="Model1.BaoDanTransactionPointTransaction" />
         <AssociationConnector Association="Model1.BaoDanTransactionLockedCoin" />
         <AssociationConnector Association="Model1.MemberBankInfo" />
+        <EntityTypeShape EntityType="Model1.SysStatistics" Width="1.5" PointX="7" PointY="5.375" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

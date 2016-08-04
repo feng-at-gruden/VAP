@@ -1,4 +1,5 @@
-.chart-container
+.chart-container,
+.chart-container2
 {
 	box-sizing: border-box;
 	width: 100%;
@@ -13,7 +14,9 @@
 	-moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 	-webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
-#PriceChart
+.chart-container2{height: 300px;}
+#PriceChart,
+#BarChart
 {
 	width: 100%;
 	height: 100%;

@@ -37,5 +37,6 @@ namespace MemberCenter
         public virtual DbSet<BankInfo> BankInfo { get; set; }
         public virtual DbSet<News> News { get; set; }
         public virtual DbSet<IPLog> IPLogs { get; set; }
+        public virtual DbSet<SysStatistics> SysStatistics { get; set; }
     }
 }

@@ -65,6 +65,7 @@ namespace Backend.Controllers
                     var member = db.Members.Find(sell.Member.Id);
                     //更改状态 为已成交
                     sell.Status = 报单状态.已成交.ToString();
+                    
                     //增加会员现金冻结记录 周一解冻
                     var tempAmount = sell.Amount * sell.Price - sell.Fee;
                     member.CashTransactions.Add(new CashTransaction
@@ -76,10 +77,14 @@ namespace Backend.Controllers
                         Fee = 0m,
                         BaoDanTransactionId = sell.Id
                     });
+
                     //增加会员冻结现金
                     member.Cash2 += tempAmount;
                     db.Entry(member).State = EntityState.Modified;
                     db.Entry(sell).State = EntityState.Modified;
+
+                    //By Feng 更新日系统统计表
+                    UpdateOrInsertDailySysStatistics(sell);
 
                     db.SaveChanges();
                     ModelState.AddModelError("", "该记录不存在。");
@@ -110,5 +115,31 @@ namespace Backend.Controllers
             }
             base.Dispose(disposing);
         }
+
+        private void UpdateOrInsertDailySysStatistics(BaoDanTransaction mBaoDan)
+        {
+            //Please updated model and uncomment below
+            /*
+            DateTime currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            SysStatistics mStatistics = db.SysStatistics.SingleOrDefault(m => m.Date == currentDate);
+            if (mStatistics == null)
+            {
+                db.SysStatistics.Add(new SysStatistics
+                {
+                    Date = currentDate,
+                    BaoDanBuyAmount = 0,
+                    BaoDanSellAmount = mBaoDan.Amount,
+                    TotalCashTransactionAmount = mBaoDan.Amount * mBaoDan.Price,
+                    NewMemberAmount = 0,
+                });
+            }
+            else
+            {
+                mStatistics.TotalCashTransactionAmount += mBaoDan.Amount * mBaoDan.Price;
+                mStatistics.BaoDanSellAmount += mBaoDan.Amount;
+            }
+            */
+        }
+
     }
 }

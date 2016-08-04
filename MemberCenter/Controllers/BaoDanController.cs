@@ -123,7 +123,9 @@ namespace MemberCenter.Controllers
                     //Step 4. 扣除现金
                     CurrentUser.Cash1 -= model.TotalCostCash;
 
-                    //
+                    //Step 5. 更新系统统计表
+                    UpdateOrInsertSysStatistics(mBaoDan);
+
                     db.SaveChanges();
                     ViewBag.ActionMessage = "报单成功！";
                 }
@@ -423,6 +425,32 @@ namespace MemberCenter.Controllers
             }
 
             RefundForReferral(mRef, amount, mBaoDan, currentRefundRate);
+        }
+
+        /// <summary>
+        /// 更新系统统计表 统计每天 买入 卖出量及交易金额
+        /// </summary>
+        /// <param name="mBaoDan"></param>
+        private void UpdateOrInsertSysStatistics(BaoDanTransaction mBaoDan)
+        {
+            DateTime currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            SysStatistics mStatistics = db.SysStatistics.SingleOrDefault(m => m.Date == currentDate);
+            if (mStatistics == null)
+            {
+                db.SysStatistics.Add(new SysStatistics
+                {
+                    Date = currentDate,
+                    BaoDanBuyAmount = mBaoDan.Amount,
+                    BaoDanSellAmount = 0,
+                    TotalCashTransactionAmount = mBaoDan.Amount * mBaoDan.Price,
+                    NewMemberAmount = 0,
+                });
+            }
+            else
+            {
+                mStatistics.TotalCashTransactionAmount += mBaoDan.Amount * mBaoDan.Price;
+                mStatistics.BaoDanBuyAmount += mBaoDan.Amount;
+            }
         }
 
         #endregion
