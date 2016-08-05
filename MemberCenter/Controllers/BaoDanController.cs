@@ -115,9 +115,11 @@ namespace MemberCenter.Controllers
 
                     //Step 3.1 为自己所有上线增加返利
                     //Step 3.2 为上线增加重消记录
+                    RefundForReferral(CurrentUser, model.RequestCash, mBaoDan, null);
+
                     //Step 3.3 为上线增加总业绩
                     //Step 3.4 设置更新上线等级
-                    RefundForReferral(CurrentUser, model.RequestCash, mBaoDan, null);
+                    UpdateAchievementAndLevel(CurrentUser, model.RequestCash, mBaoDan);
 
 
                     //Step 4. 扣除现金
@@ -362,8 +364,6 @@ namespace MemberCenter.Controllers
         /// <summary>
         /// Step 3.1 为自己所有上线增加返利
         /// Step 3.2 为上线增加重消记录
-        /// Step 3.3 为上线增加总业绩
-        /// Step 3.4 设置更新上线等级
         /// </summary>
         /// <param name="member"></param>
         /// <param name="lastRefundRate">向上遍历 如果某上线的级别等于或低于其自己 则跳过其上线, lastRefundRate为上一次等级高于自己的上线的rate</param>
@@ -411,12 +411,6 @@ namespace MemberCenter.Controllers
                     });
                 mRef.ChongXiao1 += refChonXiao;
 
-                // Step 3.3 为上线增加总业绩
-                mRef.Achievement += amount;   // 各个上线总业绩 + 消费现金金额
-
-                // Step 3.4 设置更新上线等级
-                RefreshMemberLevel(mRef);
-
                 // 直到最高价 七钻结束
                 if (mRef.MemberLevel.Level.Equals(会员等级.七钻.ToString()))
                 {
@@ -425,6 +419,25 @@ namespace MemberCenter.Controllers
             }
 
             RefundForReferral(mRef, amount, mBaoDan, currentRefundRate);
+        }
+
+        /// <summary>
+        /// Step 3.3 为上线增加总业绩
+        /// Step 3.4 设置更新上线等级
+        /// </summary>
+        private void UpdateAchievementAndLevel(Member member, decimal amount, BaoDanTransaction mBaoDan)
+        {
+            Member mRef = member.Referral;
+            if (mRef == null)
+                return;
+
+            // Step 3.3 为上线增加总业绩
+            mRef.Achievement += amount;   // 各个上线总业绩 + 消费现金金额
+
+            // Step 3.4 设置更新上线等级
+            RefreshMemberLevel(mRef);
+
+            UpdateAchievementAndLevel(mRef, amount, mBaoDan);
         }
 
         /// <summary>
