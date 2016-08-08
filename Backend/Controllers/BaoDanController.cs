@@ -119,12 +119,12 @@ namespace Backend.Controllers
         private void UpdateOrInsertDailySysStatistics(BaoDanTransaction mBaoDan)
         {
             //Please updated model and uncomment below
-            /*
+            
             DateTime currentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            SysStatistics mStatistics = db.SysStatistics.SingleOrDefault(m => m.Date == currentDate);
+            var mStatistics = db.SysStatistics.SingleOrDefault(m => m.Date == currentDate);
             if (mStatistics == null)
             {
-                db.SysStatistics.Add(new SysStatistics
+                db.SysStatistics.Add(new SysStatistic
                 {
                     Date = currentDate,
                     BaoDanBuyAmount = 0,
@@ -138,7 +138,7 @@ namespace Backend.Controllers
                 mStatistics.TotalCashTransactionAmount += mBaoDan.Amount * mBaoDan.Price;
                 mStatistics.BaoDanSellAmount += mBaoDan.Amount;
             }
-            */
+            
         }
 
     }

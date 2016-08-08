@@ -41,5 +41,6 @@ namespace Backend.Models
         public virtual DbSet<PointTransaction> PointTransactions { get; set; }
         public virtual DbSet<SystemSetting> SystemSettings { get; set; }
         public virtual DbSet<BankInfo> BankInfoes { get; set; }
+        public virtual DbSet<SysStatistic> SysStatistics { get; set; }
     }
 }

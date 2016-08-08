@@ -214,6 +214,21 @@
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="BaoDanTransactionId" Type="int" />
         </EntityType>
+        <EntityType Name="SysStatistics">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="BaoDanBuyAmount" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="BaoDanSellAmount" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="NewMemberAmount" Type="smallint" />
+          <Property Name="TotalCashTransactionAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BeginCoinPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="EndCoinPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MaxCoinPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MinCoinPrice" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
         <EntityType Name="SystemSettings">
           <Key>
             <PropertyRef Name="Id" />
@@ -452,6 +467,7 @@
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PointTransactions" EntityType="Self.PointTransactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SysStatistics" EntityType="Self.SysStatistics" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SystemSettings" EntityType="Self.SystemSettings" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_BaoDanTransactionCashTransaction" Association="Self.FK_BaoDanTransactionCashTransaction">
             <End Role="BaoDanTransactions" EntitySet="BaoDanTransactions" />
@@ -607,6 +623,7 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="BankInfo" EntitySet="BankInfoes" />
           </AssociationSet>
+          <EntitySet Name="SysStatistics" EntityType="VapModel.SysStatistic" />
           </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -1038,6 +1055,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SysStatistic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BaoDanBuyAmount" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="BaoDanSellAmount" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="NewMemberAmount" Type="Int16" />
+          <Property Name="TotalCashTransactionAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BeginCoinPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="EndCoinPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MaxCoinPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MinCoinPrice" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1272,6 +1304,22 @@
                 <ScalarProperty Name="Account" ColumnName="Account" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Bank" ColumnName="Bank" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysStatistics">
+            <EntityTypeMapping TypeName="VapModel.SysStatistic">
+              <MappingFragment StoreEntitySet="SysStatistics">
+                <ScalarProperty Name="MinCoinPrice" ColumnName="MinCoinPrice" />
+                <ScalarProperty Name="MaxCoinPrice" ColumnName="MaxCoinPrice" />
+                <ScalarProperty Name="EndCoinPrice" ColumnName="EndCoinPrice" />
+                <ScalarProperty Name="BeginCoinPrice" ColumnName="BeginCoinPrice" />
+                <ScalarProperty Name="TotalCashTransactionAmount" ColumnName="TotalCashTransactionAmount" />
+                <ScalarProperty Name="NewMemberAmount" ColumnName="NewMemberAmount" />
+                <ScalarProperty Name="BaoDanSellAmount" ColumnName="BaoDanSellAmount" />
+                <ScalarProperty Name="BaoDanBuyAmount" ColumnName="BaoDanBuyAmount" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
