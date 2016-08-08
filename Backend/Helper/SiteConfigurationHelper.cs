@@ -12,5 +12,9 @@ namespace Backend.Helper
         {
             get { return ConfigurationManager.AppSettings["WebRootFolder"]; }
         }
+        public static string UploadFolderPath
+        {
+            get { return ConfigurationManager.AppSettings["UploadFolder"]; }
+        }
     }
 }

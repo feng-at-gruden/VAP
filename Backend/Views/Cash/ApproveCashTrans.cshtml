@@ -1,4 +1,5 @@
-﻿@model Backend.Models.CashTransaction
+﻿@using Backend.Helper
+@model Backend.Models.CashTransaction
 
 @{
     ViewBag.Title = "现金业务审核";
@@ -22,24 +23,40 @@
             <li><h2>账号名称： @Html.DisplayFor(model => model.BankName)</h2></li>
             <li><h2>转账金额： @Html.DisplayFor(model => model.Amount)</h2></li>
             <li><h2>转账时间： @Html.DisplayFor(model => model.DateTime)</h2></li>
-            @if (Model.Type == VapLib.现金交易类型.充值.ToString())
-            {
-                <li><img src="@Model.FileUrl" /><h2>凭证照片</h2></li>
-            }
+
+
             
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-
-                @Html.HiddenFor(model => model.Id)
-
-                <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="保存" /></li>
-
-
-            }
         </ul>
 
     </div>
+    @if (Model.Type == VapLib.现金交易类型.充值.ToString())
+    {
+        <div class="formtitle"><span>充值凭证信息</span></div>
+        <div class="toolsli">
+            <ul class="toollist">
+
+                <li><img src="@SiteConfigurationHelper.UploadFolderPath@Model.FileUrl" /><h2>凭证照片</h2></li>
+
+            </ul>
+
+        </div>
+    }
+</div>
+<div class="toolsli">
+    <ul class="toollist">
+
+       @using (Html.BeginForm())
+       {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.Id)
+
+        <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="批准" /></li>
+
+
+       }
+
+    </ul>
 
 </div>
 <script>
