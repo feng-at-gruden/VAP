@@ -79,7 +79,7 @@ namespace Backend.Controllers
         }
         public ActionResult GetCoinPrices(int count)
         {
-            var reportData = db.CoinPrices.OrderBy(c=>c.Id).Take(count).ToList().Select(c => new ReportData() {Title = c.DateTime.ToString("yy-MM-dd"), Price = c.Price});
+            var reportData = db.CoinPrices.OrderByDescending(c=>c.Id).Take(count).ToList().OrderBy(c=>c.Id).Select(c => new ReportData() {Title = c.DateTime.ToString("yy-MM-dd"), Price = c.Price});
             return Json(new { Data = reportData }, JsonRequestBehavior.AllowGet); 
             
         }

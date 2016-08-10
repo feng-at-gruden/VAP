@@ -13,11 +13,12 @@ namespace Backend.Controllers
         [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
         public ActionResult Index()
         {
-            if (TempData.ContainsKey("ModelState"))
+            /*if (TempData.ContainsKey("ModelState"))
             {
                 ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
             }
-            return View();
+            return View();*/
+          return  RedirectToAction("GeneralReport","Reports");
         }
 
         public ActionResult About()
