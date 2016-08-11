@@ -552,6 +552,32 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jstree\intro.js" />
+    <Content Include="Scripts\jstree\jstree.changed.js" />
+    <Content Include="Scripts\jstree\jstree.checkbox.js" />
+    <Content Include="Scripts\jstree\jstree.conditionalselect.js" />
+    <Content Include="Scripts\jstree\jstree.contextmenu.js" />
+    <Content Include="Scripts\jstree\jstree.dnd.js" />
+    <Content Include="Scripts\jstree\jstree.js" />
+    <Content Include="Scripts\jstree\jstree.massload.js" />
+    <Content Include="Scripts\jstree\jstree.search.js" />
+    <Content Include="Scripts\jstree\jstree.sort.js" />
+    <Content Include="Scripts\jstree\jstree.state.js" />
+    <Content Include="Scripts\jstree\jstree.types.js" />
+    <Content Include="Scripts\jstree\jstree.unique.js" />
+    <Content Include="Scripts\jstree\jstree.wholerow.js" />
+    <Content Include="Scripts\jstree\misc.js" />
+    <Content Include="Scripts\jstree\outro.js" />
+    <Content Include="Scripts\jstree\sample.js" />
+    <Content Include="Scripts\jstree\themes\default-dark\32px.png" />
+    <Content Include="Scripts\jstree\themes\default-dark\40px.png" />
+    <Content Include="Scripts\jstree\themes\default-dark\style.css" />
+    <Content Include="Scripts\jstree\themes\default-dark\throbber.gif" />
+    <Content Include="Scripts\jstree\themes\default\32px.png" />
+    <Content Include="Scripts\jstree\themes\default\40px.png" />
+    <Content Include="Scripts\jstree\themes\default\style.css" />
+    <Content Include="Scripts\jstree\themes\default\throbber.gif" />
+    <Content Include="Scripts\jstree\vakata-jstree.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -601,6 +627,12 @@
     <Content Include="Views\CoinPrices\Index.cshtml" />
     <Content Include="Views\Cash\ApproveCashTrans.cshtml" />
     <Content Include="Views\Admin\UnlockCash.cshtml" />
+    <Content Include="Scripts\jstree\themes\base.less" />
+    <Content Include="Scripts\jstree\themes\default-dark\style.less" />
+    <Content Include="Scripts\jstree\themes\default\style.less" />
+    <Content Include="Scripts\jstree\themes\main.less" />
+    <Content Include="Scripts\jstree\themes\mixins.less" />
+    <Content Include="Scripts\jstree\themes\responsive.less" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
