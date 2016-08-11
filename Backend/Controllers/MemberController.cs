@@ -4,10 +4,13 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Backend.Helper;
 using Backend.Models;
+using Microsoft.Ajax.Utilities;
+using Member = Backend.Models.Member;
 
 namespace Backend.Controllers
 {
@@ -33,6 +36,8 @@ namespace Backend.Controllers
             {
                 members = members.Where(c => c.Status == status);
             }
+            mebs = db.Members.ToList();
+            ViewBag.jstree = LoadMembers(null);
             ViewBag.account = account;
             ViewBag.status = status;
             return View(members.ToList());
@@ -56,17 +61,25 @@ namespace Backend.Controllers
             var member = db.Members.Find(id);
             if (member != null)
             {
-                if (member.Status == VapLib.会员状态.待审核.ToString())
+                if (member.Status == VapLib.会员状态.正常.ToString())
                 {
-                    ModelState.AddModelError("", "会员批准成功。");
+                    ModelState.AddModelError("", "该会员状态正常。");
                 }
-                if (member.Status == VapLib.会员状态.锁定.ToString())
+                else
                 {
-                    ModelState.AddModelError("", "会员解锁成功。");
+                    if (member.Status == VapLib.会员状态.待审核.ToString())
+                    {
+                        ModelState.AddModelError("", "会员批准成功。");
+                    }
+                    if (member.Status == VapLib.会员状态.锁定.ToString())
+                    {
+                        ModelState.AddModelError("", "会员解锁成功。");
+                    }
+                    member.Status = VapLib.会员状态.正常.ToString();
+                    db.Entry(member).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
-                member.Status = VapLib.会员状态.正常.ToString();
-                db.Entry(member).State = EntityState.Modified;
-                db.SaveChanges();
+                
 
             }
             //无此记录
@@ -113,6 +126,26 @@ namespace Backend.Controllers
 
             TempData["ModelState"] = ModelState;
             return RedirectToAction("Index");
+        }
+        List<Member> mebs = new List<Member>();
+
+        private string LoadMembers(int? code)
+        {
+            var rst = mebs.Where(c=>c.Referral_Id==code).ToList();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < rst.Count; i++)
+            {
+                sb.Append("{\"id\":\"" + rst[i].Id + "\",\"text\":\"" + rst[i].Email + "\"");
+                string t = this.LoadMembers(rst[i].Id);
+                if (!string.IsNullOrEmpty(t))
+                    sb.AppendFormat(",\"children\":[{0}]", t);
+                if (i + 1 == rst.Count)
+                    sb.Append("}");
+                else
+                    sb.Append("},");
+            }
+            return sb.ToString();
+
         }
         public ActionResult LockMember(int id)
         {
