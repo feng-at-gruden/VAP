@@ -8,11 +8,11 @@
         <EntityTypeShape EntityType="Model1.Member" Width="1.5" PointX="0.5" PointY="3.25" />
         <EntityTypeShape EntityType="Model1.CashTransaction" Width="1.5" PointX="2.625" PointY="0.5" />
         <AssociationConnector Association="Model1.MemberCashTransaction" />
-        <EntityTypeShape EntityType="Model1.PointTransaction" Width="1.5" PointX="2.625" PointY="8.75" />
+        <EntityTypeShape EntityType="Model1.PointTransaction" Width="1.5" PointX="2.625" PointY="9.625" />
         <AssociationConnector Association="Model1.MemberPointTransaction" />
         <AssociationConnector Association="Model1.MemberMember" />
-        <EntityTypeShape EntityType="Model1.BaoDanTransaction" Width="1.5" PointX="2.625" PointY="4.625" />
-        <EntityTypeShape EntityType="Model1.ChongXiaoTransaction" Width="1.5" PointX="4.875" PointY="9.25" />
+        <EntityTypeShape EntityType="Model1.BaoDanTransaction" Width="1.5" PointX="2.625" PointY="5.5" />
+        <EntityTypeShape EntityType="Model1.ChongXiaoTransaction" Width="1.5" PointX="4.875" PointY="9.625" />
         <AssociationConnector Association="Model1.MemberBaoDanTransaction" />
         <AssociationConnector Association="Model1.MemberChongXiaoTransaction" />
         <EntityTypeShape EntityType="Model1.CoinPrice" Width="1.5" PointX="7" PointY="0.5" />

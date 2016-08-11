@@ -32,9 +32,14 @@
                 <td><b>会员量：</b><em>@Model.MyMember</em></td>
             </tr>
             <tr>
-                <td><b>资金总量：</b><em>￥@Html.DisplayFor(m => m.MyCash)</em></td>
-                <td><b>积分：</b><em>@Html.DisplayFor(m => m.MyPoints)</em></td>
-                <td><b>电子币：</b><em>@Html.DisplayFor(m => m.MyCoins)</em></td>
+                <td><b>重消金额：</b><em>￥@Html.DisplayFor(m => m.MyChongXiao)</em></td>
+                <td><b>购物券：</b><em>@Html.DisplayFor(m => m.MyPoints)</em></td>
+                <td><b>总积分：</b><em>@Html.DisplayFor(m => m.MyCoins)</em></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><b>总投资额：</b><em>￥@Html.DisplayFor(m => m.MyBaoDanCash)</em></td>
+                <td><b>现金总量：</b><em>￥@Html.DisplayFor(m => m.MyCash)</em></td>
             </tr>
         </table>
         <!-- /.Table -->

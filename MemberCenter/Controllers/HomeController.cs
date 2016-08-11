@@ -69,6 +69,10 @@ namespace MemberCenter.Controllers
                              },
             };
 
+            if (User.Identity.IsAuthenticated)
+            {
+                SetMyAccountViewModel();
+            }
             return View(model);
         }
 

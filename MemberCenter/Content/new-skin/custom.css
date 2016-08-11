@@ -23,3 +23,175 @@
 	font-size: 14px;
 	line-height: 1.2em;
 }
+
+.index_login_box {	
+	overflow: hidden;
+	padding:0px;
+}
+
+.index_login_box .login_box .opacity_bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 120;
+	width: 100%;
+	height: 100%;
+	background-color: #282828;
+	opacity: .75;
+	filter: alpha(opacity=75);
+}
+
+.index_login_box .login_box .tab h4.title {
+	font-size: 16px;
+	text-indent: 20px;
+	line-height: 45px;
+	color: #FFF;
+}
+
+.index_login_box .login_box .tab {
+	position: relative;
+	z-index: 130;
+	margin: auto;
+}
+
+.index_login_box .login_box .input_login {
+	box-sizing: border-box;
+	width: 100%;
+	height: 38px;
+	line-height: 38px\9;
+	padding-left: 20px;
+	border: 0;
+	border-top: 1px solid #e6e6e6;
+	border-bottom: 1px solid #e6e6e6;
+	background-color: #FFF;
+	margin-bottom: -1px;
+	font-size: 14px;
+}
+
+.index_login_box .login_box .sign_btn {
+	display: block;
+	margin: auto;
+	width: 90%;
+	font-size: 16px;
+	padding: 0;
+	font-weight: normal;
+	margin-top:20px;
+	padding:8px;
+	border-radius:0px;
+	background-color: #fe8330;
+	color:#fff;
+}
+
+.index_login_box .login_box .login_hr {
+	width: 90%;
+	margin-top: 26px;
+	margin-bottom: 20px;
+	border: 0;
+	background-color: #4d4b47;
+	height: 1px;
+}
+
+.form_login #CaptchaInputText{
+    border-radius: 0px;
+    width: 125px;
+    height: 38px;
+    padding-left: 20px;
+    border: 0;
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+    background-color: #FFF;
+    margin-bottom: -1px;
+    font-size: 14px;
+}
+
+.form_login #CaptchaImage{
+    margin-left: 0px !important;
+    height: 38px !important;
+}
+
+ .index_login_box .login_box .tab.tab01 .index_zhxx {
+	height: 100px;
+	width: 243px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+ .index_login_box .login_box .tab.tab01 .index_zhxx ul {
+	height: 100px;
+	width: 238px;
+	border: thin solid #846d40;
+}
+ .index_login_box .login_box .tab.tab01 .index_zhxx ul li {
+	height: 24px;
+	width: 240px;
+	display: block;
+}
+
+ .index_login_box .login_box .tab.tab01 .index_zhxx ul li span {
+	height: 24px;
+	width: 93px;
+	float: left;
+	display: block;
+	border-right-width: thin;
+	border-right-style: solid;
+	border-right-color: #846d40;
+	color: #FFF;
+	text-align: center;
+	border-bottom-width: thin;
+	border-bottom-style: solid;
+	border-bottom-color: #846d40;
+	line-height: 24px;
+}
+ .index_login_box .login_box .tab.tab01 .index_zhxx ul li .zzc {
+	width: 187px;
+}
+ .index_login_box .login_box .tab.tab01 .index_zhxx ul li .zzy {
+	width: 50px;
+}
+
+
+.btn_orange, a.btn_orange, a.btn_orange:visited, .btn_warning {
+    outline: none;
+    background-color: #ff6000;
+    border: 1px solid transparent;
+    color: #FFF;
+    width:86%;
+    margin:auto;
+}
+
+ .index_login_box .btn{
+    border-radius: 0px;
+}
+
+ .index_login_box .login_box .tools{
+    width: 86%;
+    margin: auto;
+    margin-top: -10px;
+    margin-bottom: 30px;
+ }
+
+ .index_login_box .login_box .btn_white {
+    outline: none;
+    background-color: #FFF;
+    border-right: 1px solid #bababa;
+    color: #4d4d4d;
+    width: 50%;
+    padding: 5px 8px;
+    display: block;
+    text-align: center;
+}
+
+.index_login_box table
+ {
+    border-collapse:collapse;border-spacing:0;border-left:1px solid #846d40;border-top:1px solid #846d40;
+    margin: auto;
+    margin-bottom: 20px;
+    width:86%;
+    font-size : 7px;
+ }
+
+.index_login_box td{
+    padding: 5px;
+    border-right:1px solid #846d40;border-bottom:1px solid #846d40;
+}
