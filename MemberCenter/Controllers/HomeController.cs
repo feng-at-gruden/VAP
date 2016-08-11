@@ -49,24 +49,24 @@ namespace MemberCenter.Controllers
                                         RequestPrice = row.Price,
                                         RequestCash = row.Amount * row.Price,
                                     }).Take(6),
-                CoinPriceHistory = from row in db.CoinPrices
+                CoinPriceHistory = (from row in db.CoinPrices
                                    select new CoinPriceHistoryViewModel
                                    {
                                         Price = row.Price,
                                         DateTime = row.DateTime
-                                   },
-                BuyHistory = from row in db.SysStatistics
+                                   }).Take(30),
+                BuyHistory = (from row in db.SysStatistics
                                    select new DailyAmountViewModel
                                    {
                                        Amount = row.BaoDanBuyAmount.Value,
                                        DateTime = row.Date
-                                   },
-                SellHistory = from row in db.SysStatistics
+                                   }).Take(30),
+                SellHistory = (from row in db.SysStatistics
                              select new DailyAmountViewModel
                              {
                                  Amount = row.BaoDanSellAmount.Value,
                                  DateTime = row.Date
-                             },
+                             }).Take(30),
             };
 
             if (User.Identity.IsAuthenticated)
