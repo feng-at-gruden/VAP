@@ -25,30 +25,50 @@
             </div>
         }
         <table class="table">
-            <caption>联和通用积分实时价格：<b> ￥@Html.DisplayFor(m => m.CurrentCoinPrice)</b></caption>
+            <caption style="padding-bottom:10px; float:left;">联和通用积分实时价格：<b> ￥@Html.DisplayFor(m => m.CurrentCoinPrice)</b></caption>
             <tr>
-                <td>可用现金：<p>￥@Html.DisplayFor(m => m.AvailableCash) </p></td>
-                <td>报单价格：<p>￥@Html.DisplayFor(m => m.RequestPrice) </p></td>
-                <td>报单个数：<p>@Html.DisplayFor(m => m.RequestQuantity) </p></td>
-                <td>报单总额：<p>￥@Html.DisplayFor(m => m.RequestCash) </p></td>
-                <td>手续费：<p>￥@Html.DisplayFor(m => m.Fee) </p></td>
-                <td>消耗现金：<p>￥@Html.DisplayFor(m => m.TotalCostCash) </p></td>
-                <td>成交后余额：<p>￥@Html.DisplayFor(m => m.CashLeft) </p></td>
-                @if (ViewData.ModelState.IsValid && Model.RequestQuantity>0)
-                { 
-                    <td><button type="submit" class="btn btn-primary">报单</button></td>
-                }
+                <td>@Html.DisplayNameFor(m => m.AvailableCash)：</td>
+                <td>@Html.DisplayNameFor(m => m.RequestPrice)：</td>
+                <td>@Html.DisplayNameFor(m => m.RequestQuantity)：</td>
+                <td>@Html.DisplayNameFor(m => m.RequestCash)：</td>
+                <td>@Html.DisplayNameFor(m => m.Fee)：</td>
+                <td>@Html.DisplayNameFor(m => m.TotalCostCash)：</td>
+                <td>@Html.DisplayNameFor(m => m.CashLeft)：</td>
+                @if (ViewData.ModelState.IsValid && Model.RequestQuantity > 0)
+                {
+                    <td rowspan="2" style="vertical-align: bottom;text-align: right;">
+                        <button type="submit" class="btn btn-primary">报单</button>
+                    </td>
+                } 
+            </tr>
+            <tr>
+                <td>￥@Html.DisplayFor(m => m.AvailableCash) </td>
+                <td>￥@Html.DisplayFor(m => m.RequestPrice) </td>
+                <td class="RequestQuantity">@Html.DisplayFor(m => m.RequestQuantity) </td>
+                <td>
+                    <select id="BaoDanWan">
+                        @for (int i = Model.MaxRequestCash; i >= 1; i-- )
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                    （万）
+                </td>
+                <td class="Fee">￥@Html.DisplayFor(m => m.Fee, new { @class = "Fee" }) </td>
+                <td class="TotalCostCash">￥@Html.DisplayFor(m => m.TotalCostCash, new { @class = "TotalCostCash" }) </td>
+                <td class="CashLeft">￥@Html.DisplayFor(m => m.CashLeft, new { @class = "CashLeft" }) </td>
+                
             </tr>
         </table>
+        @Html.HiddenFor(m => m.MaxRequestCash)
         @Html.HiddenFor(m => m.CurrentCoinPrice)
         @Html.HiddenFor(m => m.RequestPrice)
         @Html.HiddenFor(m => m.AvailableCash)
-        @Html.HiddenFor(m => m.RequestQuantity)
-        @Html.HiddenFor(m => m.RequestCash)
-        @Html.HiddenFor(m => m.RequestPrice)
-        @Html.HiddenFor(m => m.TotalCostCash)
-        @Html.HiddenFor(m => m.CashLeft)
-        @Html.HiddenFor(m => m.Fee)
+        @Html.HiddenFor(m => m.RequestQuantity, new { @class = "RequestQuantity" })
+        @Html.HiddenFor(m => m.RequestCash, new { @class = "RequestCash" })
+        @Html.HiddenFor(m => m.TotalCostCash, new { @class = "TotalCostCash" })
+        @Html.HiddenFor(m => m.CashLeft, new { @class = "CashLeft" })
+        @Html.HiddenFor(m => m.Fee, new { @class = "Fee" })
     }
         <!-- /.Table -->
     </div>
@@ -58,3 +78,35 @@
     </div>
 </div>
 
+<script>
+
+    $(function () {
+        $('#BaoDanWan').change(function () {
+            var w = $('#BaoDanWan').val();
+            var requestCash = w * 10000;
+            var requestQty = (requestCash / @Model.RequestPrice).toFixed(6);
+            $('#RequestCash').val(requestCash);
+            $('#RequestQuantity').val(requestQty);
+            $('#TotalCostCash').val(requestCash + @Model.Fee);
+            $('#CashLeft').val(@Model.AvailableCash - requestCash - @Model.Fee);
+
+            $('.RequestQuantity').text(requestQty);
+            $('.TotalCostCash').text("￥" + toThousands(requestCash + @Model.Fee));
+            $('.CashLeft').text("￥" + toThousands(@Model.AvailableCash - requestCash - @Model.Fee));
+        });
+    });
+
+
+    function toThousands(num) {
+        var num = (num || 0).toString(), temp = num.length % 3;
+        switch (temp) {
+            case 1:
+                num = '00' + num;
+                break;
+            case 2:
+                num = '0' + num;
+                break;
+        }
+        return num.match(/\d{3}/g).join(',').replace(/^0+/, '');
+    }
+</script>

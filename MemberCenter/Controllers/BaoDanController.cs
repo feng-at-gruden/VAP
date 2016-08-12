@@ -43,7 +43,7 @@ namespace MemberCenter.Controllers
                 {
                     //Step 0. Prevent hack, do validation
                     //Force overwrite model to prevent hack
-                    model = CalculateBaoDanBuyModel();
+                    var realModel = CalculateBaoDanBuyModel();
                     if(!CurrentUser.Status.Equals(会员状态.正常.ToString()))
                     {
                         ModelState.AddModelError("", "会员状态异常");
@@ -60,12 +60,24 @@ namespace MemberCenter.Controllers
                         return View(CalculateBaoDanBuyModel());
                     }
 
+                    // Do Validation
+                    if (model.RequestPrice != realModel.RequestPrice ||
+                        model.RequestQuantity > realModel.RequestQuantity ||
+                        model.RequestCash > realModel.RequestCash )
+                    {
+                        ModelState.AddModelError("", "报单数据错误， 请返回重试");
+                        return View(CalculateBaoDanBuyModel());
+                    }
+
+                    decimal requestQty = model.RequestCash / CurrentCoinPrice.Price;
+                    decimal totalCash = model.RequestCash + Constants.BaoDanBuyFee;
+
                     //Step 1. 报单交易记录、现金交易记录
                     BaoDanTransaction mBaoDan = new BaoDanTransaction
                     {
                         DateTime = DateTime.Now,
-                        Amount = model.RequestQuantity,
-                        Price = model.RequestPrice,
+                        Amount = requestQty,
+                        Price = CurrentCoinPrice.Price,
                         Fee = Constants.BaoDanBuyFee,
                         Status = 报单状态.已成交.ToString(),
                         Type = 报单类型.买入.ToString(),
@@ -77,21 +89,21 @@ namespace MemberCenter.Controllers
                         DateTime = DateTime.Now,
                         Status = 现金状态.已审核.ToString(),
                         Type = 现金交易类型.购币消费.ToString(),
-                        Amount = -model.TotalCostCash,
+                        Amount = -totalCash,
                         Fee = 0,
                         BaoDanTransaction = mBaoDan,
                     });
 
                     //Step 1.5 增加虚拟币 并冻结
-                    CurrentUser.Coin2 += model.RequestQuantity;
+                    CurrentUser.Coin2 += requestQty;
                     CurrentUser.LockedCoin.Add(new LockedCoin
                     {
                         AvailabeAmount = 0,
-                        LockedAmount = model.RequestQuantity,
-                        TotalAmount = model.RequestQuantity,
-                        Price = model.RequestPrice,
-                        LastPrice = model.RequestPrice,
-                        NextPrice = Math.Ceiling(model.RequestPrice * 1.05m * 100) / 100,
+                        LockedAmount = requestQty,
+                        TotalAmount = requestQty,
+                        Price = CurrentCoinPrice.Price,
+                        LastPrice = CurrentCoinPrice.Price,
+                        NextPrice = Math.Ceiling(CurrentCoinPrice.Price * 1.05m * 100) / 100,
                         BaoDanTransaction = mBaoDan,
                     });
 
@@ -123,7 +135,7 @@ namespace MemberCenter.Controllers
 
 
                     //Step 4. 扣除现金
-                    CurrentUser.Cash1 -= model.TotalCostCash;
+                    CurrentUser.Cash1 -= totalCash;
 
                     //Step 5. 更新系统统计表
                     UpdateOrInsertSysStatistics(mBaoDan);
@@ -270,7 +282,8 @@ namespace MemberCenter.Controllers
         /// <returns></returns>
         private BaoDanBuyViewModel CalculateBaoDanBuyModel()
         {
-            decimal coinCash = Math.Floor((CurrentUser.Cash1 - Constants.BaoDanBuyFee) / Constants.MinBaoDanCashBalance) * Constants.MinBaoDanCashBalance;
+            int maxRequestCash = (int)Math.Floor((CurrentUser.Cash1 - Constants.BaoDanBuyFee) / Constants.MinBaoDanCashBalance);
+            decimal coinCash = maxRequestCash * Constants.MinBaoDanCashBalance;
             decimal price = CurrentCoinPrice.Price;
             decimal qty = coinCash / price;
 
@@ -281,6 +294,7 @@ namespace MemberCenter.Controllers
                 AvailableCash = CurrentUser.Cash1,
                 RequestQuantity = qty,
                 RequestCash = coinCash,
+                MaxRequestCash = maxRequestCash,
                 Fee = Constants.BaoDanBuyFee,
                 TotalCostCash = coinCash + Constants.BaoDanBuyFee,
                 CashLeft = CurrentUser.Cash1 - coinCash - Constants.BaoDanBuyFee,

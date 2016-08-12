@@ -22,15 +22,18 @@ namespace MemberCenter.Models
         [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal RequestQuantity { get; set; }
 
-        [Display(Name = "报单总额")]
+        [Display(Name = "报单金额")]
         [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal RequestCash { get; set; }
+
+        [Display(Name = "最大报单金额(单位:万)")]
+        public int MaxRequestCash { get; set; }
 
         [Display(Name = "手续费")]
         [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal Fee { get; set; }
 
-        [Display(Name = "消耗现金")]
+        [Display(Name = "总计")]
         [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalCostCash { get; set; }
 
