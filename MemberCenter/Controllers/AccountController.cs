@@ -169,10 +169,13 @@ namespace MemberCenter.Controllers
 
         //
         // POST: /Account/LogOff
-        public ActionResult LogOff()
+        public ActionResult LogOff(string returnUrl)
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Login", "Account");
+            if (returnUrl!=null)
+                return RedirectToLocal(returnUrl);
+            else
+                return RedirectToAction("Login", "Account");
         }
 
         //
@@ -206,6 +209,7 @@ namespace MemberCenter.Controllers
         public ActionResult MyAccount()
         {
             IPLog iplog = CurrentUser.IPLog.OrderByDescending(m=>m.DateTime).Take(1).ToArray()[0];
+            String sType = 现金交易类型.购币消费.ToString();
             MyAccountInfoViewModel model = new MyAccountInfoViewModel
             {
                 Id = CurrentUser.Id,
@@ -217,6 +221,8 @@ namespace MemberCenter.Controllers
                 MyCash = CurrentUser.Cash1 + CurrentUser.Cash2,
                 MyCoins = CurrentUser.Coin1 + CurrentUser.Coin2,
                 MyPoints = CurrentUser.Point1 + CurrentUser.Point2,
+                MyBaoDanCash = Math.Abs(CurrentUser.CashTransaction.Where(m=>m.Type == sType).Sum(m=>m.Amount)),
+                MyChongXiao = CurrentUser.ChongXiao1 + CurrentUser.ChongXiao2,
                 MyMember = CurrentUser.MyMembers.Count(),
                 Achievement = CurrentUser.Achievement,
                 RegisterTime = CurrentUser.RegisterTime,

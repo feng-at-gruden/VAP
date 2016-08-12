@@ -49,6 +49,7 @@ namespace MemberCenter.Models
 
         [Display(Name = "历史卖出数据")]
         public IEnumerable<DailyAmountViewModel> SellHistory { get; set; }
+
     }
 
 

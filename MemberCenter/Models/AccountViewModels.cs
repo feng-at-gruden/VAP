@@ -106,7 +106,13 @@ namespace MemberCenter.Models
         public decimal MyCash { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal MyBaoDanCash { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal MyPoints { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal MyChongXiao { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal MyCoins { get; set; }
