@@ -1,0 +1,136 @@
+﻿@using Backend.Helper
+@model IEnumerable<Backend.Models.Member>
+
+@{
+    ViewBag.Title = "会员关系";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string jstr = ViewBag.jstree;
+}
+<link href="@SiteConfigurationHelper.SiteRootPath/Scripts/jsTree/themes/default/style.css" rel="stylesheet" type="text/css" />
+
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index","Home")">首页</a></li>
+        <li><a href="#">会员关系</a></li>
+    </ul>
+</div>
+<div class="formbody">
+    @Html.ValidationSummary()
+    <ul class="seachform1">
+        <li>
+            <label>查询</label>
+            <input type="text" id="search_ay" placeholder="请输入会员账号" class="scinput1" />
+        </li>
+    </ul>
+    <ul class="seachform1">
+        
+        <li>
+            <input type="button" value="编辑" class="scbtn" onclick="edit();" />
+            <input type="button" value="会员审批" class="scbtn" onclick="approve();" />
+            <input type="button" value="会员锁定" class="scbtn" onclick="lock();" />
+            <input type="button" value="会员解锁" class="scbtn" onclick="unlock();" />
+            <input type="button" value="身份认证" class="scbtn" onclick="approveIdentity();" />
+        </li>
+    </ul>
+    <input type="hidden" id="pid" />
+    <div class="formtitle"><span>会员列表</span></div>
+    
+    <div id="treeview1">
+
+    </div>
+    
+</div>
+
+
+<script type="text/javascript" src="@SiteConfigurationHelper.SiteRootPath/Scripts/jstree/jstree.js"></script>
+<script type="text/javascript" src="@SiteConfigurationHelper.SiteRootPath/Scripts/jstree/jstree.search.js"></script>
+<script>
+    $(document).ready(function () {
+        
+        $('#memberParent').slideDown();
+    });
+
+    function checkMember(parameters) {
+        if ($("#pid").val() == "") {
+            alert("请先选择一个会员");
+            return false;
+        } else {
+            return true;
+        }
+        
+    }
+    function edit() {
+        if (checkMember()) {
+            window.location = "@SiteConfigurationHelper.SiteRootPath/member/Edit?id=" + $("#pid").val();
+        }
+        
+    }
+    function approve() {
+        if (checkMember()) {
+            window.location = "@SiteConfigurationHelper.SiteRootPath/member/ApproveMember?id=" + $("#pid").val();
+        }
+
+    }
+    function lock() {
+        if (checkMember()) {
+            window.location = "@SiteConfigurationHelper.SiteRootPath/member/LockMember?id=" + $("#pid").val();
+        }
+
+    }
+    function unlock() {
+        if (checkMember()) {
+            window.location = "@SiteConfigurationHelper.SiteRootPath/member/ApproveMember?id=" + $("#pid").val();
+        }
+
+    }
+    function approveIdentity() {
+        if (checkMember()) {
+            window.location = "@SiteConfigurationHelper.SiteRootPath/member/ApproveIdentity?id=" + $("#pid").val();
+        }
+
+    }
+
+    //core：整个jstree显示的核心，里面包括多种项配置：
+    //data： 这里是使用json格式的数据；还可以使用html或者ajax请求等
+    //plugins： 这个jstree引用了哪些插件
+    //multiple : false  不可多选
+    $("#treeview1").jstree({
+        'core': {
+            "multiple": false,
+            'data': [@Html.Raw(jstr)],
+            'dblclick_toggle': false          //禁用tree的双击展开
+        },
+        "plugins": ["search"]
+    });
+    //tree change时事件
+    $('#treeview1').on("changed.jstree", function (e, data) {
+        //console.log("The selected nodes are:");
+        //console.log(data.node.id);               //选择的node id
+        // console.log(data.node.text);            //选择的node text
+        $("#pid").val(data.node.id);
+        // form_data.ay = data.node.text;
+        // form_data.ay_id = data.node.id;
+
+    });
+    //输入框输入定时自动搜索
+    var to = false;
+    $('#search_ay').keyup(function () {
+        if (to) {
+            clearTimeout(to);
+        }
+
+        to = setTimeout(function () {
+            $('#treeview1').jstree(true).search($('#search_ay').val());
+
+        }, 250);
+    });
+    //jstree单击事件
+    $("#treeview1").bind("select_node.jstree", function (e, data) {
+        data.instance.toggle_node(data.node);
+        /*if (data.node.id != 1) {  */
+        //单击展开下面的节点
+        /* }*/
+
+    });
+</script>

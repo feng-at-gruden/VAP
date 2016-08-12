@@ -36,11 +36,22 @@ namespace Backend.Controllers
             {
                 members = members.Where(c => c.Status == status);
             }
-            mebs = db.Members.ToList();
-            ViewBag.jstree = LoadMembers(null);
+            
             ViewBag.account = account;
             ViewBag.status = status;
             return View(members.ToList());
+        }
+        public ActionResult MemberTree()
+        {
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
+            
+            mebs = db.Members.ToList();
+            ViewBag.jstree = LoadMembers(null);
+           
+            return View();
         }
         public ActionResult IpLogs(string memberAccount)
         {
