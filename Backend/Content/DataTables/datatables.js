@@ -22301,7 +22301,7 @@ return jQuery;
 				 *      } );
 				 *    } );
 				 */
-				"sFirst": "First",
+				"sFirst": "最前",
 	
 	
 				/**
@@ -22324,7 +22324,7 @@ return jQuery;
 				 *      } );
 				 *    } );
 				 */
-				"sLast": "Last",
+				"sLast": "最后",
 	
 	
 				/**
@@ -22347,7 +22347,7 @@ return jQuery;
 				 *      } );
 				 *    } );
 				 */
-				"sNext": "Next",
+				"sNext": "下一页",
 	
 	
 				/**
@@ -22370,7 +22370,7 @@ return jQuery;
 				 *      } );
 				 *    } );
 				 */
-				"sPrevious": "Previous"
+				"sPrevious": "上一页"
 			},
 	
 			/**
@@ -22393,7 +22393,7 @@ return jQuery;
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "没有符合记录",
 	
 	
 			/**
@@ -22425,7 +22425,7 @@ return jQuery;
 			 *      } );
 			 *    } );
 			 */
-			"sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+			"sInfo": "显示 _START_ 到 _END_ 共 _TOTAL_ 条记录",
 	
 	
 			/**
@@ -22446,7 +22446,7 @@ return jQuery;
 			 *      } );
 			 *    } );
 			 */
-			"sInfoEmpty": "Showing 0 to 0 of 0 entries",
+			"sInfoEmpty": "显示 0 到 0 共 0 条记录",
 	
 	
 			/**
@@ -22468,7 +22468,7 @@ return jQuery;
 			 *      } );
 			 *    } );
 			 */
-			"sInfoFiltered": "(filtered from _MAX_ total entries)",
+			"sInfoFiltered": "(共从 _MAX_ 条记录中筛选)",
 	
 	
 			/**
@@ -22586,7 +22586,7 @@ return jQuery;
 			 *      } );
 			 *    } );
 			 */
-			"sLengthMenu": "Show _MENU_ entries",
+			"sLengthMenu": "每页显示 _MENU_ 条记录",
 	
 	
 			/**
@@ -22610,7 +22610,7 @@ return jQuery;
 			 *      } );
 			 *    } );
 			 */
-			"sLoadingRecords": "Loading...",
+			"sLoadingRecords": "数据载入中...",
 	
 	
 			/**
@@ -22631,7 +22631,7 @@ return jQuery;
 			 *      } );
 			 *    } );
 			 */
-			"sProcessing": "Processing...",
+			"sProcessing": "处理中...",
 	
 	
 			/**
@@ -22666,7 +22666,7 @@ return jQuery;
 			 *      } );
 			 *    } );
 			 */
-			"sSearch": "Search:",
+			"sSearch": "查询:",
 	
 	
 			/**
@@ -22724,7 +22724,7 @@ return jQuery;
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "No matching records found"
+			"sZeroRecords": "没有发现匹配的记录"
 		},
 	
 	
@@ -22890,7 +22890,7 @@ return jQuery;
 		 *      } );
 		 *    } )
 		 */
-		"sPaginationType": "simple_numbers",
+		"sPaginationType": "full",
 	
 	
 		/**

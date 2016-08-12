@@ -1,7 +1,7 @@
 ﻿@model Backend.Models.CoinPrice
 
 @{
-    ViewBag.Title = "电子币价格";
+    ViewBag.Title = "联合通用积分价格";
     Layout = "~/Views/Shared/_Layout.cshtml";
     decimal temp = ViewBag.LastPrice;
 }
@@ -9,7 +9,7 @@
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="@Url.Action("Index","Home")">首页</a></li>
-        <li><a href="#">电子币价格</a></li>
+        <li><a href="#">联合通用积分价格</a></li>
     </ul>
 </div>
 
@@ -18,7 +18,7 @@
     @Html.AntiForgeryToken()
     <div class="formbody">
 
-        <div class="formtitle"><span>电子币价格</span></div>
+        <div class="formtitle"><span>联合通用积分价格</span></div>
 
         <ul class="forminfo">
             <li>

@@ -633,6 +633,7 @@
     <Content Include="Scripts\jstree\themes\main.less" />
     <Content Include="Scripts\jstree\themes\mixins.less" />
     <Content Include="Scripts\jstree\themes\responsive.less" />
+    <Content Include="Views\Member\MemberTree.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

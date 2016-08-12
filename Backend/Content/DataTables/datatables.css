@@ -285,6 +285,14 @@ table.dataTable td {
 }
 .dataTables_wrapper .dataTables_filter input {
   margin-left: 0.5em;
+  width: 150px;
+    height: 25px;
+    line-height: 25px;
+    border-top: solid 1px #c3ab7d;
+    border-left: solid 1px #c3ab7d;
+    border-right: solid 1px #e7d5ba;
+    border-bottom: solid 1px #e7d5ba;
+    text-indent: 10px;
 }
 .dataTables_wrapper .dataTables_info {
   clear: both;
