@@ -115,7 +115,7 @@ namespace MemberCenter.Controllers
 
                     //Step 3.1 为自己所有上线增加返利
                     //Step 3.2 为上线增加重消记录
-                    RefundForReferral(CurrentUser, model.RequestCash, mBaoDan, null);
+                    RefundForReferral(CurrentUser, model.RequestCash, mBaoDan, 0);
 
                     //Step 3.3 为上线增加总业绩
                     //Step 3.4 设置更新上线等级
@@ -367,14 +367,14 @@ namespace MemberCenter.Controllers
         /// </summary>
         /// <param name="member"></param>
         /// <param name="lastRefundRate">向上遍历 如果某上线的级别等于或低于其自己 则跳过其上线, lastRefundRate为上一次等级高于自己的上线的rate</param>
-        private void RefundForReferral(Member member, decimal amount, BaoDanTransaction mBaoDan, decimal? lastRefundRate)
+        private void RefundForReferral(Member member, decimal amount, BaoDanTransaction mBaoDan, decimal lastRefundRate)
         {
             Member mRef = member.Referral;
             if (mRef == null)
                 return;
 
             string mBaoDanBuyStatus = 报单类型.买入.ToString();
-            decimal? currentRefundRate = lastRefundRate.HasValue ? lastRefundRate : null;
+            decimal currentRefundRate = lastRefundRate;
             if (member.Id != mBaoDan.Member.Id && member.MemberLevel.RefundRate >= mRef.MemberLevel.RefundRate  )
             {
                 //向上遍历 如果某上线的级别等于或低于其自己 
@@ -383,10 +383,28 @@ namespace MemberCenter.Controllers
             else
             {
                 //如果该上线从未报单过 则跳过其上线
-                if (mRef.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
+                if (!Constants.EnableRefundOnlyForActivateUser || mRef.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
                 {
                     //直接上线获利最多
-                    decimal finalRefundRate = (member.Id == mBaoDan.Member.Id) ? mRef.MemberLevel.RefundRate : (mRef.MemberLevel.RefundRate - Math.Max(member.MemberLevel.RefundRate, lastRefundRate.Value));
+                    decimal finalRefundRate; //= (member.Id == mBaoDan.Member.Id) ? mRef.MemberLevel.RefundRate : (mRef.MemberLevel.RefundRate - Math.Max(member.MemberLevel.RefundRate, lastRefundRate));
+                    if(member.Id == mBaoDan.Member.Id)
+                    {
+                        //直接上线
+                        finalRefundRate =  mRef.MemberLevel.RefundRate;
+                    }
+                    else
+                    {
+                        if (!Constants.EnableRefundOnlyForActivateUser || member.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
+                        {
+                            finalRefundRate =  mRef.MemberLevel.RefundRate - Math.Max(member.MemberLevel.RefundRate, lastRefundRate);
+                        }
+                        else
+                        {
+                            //该上线会员从未报过单, 则无返利
+                            finalRefundRate = mRef.MemberLevel.RefundRate - Math.Max(0, lastRefundRate);
+                        }
+                    }
+                    
                     decimal refTotalRefund = finalRefundRate * Constants.PV * amount;
                     currentRefundRate = finalRefundRate;
 
@@ -437,7 +455,7 @@ namespace MemberCenter.Controllers
 
             // Step 3.3 为上线增加总业绩
             string mBaoDanBuyStatus = 报单类型.买入.ToString();
-            if (mRef.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
+            if (!Constants.EnableRefundOnlyForActivateUser || mRef.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
                 mRef.Achievement += amount;   // 各个上线总业绩 + 消费现金金额
 
             // Step 3.4 设置更新上线等级
