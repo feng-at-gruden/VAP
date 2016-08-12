@@ -14,6 +14,9 @@
 	-moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 	-webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
+.chart-container {
+    margin-top:-50px;
+}
 .chart-container2{height: 300px;}
 #PriceChart,
 #BarChart
@@ -194,4 +197,30 @@
 .index_login_box td{
     padding: 5px;
     border-right:1px solid #846d40;border-bottom:1px solid #846d40;
+}
+
+.price-container{
+    background-color: #fff;
+    height: 50px;
+}
+
+.price-container span
+{
+    height: 50px;
+    line-height: 50px;
+    font-size:17px;
+}
+
+.topup-amount{
+    width: 260px;
+    display: inline;
+    float: left;
+    text-align: right;
+    padding-right: 2px;
+}
+
+.topup-odd{
+    width: 40px;
+    padding-left: 2px;
+    float: left;
 }

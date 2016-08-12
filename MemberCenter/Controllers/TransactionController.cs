@@ -50,7 +50,7 @@ namespace MemberCenter.Controllers
                         CurrentUser.CashTransaction.Add(new CashTransaction
                         {
                             DateTime = DateTime.Now,
-                            Amount = model.Amount,
+                            Amount = model.Amount + model.Odd,
                             Fee = Constants.CashTopupFee,
                             Bank = bankInfo.Bank,
                             BankName = bankInfo.Name,
@@ -150,7 +150,8 @@ namespace MemberCenter.Controllers
             String bankInfoType = 银行账户信息类型.系统账户.ToString();
             CashTopupViewModel model = new CashTopupViewModel
             {
-                Amount = GetDailyTopupNextOdd(),
+                Odd = GetDailyTopupNextOdd(),
+                Amount = 0,
                 SysBankInfos = from row in db.BankInfo
                                where row.Type.Equals(bankInfoType)
                                select new BankInfoViewModel

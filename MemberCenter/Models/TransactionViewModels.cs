@@ -35,6 +35,11 @@ namespace MemberCenter.Models
         //[Range(10000, 200000, ErrorMessage = "金额输入有误")]
         public decimal Amount { get; set; }
 
+        [DisplayFormat(DataFormatString = "{#:n2}")]
+        public decimal Odd { get; set; }
+
+        public String OddStr { get { return Odd.ToString().Replace("0.","."); } }
+
 
         [Required(ErrorMessage = "请选择汇款方式")]
         [Display(Name = "汇款方式")]
