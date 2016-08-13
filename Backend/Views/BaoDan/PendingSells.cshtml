@@ -1,19 +1,22 @@
 ﻿@model IEnumerable<Backend.Models.BaoDanTransaction>
 
 @{
-    ViewBag.Title = "待审核虚拟币售出";
+    ViewBag.Title = "待审核联合积分售出";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="@Url.Action("Index","Home")">首页</a></li>
-        <li><a href="#">待审核虚拟币售出</a></li>
+        <li><a href="#">待审核联合积分售出</a></li>
     </ul>
 </div>
 <div class="formbody">
     @Html.ValidationSummary()
-    <div class="formtitle"><span>待审核虚拟币售出报单列表</span></div>
+    <div class="formtitle"><span>待审核联合积分售出列表</span></div>
+    <div style="padding: 10px 20px ;float: right;">
+        <a href="@Url.Action("GetBaodanTrans", "BaoDan", new { status = "已成交", type = "卖出" })" style="padding: 3px" class="scbtn">已成交的售出记录</a>
+    </div>
     <table id="dataTable-Sells">
         <thead>
             <tr>
@@ -24,10 +27,10 @@
                     会员UID
                 </th>
                 <th>
-                    虚拟币数量
+                    联合积分数量
                 </th>
                 <th>
-                    虚拟币价格
+                    联合积分价格
                 </th>
                 
                 <th>

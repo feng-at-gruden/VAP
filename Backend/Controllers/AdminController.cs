@@ -22,12 +22,12 @@ namespace Backend.Controllers
         /*private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 */
-         public AdminController()
+        public AdminController()
             : this(new UserManager<AspNetUser>(new UserStore<AspNetUser>(new vapEntities1())))
         {
         }
 
-         public AdminController(UserManager<AspNetUser> userManager)
+        public AdminController(UserManager<AspNetUser> userManager)
         {
             UserManager = userManager;
         }
@@ -36,35 +36,35 @@ namespace Backend.Controllers
 
         //
 
-       /* public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
+        /* public AdminController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+         {
+             UserManager = userManager;
+             SignInManager = signInManager;
+         }
 
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
-        }
+         public ApplicationSignInManager SignInManager
+         {
+             get
+             {
+                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+             }
+             private set
+             {
+                 _signInManager = value;
+             }
+         }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }*/
+         public ApplicationUserManager UserManager
+         {
+             get
+             {
+                 return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+             }
+             private set
+             {
+                 _userManager = value;
+             }
+         }*/
 
         // GET: Admin
         public ActionResult Users()
@@ -85,7 +85,7 @@ namespace Backend.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateUser(AspNetUser user,string roleType)
+        public ActionResult CreateUser(AspNetUser user, string roleType)
         {
 
             if (ModelState.IsValid)
@@ -126,34 +126,34 @@ namespace Backend.Controllers
             {
                 return RedirectToAction("Users");
             }
-            
+
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUser(AspNetUser user, string roleType,string oldRole)
+        public ActionResult EditUser(AspNetUser user, string roleType, string oldRole)
         {
 
             if (ModelState.IsValid)
             {
-                
+
                 var record = db.AspNetUsers.Find(user.Id);
-                if (record!=null)
+                if (record != null)
                 {
                     if (roleType != oldRole)
                     {
-                        
+
                         record.AspNetRoles.Clear();
                         var newrole = db.AspNetRoles.Find(roleType);
                         record.AspNetRoles.Add(newrole);
-                        
-                            /*UserManager.RemoveFromRole(user.Id, oldRole);
-                        UserManager.AddToRole(user.Id, roleType);*/
+
+                        /*UserManager.RemoveFromRole(user.Id, oldRole);
+                    UserManager.AddToRole(user.Id, roleType);*/
                     }
 
                     //record.KsId = user.KsId;
                     db.Entry(record).State = EntityState.Modified;
                     db.SaveChanges();
-                    
+
                 }
                 return RedirectToAction("Users");
             }
@@ -167,7 +167,7 @@ namespace Backend.Controllers
             if (user != null)
             {
                 UserManager.RemovePassword(uid);
-                UserManager.AddPassword(uid,VapLib.Constants.DefaultPass);
+                UserManager.AddPassword(uid, VapLib.Constants.DefaultPass);
                 /*string code = UserManager.GeneratePasswordResetToken(user.Id);
                 var result = UserManager.ResetPassword(user.Id, code, CqConstants.DefaultPass);
                 if (!result.Succeeded)
@@ -180,9 +180,9 @@ namespace Backend.Controllers
         }
         public ActionResult MetaIndex()
         {
-            
-            var metas = db.SystemSettings.Where(c=>c.Id>0);
-           
+
+            var metas = db.SystemSettings.Where(c => c.Id > 0);
+
             return View(metas.ToList());
 
         }
@@ -191,7 +191,7 @@ namespace Backend.Controllers
         // GET: PublicMetas/Edit/5
         public ActionResult EditMeta(int id)
         {
-            var meta=db.SystemSettings.Find(id);
+            var meta = db.SystemSettings.Find(id);
             return View(meta);
         }
 
@@ -247,13 +247,13 @@ namespace Backend.Controllers
             var bankInfoes = db.BankInfoes.Include(b => b.Member).Where(c => c.Type == type);
             return View(bankInfoes.ToList());
         }
-        
+
 
 
         // GET: BankInfoes/Create
         public ActionResult CreateBank()
         {
-           return View();
+            return View();
         }
 
         // POST: BankInfoes/Create
@@ -330,34 +330,38 @@ namespace Backend.Controllers
             }
             return View();
         }
-       
+
         public ActionResult UnlockCashTrans()
         {
-            if (DateTime.Today.DayOfWeek !=DayOfWeek.Monday)
+            var date = DateTime.Today.Date;
+            while (date.DayOfWeek != DayOfWeek.Monday)
+            {
+                date = date.AddDays(-1);
+
+            }
+            /*(DateTime.Today.DayOfWeek !=DayOfWeek.Monday)
             {
                 ModelState.AddModelError("", "解冻操作只能在每周一执行。");
-            }
-            else
+            }*/
+
+            //var type = VapLib.现金交易类型.售币所得.ToString();
+            var status = VapLib.现金状态.冻结.ToString();
+            var lockTrans = db.CashTransactions.Where(c => c.DateTime < date
+                && c.Status == status).ToList();
+            foreach (var cashTransaction in lockTrans)
             {
-                var type = VapLib.现金交易类型.售币所得.ToString();
-                var status = VapLib.现金状态.冻结.ToString();
-                var lockTrans = db.CashTransactions.Where(c => c.Type == type 
-                    &&c.DateTime<DateTime.Today.Date
-                    && c.Status == status).ToList();
-                foreach (var cashTransaction in lockTrans)
-                {
-                    var member = db.Members.Find(cashTransaction.MemberId);
-                    member.Cash1 += cashTransaction.Amount;
-                    member.Cash2 -= cashTransaction.Amount;
-                    cashTransaction.Status = VapLib.现金状态.解冻.ToString();
+                var member = db.Members.Find(cashTransaction.MemberId);
+                member.Cash1 += cashTransaction.Amount;
+                member.Cash2 -= cashTransaction.Amount;
+                cashTransaction.Status = VapLib.现金状态.解冻.ToString();
 
-                    db.Entry(member).State = EntityState.Modified;
-                    db.Entry(cashTransaction).State = EntityState.Modified;
-                    db.SaveChanges();
+                db.Entry(member).State = EntityState.Modified;
+                db.Entry(cashTransaction).State = EntityState.Modified;
+                db.SaveChanges();
 
-                }
-                ModelState.AddModelError("", "解冻操作执行成功。");
             }
+            ModelState.AddModelError("", "解冻操作执行成功。");
+
             TempData["ModelState"] = ModelState;
             return RedirectToAction("UnlockCash");
         }

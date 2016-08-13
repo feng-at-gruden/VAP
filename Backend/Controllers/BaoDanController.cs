@@ -67,19 +67,20 @@ namespace Backend.Controllers
                     sell.Status = 报单状态.已成交.ToString();
                     
                     //增加会员现金冻结记录 周一解冻
+                    //2016 08 13 卖出资金不用冻结，直接加到可用资金
                     var tempAmount = sell.Amount * sell.Price - sell.Fee;
                     member.CashTransactions.Add(new CashTransaction
                     {
                         DateTime = DateTime.Now,
                         Type = 现金交易类型.售币所得.ToString(),
-                        Status = 现金状态.冻结.ToString(),
+                        Status = 现金状态.解冻.ToString(),
                         Amount = tempAmount,
                         Fee = 0m,
                         BaoDanTransactionId = sell.Id
                     });
 
-                    //增加会员冻结现金
-                    member.Cash2 += tempAmount;
+                    //增加会员可用现金
+                    member.Cash1 += tempAmount;
                     db.Entry(member).State = EntityState.Modified;
                     db.Entry(sell).State = EntityState.Modified;
 

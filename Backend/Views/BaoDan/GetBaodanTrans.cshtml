@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<Backend.Models.BaoDanTransaction>
 
 @{
-    ViewBag.Title = "虚拟币报单记录";
+    ViewBag.Title = "联合积分操作记录";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="place">
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="@Url.Action("Index","Home")">首页</a></li>
-        <li><a href="#">虚拟币报单记录</a></li>
+        <li><a href="#">联合积分操作记录</a></li>
     </ul>
 </div>
 <div class="formbody">
@@ -79,7 +79,7 @@
         </ul>
 
     }
-    <div class="formtitle"><span>虚拟币报单记录列表</span></div>
+    <div class="formtitle"><span>联合积分操作记录</span></div>
     <table id="dataTable-Baodan">
         <thead>
             <tr>
@@ -90,10 +90,10 @@
                     会员UID
                 </th>
                 <th>
-                    虚拟币数量
+                    联合积分数量
                 </th>
                 <th>
-                    虚拟币价格
+                    联合积分价格
                 </th>
                 <th>
                     交易类型

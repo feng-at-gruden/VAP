@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Backend.Models.CashTransaction>
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<Backend.Models.CashTransaction>
 
 @{
     ViewBag.Title = "待审批现金充值";
@@ -46,8 +47,11 @@
 
 *@
 
-
+    
     <div class="formtitle"><span>待审批现金充值列表</span></div>
+    <div style="padding: 10px 20px ;float: right;">
+        <a href="@Url.Action("CashTrans","Cash",new{status="已审核",type="充值"} )" Style="padding: 3px" class="scbtn">已审核的充值记录</a>
+    </div>
     <table @*class="tablelist"*@ id="dataTable-Topups">
         <thead>
             <tr>
@@ -113,7 +117,7 @@
 <script>
     $(document).ready(function () {
         $('#dataTable-Topups').DataTable({
-            "searching": false,
+            "searching": true,
         });
         $('#cashParent').slideDown();
     });

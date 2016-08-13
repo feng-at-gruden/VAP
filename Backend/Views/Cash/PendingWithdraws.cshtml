@@ -48,6 +48,9 @@
 
 
     <div class="formtitle"><span>待审批现金提现列表</span></div>
+    <div style="padding: 10px 20px ;float: right;">
+        <a href="@Url.Action("CashTrans", "Cash", new { status = "已审核", type = "提现" })" style="padding: 3px" class="scbtn">已审核的提现记录</a>
+    </div>
     <table @*class="tablelist"*@ id="dataTable-Withdraws">
         <thead>
             <tr>

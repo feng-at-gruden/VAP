@@ -1,7 +1,7 @@
 ﻿@model System.Collections.Generic.List<Backend.Models.CashTransaction>
 
 @{
-    ViewBag.Title = "奖金积分操作记录列表";
+    ViewBag.Title = "联合积分操作记录";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="@Url.Action("Index","Home")">首页</a></li>
-        <li><a href="#">奖金积分操作记录列表</a></li>
+        <li><a href="#">联合积分操作记录</a></li>
     </ul>
 </div>
 <div class="formbody">
@@ -90,22 +90,18 @@
                 @Html.DropDownList("type", options1, new { @class = "scinput1" })
 
             </li>
-
-        </ul>
-
-
-
-        <ul class="seachform1">
             <li class="sarchbtn">
-                <label>&nbsp;</label>
                 <input name="" type="submit" class="scbtn" value="查询" />
                 @*<input name="" type="button" class="scbtn2" value="导出" />*@
             </li>
         </ul>
+
+
+
         @*<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>*@
 
     }
-    <div class="formtitle"><span>奖金积分操作记录列表</span></div>
+    <div class="formtitle"><span>联合积分操作记录</span></div>
     <table id="dataTable-Cash">
         <thead>
             <tr>
