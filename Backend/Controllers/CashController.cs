@@ -71,6 +71,18 @@ namespace Backend.Controllers
                                                                   .OrderBy(c => c.DateTime);
             return View(cashtransactions.ToList());
         }
+        public ActionResult DeleteCashTrans(int id,string type="T")
+        {
+            var recored = db.CashTransactions.Find(id);
+            db.CashTransactions.Remove(recored);
+            db.SaveChanges();
+            ModelState.AddModelError("", "报单删除成功。");
+            TempData["ModelState"] = ModelState;
+            if(type=="T")
+                return RedirectToAction("PendingTopups");
+            else
+                return RedirectToAction("PendingWithdraws");
+        }
         // GET: /Cash/Edit/5
         public ActionResult ApproveCashTrans(int id)
         {
@@ -78,7 +90,7 @@ namespace Backend.Controllers
             CashTransaction cashtransaction = db.CashTransactions.Find(id);
             return View(cashtransaction);
         }
-
+       
         [HttpPost]
         public ActionResult ApproveCashTrans(CashTransaction model)
         {

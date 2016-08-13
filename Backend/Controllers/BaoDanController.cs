@@ -107,7 +107,15 @@ namespace Backend.Controllers
             return RedirectToAction("PendingSells");
         }
 
-
+        public ActionResult DeleteBaodan(int id)
+        {
+            var baodan = db.BaoDanTransactions.Find(id);
+            db.BaoDanTransactions.Remove(baodan);
+            db.SaveChanges();
+            ModelState.AddModelError("", "报单删除成功。");
+            TempData["ModelState"] = ModelState;
+            return RedirectToAction("PendingSells");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

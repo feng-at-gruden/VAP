@@ -68,6 +68,8 @@
                     </td>
                     <td>
                         @Html.ActionLink("批准", "ApproveSell", new { id = item.Id }, new { @class = "tablelink" })
+                        |
+                        @Html.ActionLink("删除", "DeleteBaodan", new { id = item.Id }, new { @class = "tablelink" ,onclick = "javascript:return confirm('确认删除？')"})
                     </td>
                 </tr>
             }

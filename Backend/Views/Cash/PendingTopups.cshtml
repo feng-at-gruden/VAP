@@ -108,6 +108,10 @@
 
                     <td>
                         @Html.ActionLink("批准", "ApproveCashTrans", new { id = item.Id }, new { @class = "tablelink" })
+                        |
+                        @Html.ActionLink("删除", "DeleteCashTrans", new { id = item.Id,type="T" }, new { @class = "tablelink", onclick = "javascript:return confirm('确认删除？')" })
+
+
                     </td>
                 </tr>
             }
