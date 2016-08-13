@@ -255,8 +255,9 @@
         width: 80px;
     }
     .side-menu ul li > a {
-        padding: 4px 15px;
+        padding: 13px 15px 13px 15px;
     }
+
     #sidebar .side-menu > li > a > span{
         left: 0px !important;
         width: 80px;
@@ -270,4 +271,9 @@
     #sidebar {
         padding-left: 80px;
     }
+}
+
+
+.center-cell{
+    text-align:center;
 }

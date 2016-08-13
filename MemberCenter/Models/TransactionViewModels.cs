@@ -138,4 +138,26 @@ namespace MemberCenter.Models
         public int Id { get; set; }
     }
 
+
+    public class CashTransferViewModel
+    {
+        [Required(ErrorMessage = "请填写转账金额")]
+        [Display(Name = "转账金额")]
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal Amount { get; set; }
+
+        [Required(ErrorMessage = "请填写转账接收会员的UID或者邮箱")]
+        [Display(Name = "接收会员")]
+        public string User { get; set; }
+
+        [Required(ErrorMessage = "请输入{0}")]
+        [StringLength(30, ErrorMessage = "{0}长度不足{2}.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "交易密码")]
+        public string Password { get; set; }
+
+        [Display(Name = "当前可提资金")]
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal AvailableAmount { get; set; }
+    }
 }

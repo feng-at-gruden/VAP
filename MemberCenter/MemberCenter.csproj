@@ -2219,6 +2219,8 @@
     <Content Include="Views\Shared\NewSkin\_NewsListPartial.cshtml" />
     <Content Include="Views\Shared\NewSkin\_MyAccountPartial.cshtml" />
     <Content Include="Views\Shared\NewSkin\_LayoutHome.cshtml" />
+    <Content Include="Views\BaoDan\Transfer.cshtml" />
+    <Content Include="Views\Transaction\Transfer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -124,6 +124,107 @@ namespace MemberCenter.Controllers
         }
 
         //
+        // GET: /Transaction/Transfer
+        public ActionResult Transfer()
+        {
+            SetMyAccountViewModel();
+            return View(new CashTransferViewModel { 
+                AvailableAmount = CurrentUser.Cash1,
+            });
+        }
+
+        //
+        // POST: /Transaction/Transfer
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Transfer(CashTransferViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Member mUser = null;
+                bool hasError = false;
+                //Validation,
+                //Check current balance is much than request amount
+                if(model.Amount > CurrentUser.Cash1 || model.Amount<=0)
+                {
+                    ModelState.AddModelError("", "转账金额有误，请重试！");
+                    hasError = true;
+                }
+
+                if (!CurrentUser.Password2.Equals(model.Password))
+                {
+                    ModelState.AddModelError("", "交易密码错误");
+                    hasError = true;
+                }
+
+                //Check target member exists
+                if(model.User.IndexOf("@")>0)
+                {
+                    mUser = db.Members.SingleOrDefault(m => m.Email.Equals(model.User, StringComparison.InvariantCultureIgnoreCase));
+                    if(mUser == null)
+                    {
+                        ModelState.AddModelError("", "找不到接受会员，请重试！");
+                        hasError = true;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        int id = int.Parse(model.User);
+                        mUser = db.Members.SingleOrDefault(m => m.Id == id);
+                        if (mUser == null)
+                        {
+                            ModelState.AddModelError("", "找不到接受会员，请重试！");
+                            hasError = true;
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        ModelState.AddModelError("", "找不到接受会员，请重试！");
+                        hasError = true;
+                    }
+                }
+
+                if (mUser != null && !hasError)
+                {
+                    //Add Transaction record to db
+                    CurrentUser.CashTransaction.Add(new CashTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Amount = -model.Amount,
+                        Type = 现金交易类型.会员间转出.ToString(),
+                        Status = 现金状态.已审核.ToString(),
+                        Fee = 0,
+                        Comment = "转出至会员(UID:" + mUser.Id + ")",
+                    });
+
+                    mUser.CashTransaction.Add(new CashTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Amount = model.Amount,
+                        Type = 现金交易类型.会员间转入.ToString(),
+                        Status = 现金状态.已审核.ToString(),
+                        Fee = 0,
+                        Comment = "会员(UID:" + CurrentUser.Id + ")转入",
+                    });
+
+                    //Calculate and update balance
+                    CurrentUser.Cash1 -= model.Amount;
+                    mUser.Cash1 += model.Amount;
+
+                    db.SaveChanges();
+                    ViewBag.ActionMessage = "资金转账成功！";
+                }
+            }
+            SetMyAccountViewModel();
+            return View(new CashTransferViewModel
+            {
+                AvailableAmount = CurrentUser.Cash1,
+            });
+        }
+
+        //
         // GET: /Transaction/History
         public ActionResult History()
         {

@@ -273,6 +273,107 @@ namespace MemberCenter.Controllers
         }
 
 
+        //
+        // GET: /Transaction/Transfer
+        public ActionResult Transfer()
+        {
+            SetMyAccountViewModel();
+            return View(new BaoDanTransferViewModel { 
+                AvailableAmount = CurrentUser.Coin1,
+            });
+        }
+
+        //
+        // POST: /Transaction/Transfer
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Transfer(BaoDanTransferViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Member mUser = null;
+                bool hasError = false;
+                //Validation,
+                //Check current balance is much than request amount
+                if (model.Amount > CurrentUser.Coin1 || model.Amount <= 0)
+                {
+                    ModelState.AddModelError("", "转账数量有误，请重试！");
+                    hasError = true;
+                }
+
+                if (!CurrentUser.Password2.Equals(model.Password))
+                {
+                    ModelState.AddModelError("", "交易密码错误");
+                    hasError = true;
+                }
+
+                //Check target member exists
+                if (model.User.IndexOf("@") > 0)
+                {
+                    mUser = db.Members.SingleOrDefault(m => m.Email.Equals(model.User, StringComparison.InvariantCultureIgnoreCase));
+                    if (mUser == null)
+                    {
+                        ModelState.AddModelError("", "找不到接受会员，请重试！");
+                        hasError = true;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        int id = int.Parse(model.User);
+                        mUser = db.Members.SingleOrDefault(m => m.Id == id);
+                        if (mUser == null)
+                        {
+                            ModelState.AddModelError("", "找不到接受会员，请重试！");
+                            hasError = true;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ModelState.AddModelError("", "找不到接受会员，请重试！");
+                        hasError = true;
+                    }
+                }
+
+                if (mUser != null && !hasError)
+                {
+                    //Add Transaction record to db
+                    CurrentUser.BaoDanTransaction.Add(new BaoDanTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Amount = -model.Amount,
+                        Type = 报单类型.会员间转出.ToString(),
+                        Status = 报单状态.已成交.ToString(),
+                        Fee = 0,
+                        Comment = "转出至会员(UID:" + mUser.Id + ")",
+                    });
+
+                    mUser.BaoDanTransaction.Add(new BaoDanTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Amount = model.Amount,
+                        Type = 报单类型.会员间转入.ToString(),
+                        Status = 报单状态.已成交.ToString(),
+                        Fee = 0,
+                        Comment = "会员(UID:" + CurrentUser.Id + ")转入",
+                    });
+
+                    //Calculate and update balance
+                    CurrentUser.Coin1 -= model.Amount;
+                    mUser.Coin1 += model.Amount;
+
+                    db.SaveChanges();
+                    ViewBag.ActionMessage = "积分转账成功！";
+                }
+            }
+            SetMyAccountViewModel();
+            return View(new BaoDanTransferViewModel
+            {
+                AvailableAmount = CurrentUser.Coin1,
+            });
+        }
+
 
         #region private methods
 
