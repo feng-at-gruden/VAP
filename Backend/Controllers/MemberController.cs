@@ -146,7 +146,11 @@ namespace Backend.Controllers
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < rst.Count; i++)
             {
-                sb.Append("{\"id\":\"" + rst[i].Id + "\",\"text\":\"" + rst[i].Email + "\"");
+                sb.Append("{\"id\":\"" + rst[i].Id+"|"+ rst[i].Achievement+"|"+rst[i].MemberLevel.Level
+                    + "|" + rst[i].Cash1 + "|" + rst[i].Coin1);
+                sb.Append("\",\"text\":\"" + rst[i].Email + "\"");
+                //sb.Append("\",\"info\":\"" + rst[i].Achievement+"|"+rst[i].MemberLevel.Level + "\"");
+                
                 string t = this.LoadMembers(rst[i].Id);
                 if (!string.IsNullOrEmpty(t))
                     sb.AppendFormat(",\"children\":[{0}]", t);
