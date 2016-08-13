@@ -148,6 +148,7 @@
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="MemberId" Type="int" Nullable="false" />
     <Property Name="Fee" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="ChongXiaoTransactions">
     <Key>
@@ -601,6 +602,7 @@
           <NavigationProperty Name="CashTransaction" Relationship="Model1.BaoDanTransactionCashTransaction" FromRole="BaoDanTransaction" ToRole="CashTransaction" />
           <NavigationProperty Name="PointTransaction" Relationship="Model1.BaoDanTransactionPointTransaction" FromRole="BaoDanTransaction" ToRole="PointTransaction" />
           <NavigationProperty Name="LockedCoin" Relationship="Model1.BaoDanTransactionLockedCoin" FromRole="BaoDanTransaction" ToRole="LockedCoin" />
+          <Property Name="Comment" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="ChongXiaoTransaction">
           <Key>
@@ -889,6 +891,7 @@
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="MemberId" ColumnName="MemberId" />
           <ScalarProperty Name="Fee" ColumnName="Fee" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

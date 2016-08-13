@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/04/2016 17:10:00
+-- Date Created: 08/13/2016 13:04:31
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -97,8 +97,8 @@ GO
 IF OBJECT_ID(N'[dbo].[IPLogs]', 'U') IS NOT NULL
     DROP TABLE [dbo].[IPLogs];
 GO
-IF OBJECT_ID(N'[dbo].[SysStatisticsSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[SysStatisticsSet];
+IF OBJECT_ID(N'[dbo].[SysStatistics]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SysStatistics];
 GO
 
 -- --------------------------------------------------
@@ -178,7 +178,8 @@ CREATE TABLE [dbo].[BaoDanTransactions] (
     [Type] nvarchar(max)  NOT NULL,
     [Status] nvarchar(max)  NOT NULL,
     [MemberId] int  NOT NULL,
-    [Fee] decimal(18,2)  NOT NULL
+    [Fee] decimal(18,2)  NOT NULL,
+    [Comment] nvarchar(max)  NULL
 );
 GO
 

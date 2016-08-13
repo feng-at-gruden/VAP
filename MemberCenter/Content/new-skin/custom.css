@@ -224,3 +224,50 @@
     padding-left: 2px;
     float: left;
 }
+
+@media (min-width: 780px) {
+    #menu-toggle{
+        width: 80px !important;
+    }
+    .logo{
+        width:268px;
+        padding: 14px 0 12px 80px;
+    }
+    #content{
+        margin-left: 268px;
+    }
+    #sidebar.toggled {
+        position: absolute;
+        left: -268px;
+    }
+    #sidebar{
+        width:268px;
+    }
+    #sidebar .side-menu {
+        width: 80px !important;
+    }
+
+    .side-menu > li:hover .menu-item {
+        left: 80px;
+    }
+
+    #sidebar .side-menu > li > a{
+        width: 80px;
+    }
+    .side-menu ul li > a {
+        padding: 4px 15px;
+    }
+    #sidebar .side-menu > li > a > span{
+        left: 0px !important;
+        width: 80px;
+        text-align: center;
+        visibility :visible;
+        opacity: 1;
+    }
+    .side-menu ul.menu-item{
+        top: 0px;
+    }
+    #sidebar {
+        padding-left: 80px;
+    }
+}
