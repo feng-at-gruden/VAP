@@ -35,11 +35,33 @@
     </ul>
     <input type="hidden" id="pid" />
     <div class="formtitle"><span>会员列表</span></div>
-    
-    <div id="treeview1">
+    <div>
+        
+        <div style="float: right;width: 50%">
+            <div ><B>会员信息</B></div>
+            <table style="text-align: center; margin-top: 5px; line-height: 35px;">
 
+                <tr>
+                    <td width="150px">业绩：</td>
+                    <td width="40px" id="achmet"></td>
+                    <td width="150px">等级：</td>
+                    <td width="40px" id="level"></td>
+
+                </tr>
+
+                <tr>
+                    <td width="150px">可用现金：</td>
+                    <td width="40px" id="cash"></td>
+                    <td width="150px">可用联合积分：</td>
+                    <td width="40px" id="coin"></td>
+
+                </tr>
+
+            </table>
+        </div>
+        <div id="treeview1" style="width: 60%">
+        </div>
     </div>
-    
 </div>
 
 
@@ -108,7 +130,13 @@
         //console.log("The selected nodes are:");
         //console.log(data.node.id);               //选择的node id
         // console.log(data.node.text);            //选择的node text
-        $("#pid").val(data.node.id);
+        var arlist = data.node.id.split('|');
+        $("#pid").val(arlist[0]);
+       
+        $("#achmet").html(arlist[1]);
+        $("#level").html(arlist[2]);
+        $("#cash").html(arlist[3]);
+        $("#coin").html(arlist[4]);
         // form_data.ay = data.node.text;
         // form_data.ay_id = data.node.id;
 
