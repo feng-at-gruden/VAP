@@ -29,6 +29,7 @@ namespace MemberCenter
         public string Status { get; set; }
         public int MemberId { get; set; }
         public decimal Fee { get; set; }
+        public string Comment { get; set; }
     
         public virtual Member Member { get; set; }
         public virtual ICollection<ChongXiaoTransaction> ChongXiaoTransaction { get; set; }

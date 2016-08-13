@@ -3,16 +3,15 @@
 <!-- Side Menu -->
 <ul class="list-unstyled side-menu">
     <li>
-        <a class="sa-side-home" href="@SiteConfigurationHelper.SiteRootPath/Account/MyAssets"></a>
+        <a class="sa-side-home" href="@SiteConfigurationHelper.SiteRootPath/Account/MyAssets"><span class="menu-item">首页</span></a>
     </li>
     <li class="dropdown">
         <a class="sa-side-page" href="#">
-            <span class="menu-item">我的会员</span>
+            <span class="menu-item">个人中心</span>
         </a>
         <ul class="list-unstyled menu-item">
             <li>@Html.ActionLink("个人信息", "MyAccount", "Account")</li>
             <li>@Html.ActionLink("我的会员", "MyMembers", "Account")</li>
-            <li><a href="#">会员业绩</a></li>
         </ul>
     </li>
     <li class="dropdown">
@@ -22,6 +21,7 @@
         <ul class="list-unstyled menu-item">
             <li>@Html.ActionLink("资金充值", "CashTopup", "Transaction")</li>
             <li>@Html.ActionLink("资金提现", "CashWithdraw", "Transaction")</li>
+            <li>@Html.ActionLink("资金转移", "Transfer", "Transaction")</li>
             <li>@Html.ActionLink("资金记录", "History", "Transaction")</li>
         </ul>
     </li>
@@ -36,10 +36,11 @@
     </li>
     <li class="dropdown">
         <a class="sa-side-chart" href="#">
-            <span class="menu-item">交易中心</span>
+            <span class="menu-item">积分中心</span>
         </a>
         <ul class="list-unstyled menu-item">
-            <li>@Html.ActionLink("LHTY卖出", "Sell", "BaoDan")</li>
+            <li>@Html.ActionLink("积分卖出", "Sell", "BaoDan")</li>
+            <li>@Html.ActionLink("积分转移", "Transfer", "BaoDan")</li>
             <li>@Html.ActionLink("交易记录", "History", "BaoDan")</li>
         </ul>
     </li>
