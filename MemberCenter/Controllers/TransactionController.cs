@@ -38,20 +38,20 @@ namespace MemberCenter.Controllers
                 {
                     ModelState.AddModelError("", "银行汇款信息错误");
                 }
-                else if (model.Amount < Constants.CashTopupMin)
+                else if (model.Amount < GetSystemSettingDecimal("CashTopupMin"))
                 {
-                    ModelState.AddModelError("", "充值金额错误，每次最少充值￥" + Constants.CashTopupMin);
+                    ModelState.AddModelError("", "充值金额错误，每次最少充值￥" + GetSystemSettingDecimal("CashTopupMin"));
                 }
                 else
                 {
                     var requestHelper = new RequestHelper(this.Request);
                     try{
-                        var filePath = requestHelper.SaveImageToServer(Constants.MemberUploadFilePath);
+                        var filePath = requestHelper.SaveImageToServer(GetSystemSettingString("MemberUploadTopupFilePath"));
                         CurrentUser.CashTransaction.Add(new CashTransaction
                         {
                             DateTime = DateTime.Now,
                             Amount = model.Amount + model.Odd,
-                            Fee = Constants.CashTopupFee,
+                            Fee = GetSystemSettingDecimal("CashTopupFee"),
                             Bank = bankInfo.Bank,
                             BankName = bankInfo.Name,
                             BankAccount = bankInfo.Account,
@@ -87,7 +87,7 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.RequestAmount > CurrentUser.Cash1 || model.RequestAmount < Constants.CashWithdrawMin || model.RequestAmount > Constants.CashWithdrawMax)
+                if (model.RequestAmount > CurrentUser.Cash1 || model.RequestAmount < GetSystemSettingDecimal("CashWithdrawMin") || model.RequestAmount > GetSystemSettingDecimal("CashWithdrawMax"))
                 {
                     ModelState.AddModelError("", "提现金额有误(" + model.RequestAmount + ")");
                 }
@@ -109,7 +109,7 @@ namespace MemberCenter.Controllers
                         Type = 现金交易类型.提现.ToString(),
                         Status = 现金状态.待审核.ToString(),
                         Amount = -model.RequestAmount,
-                        Fee = Constants.CashWithdrawFee,
+                        Fee = GetSystemSettingDecimal("CashWithdrawFee"),
                         Bank = bankInfo.Bank,
                         BankAccount = bankInfo.Account,
                         BankName = bankInfo.Name,
@@ -290,9 +290,9 @@ namespace MemberCenter.Controllers
                 RequestAmount = 0,
                 AvailableAmount = CurrentUser.Cash1,
                 BankInfoId = bankInfoId,
-                MaxWithdrawAmount = Constants.CashWithdrawMax,
-                MinWithdrawAmount = Constants.CashWithdrawMin,
-                Fee = Constants.CashWithdrawFee,
+                MaxWithdrawAmount = GetSystemSettingDecimal("CashWithdrawMax"),
+                MinWithdrawAmount = GetSystemSettingDecimal("CashWithdrawMin"),
+                Fee = GetSystemSettingDecimal("CashWithdrawFee"),
             };
 
             String type = 现金交易类型.提现.ToString();

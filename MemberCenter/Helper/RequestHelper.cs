@@ -24,7 +24,7 @@ namespace MemberCenter.Helper
         /// <param name="clientId"></param>
         /// <param name="folder"></param>
         /// <returns></returns>
-        public string SaveImageToServer(string folder)
+        public string SaveImageToServer(string targetFolder)
         {
             if (request.Files == null || request.Files.Count == 0 || string.IsNullOrWhiteSpace(request.Files[0].FileName))
             {
@@ -37,9 +37,9 @@ namespace MemberCenter.Helper
             }
 
             string fileSavedName = DateTime.Now.Ticks + "" + fileName.Substring(fileName.LastIndexOf("."));
-            var path = Path.Combine(HttpContext.Current.Server.MapPath("~/" + Constants.MemberUploadFilePath), fileSavedName);
+            var path = Path.Combine(HttpContext.Current.Server.MapPath("~/" + targetFolder), fileSavedName);
             request.Files[0].SaveAs(path);
-            return "/" + Constants.MemberUploadFilePath + "/" + fileSavedName;
+            return "/" + targetFolder + "/" + fileSavedName;
         }
 
         public static string RemoveSpecialCharacters(string str)

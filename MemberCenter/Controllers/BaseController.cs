@@ -43,6 +43,29 @@ namespace MemberCenter.Controllers
             }
         }
 
+
+        protected String GetSystemSettingString(string key)
+        {
+            var s = db.SystemSettings.SingleOrDefault(m => m.Key.Equals(key));
+            if (s == null)
+                return null;
+            else
+                return s.Value;
+        }
+
+        protected decimal GetSystemSettingDecimal(string key)
+        {
+            string value = GetSystemSettingString(key);
+            return decimal.Parse(value);
+        }
+
+        protected bool GetSystemSettingBoolean(string key)
+        {
+            string value = GetSystemSettingString(key);
+            return bool.Parse(value);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && db != null)

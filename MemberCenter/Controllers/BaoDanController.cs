@@ -24,9 +24,9 @@ namespace MemberCenter.Controllers
         // GET: /BaoDan/Buy
         public ActionResult Buy()
         {
-            if (CurrentUser.Cash1 < Constants.MinBaoDanCashBalance + Constants.BaoDanBuyFee)
+            if (CurrentUser.Cash1 < GetSystemSettingDecimal("MinBaoDanCashBalance") + GetSystemSettingDecimal("BaoDanBuyFee"))
             {
-                ModelState.AddModelError("", "对不起，您的账户可用资金不足￥" + (Constants.MinBaoDanCashBalance + Constants.BaoDanBuyFee).ToString("0,0.00") + "，请先充值。");
+                ModelState.AddModelError("", "对不起，您的账户可用资金不足￥" + (GetSystemSettingDecimal("MinBaoDanCashBalance") + GetSystemSettingDecimal("BaoDanBuyFee")).ToString("0,0.00") + "，请先充值。");
             }
 
             return View(CalculateBaoDanBuyModel());
@@ -49,7 +49,7 @@ namespace MemberCenter.Controllers
                         ModelState.AddModelError("", "会员状态异常");
                         return RedirectToAction("Login", "Account");
                     }
-                    if (CurrentUser.Cash1 < model.TotalCostCash || CurrentUser.Cash1 < Constants.MinBaoDanCashBalance)
+                    if (CurrentUser.Cash1 < model.TotalCostCash || CurrentUser.Cash1 < GetSystemSettingDecimal("MinBaoDanCashBalance"))
                     {
                         ModelState.AddModelError("", "账户可用资金不足");
                         return View(CalculateBaoDanBuyModel());
@@ -70,7 +70,7 @@ namespace MemberCenter.Controllers
                     }
 
                     decimal requestQty = model.RequestCash / CurrentCoinPrice.Price;
-                    decimal totalCash = model.RequestCash + Constants.BaoDanBuyFee;
+                    decimal totalCash = model.RequestCash + GetSystemSettingDecimal("BaoDanBuyFee");
 
                     //Step 1. 报单交易记录、现金交易记录
                     BaoDanTransaction mBaoDan = new BaoDanTransaction
@@ -78,7 +78,7 @@ namespace MemberCenter.Controllers
                         DateTime = DateTime.Now,
                         Amount = requestQty,
                         Price = CurrentCoinPrice.Price,
-                        Fee = Constants.BaoDanBuyFee,
+                        Fee = GetSystemSettingDecimal("BaoDanBuyFee"),
                         Status = 报单状态.已成交.ToString(),
                         Type = 报单类型.买入.ToString(),
                         Member = CurrentUser,
@@ -108,7 +108,7 @@ namespace MemberCenter.Controllers
                     });
 
                     //Step 2.0 为自己增加积分
-                    decimal points = (model.RequestCash / Constants.MinBaoDanCashBalance) * Constants.PointsRate;
+                    decimal points = (model.RequestCash / GetSystemSettingDecimal("MinBaoDanCashBalance")) * GetSystemSettingDecimal("PointsRate");
                     CurrentUser.Point1 += points;
                     CurrentUser.PointTransaction.Add(new PointTransaction
                     {
@@ -171,7 +171,7 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.RequestAmount > CurrentUser.Coin1 || model.RequestAmount < Constants.MinBaoDanSell)
+                if (model.RequestAmount > CurrentUser.Coin1 || model.RequestAmount < GetSystemSettingDecimal("MinBaoDanSell"))
                 {
                     ModelState.AddModelError("", "报单数量错误(" + model.RequestAmount + ")");
                 }
@@ -187,7 +187,7 @@ namespace MemberCenter.Controllers
                         DateTime = DateTime.Now,
                         Amount = model.RequestAmount,
                         Price = CurrentCoinPrice.Price,
-                        Fee = Constants.BaoDanSellFee,
+                        Fee = GetSystemSettingDecimal("BaoDanSellFee"),
                         Status = 报单状态.未成交.ToString(),
                         Type = 报单类型.卖出.ToString(),
                     });
@@ -383,8 +383,8 @@ namespace MemberCenter.Controllers
         /// <returns></returns>
         private BaoDanBuyViewModel CalculateBaoDanBuyModel()
         {
-            int maxRequestCash = (int)Math.Floor((CurrentUser.Cash1 - Constants.BaoDanBuyFee) / Constants.MinBaoDanCashBalance);
-            decimal coinCash = maxRequestCash * Constants.MinBaoDanCashBalance;
+            int maxRequestCash = (int)Math.Floor((CurrentUser.Cash1 - GetSystemSettingDecimal("BaoDanBuyFee")) / GetSystemSettingDecimal("MinBaoDanCashBalance"));
+            decimal coinCash = maxRequestCash * GetSystemSettingDecimal("MinBaoDanCashBalance");
             decimal price = CurrentCoinPrice.Price;
             decimal qty = coinCash / price;
 
@@ -396,9 +396,9 @@ namespace MemberCenter.Controllers
                 RequestQuantity = qty,
                 RequestCash = coinCash,
                 MaxRequestCash = maxRequestCash,
-                Fee = Constants.BaoDanBuyFee,
-                TotalCostCash = coinCash + Constants.BaoDanBuyFee,
-                CashLeft = CurrentUser.Cash1 - coinCash - Constants.BaoDanBuyFee,
+                Fee = GetSystemSettingDecimal("BaoDanBuyFee"),
+                TotalCostCash = coinCash + GetSystemSettingDecimal("BaoDanBuyFee"),
+                CashLeft = CurrentUser.Cash1 - coinCash - GetSystemSettingDecimal("BaoDanBuyFee"),
             };
             SetMyAccountViewModel();
             return model;
@@ -412,7 +412,7 @@ namespace MemberCenter.Controllers
                 CurrentPrice = CurrentCoinPrice.Price,
                 AvailabeAmount = CurrentUser.Coin1,
                 RequestAmount = 0,
-                Fee = Constants.BaoDanSellFee,
+                Fee = GetSystemSettingDecimal("BaoDanSellFee"),
             };
 
             String status = 报单状态.未成交.ToString();
@@ -498,7 +498,7 @@ namespace MemberCenter.Controllers
             else
             {
                 //如果该上线从未报单过 则跳过其上线
-                if (!Constants.EnableRefundOnlyForActivateUser || mRef.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
+                if (!GetSystemSettingBoolean("EnableRefundOnlyForActivateUser") || mRef.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
                 {
                     //直接上线获利最多
                     decimal finalRefundRate; //= (member.Id == mBaoDan.Member.Id) ? mRef.MemberLevel.RefundRate : (mRef.MemberLevel.RefundRate - Math.Max(member.MemberLevel.RefundRate, lastRefundRate));
@@ -509,7 +509,7 @@ namespace MemberCenter.Controllers
                     }
                     else
                     {
-                        if (!Constants.EnableRefundOnlyForActivateUser || member.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
+                        if (!GetSystemSettingBoolean("EnableRefundOnlyForActivateUser") || member.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
                         {
                             finalRefundRate =  mRef.MemberLevel.RefundRate - Math.Max(member.MemberLevel.RefundRate, lastRefundRate);
                         }
@@ -520,11 +520,11 @@ namespace MemberCenter.Controllers
                         }
                     }
                     
-                    decimal refTotalRefund = finalRefundRate * Constants.PV * amount;
+                    decimal refTotalRefund = finalRefundRate * GetSystemSettingDecimal("PV") * amount;
                     currentRefundRate = finalRefundRate;
 
                     // Step 3.1 为自己所有上线增加返利
-                    decimal refRfund = refTotalRefund * (1 - Constants.ChongXiaoRate);
+                    decimal refRfund = refTotalRefund * (1 - GetSystemSettingDecimal("ChongXiaoRate"));
                     mRef.CashTransaction.Add(new CashTransaction
                     {
                         DateTime = DateTime.Now,
@@ -537,7 +537,7 @@ namespace MemberCenter.Controllers
                     mRef.Cash2 += refRfund;
 
                     // Step 3.2 为上线增加重消记录
-                    decimal refChonXiao = refTotalRefund * Constants.ChongXiaoRate;
+                    decimal refChonXiao = refTotalRefund * GetSystemSettingDecimal("ChongXiaoRate");
                     mRef.ChongXiaoTransaction.Add(new ChongXiaoTransaction
                         {
                             DateTime = DateTime.Now,
@@ -570,7 +570,7 @@ namespace MemberCenter.Controllers
 
             // Step 3.3 为上线增加总业绩
             string mBaoDanBuyStatus = 报单类型.买入.ToString();
-            if (!Constants.EnableRefundOnlyForActivateUser || mRef.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
+            if (!GetSystemSettingBoolean("EnableRefundOnlyForActivateUser") || mRef.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
                 mRef.Achievement += amount;   // 各个上线总业绩 + 消费现金金额
 
             // Step 3.4 设置更新上线等级

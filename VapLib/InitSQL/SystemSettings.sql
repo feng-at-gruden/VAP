@@ -1,7 +1,35 @@
-﻿USE [vap]
+USE [vap];
 GO
-/****** Object:  Table [dbo].[SystemSettings]    Script Date: 07/29/2016 11:11:12 ******/
-SET IDENTITY_INSERT [dbo].[SystemSettings] ON
-INSERT [dbo].[SystemSettings] ([Id], [Key], [Value]) VALUES (1, N'BaoDanSellFee', N'10')
-INSERT [dbo].[SystemSettings] ([Id], [Key], [Value]) VALUES (2, N'CashWithdrawFee', N'40')
-SET IDENTITY_INSERT [dbo].[SystemSettings] OFF
+
+INSERT INTO [SystemSettings] VALUES ('PointsRate', '1500', '购币每消费10000现金 增长点数1500');
+GO
+INSERT INTO [SystemSettings] VALUES ('PV', '0.6', '返利PV值');
+GO
+INSERT INTO [SystemSettings] VALUES ('ChongXiaoRate', '0.1', '重消所占返利比例');
+GO
+INSERT INTO [SystemSettings] VALUES ('MinBaoDanCashBalance', '10000', '最小报单金额(单位：元)');
+GO
+INSERT INTO [SystemSettings] VALUES ('MinBaoDanSell', '10', '积分出售最小数量');
+GO
+INSERT INTO [SystemSettings] VALUES ('BaoDanBuyFee', '0', '报单 买入 手续费(单位：元)');
+GO
+INSERT INTO [SystemSettings] VALUES ('BaoDanSellFee', '0', '报单 售出 手续费(单位：元)');
+GO
+INSERT INTO [SystemSettings] VALUES ('CashTopupFee', '0', '资金充值手续费(单位：元)');
+GO
+INSERT INTO [SystemSettings] VALUES ('CashWithdrawFee', '0', '资金提现手续费(单位：元)');
+GO
+INSERT INTO [SystemSettings] VALUES ('CashWithdrawMax', '5000', '资金提现每笔最大额度(单位：元)');
+GO
+INSERT INTO [SystemSettings] VALUES ('CashWithdrawMin', '100', '资金提现每笔最小额度(单位：元)');
+GO
+INSERT INTO [SystemSettings] VALUES ('CashTopupMin', '10000', '资金充值每笔最小额度(单位：元)');
+GO
+INSERT INTO [SystemSettings] VALUES ('CoinPriceRate', '0.05', '积分解冻价格最小增幅及解冻比例');
+GO
+INSERT INTO [SystemSettings] VALUES ('EnableRefundOnlyForActivateUser', 'true', '上线只有报过单才会有返利和业绩提升开关(true 或 false)');
+GO
+INSERT INTO [SystemSettings] VALUES ('MemberUploadTopupFilePath', 'Upload/Topup', '用户上传汇款凭证存储路径');
+GO
+INSERT INTO [SystemSettings] VALUES ('MemberUploadIdentityFilePath', 'Upload/Identity', '用户上传身份证存储路径');
+GO

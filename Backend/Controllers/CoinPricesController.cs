@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Backend.Models;
+using Backend.Helper;
 
 namespace Backend.Controllers
 {
@@ -58,11 +59,11 @@ namespace Backend.Controllers
                     if (currentPrice >= lockRecord.NextPrice)
                     {
                         var member = db.Members.Find(lockRecord.MemberId);
-                        var amount = lockRecord.LockedAmount*VapLib.Constants.CoinPriceRate;
+                        var amount = lockRecord.LockedAmount * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate");
                         lockRecord.LockedAmount -= amount;
                         lockRecord.AvailabeAmount += amount;
                         lockRecord.LastPrice = currentPrice;
-                        lockRecord.NextPrice = Math.Round(currentPrice + currentPrice * VapLib.Constants.CoinPriceRate, 2);
+                        lockRecord.NextPrice = Math.Round(currentPrice + currentPrice * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate"), 2);
 
                         member.Coin1 += amount;
                         member.Coin2 -= amount;

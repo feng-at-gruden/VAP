@@ -18,22 +18,23 @@ namespace VapLib
         public static readonly string[] NewsType = Enum.GetNames(typeof(新闻类型));
         public static readonly string[] MemberLevels = Enum.GetNames(typeof(会员等级));
       
-        public const decimal PointsRate = 1500m;            //购币每消费10000现金 增长点数1500
-        public const decimal PV = 0.6m;                     //返利PV值 后需定义在数据库中     上线返利 = 下线消费金额 x 上线等级返利比例 × PV × 90%
-        public const decimal ChongXiaoRate = 0.1m;          //重消所占比例 后需定义在数据库中  上线重消 = 下线消费金额 x 上线等级返利比例 × PV × 10%
-        public const decimal MinBaoDanCashBalance = 10000m; //最小报单金额 买入
-        public const decimal MinBaoDanSell = 10m;           //最小报单数量 卖出
-        public const decimal BaoDanBuyFee = 0m;             //报单 买入 手续费  后需定义在数据库中  
-        public const decimal BaoDanSellFee = 0m;            //报单 售出 手续费  后需定义在数据库中  比率还是固定金额 待定
-        public const decimal CashTopupFee = 0m;             //资金充值手续费
-        public const decimal CashWithdrawFee = 30m;         //资金提现手续费
-        public const decimal CashWithdrawMax = 5000m;       //资金提现每笔最大额度
-        public const decimal CashWithdrawMin = 100m;        //资金提现每笔最小额度
-        public const decimal CashTopupMin = 10000m;         //资金充值每笔最小额度
-        public const decimal CoinPriceRate = 0.05m;         //电子币解冻比例
-        public const bool EnableRefundOnlyForActivateUser = true;       //Ture 只有上线报过单才能有返利和业绩提升 否则没有
+        //public const decimal PointsRate = 1500m;            //购币每消费10000现金 增长点数1500
+        //public const decimal PV = 0.6m;                     //返利PV值 后需定义在数据库中     上线返利 = 下线消费金额 x 上线等级返利比例 × PV × 90%
+        //public const decimal ChongXiaoRate = 0.1m;          //重消所占比例 后需定义在数据库中  上线重消 = 下线消费金额 x 上线等级返利比例 × PV × 10%
+        //public const decimal MinBaoDanCashBalance = 10000m; //最小报单金额 买入
+        //public const decimal MinBaoDanSell = 10m;           //最小报单数量 卖出
+        //public const decimal BaoDanBuyFee = 0m;             //报单 买入 手续费  后需定义在数据库中  
+        //public const decimal BaoDanSellFee = 0m;            //报单 售出 手续费  后需定义在数据库中  比率还是固定金额 待定
+        //public const decimal CashTopupFee = 0m;             //资金充值手续费
+        //public const decimal CashWithdrawFee = 30m;         //资金提现手续费
+        //public const decimal CashWithdrawMax = 5000m;       //资金提现每笔最大额度
+        //public const decimal CashWithdrawMin = 100m;        //资金提现每笔最小额度
+        //public const decimal CashTopupMin = 10000m;         //资金充值每笔最小额度
+        //public const decimal CoinPriceRate = 0.05m;         //电子币解冻比例
+        //public const bool EnableRefundOnlyForActivateUser = true;       //Ture 只有上线报过单才能有返利和业绩提升 否则没有
 
-        public const String MemberUploadFilePath = "Upload";       //用户上传汇款凭证存储路径
+        //public const String MemberUploadTopupFilePath = "Upload/Topup";       //用户上传汇款凭证存储路径
+        public const String MemberUploadIdentityFilePath = "Upload/Identity";       //用户上传身份证存储路径
 
     }
     
