@@ -148,7 +148,7 @@ namespace Backend.Controllers
             var recored = db.CashTransactions.Find(id);
             db.CashTransactions.Remove(recored);
             db.SaveChanges();
-            ModelState.AddModelError("", "报单删除成功。");
+            ModelState.AddModelError("", "记录删除成功。");
             TempData["ModelState"] = ModelState;
             if(type=="T")
                 return RedirectToAction("PendingTopups");

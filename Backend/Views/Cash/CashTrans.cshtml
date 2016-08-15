@@ -1,7 +1,7 @@
 ﻿@model System.Collections.Generic.List<Backend.Models.CashTransaction>
 
 @{
-    ViewBag.Title = "联合积分操作记录";
+    ViewBag.Title = "记录查询";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="@Url.Action("Index","Home")">首页</a></li>
-        <li><a href="#">联合积分操作记录</a></li>
+        <li><a href="#">记录查询</a></li>
     </ul>
 </div>
 <div class="formbody">
@@ -101,7 +101,7 @@
         @*<a class="btn-primary" href="@Url.Action("CreateUser","Admin")">新建账号</a>*@
 
     }
-    <div class="formtitle"><span>联合积分操作记录</span></div>
+    <div class="formtitle"><span>记录列表</span></div>
     <table id="dataTable-Cash">
         <thead>
             <tr>
