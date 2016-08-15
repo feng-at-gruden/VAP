@@ -114,7 +114,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Amount = points,
-                        Type = 积分记录类型.购币所得积分.ToString(),
+                        Type = 积分记录类型.购币所得.ToString(),
                         Status = 积分状态.可用.ToString(),
                         BaoDanTransaction = mBaoDan,
                     });
@@ -542,7 +542,7 @@ namespace MemberCenter.Controllers
                         {
                             DateTime = DateTime.Now,
                             Status = 重消状态.可用.ToString(),
-                            Type = 重消记录类型.下线返利重消.ToString(),
+                            Type = 重消记录类型.下线返利.ToString(),
                             Amount = refChonXiao,
                             BaoDanTransaction = mBaoDan,
                         });

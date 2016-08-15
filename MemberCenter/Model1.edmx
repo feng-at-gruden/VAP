@@ -135,6 +135,7 @@
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="BaoDanTransactionId" Type="int" Nullable="true" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="BaoDanTransactions">
     <Key>
@@ -161,6 +162,7 @@
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="BaoDanTransactionId" Type="int" Nullable="true" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="CoinPrices">
     <Key>
@@ -568,6 +570,7 @@
           <Property Name="Status" Type="String" Nullable="false" />
           <NavigationProperty Name="BaoDanTransaction" Relationship="Model1.BaoDanTransactionPointTransaction" FromRole="PointTransaction" ToRole="BaoDanTransaction" />
           <Property Name="BaoDanTransactionId" Type="Int32" Nullable="true" />
+          <Property Name="Comment" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="MemberPointTransaction">
           <End Type="Model1.Member" Role="Member" Multiplicity="1" />
@@ -617,6 +620,7 @@
           <Property Name="Status" Type="String" Nullable="false" />
           <NavigationProperty Name="BaoDanTransaction" Relationship="Model1.BaoDanTransactionChongXiaoTransaction" FromRole="ChongXiaoTransaction" ToRole="BaoDanTransaction" />
           <Property Name="BaoDanTransactionId" Type="Int32" Nullable="true" />
+          <Property Name="Comment" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="MemberBaoDanTransaction">
           <End Type="Model1.Member" Role="Member" Multiplicity="1" />
@@ -877,6 +881,7 @@
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="BaoDanTransactionId" ColumnName="BaoDanTransactionId" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -905,6 +910,7 @@
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="BaoDanTransactionId" ColumnName="BaoDanTransactionId" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
