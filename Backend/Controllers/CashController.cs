@@ -58,6 +58,78 @@ namespace Backend.Controllers
                                                                   .OrderBy(c=>c.DateTime); 
             return View(cashtransactions.ToList());
         }
+        /// <summary>
+        /// 会员冻结积分记录
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MemberLocks(int memberId)
+        {
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
+            var status = 现金状态.冻结.ToString();
+            //var type = 现金交易类型.充值.ToString();
+            var cashtransactions = db.CashTransactions.Where(c => c.MemberId == memberId
+                                                                  && c.Status == status)
+                                                                  .OrderBy(c => c.DateTime);
+            return View(cashtransactions.ToList());
+        }
+        public ActionResult UnlockCashTrans(int id)
+        {
+           
+            var record = db.CashTransactions.Find(id);
+            var member = db.Members.Find(record.MemberId);
+            if(record.Status==现金状态.冻结.ToString())
+            {
+                
+                member.Cash1 += record.Amount;
+                member.Cash2 -= record.Amount;
+                record.Status = VapLib.现金状态.解冻.ToString();
+
+                db.Entry(member).State = EntityState.Modified;
+                db.Entry(record).State = EntityState.Modified;
+                db.SaveChanges();
+                ModelState.AddModelError("", "解冻操作执行成功。");
+            }
+            else
+            {
+                ModelState.AddModelError("", "没有符合的记录。");
+            }
+            
+
+            TempData["ModelState"] = ModelState;
+            return RedirectToAction("MemberLocks",new{memberId=member.Id});
+           
+        }
+        /// <summary>
+        /// 会员现金充值记录
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MemberTopups(int memberId)
+        {
+            
+            //var status = 现金状态.待审核.ToString();
+            var type = 现金交易类型.充值.ToString();
+            var cashtransactions = db.CashTransactions.Where(c => c.MemberId == memberId
+                                                                  && c.Type == type)
+                                                                  .OrderBy(c => c.DateTime);
+            return View(cashtransactions.ToList());
+        }
+        /// <summary>
+        /// 会员提现记录
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MemberWithdraws(int memberId)
+        {
+
+            //var status = 现金状态.待审核.ToString();
+            var type = 现金交易类型.提现.ToString();
+            var cashtransactions = db.CashTransactions.Where(c => c.MemberId == memberId
+                                                                  && c.Type == type)
+                                                                  .OrderBy(c => c.DateTime);
+            return View(cashtransactions.ToList());
+        }
         public ActionResult PendingWithdraws()
         {
             if (TempData.ContainsKey("ModelState"))

@@ -10,6 +10,8 @@ namespace Backend
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.fancybox.pack.js",
+                        "~/Scripts/fancybox.js",
                         "~/Content/DataTables/datatables.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -27,6 +29,7 @@ namespace Backend
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       /*"~/Content/bootstrap.css",*/
                       "~/Content/DataTables/datatables.css",
+                      "~/Content/jquery.fancybox.css",
                       "~/Content/site.css"));
         }
     }

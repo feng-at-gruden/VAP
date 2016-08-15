@@ -16,7 +16,32 @@ namespace Backend.Controllers
     public class BaoDanController : Controller
     {
         private vapEntities1 db = new vapEntities1();
-
+        /// <summary>
+        /// 会员报单卖出记录
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        public ActionResult MemberSells(int memberId)
+        {
+            //var status = 报单状态.未成交.ToString();
+            var type = 报单类型.卖出.ToString();
+            var records = db.BaoDanTransactions.Include(b => b.Member).Where(c => c.MemberId == memberId
+                && c.Type == type).OrderBy(c => c.DateTime);
+            return View(records.ToList());
+        }
+        /// <summary>
+        /// 会员报单买入记录
+        /// </summary>
+        /// <param name="memberId"></param>
+        /// <returns></returns>
+        public ActionResult MemberBuys(int memberId)
+        {
+            //var status = 报单状态.未成交.ToString();
+            var type = 报单类型.买入.ToString();
+            var records = db.BaoDanTransactions.Include(b => b.Member).Where(c => c.MemberId == memberId
+                && c.Type == type).OrderBy(c => c.DateTime);
+            return View(records.ToList());
+        }
         // GET: BaoDan
         public ActionResult PendingSells()
         {

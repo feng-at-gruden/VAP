@@ -27,8 +27,9 @@
     <div class="toolsli">
         <ul class="toollist">
             <li>
-                <img src="@Model.IdentityPath"/>
-                <h2>身份证 
+                <img src="@Model.IdentityPath" />
+                <h2>
+                    身份证
                     @if (Model.IdApproved.HasValue && Model.IdApproved.Value)
                     {
                         @:已认证
@@ -39,7 +40,7 @@
                     }
                 </h2>
             </li>
-           
+
         </ul>
     </div>
     <div class="formtitle"><span>下级会员</span></div>
@@ -69,6 +70,36 @@
             <li><h2>冻结冲销： @Html.DisplayFor(model => model.ChongXiao2)</h2></li>
         </ul>
     </div>
+    <div class="formtitle"><span>会员资金操作记录</span></div>
+    <div class="toolsli">
+        <ul class="forminfo">
+            <li>
+                <a href="@Url.Action("MemberTopups", "Cash",new { memberId=@Model.Id })" class="fancybox fancybox.iframe tablelink">
+                    充值记录
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("MemberWithdraws", "Cash",new { memberId=@Model.Id })" class="fancybox fancybox.iframe tablelink">
+                    提现记录
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("MemberBuys", "BaoDan",new { memberId=@Model.Id })" class="fancybox fancybox.iframe tablelink">
+                    积分买入记录
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("MemberSells", "BaoDan",new { memberId=@Model.Id })" class="fancybox fancybox.iframe tablelink">
+                    积分卖出记录
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("MemberLocks", "Cash",new { memberId=@Model.Id })" class="fancybox fancybox.iframe tablelink">
+                    积分冻结记录
+                </a>
+            </li>
+        </ul>
+    </div>
     <div class="formtitle"><span>密码重置和级别调整</span></div>
     <div class="toolsli">
 
@@ -89,7 +120,7 @@
                     <li>
 
                         @{
-                           var options = (from scl in VapLib.Constants.MemberLevels
+            var options = (from scl in VapLib.Constants.MemberLevels
                            select new SelectListItem
                            {
                                Text = scl,
@@ -127,7 +158,7 @@
 }
 <script>
     $(document).ready(function () {
-        
+
         $('#memberParent').slideDown();
     });
 </script>
