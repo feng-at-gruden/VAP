@@ -1,0 +1,74 @@
+﻿@model System.Collections.Generic.List<Backend.Models.CashTransaction>
+
+@{
+    ViewBag.Title = "提现记录";
+    Layout = "~/Views/Shared/_PopUpLayout.cshtml";
+}
+
+<div class="formbody">
+
+    <div class="formtitle"><span>提现记录</span></div>
+
+    <table @*class="tablelist"*@ id="dataTable-MemberWithdraws">
+        <thead>
+            <tr>
+
+                <th>
+                    金额
+                </th>
+                <th>
+                    手续费
+                </th>
+                <th>
+                    状态
+                </th>
+                <th>
+                    银行
+                </th>
+                <th>
+                    申请时间
+                </th>
+
+                @* <th>操作</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fee)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Bank)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTime)
+                    </td>
+                    @*
+                        <td>
+                            @Html.ActionLink("批准", "ApproveCashTrans", new { id = item.Id }, new { @class = "tablelink" })
+                            |
+                            @Html.ActionLink("删除", "DeleteCashTrans", new { id = item.Id, type = "T" }, new { @class = "tablelink", onclick = "javascript:return confirm('确认删除？')" })
+
+
+                        </td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable-MemberWithdraws').DataTable({
+            "searching": true,
+        });
+    });
+</script>

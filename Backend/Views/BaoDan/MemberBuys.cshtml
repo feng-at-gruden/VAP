@@ -1,0 +1,61 @@
+﻿@model System.Collections.Generic.List<Backend.Models.BaoDanTransaction>
+
+@{
+    ViewBag.Title = "联合积分买入记录";
+    Layout = "~/Views/Shared/_PopUpLayout.cshtml";
+}
+
+<div class="formbody">
+    <div class="formtitle"><span>联合积分买入记录</span></div>
+    <table id="dataTable-MemberBuy">
+        <thead>
+            <tr>
+               
+                <th>
+                    联合积分数量
+                </th>
+                <th>
+                    联合积分价格
+                </th>
+              
+                <th>
+                    交易状态
+                </th>
+                <th>
+                    报单时间
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTime)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#dataTable-MemberBuy').DataTable({
+            "searching": true,
+        });
+    });
+</script>

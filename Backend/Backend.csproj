@@ -286,7 +286,6 @@
     <Content Include="Content\DataTables\DataTables-1.10.12\js\jquery.dataTables.min.js" />
     <Content Include="Content\DataTables\datatables.css" />
     <Content Include="Content\DataTables\datatables.js" />
-    <Content Include="Content\DataTables\datatables.min.js" />
     <Content Include="Content\DataTables\jQuery-1.12.3\jquery-1.12.3.js" />
     <Content Include="Content\DataTables\jQuery-1.12.3\jquery-1.12.3.min.js" />
     <Content Include="Content\editor\kindeditor.js" />
@@ -344,6 +343,7 @@
     <Content Include="Content\editor\skins\tinymce.css" />
     <Content Include="Content\editor\skins\tinymce.gif" />
     <Content Include="Content\editor\skins\ul.gif" />
+    <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="images\001.jpg" />
     <Content Include="images\404.png" />
@@ -380,6 +380,11 @@
     <Content Include="images\f04.png" />
     <Content Include="images\f05.png" />
     <Content Include="images\f06.png" />
+    <Content Include="images\fancybox_loading%402x.gif" />
+    <Content Include="images\fancybox_loading.gif" />
+    <Content Include="images\fancybox_overlay.png" />
+    <Content Include="images\fancybox_sprite%402x.png" />
+    <Content Include="images\fancybox_sprite.png" />
     <Content Include="images\fjt.png" />
     <Content Include="images\help.png" />
     <Content Include="images\i01.png" />
@@ -546,9 +551,11 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\cloud.js" />
+    <Content Include="Scripts\fancybox.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.fancybox.pack.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -635,6 +642,12 @@
     <Content Include="Scripts\jstree\themes\mixins.less" />
     <Content Include="Scripts\jstree\themes\responsive.less" />
     <Content Include="Views\Member\MemberTree.cshtml" />
+    <Content Include="Views\Shared\_PopUpLayout.cshtml" />
+    <Content Include="Views\Cash\MemberTopups.cshtml" />
+    <Content Include="Views\Cash\MemberWithdraws.cshtml" />
+    <Content Include="Views\BaoDan\MemberSells.cshtml" />
+    <Content Include="Views\BaoDan\MemberBuys.cshtml" />
+    <Content Include="Views\Cash\MemberLocks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
