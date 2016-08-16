@@ -8,9 +8,10 @@ using Backend.Helper;
 
 namespace Backend.Controllers
 {
+    [MyAuthorize(Roles = "Admin,Finance,ClientService")]
     public class HomeController : Controller
     {
-        [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
+        
         public ActionResult Index()
         {
             /*if (TempData.ContainsKey("ModelState"))
@@ -23,15 +24,18 @@ namespace Backend.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
+           
             return View();
         }
-
+        public ActionResult UnAuthorize()
+        {
+            
+            return View();
+        }
+        
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
+            
             return View();
         }
     }

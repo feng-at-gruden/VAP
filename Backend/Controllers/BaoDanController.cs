@@ -12,7 +12,7 @@ using VapLib;
 
 namespace Backend.Controllers
 {
-    [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
+    [MyAuthorize(Roles = "Admin,Finance")]
     public class BaoDanController : Controller
     {
         private vapEntities1 db = new vapEntities1();

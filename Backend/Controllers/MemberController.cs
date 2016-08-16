@@ -14,7 +14,7 @@ using Member = Backend.Models.Member;
 
 namespace Backend.Controllers
 {
-    [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
+    [MyAuthorize(Roles = "Admin,ClientService")]
     public class MemberController : Controller
     {
         private vapEntities1 db = new vapEntities1();
@@ -214,6 +214,7 @@ namespace Backend.Controllers
             {
                 var record = db.Members.Find(model.Id);
                 record.Password1 = model.Password1;
+                record.Password2 = model.Password2;
                 var currentLevel = db.MemberLevels.First(c => c.Level == model.MemberLevel.Level);
                 record.MemberLevel_Id = currentLevel.Id;
                 db.Entry(record).State = EntityState.Modified;

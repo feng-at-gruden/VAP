@@ -1,4 +1,5 @@
-﻿@model Backend.Models.Member
+﻿@using Backend.Helper
+@model Backend.Models.Member
 
 @{
     ViewBag.Title = "会员编辑";
@@ -27,7 +28,7 @@
     <div class="toolsli">
         <ul class="toollist">
             <li>
-                <img src="@Model.IdentityPath" />
+                <img src="@SiteConfigurationHelper.UploadFolderPath@Model.IdentityPath" />
                 <h2>
                     身份证
                     @if (Model.IdApproved.HasValue && Model.IdApproved.Value)
@@ -116,7 +117,10 @@
                         <label>登录密码<b>*</b></label>
                         @Html.TextBoxFor(model => model.Password1, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必填字段" })
                     </li>
-
+                    <li>
+                        <label>交易密码<b>*</b></label>
+                        @Html.TextBoxFor(model => model.Password2, new { @class = "dfinput", data_val = "true", requried = "required", data_val_required = "必填字段" })
+                    </li>
                     <li>
 
                         @{

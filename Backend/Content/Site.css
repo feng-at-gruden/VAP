@@ -351,7 +351,7 @@ table.dataTable thead .sorting_desc_disabled {
 .tooladd{margin-top:25px; width:20px; height:20px; float:left; display:block;}
 
 /*error 404*/
-.error{background:url(../images/404.png) no-repeat; width:490px; margin-top:75px;padding-top:65px;}
+.error{background:url(../images/404.png) no-repeat; width:490px; margin-top:75px;margin-left: 120px; padding-top:65px;}
 .error h2{font-size:22px; padding-left:154px;}
 .error p{padding-left:154px; line-height:35px;color:#717678;}
 .reindex{padding-left:154px;}

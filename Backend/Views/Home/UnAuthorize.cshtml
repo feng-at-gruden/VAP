@@ -1,0 +1,21 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "无权访问";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+        <li><a href="@Url.Action("Index")">首页</a></li>
+        <li><a href="#">无权访问</a></li>
+    </ul>
+</div>
+
+<div class="error">
+
+    <h2>非常遗憾，您无权访问该功能！</h2>
+    <div class="reindex"><a href="@Url.Action("Index")">返回首页</a></div>
+
+</div>

@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Backend.Controllers
 {
-    [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
+    [MyAuthorize(Roles = "Admin,ClientService")]
     public class NewsController : Controller
     {
         private vapEntities1 db = new vapEntities1();

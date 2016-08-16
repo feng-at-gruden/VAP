@@ -67,6 +67,16 @@
                         Text = "卖出",
                         Value = "卖出"
                     });
+                    options1.Insert(3, new SelectListItem
+                    {
+                        Text = "会员间转入",
+                        Value = "会员间转入"
+                    });
+                    options1.Insert(4, new SelectListItem
+                    {
+                        Text = "会员间转出",
+                        Value = "会员间转出"
+                    });
                 }
                 @Html.DropDownList("type", options1, new { @class = "scinput1" })
 
@@ -102,6 +112,9 @@
                     交易状态
                 </th>
                 <th>
+                    备注
+                </th>
+                <th>
                     报单时间
                 </th>
                
@@ -129,7 +142,9 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Status)
                     </td>
-                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comment )
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DateTime)
                     </td>
