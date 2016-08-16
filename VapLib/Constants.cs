@@ -95,8 +95,8 @@ namespace VapLib
     //To confirm
     public enum 积分记录类型
     {
-        购币所得积分 = 1,
-        商场积分消费 = 2,
+        购币所得 = 1,
+        商城消费 = 2,
     }
 
     public enum 积分状态
@@ -109,8 +109,8 @@ namespace VapLib
     //To confirm
     public enum 重消记录类型
     {
-        下线返利重消 = 1,
-        消费 = 2,
+        下线返利 = 1,
+        商城消费 = 2,
     }
 
     public enum 重消状态

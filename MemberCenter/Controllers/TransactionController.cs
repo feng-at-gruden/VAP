@@ -109,7 +109,7 @@ namespace MemberCenter.Controllers
                         Type = 现金交易类型.提现.ToString(),
                         Status = 现金状态.待审核.ToString(),
                         Amount = -model.RequestAmount,
-                        Fee = GetSystemSettingDecimal("CashWithdrawFee"),
+                        Fee = CalculateFee(model.RequestAmount, "CashWithdrawFee"),
                         Bank = bankInfo.Bank,
                         BankAccount = bankInfo.Account,
                         BankName = bankInfo.Name,
@@ -272,12 +272,14 @@ namespace MemberCenter.Controllers
 
         private decimal GetDailyTopupNextOdd()
         {
+            return 0.00m;
+            /*
             DateTime stTime = new DateTime(DateTime.Now.Year,  DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             DateTime edTime = new DateTime(DateTime.Now.Year,  DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59);
             string transType = 现金交易类型.充值.ToString();
             int odd = db.CashTransactions.Count(m => m.DateTime >= stTime && m.DateTime <= edTime && m.Type.Equals(transType)) + 1;
             decimal odds = (odd % 100) * 0.01m;
-            return odds;
+            return odds;*/
         }
 
 
@@ -292,7 +294,7 @@ namespace MemberCenter.Controllers
                 BankInfoId = bankInfoId,
                 MaxWithdrawAmount = GetSystemSettingDecimal("CashWithdrawMax"),
                 MinWithdrawAmount = GetSystemSettingDecimal("CashWithdrawMin"),
-                Fee = GetSystemSettingDecimal("CashWithdrawFee"),
+                FeeSetting = GetSystemSettingString("CashWithdrawFee"),
             };
 
             String type = 现金交易类型.提现.ToString();

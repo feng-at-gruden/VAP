@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/13/2016 13:04:31
+-- Date Created: 08/15/2016 22:37:01
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -165,7 +165,8 @@ CREATE TABLE [dbo].[PointTransactions] (
     [DateTime] datetime  NOT NULL,
     [Type] nvarchar(max)  NOT NULL,
     [Status] nvarchar(max)  NOT NULL,
-    [BaoDanTransactionId] int  NULL
+    [BaoDanTransactionId] int  NULL,
+    [Comment] nvarchar(max)  NULL
 );
 GO
 
@@ -191,7 +192,8 @@ CREATE TABLE [dbo].[ChongXiaoTransactions] (
     [MemberId] int  NOT NULL,
     [Type] nvarchar(max)  NOT NULL,
     [Status] nvarchar(max)  NOT NULL,
-    [BaoDanTransactionId] int  NULL
+    [BaoDanTransactionId] int  NULL,
+    [Comment] nvarchar(max)  NULL
 );
 GO
 
