@@ -31,10 +31,10 @@ namespace VapLib
         //public const decimal CashWithdrawMin = 100m;        //资金提现每笔最小额度
         //public const decimal CashTopupMin = 10000m;         //资金充值每笔最小额度
         //public const decimal CoinPriceRate = 0.05m;         //电子币解冻比例
-        //public const bool EnableRefundOnlyForActivateUser = true;       //Ture 只有上线报过单才能有返利和业绩提升 否则没有
+        //public const bool EnableRefundOnlyForActivateUser = true;       //Ture 只有上线报过单才能有返利和业绩提升 false否则没有
 
-        //public const String MemberUploadTopupFilePath = "Upload/Topup";       //用户上传汇款凭证存储路径
-        public const String MemberUploadIdentityFilePath = "Upload/Identity";       //用户上传身份证存储路径
+        //public const String MemberUploadTopupFilePath = "Upload/Topup";               //用户上传汇款凭证存储路径
+        //public const String MemberUploadIdentityFilePath = "Upload/Identity";         //用户上传身份证存储路径
 
     }
     

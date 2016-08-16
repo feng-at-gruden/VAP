@@ -12,6 +12,13 @@ namespace MemberCenter.Models
         public decimal CurrentCoinPrice { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:n2}")]
+        [Display(Name = "昨日价格")]
+        public decimal YesterdayCoinPrice { get; set; }
+
+        [Display(Name = "涨幅")]
+        public string PriceIncreaseAmount { get { return (((CurrentCoinPrice - YesterdayCoinPrice) / YesterdayCoinPrice) * 100).ToString("0.00") + "%"; } }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         [Display(Name = "最高价格")]
         public decimal MaxCoinPrice { get; set; }
 

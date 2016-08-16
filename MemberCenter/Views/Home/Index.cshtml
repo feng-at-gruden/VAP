@@ -184,8 +184,8 @@
                 <div class="price-container">
                     <div class="row">
                         <span class="col-sm-3">当前价格：￥@Html.DisplayFor(m => m.CurrentCoinPrice) </span>
-                        <span class="col-sm-3">最高价格：￥@Html.DisplayFor(m => m.MaxCoinPrice) </span>
-                        <span class="col-sm-3">最低价格：￥@Html.DisplayFor(m => m.MinCoinPrice) </span>
+                        <span class="col-sm-3">昨日价格：￥@Html.DisplayFor(m => m.YesterdayCoinPrice) </span>
+                        <span class="col-sm-3">涨幅：@Html.DisplayFor(m => m.PriceIncreaseAmount) </span>
                         <span class="col-sm-3">历史成交额：￥@Html.DisplayFor(m => m.TotalTransactionCash) </span>
                     </div>
                 </div>
@@ -215,8 +215,8 @@
                     <ul class="plan featured">
                         <li class="plan-name">当前价格</li>
                         <li class="plan-price">￥@Html.DisplayFor(m => m.CurrentCoinPrice)</li>
-                        <li>最高价格：<span class="red">￥@Html.DisplayFor(m => m.MaxCoinPrice)</span></li>
-                        <li>最低价格：<span class="green">￥@Html.DisplayFor(m => m.MinCoinPrice)</span></li>
+                        <li>昨日价格：<span>￥@Html.DisplayFor(m => m.YesterdayCoinPrice)</span></li>
+                        <li>涨幅：<span class="red">@Html.DisplayFor(m => m.PriceIncreaseAmount)</span></li>
                         <li>今日成交量：@Html.DisplayFor(m => m.TodayBaoDanAmount)</li>
                         <li>今日成交额：￥@Html.DisplayFor(m => m.TodayBaoDanCash)</li>
                         <li>历史成交额：￥@Html.DisplayFor(m => m.TotalTransactionCash)</li>
@@ -417,7 +417,10 @@
             yaxis: 2
         }], {
             xaxes: [{
-                mode: 'time'
+                mode: 'time',
+                timeformat: "%b %d",
+                minTickSize: [1, "day"],
+                tickSize: [1, "day"],
             }],
             yaxes: [{
                 min: 0
@@ -471,6 +474,7 @@
                         order: 1,
                         fill: 1,
                         lineWidth: 0,
+                        align: 'left',
                         fillColor: 'rgba(255,0,0,0.6)',
                         barWidth: 60 * 60 * 1000 * 2,
                     },
@@ -483,6 +487,7 @@
 			             order: 2,
 			             fill: 1,
 			             lineWidth: 0,
+			             align: 'right',
 			             fillColor: 'rgba(1,157,10,0.8)',
 			             barWidth: 60 * 60 * 1000 * 2,
 			         },
@@ -500,7 +505,7 @@
                     timeformat: "%b %d",
                     minTickSize: [1, "day"],
                     tickSize: [1, "day"],
-                    autoscaleMargin: 1,
+                    //autoscaleMargin: 1,
                 },
                 legend: true,
                 tooltip: true,

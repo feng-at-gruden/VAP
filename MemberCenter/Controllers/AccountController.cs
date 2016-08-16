@@ -244,6 +244,7 @@ namespace MemberCenter.Controllers
                 RealName = CurrentUser.RealName,
                 UserName = CurrentUser.UserName,
                 Mobile = CurrentUser.Mobile,
+                IdentifyFile = CurrentUser.IdentityPath,
             };
             SetMyAccountViewModel();
             return View(model);
@@ -257,9 +258,13 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
+                var requestHelper = new RequestHelper(this.Request);
+                var filePath = requestHelper.SaveImageToServer(GetSystemSettingString("MemberUploadIdentityFilePath"), false);
                 CurrentUser.UserName = model.UserName;
                 CurrentUser.RealName = model.RealName;
                 CurrentUser.Mobile = model.Mobile;
+                CurrentUser.IdentityPath = filePath;
+
                 db.SaveChanges();
                 ViewBag.ActionMessage = "更新成功!";
             }

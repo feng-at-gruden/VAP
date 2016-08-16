@@ -1,4 +1,5 @@
 ﻿@model MemberCenter.Models.MyAccountInfoViewModel
+@using MemberCenter.Helper
 @{
     ViewBag.Title = "个人设置";
 }
@@ -11,7 +12,7 @@
         </div>
         <div class="panel-body">
 
-            @using (Html.BeginForm("EditMyAccount", "Account", FormMethod.Post, new { role = "form" }))
+            @using (Html.BeginForm("EditMyAccount", "Account", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 if(!ViewData.ModelState.IsValid)
@@ -37,6 +38,23 @@
                 <div class="form-group input-group">
                     @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", maxlength = "11", placeholder = "手机号码", id = "Mobile" })
                     <span class="input-group-addon">手机号码</span>
+                </div>
+                <div class="form-group row" style="margin-top: 20px; height: 30px;">
+                    <label class="col-md-2">上传身份证</label>
+                    <div class="col-md-10 right">
+                        <input type="file" id="uploadImageButton" name="uploadImageButton" />
+                    </div>
+                </div>
+                <div id="imageHolder" style="margin-top: 20px; margin-bottom: 20px;">
+                    @if (@Model.IdentifyFile != null && @Model.IdentifyFile != "")
+                    {
+                        <img style="height: 100px;" src="@(SiteConfigurationHelper.SiteRootPath+Model.IdentifyFile)" />
+                    }
+                    else
+                    {
+                        <img style="height: 100px; " />
+                    }
+                    
                 </div>
                 <button type="submit" class="btn btn-warning btn-block">保存</button>
             }
@@ -71,4 +89,36 @@
             }
         });
     });
+
+
+    function setupFileLoaderButton(button, imageHolder) {
+        var upload = document.getElementById(button);
+        var holder = document.getElementById(imageHolder);
+
+        if (typeof window.FileReader === 'undefined') {
+            console.error('File API & FileReader not available');
+        }
+
+        upload.onchange = function (e) {
+            e.preventDefault();
+
+            var file = upload.files[0],
+                reader = new FileReader();
+            reader.onload = function (event) {
+                var img = new Image();
+                img.src = event.target.result;
+                if (img.src != undefined && img.src != '')
+                    img.className = 'thumbnail uploading-img';
+                else
+                    img.className = '';
+                holder.innerHTML = '';
+                holder.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+
+            return false;
+        };
+    }
+
+    setupFileLoaderButton('uploadImageButton', 'imageHolder');
 </script>

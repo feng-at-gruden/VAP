@@ -2243,7 +2243,6 @@
     <Folder Include="Content\images\" />
     <Folder Include="Upload\Identity\" />
     <Folder Include="Upload\Topup\" />
-    <Folder Include="Views\API\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

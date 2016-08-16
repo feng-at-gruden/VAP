@@ -89,6 +89,8 @@ namespace MemberCenter.Models
 
         public string Mobile { get; set; }
 
+        public string IdentifyFile { get; set; }
+
         public DateTime RegisterTime { get; set; }
 
         public DateTime LastLoginTime { get; set; }

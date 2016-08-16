@@ -24,22 +24,29 @@ namespace MemberCenter.Helper
         /// <param name="clientId"></param>
         /// <param name="folder"></param>
         /// <returns></returns>
-        public string SaveImageToServer(string targetFolder)
+        public string SaveImageToServer(string targetFolder, bool isRequire = true, string errorMessage = "请上传汇款凭证截图文件")
         {
-            if (request.Files == null || request.Files.Count == 0 || string.IsNullOrWhiteSpace(request.Files[0].FileName))
+            if (isRequire && (request.Files == null || request.Files.Count == 0 || string.IsNullOrWhiteSpace(request.Files[0].FileName)))
             {
-                throw new Exception("请上传汇款凭证截图文件!");
+                throw new Exception(errorMessage);
             }
-            var fileName = (new FileInfo(request.Files[0].FileName)).Name;
-            if (!IsImageFile(fileName))
-            {
-                throw new Exception("请选择正确文件格式!");
-            }
+            if (request.Files.Count > 0 && request.Files[0].FileName!="" && request.Files[0].FileName!=null)
+            { 
+                var fileName = (new FileInfo(request.Files[0].FileName)).Name;
+                if (!IsImageFile(fileName))
+                {
+                    throw new Exception("请选择正确文件格式!");
+                }
 
-            string fileSavedName = DateTime.Now.Ticks + "" + fileName.Substring(fileName.LastIndexOf("."));
-            var path = Path.Combine(HttpContext.Current.Server.MapPath("~/" + targetFolder), fileSavedName);
-            request.Files[0].SaveAs(path);
-            return "/" + targetFolder + "/" + fileSavedName;
+                string fileSavedName = DateTime.Now.Ticks + "" + fileName.Substring(fileName.LastIndexOf("."));
+                var path = Path.Combine(HttpContext.Current.Server.MapPath("~/" + targetFolder), fileSavedName);
+                request.Files[0].SaveAs(path);
+                return "/" + targetFolder + "/" + fileSavedName;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         public static string RemoveSpecialCharacters(string str)

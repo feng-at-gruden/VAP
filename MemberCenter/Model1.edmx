@@ -122,7 +122,7 @@
     <Property Name="FileUrl" Type="nvarchar(max)" Nullable="true" />
     <Property Name="RemitBank" Type="nvarchar(max)" Nullable="true" />
     <Property Name="RemitUserName" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="RemitAccount" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RemitNumber" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="PointTransactions">
     <Key>
@@ -543,7 +543,7 @@
           <Property Name="FileUrl" Type="String" Nullable="true" />
           <Property Name="RemitBank" Type="String" Nullable="true" />
           <Property Name="RemitUserName" Type="String" Nullable="true" />
-          <Property Name="RemitAccount" Type="String" Nullable="true" />
+          <Property Name="RemitNumber" Type="String" Nullable="true" />
         </EntityType>
         <Association Name="MemberCashTransaction">
           <End Type="Model1.Member" Role="Member" Multiplicity="1" />
@@ -867,7 +867,7 @@
           <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
           <ScalarProperty Name="RemitBank" ColumnName="RemitBank" />
           <ScalarProperty Name="RemitUserName" ColumnName="RemitUserName" />
-          <ScalarProperty Name="RemitAccount" ColumnName="RemitAccount" />
+          <ScalarProperty Name="RemitNumber" ColumnName="RemitNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

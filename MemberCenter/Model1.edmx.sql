@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/15/2016 22:37:01
+-- Date Created: 08/16/2016 15:32:53
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -153,7 +153,7 @@ CREATE TABLE [dbo].[CashTransactions] (
     [FileUrl] nvarchar(max)  NULL,
     [RemitBank] nvarchar(max)  NULL,
     [RemitUserName] nvarchar(max)  NULL,
-    [RemitAccount] nvarchar(max)  NULL
+    [RemitNumber] nvarchar(max)  NULL
 );
 GO
 

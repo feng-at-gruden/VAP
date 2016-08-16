@@ -52,6 +52,14 @@ namespace MemberCenter.Models
         [Display(Name = "汇款凭证")]
         public string FileUrl { get; set; }
 
+        [Required(ErrorMessage = "请输入汇款人姓名")]
+        [Display(Name = "汇款人")]
+        public string RemitUserName { get; set; }
+
+        [Required(ErrorMessage = "请输入汇款单号")]
+        [Display(Name = "汇款单号")]
+        public string RemitNumber { get; set; }
+
         [Display(Name = "汇款银行")]
         public IEnumerable<BankInfoViewModel> SysBankInfos { get; set; }
     }

@@ -22,9 +22,27 @@ namespace MemberCenter.Controllers
 
             var todayBodan = db.BaoDanTransactions.Where(m => m.DateTime >= stTime && m.DateTime <= edTime && !m.Status.Equals(statusStr));
             var totalBaoDan = db.BaoDanTransactions.Where(m => !m.Status.Equals(statusStr));
+            
+            var p = db.CoinPrices.Take(2).OrderByDescending(m=>m.DateTime);
+            decimal currrentPrice = 0, yesterdayPrice = 0;
+            if(p.Count()>=2)
+            {
+                currrentPrice = p.ToArray()[0].Price;
+                yesterdayPrice = p.ToArray()[1].Price;
+            }
+            else if (p.Count()==1)
+            {
+                currrentPrice = p.ToArray()[0].Price;
+                yesterdayPrice = p.ToArray()[0].Price;
+            }
+
+            DateTime chartEdTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+            DateTime chartStTime = chartEdTime.AddMonths(-1);
+
             HomeViewModel model = new HomeViewModel
             {
-                CurrentCoinPrice = CurrentCoinPrice.Price,
+                CurrentCoinPrice = currrentPrice,
+                YesterdayCoinPrice = yesterdayPrice,
                 MaxCoinPrice = db.CoinPrices.Max(m=>m.Price),
                 MinCoinPrice = db.CoinPrices.Min(m=>m.Price),
                 MemberAmount = db.Members.Count(),
@@ -50,18 +68,21 @@ namespace MemberCenter.Controllers
                                         RequestCash = row.Amount * row.Price,
                                     }).Take(6),
                 CoinPriceHistory = (from row in db.CoinPrices
+                                   //where row.DateTime >= chartStTime && row.DateTime <= chartEdTime
                                    select new CoinPriceHistoryViewModel
                                    {
                                         Price = row.Price,
                                         DateTime = row.DateTime
                                    }).Take(30),
                 BuyHistory = (from row in db.SysStatistics
+                              where row.Date >= chartStTime && row.Date <= chartEdTime
                                    select new DailyAmountViewModel
                                    {
                                        Amount = row.BaoDanBuyAmount.Value,
                                        DateTime = row.Date
                                    }).Take(30),
                 SellHistory = (from row in db.SysStatistics
+                               where row.Date >= chartStTime && row.Date <= chartEdTime
                              select new DailyAmountViewModel
                              {
                                  Amount = row.BaoDanSellAmount.Value,

@@ -59,6 +59,8 @@ namespace MemberCenter.Controllers
                             Status = 现金状态.待审核.ToString(),
                             Comment = model.Comment,
                             FileUrl = filePath,
+                            RemitUserName = model.RemitUserName,
+                            RemitNumber = model.RemitNumber
                         });
                         db.SaveChanges();
                         ViewBag.ActionMessage = "充值信息已提交，请等待审核！";
