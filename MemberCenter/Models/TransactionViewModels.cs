@@ -75,8 +75,7 @@ namespace MemberCenter.Models
         public decimal AvailableAmount { get; set; }
 
         [Display(Name = "手续费")]
-        [DisplayFormat(DataFormatString = "{0:n2}")]
-        public decimal Fee { get; set; }
+        public string FeeSetting { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal MaxWithdrawAmount { get; set; }
@@ -99,6 +98,11 @@ namespace MemberCenter.Models
         [Display(Name = "提现金额")]
         [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal Amount { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal AmountDisp { get { return Math.Abs(Amount); } }
+
+        public decimal RealAmount { get { return Math.Abs(Amount) - Fee; } }
 
         [Display(Name = "手续费")]
         [DisplayFormat(DataFormatString = "{0:n2}")]

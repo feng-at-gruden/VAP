@@ -37,12 +37,45 @@ namespace MemberCenter.Controllers
                 var price = db.CoinPrices.OrderByDescending(m => m.DateTime).Take(1);
                 if (price == null || price.Count() == 0)
                 {
-                    throw new HttpException(500, "当前没有足够虚拟币");
+                    throw new HttpException(500, "当前没有足够联合通用积分");
                 }
                 return price.ToArray()[0];
             }
         }
 
+        protected decimal CalculateFee(decimal transactionAmount, string settingKey)
+        {
+            string strRateValue = GetSystemSettingString(settingKey);
+
+            if (strRateValue == null)
+                return 0m;
+            if(strRateValue.IndexOf("%")>=0)
+            {
+                //Fee by percent
+                return GetCorrectSettingPercentValue(settingKey) * transactionAmount;
+            }
+            else
+            {
+                //Fixed Fee
+                return GetSystemSettingDecimal(settingKey);
+            }
+        }
+
+        protected decimal GetCorrectSettingPercentValue(string settingKey)
+        {
+            string strRateValue = GetSystemSettingString(settingKey);
+            if (strRateValue == null)
+                return 0m;
+            if (strRateValue.IndexOf("%") >= 0)
+            {
+                //Setting like 60%
+                return decimal.Parse(strRateValue.Replace("%", "")) / 100;
+            }
+            else
+            {
+                return GetSystemSettingDecimal(settingKey);        //Setting like  0.6
+            }
+        }
 
         protected String GetSystemSettingString(string key)
         {

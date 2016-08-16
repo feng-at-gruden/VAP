@@ -520,11 +520,11 @@ namespace MemberCenter.Controllers
                         }
                     }
                     
-                    decimal refTotalRefund = finalRefundRate * GetSystemSettingDecimal("PV") * amount;
+                    decimal refTotalRefund = finalRefundRate * GetCorrectSettingPercentValue("PV") * amount;
                     currentRefundRate = finalRefundRate;
 
                     // Step 3.1 为自己所有上线增加返利
-                    decimal refRfund = refTotalRefund * (1 - GetSystemSettingDecimal("ChongXiaoRate"));
+                    decimal refRfund = refTotalRefund * (1 - GetCorrectSettingPercentValue("ChongXiaoRate"));
                     mRef.CashTransaction.Add(new CashTransaction
                     {
                         DateTime = DateTime.Now,
@@ -537,7 +537,7 @@ namespace MemberCenter.Controllers
                     mRef.Cash2 += refRfund;
 
                     // Step 3.2 为上线增加重消记录
-                    decimal refChonXiao = refTotalRefund * GetSystemSettingDecimal("ChongXiaoRate");
+                    decimal refChonXiao = refTotalRefund * GetCorrectSettingPercentValue("ChongXiaoRate");
                     mRef.ChongXiaoTransaction.Add(new ChongXiaoTransaction
                         {
                             DateTime = DateTime.Now,

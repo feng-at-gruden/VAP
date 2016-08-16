@@ -2244,7 +2244,6 @@
     <Folder Include="Upload\Identity\" />
     <Folder Include="Upload\Topup\" />
     <Folder Include="Views\API\" />
-    <Folder Include="Views\Default1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

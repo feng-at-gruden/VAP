@@ -12,7 +12,7 @@
             <div class="panel-body">
 
                 <div class="well">
-                    <p><b>重要提示：</b>当前账户可提金额为￥@Html.DisplayFor(m=>m.AvailableAmount)。为了您的账户安全，每次现金提现的最高额度为￥@Html.DisplayFor(m => m.MaxWithdrawAmount)，提现最低额度为￥@Html.DisplayFor(m => m.MinWithdrawAmount)，每笔手续费为￥@Html.DisplayFor(m => m.Fee)，如果您有更高的需求，请与网站客服联系，不同银行实际到账时间可能会有延迟。</p>
+                    <p><b>重要提示：</b>当前账户可提金额为￥@Html.DisplayFor(m=>m.AvailableAmount)。为了您的账户安全，每次现金提现的最高额度为￥@Html.DisplayFor(m => m.MaxWithdrawAmount)，提现最低额度为￥@Html.DisplayFor(m => m.MinWithdrawAmount)，每笔手续费为 @Html.DisplayFor(m => m.FeeSetting)，如果您有更高的需求，请与网站客服联系，不同银行实际到账时间可能会有延迟。</p>
                 </div>
 
                 @using (Html.BeginForm("CashWithdraw", "Transaction", FormMethod.Post, new { role = "form" }))
@@ -49,6 +49,14 @@
                         @Html.TextBoxFor(m => m.RequestAmount, new { @class = "form-control", placeholder = "提现金额", maxlength = "7", id="CashAmount" })
                         <span class="input-group-addon">提现金额</span>
                     </div>
+                    <div class="form-group input-group">
+                        <input type="text" class="form-control" placeholder="实提金额" id="RealAmount" disabled="true" />
+                        <span class="input-group-addon">实提金额</span>
+                    </div>
+                    <div class="form-group right">
+                        提现手续费：@Model.FeeSetting
+                    </div>
+                    <br class="clear" />
                     <div class="form-group">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "交易密码", maxlength = "20" })
                     </div>
@@ -75,11 +83,12 @@
         <thead>
             <tr>
                 <th>提现时间</th>
-                <th style="text-align:right;">提交金额</th>
+                <th style="text-align:right;">提现金额</th>
                 <th style="text-align:right;">手续费</th>
-                <th>银行</th>
-                <th>提现账户</th>
-                <th>状态</th>
+                <th style="text-align:right;">实提金额</th>
+                <th style ="text-align:center;">银行</th>
+                <th style="text-align:center;">提现账户</th>
+                <th style="text-align:center;">状态</th>
             </tr>
         </thead>
         <tbody>
@@ -87,11 +96,12 @@
         {
             <tr class="odd gradeX">
                 <td>@Html.DisplayFor(modelItem => item.WithdrawTime)</td>
-                <td style="text-align:right;">@Html.DisplayFor(modelItem => item.Amount)</td>
+                <td style="text-align:right;">@Html.DisplayFor(modelItem => item.AmountDisp)</td>
                 <td style="text-align:right;">@Html.DisplayFor(modelItem => item.Fee)</td>
-                <td class="center">@Html.DisplayFor(modelItem => item.Bank)</td>
-                <td class="center">@Html.DisplayFor(modelItem => item.BankAccount)</td>
-                <td class="center">@Html.DisplayFor(modelItem => item.Status)</td>
+                <td style="text-align:right;">@Html.DisplayFor(modelItem => item.RealAmount)</td>
+                <td style="text-align:center;">@Html.DisplayFor(modelItem => item.Bank)</td>
+                <td style="text-align:center;">@Html.DisplayFor(modelItem => item.BankAccount)</td>
+                <td style="text-align:center;">@Html.DisplayFor(modelItem => item.Status)</td>
             </tr>
         }
         </tbody>
@@ -121,7 +131,23 @@
             }
         });
 
+        $("#CashAmount").blur(function () {
+            doCalculate();
+        });
     });
 
+
+    function doCalculate()
+    {
+        var feeRate = '@Model.FeeSetting';
+        var amount = $("#CashAmount").val();
+        if(feeRate.indexOf("%")>=0)
+        {
+            var fee = feeRate.replace("%", "") / 100;
+            $("#RealAmount").val(amount - amount*fee);
+        } else {
+            $("#RealAmount").val(amount - feeRate);
+        }
+    }
 
 </script>
