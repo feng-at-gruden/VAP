@@ -37,6 +37,17 @@ namespace Backend.Helper
            
             return base.AuthorizeCore(httpContext);
         }
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            if (filterContext.HttpContext.User.Identity!=null&&filterContext.HttpContext.User.Identity.IsAuthenticated)
+            {
+                filterContext.HttpContext.Response.Redirect("~/Home/UnAuthorize");
+            }
+            else
+            {
+                filterContext.HttpContext.Response.Redirect("~/Account/Login");
+            }
+        }
 
     }
 }

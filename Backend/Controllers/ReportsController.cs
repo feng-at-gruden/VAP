@@ -8,7 +8,7 @@ using Backend.Models;
 
 namespace Backend.Controllers
 {
-    [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
+    [MyAuthorize(Roles = "Admin,Finance,ClientService")]
     
     public class ReportsController : Controller
     {

@@ -11,6 +11,7 @@ using Backend.Helper;
 
 namespace Backend.Controllers
 {
+   
     public class CoinPricesController : Controller
     {
         private vapEntities1 db = new vapEntities1();
@@ -23,6 +24,7 @@ namespace Backend.Controllers
 
       
         // GET: CoinPrices/Create
+         [MyAuthorize(Roles = "Admin")]
         public ActionResult Create()
         {
             var price = db.CoinPrices.OrderByDescending(m => m.DateTime).ToList();
@@ -42,6 +44,7 @@ namespace Backend.Controllers
         // POST: CoinPrices/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+         [MyAuthorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CoinPrice model)

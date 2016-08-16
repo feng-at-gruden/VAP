@@ -17,6 +17,7 @@ namespace Backend.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
         {
+            this.BankInfoes = new HashSet<BankInfo>();
             this.BaoDanTransactions = new HashSet<BaoDanTransaction>();
             this.CashTransactions = new HashSet<CashTransaction>();
             this.ChongXiaoTransactions = new HashSet<ChongXiaoTransaction>();
@@ -24,7 +25,6 @@ namespace Backend.Models
             this.LockedCoins = new HashSet<LockedCoin>();
             this.Members1 = new HashSet<Member>();
             this.PointTransactions = new HashSet<PointTransaction>();
-            this.BankInfoes = new HashSet<BankInfo>();
         }
     
         public int Id { get; set; }
@@ -43,17 +43,19 @@ namespace Backend.Models
         public decimal Coin2 { get; set; }
         public System.DateTime RegisterTime { get; set; }
         public decimal Achievement { get; set; }
+        public string Mobile { get; set; }
         public string Status { get; set; }
         public string TiXianStatus { get; set; }
         public string TiBiStatus { get; set; }
         public Nullable<bool> IdSubmitted { get; set; }
         public Nullable<bool> IdApproved { get; set; }
+        public string IdentityPath { get; set; }
         public string ApprovedBy { get; set; }
         public Nullable<int> Referral_Id { get; set; }
         public int MemberLevel_Id { get; set; }
-        public string Mobile { get; set; }
-        public string IdentityPath { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BankInfo> BankInfoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BaoDanTransaction> BaoDanTransactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -70,7 +72,5 @@ namespace Backend.Models
         public virtual Member Member1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PointTransaction> PointTransactions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BankInfo> BankInfoes { get; set; }
     }
 }

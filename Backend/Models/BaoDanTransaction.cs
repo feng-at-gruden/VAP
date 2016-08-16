@@ -31,6 +31,7 @@ namespace Backend.Models
         public string Status { get; set; }
         public int MemberId { get; set; }
         public decimal Fee { get; set; }
+        public string Comment { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CashTransaction> CashTransactions { get; set; }

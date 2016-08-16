@@ -21,6 +21,7 @@ namespace Backend.Models
         public string Type { get; set; }
         public string Status { get; set; }
         public Nullable<int> BaoDanTransactionId { get; set; }
+        public string Comment { get; set; }
     
         public virtual BaoDanTransaction BaoDanTransaction { get; set; }
         public virtual Member Member { get; set; }

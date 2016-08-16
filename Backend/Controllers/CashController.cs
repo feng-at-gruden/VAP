@@ -12,7 +12,7 @@ using VapLib;
 
 namespace Backend.Controllers
 {
-    [MyAuthorize(Roles = "Admin,Finance,CustomerService")]
+    [MyAuthorize(Roles = "Admin,Finance")]
     public class CashController : Controller
     {
         private vapEntities1 db = new vapEntities1();
@@ -45,6 +45,7 @@ namespace Backend.Controllers
         /// 待审批现金充值记录
         /// </summary>
         /// <returns></returns>
+        [MyAuthorize(Roles = "Admin")]
         public ActionResult PendingTopups()
         {
             if (TempData.ContainsKey("ModelState"))

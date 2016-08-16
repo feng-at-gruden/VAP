@@ -13,6 +13,7 @@
 </div>
 
 <div class="formbody">
+    @Html.ValidationSummary()
     <div class="formtitle"><span>银行账号列表</span></div>
     <a href="@Url.Action("CreateBank", "Admin")" class="btn-new">添加银行账号</a>
     <table @*class="tablelist"*@ id="dataTable-Banks">
@@ -58,7 +59,7 @@
                 </tr>
             }
         </tbody>
-</table>
+    </table>
 </div>
 <script>
     $(document).ready(function () {

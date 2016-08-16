@@ -73,6 +73,10 @@ namespace Backend.Controllers
             {
                 return RedirectToAction("Index", "NoAuth");
             }*/
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
             return View(db.AspNetUsers.ToList());
         }
 
@@ -153,6 +157,9 @@ namespace Backend.Controllers
                     //record.KsId = user.KsId;
                     db.Entry(record).State = EntityState.Modified;
                     db.SaveChanges();
+                    ModelState.AddModelError("", "修改成功。");
+                    TempData["ModelState"] = ModelState;
+
 
                 }
                 return RedirectToAction("Users");
@@ -175,12 +182,19 @@ namespace Backend.Controllers
                     AddErrors(result);
                 }*/
 
+                ModelState.AddModelError("", "密码重置成功。");
+                TempData["ModelState"] = ModelState;
+
+
             }
             return RedirectToAction("Users");
         }
         public ActionResult MetaIndex()
         {
-
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
             var metas = db.SystemSettings.Where(c => c.Id > 0);
 
             return View(metas.ToList());
@@ -209,6 +223,9 @@ namespace Backend.Controllers
                     record.Value = model.Value;
                     db.Entry(record).State = EntityState.Modified;
                     db.SaveChanges();
+                    ModelState.AddModelError("", "修改成功。");
+
+                    TempData["ModelState"] = ModelState;
                 }
                 /*else
                 {
@@ -243,6 +260,10 @@ namespace Backend.Controllers
         }*/
         public ActionResult Banks()
         {
+            if (TempData.ContainsKey("ModelState"))
+            {
+                ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
+            }
             var type = VapLib.银行账户信息类型.系统账户.ToString();
             var bankInfoes = db.BankInfoes.Include(b => b.Member).Where(c => c.Type == type);
             return View(bankInfoes.ToList());
@@ -268,6 +289,9 @@ namespace Backend.Controllers
                 bankInfo.Type = VapLib.银行账户信息类型.系统账户.ToString();
                 db.BankInfoes.Add(bankInfo);
                 db.SaveChanges();
+                ModelState.AddModelError("", "添加成功。");
+
+                TempData["ModelState"] = ModelState;
                 return RedirectToAction("Banks");
             }
 
@@ -306,19 +330,24 @@ namespace Backend.Controllers
                 record.Description = bankInfo.Description;
                 db.Entry(record).State = EntityState.Modified;
                 db.SaveChanges();
+                ModelState.AddModelError("", "修改成功。");
+
+                TempData["ModelState"] = ModelState;
                 return RedirectToAction("Banks");
             }
             return View(bankInfo);
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public ActionResult DeleteBank(int id)
         {
             BankInfo bankInfo = db.BankInfoes.Find(id);
             db.BankInfoes.Remove(bankInfo);
             db.SaveChanges();
+            ModelState.AddModelError("", "删除操作成功。");
+
+            TempData["ModelState"] = ModelState;
             return RedirectToAction("Banks");
         }
 

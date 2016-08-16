@@ -82,6 +82,7 @@
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="MemberId" Type="int" Nullable="false" />
           <Property Name="Fee" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="CashTransactions">
           <Key>
@@ -102,7 +103,7 @@
           <Property Name="FileUrl" Type="nvarchar(max)" />
           <Property Name="RemitBank" Type="nvarchar(max)" />
           <Property Name="RemitUserName" Type="nvarchar(max)" />
-          <Property Name="RemitAccount" Type="nvarchar(max)" />
+          <Property Name="RemitNumber" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="ChongXiaoTransactions">
           <Key>
@@ -115,6 +116,7 @@
           <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="BaoDanTransactionId" Type="int" />
+          <Property Name="Comment" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="CoinPrices">
           <Key>
@@ -213,6 +215,7 @@
           <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="BaoDanTransactionId" Type="int" />
+          <Property Name="Comment" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="SysStatistics">
           <Key>
@@ -559,17 +562,23 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="BaoDanTransactions" EntityType="VapModel.BaoDanTransaction" />
-          <EntitySet Name="CashTransactions" EntityType="VapModel.CashTransaction" />
           <EntitySet Name="ChongXiaoTransactions" EntityType="VapModel.ChongXiaoTransaction" />
           <EntitySet Name="CoinPrices" EntityType="VapModel.CoinPrice" />
+          <EntitySet Name="MemberLevels" EntityType="VapModel.MemberLevel" />
+          <EntitySet Name="News" EntityType="VapModel.News" />
+          <EntitySet Name="SystemSettings" EntityType="VapModel.SystemSetting" />
+          <EntitySet Name="SysStatistics" EntityType="VapModel.SysStatistic" />
+          <EntitySet Name="BankInfoes" EntityType="VapModel.BankInfo" />
+          <EntitySet Name="BaoDanTransactions" EntityType="VapModel.BaoDanTransaction" />
+          <EntitySet Name="CashTransactions" EntityType="VapModel.CashTransaction" />
           <EntitySet Name="IPLogs" EntityType="VapModel.IPLog" />
           <EntitySet Name="LockedCoins" EntityType="VapModel.LockedCoin" />
-          <EntitySet Name="MemberLevels" EntityType="VapModel.MemberLevel" />
           <EntitySet Name="Members" EntityType="VapModel.Member" />
-          <EntitySet Name="News" EntityType="VapModel.News" />
           <EntitySet Name="PointTransactions" EntityType="VapModel.PointTransaction" />
-          <EntitySet Name="SystemSettings" EntityType="VapModel.SystemSetting" />
+          <AssociationSet Name="FK_MemberBankInfo" Association="VapModel.FK_MemberBankInfo">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="BankInfo" EntitySet="BankInfoes" />
+          </AssociationSet>
           <AssociationSet Name="FK_BaoDanTransactionCashTransaction" Association="VapModel.FK_BaoDanTransactionCashTransaction">
             <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
             <End Role="CashTransaction" EntitySet="CashTransactions" />
@@ -618,12 +627,6 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="PointTransaction" EntitySet="PointTransactions" />
           </AssociationSet>
-          <EntitySet Name="BankInfoes" EntityType="VapModel.BankInfo" />
-          <AssociationSet Name="FK_MemberBankInfo" Association="VapModel.FK_MemberBankInfo">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="BankInfo" EntitySet="BankInfoes" />
-          </AssociationSet>
-          <EntitySet Name="SysStatistics" EntityType="VapModel.SysStatistic" />
           </EntityContainer>
         <EntityType Name="AspNetRole">
           <Key>
@@ -707,6 +710,91 @@
           <End Type="VapModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="VapModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
+        <EntityType Name="ChongXiaoTransaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BaoDanTransactionId" Type="Int32" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionChongXiaoTransaction" FromRole="ChongXiaoTransaction" ToRole="BaoDanTransaction" />
+          <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberChongXiaoTransaction" FromRole="ChongXiaoTransaction" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="CoinPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="MemberLevel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Level" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RefundRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MemberCount" Type="Int32" Nullable="false" />
+          <Property Name="MemberAchievement" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Achievement" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Members" Relationship="VapModel.FK_MemberMemberLevel" FromRole="MemberLevel" ToRole="Member" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SystemSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Key" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SysStatistic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BaoDanBuyAmount" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="BaoDanSellAmount" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="NewMemberAmount" Type="Int16" />
+          <Property Name="TotalCashTransactionAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BeginCoinPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="EndCoinPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MaxCoinPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MinCoinPrice" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="BankInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bank" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Member_Id" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberBankInfo" FromRole="BankInfo" ToRole="Member" />
+        </EntityType>
         <EntityType Name="BaoDanTransaction">
           <Key>
             <PropertyRef Name="Id" />
@@ -719,6 +807,7 @@
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
           <Property Name="Fee" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CashTransactions" Relationship="VapModel.FK_BaoDanTransactionCashTransaction" FromRole="BaoDanTransaction" ToRole="CashTransaction" />
           <NavigationProperty Name="ChongXiaoTransactions" Relationship="VapModel.FK_BaoDanTransactionChongXiaoTransaction" FromRole="BaoDanTransaction" ToRole="ChongXiaoTransaction" />
           <NavigationProperty Name="LockedCoins" Relationship="VapModel.FK_BaoDanTransactionLockedCoin" FromRole="BaoDanTransaction" ToRole="LockedCoin" />
@@ -740,35 +829,13 @@
           <Property Name="Bank" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="BankName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="BankAccount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionCashTransaction" FromRole="CashTransaction" ToRole="BaoDanTransaction" />
-          <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberCashTransaction" FromRole="CashTransaction" ToRole="Member" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FileUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RemitBank" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RemitUserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RemitAccount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="ChongXiaoTransaction">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="MemberId" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="BaoDanTransactionId" Type="Int32" />
-          <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionChongXiaoTransaction" FromRole="ChongXiaoTransaction" ToRole="BaoDanTransaction" />
-          <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberChongXiaoTransaction" FromRole="ChongXiaoTransaction" ToRole="Member" />
-        </EntityType>
-        <EntityType Name="CoinPrice">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RemitNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionCashTransaction" FromRole="CashTransaction" ToRole="BaoDanTransaction" />
+          <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberCashTransaction" FromRole="CashTransaction" ToRole="Member" />
         </EntityType>
         <EntityType Name="IPLog">
           <Key>
@@ -797,18 +864,6 @@
           <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionLockedCoin" FromRole="LockedCoin" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberLockedCoin" FromRole="LockedCoin" ToRole="Member" />
         </EntityType>
-        <EntityType Name="MemberLevel">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Level" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="RefundRate" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="MemberCount" Type="Int32" Nullable="false" />
-          <Property Name="MemberAchievement" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Achievement" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <NavigationProperty Name="Members" Relationship="VapModel.FK_MemberMemberLevel" FromRole="MemberLevel" ToRole="Member" />
-        </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="Id" />
@@ -829,14 +884,17 @@
           <Property Name="Coin2" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
           <Property Name="RegisterTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Achievement" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Mobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TiXianStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TiBiStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IdSubmitted" Type="Boolean" />
           <Property Name="IdApproved" Type="Boolean" />
+          <Property Name="IdentityPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ApprovedBy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Referral_Id" Type="Int32" />
           <Property Name="MemberLevel_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BankInfoes" Relationship="VapModel.FK_MemberBankInfo" FromRole="Member" ToRole="BankInfo" />
           <NavigationProperty Name="BaoDanTransactions" Relationship="VapModel.FK_MemberBaoDanTransaction" FromRole="Member" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="CashTransactions" Relationship="VapModel.FK_MemberCashTransaction" FromRole="Member" ToRole="CashTransaction" />
           <NavigationProperty Name="ChongXiaoTransactions" Relationship="VapModel.FK_MemberChongXiaoTransaction" FromRole="Member" ToRole="ChongXiaoTransaction" />
@@ -846,21 +904,6 @@
           <NavigationProperty Name="Members1" Relationship="VapModel.FK_MemberMember" FromRole="Member" ToRole="Member1" />
           <NavigationProperty Name="Member1" Relationship="VapModel.FK_MemberMember" FromRole="Member1" ToRole="Member" />
           <NavigationProperty Name="PointTransactions" Relationship="VapModel.FK_MemberPointTransaction" FromRole="Member" ToRole="PointTransaction" />
-          <NavigationProperty Name="BankInfoes" Relationship="VapModel.FK_MemberBankInfo" FromRole="Member" ToRole="BankInfo" />
-          <Property Name="Mobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IdentityPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="News">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PointTransaction">
           <Key>
@@ -873,18 +916,22 @@
           <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="BaoDanTransactionId" Type="Int32" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionPointTransaction" FromRole="PointTransaction" ToRole="BaoDanTransaction" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberPointTransaction" FromRole="PointTransaction" ToRole="Member" />
         </EntityType>
-        <EntityType Name="SystemSetting">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Key" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
+        <Association Name="FK_MemberBankInfo">
+          <End Type="VapModel.Member" Role="Member" Multiplicity="0..1" />
+          <End Type="VapModel.BankInfo" Role="BankInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BankInfo">
+              <PropertyRef Name="Member_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BaoDanTransactionCashTransaction">
           <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="0..1" />
           <End Type="VapModel.CashTransaction" Role="CashTransaction" Multiplicity="*" />
@@ -1029,47 +1076,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="BankInfo">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Bank" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Account" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="URL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Member_Id" Type="Int32" />
-          <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberBankInfo" FromRole="BankInfo" ToRole="Member" />
-        </EntityType>
-        <Association Name="FK_MemberBankInfo">
-          <End Type="VapModel.Member" Role="Member" Multiplicity="0..1" />
-          <End Type="VapModel.BankInfo" Role="BankInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="BankInfo">
-              <PropertyRef Name="Member_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="SysStatistic">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BaoDanBuyAmount" Type="Decimal" Precision="18" Scale="6" />
-          <Property Name="BaoDanSellAmount" Type="Decimal" Precision="18" Scale="6" />
-          <Property Name="NewMemberAmount" Type="Int16" />
-          <Property Name="TotalCashTransactionAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BeginCoinPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="EndCoinPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MaxCoinPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MinCoinPrice" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1130,45 +1136,10 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="BaoDanTransactions">
-            <EntityTypeMapping TypeName="VapModel.BaoDanTransaction">
-              <MappingFragment StoreEntitySet="BaoDanTransactions">
-                <ScalarProperty Name="Fee" ColumnName="Fee" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CashTransactions">
-            <EntityTypeMapping TypeName="VapModel.CashTransaction">
-              <MappingFragment StoreEntitySet="CashTransactions">
-                <ScalarProperty Name="RemitAccount" ColumnName="RemitAccount" />
-                <ScalarProperty Name="RemitUserName" ColumnName="RemitUserName" />
-                <ScalarProperty Name="RemitBank" ColumnName="RemitBank" />
-                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
-                <ScalarProperty Name="BankName" ColumnName="BankName" />
-                <ScalarProperty Name="Bank" ColumnName="Bank" />
-                <ScalarProperty Name="BaoDanTransactionId" ColumnName="BaoDanTransactionId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Fee" ColumnName="Fee" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ChongXiaoTransactions">
             <EntityTypeMapping TypeName="VapModel.ChongXiaoTransaction">
               <MappingFragment StoreEntitySet="ChongXiaoTransactions">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="BaoDanTransactionId" ColumnName="BaoDanTransactionId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -1184,6 +1155,108 @@
               <MappingFragment StoreEntitySet="CoinPrices">
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MemberLevels">
+            <EntityTypeMapping TypeName="VapModel.MemberLevel">
+              <MappingFragment StoreEntitySet="MemberLevel">
+                <ScalarProperty Name="Achievement" ColumnName="Achievement" />
+                <ScalarProperty Name="MemberAchievement" ColumnName="MemberAchievement" />
+                <ScalarProperty Name="MemberCount" ColumnName="MemberCount" />
+                <ScalarProperty Name="RefundRate" ColumnName="RefundRate" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="News">
+            <EntityTypeMapping TypeName="VapModel.News">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemSettings">
+            <EntityTypeMapping TypeName="VapModel.SystemSetting">
+              <MappingFragment StoreEntitySet="SystemSettings">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysStatistics">
+            <EntityTypeMapping TypeName="VapModel.SysStatistic">
+              <MappingFragment StoreEntitySet="SysStatistics">
+                <ScalarProperty Name="MinCoinPrice" ColumnName="MinCoinPrice" />
+                <ScalarProperty Name="MaxCoinPrice" ColumnName="MaxCoinPrice" />
+                <ScalarProperty Name="EndCoinPrice" ColumnName="EndCoinPrice" />
+                <ScalarProperty Name="BeginCoinPrice" ColumnName="BeginCoinPrice" />
+                <ScalarProperty Name="TotalCashTransactionAmount" ColumnName="TotalCashTransactionAmount" />
+                <ScalarProperty Name="NewMemberAmount" ColumnName="NewMemberAmount" />
+                <ScalarProperty Name="BaoDanSellAmount" ColumnName="BaoDanSellAmount" />
+                <ScalarProperty Name="BaoDanBuyAmount" ColumnName="BaoDanBuyAmount" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BankInfoes">
+            <EntityTypeMapping TypeName="VapModel.BankInfo">
+              <MappingFragment StoreEntitySet="BankInfo">
+                <ScalarProperty Name="Member_Id" ColumnName="Member_Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Bank" ColumnName="Bank" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BaoDanTransactions">
+            <EntityTypeMapping TypeName="VapModel.BaoDanTransaction">
+              <MappingFragment StoreEntitySet="BaoDanTransactions">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Fee" ColumnName="Fee" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CashTransactions">
+            <EntityTypeMapping TypeName="VapModel.CashTransaction">
+              <MappingFragment StoreEntitySet="CashTransactions">
+                <ScalarProperty Name="RemitNumber" ColumnName="RemitNumber" />
+                <ScalarProperty Name="RemitUserName" ColumnName="RemitUserName" />
+                <ScalarProperty Name="RemitBank" ColumnName="RemitBank" />
+                <ScalarProperty Name="FileUrl" ColumnName="FileUrl" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="Bank" ColumnName="Bank" />
+                <ScalarProperty Name="BaoDanTransactionId" ColumnName="BaoDanTransactionId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Fee" ColumnName="Fee" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1214,31 +1287,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MemberLevels">
-            <EntityTypeMapping TypeName="VapModel.MemberLevel">
-              <MappingFragment StoreEntitySet="MemberLevel">
-                <ScalarProperty Name="Achievement" ColumnName="Achievement" />
-                <ScalarProperty Name="MemberAchievement" ColumnName="MemberAchievement" />
-                <ScalarProperty Name="MemberCount" ColumnName="MemberCount" />
-                <ScalarProperty Name="RefundRate" ColumnName="RefundRate" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="VapModel.Member">
               <MappingFragment StoreEntitySet="Members">
-                <ScalarProperty Name="IdentityPath" ColumnName="IdentityPath" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
                 <ScalarProperty Name="MemberLevel_Id" ColumnName="MemberLevel_Id" />
                 <ScalarProperty Name="Referral_Id" ColumnName="Referral_Id" />
                 <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="IdentityPath" ColumnName="IdentityPath" />
                 <ScalarProperty Name="IdApproved" ColumnName="IdApproved" />
                 <ScalarProperty Name="IdSubmitted" ColumnName="IdSubmitted" />
                 <ScalarProperty Name="TiBiStatus" ColumnName="TiBiStatus" />
                 <ScalarProperty Name="TiXianStatus" ColumnName="TiXianStatus" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
                 <ScalarProperty Name="Achievement" ColumnName="Achievement" />
                 <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
                 <ScalarProperty Name="Coin2" ColumnName="Coin2" />
@@ -1258,68 +1319,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="News">
-            <EntityTypeMapping TypeName="VapModel.News">
-              <MappingFragment StoreEntitySet="News">
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PointTransactions">
             <EntityTypeMapping TypeName="VapModel.PointTransaction">
               <MappingFragment StoreEntitySet="PointTransactions">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="BaoDanTransactionId" ColumnName="BaoDanTransactionId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SystemSettings">
-            <EntityTypeMapping TypeName="VapModel.SystemSetting">
-              <MappingFragment StoreEntitySet="SystemSettings">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="Key" ColumnName="Key" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BankInfoes">
-            <EntityTypeMapping TypeName="VapModel.BankInfo">
-              <MappingFragment StoreEntitySet="BankInfo">
-                <ScalarProperty Name="Member_Id" ColumnName="Member_Id" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Account" ColumnName="Account" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Bank" ColumnName="Bank" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SysStatistics">
-            <EntityTypeMapping TypeName="VapModel.SysStatistic">
-              <MappingFragment StoreEntitySet="SysStatistics">
-                <ScalarProperty Name="MinCoinPrice" ColumnName="MinCoinPrice" />
-                <ScalarProperty Name="MaxCoinPrice" ColumnName="MaxCoinPrice" />
-                <ScalarProperty Name="EndCoinPrice" ColumnName="EndCoinPrice" />
-                <ScalarProperty Name="BeginCoinPrice" ColumnName="BeginCoinPrice" />
-                <ScalarProperty Name="TotalCashTransactionAmount" ColumnName="TotalCashTransactionAmount" />
-                <ScalarProperty Name="NewMemberAmount" ColumnName="NewMemberAmount" />
-                <ScalarProperty Name="BaoDanSellAmount" ColumnName="BaoDanSellAmount" />
-                <ScalarProperty Name="BaoDanBuyAmount" ColumnName="BaoDanBuyAmount" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

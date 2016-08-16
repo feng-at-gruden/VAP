@@ -648,6 +648,7 @@
     <Content Include="Views\BaoDan\MemberSells.cshtml" />
     <Content Include="Views\BaoDan\MemberBuys.cshtml" />
     <Content Include="Views\Cash\MemberLocks.cshtml" />
+    <Content Include="Views\Home\UnAuthorize.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
