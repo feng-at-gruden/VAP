@@ -38,7 +38,7 @@ namespace MemberCenter.Controllers
 
             DateTime chartEdTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             DateTime chartStTime = chartEdTime.AddMonths(-1);
-
+            string newsType = 新闻类型.公告.ToString();
             HomeViewModel model = new HomeViewModel
             {
                 CurrentCoinPrice = currrentPrice,
@@ -88,6 +88,15 @@ namespace MemberCenter.Controllers
                                  Amount = row.BaoDanSellAmount.Value,
                                  DateTime = row.Date
                              }).Take(30),
+
+                News = (from row in db.News
+                       where row.Type == newsType
+                       orderby row.DateTime descending
+                       select new NewsViewModel
+                       {
+                           Title = row.Title,
+                           Content = row.Content,
+                       }).Take(5),
             };
 
             if (User.Identity.IsAuthenticated)
