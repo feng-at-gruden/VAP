@@ -88,7 +88,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Status = 现金状态.已审核.ToString(),
-                        Type = 现金交易类型.购币消费.ToString(),
+                        Type = 现金交易类型.购买积分.ToString(),
                         Amount = -totalCash,
                         Fee = 0,
                         BaoDanTransaction = mBaoDan,
@@ -114,7 +114,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Amount = points,
-                        Type = 积分记录类型.购币所得.ToString(),
+                        Type = 积分记录类型.购买积分.ToString(),
                         Status = 积分状态.可用.ToString(),
                         BaoDanTransaction = mBaoDan,
                     });
@@ -346,7 +346,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Amount = -model.Amount,
-                        Type = 报单类型.会员间转出.ToString(),
+                        Type = 报单类型.会员转出.ToString(),
                         Status = 报单状态.已成交.ToString(),
                         Fee = 0,
                         Comment = "转出至会员(UID:" + mUser.Id + ")",
@@ -356,7 +356,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Amount = model.Amount,
-                        Type = 报单类型.会员间转入.ToString(),
+                        Type = 报单类型.会员转入.ToString(),
                         Status = 报单状态.已成交.ToString(),
                         Fee = 0,
                         Comment = "会员(UID:" + CurrentUser.Id + ")转入",

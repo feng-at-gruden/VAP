@@ -199,7 +199,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Amount = -model.Amount,
-                        Type = 现金交易类型.会员间转出.ToString(),
+                        Type = 现金交易类型.会员转出.ToString(),
                         Status = 现金状态.已审核.ToString(),
                         Fee = 0,
                         Comment = "转出至会员(UID:" + mUser.Id + ")",
@@ -209,7 +209,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Amount = model.Amount,
-                        Type = 现金交易类型.会员间转入.ToString(),
+                        Type = 现金交易类型.会员转入.ToString(),
                         Status = 现金状态.已审核.ToString(),
                         Fee = 0,
                         Comment = "会员(UID:" + CurrentUser.Id + ")转入",

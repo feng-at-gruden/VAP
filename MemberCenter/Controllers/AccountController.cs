@@ -209,7 +209,7 @@ namespace MemberCenter.Controllers
         public ActionResult MyAccount()
         {
             IPLog iplog = CurrentUser.IPLog.OrderByDescending(m=>m.DateTime).Take(1).ToArray()[0];
-            String sType = 现金交易类型.购币消费.ToString();
+            String sType = 现金交易类型.购买积分.ToString();
             MyAccountInfoViewModel model = new MyAccountInfoViewModel
             {
                 Id = CurrentUser.Id,
