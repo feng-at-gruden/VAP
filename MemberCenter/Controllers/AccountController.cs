@@ -175,7 +175,7 @@ namespace MemberCenter.Controllers
             if (returnUrl!=null)
                 return RedirectToLocal(returnUrl);
             else
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Home");
         }
 
         //
