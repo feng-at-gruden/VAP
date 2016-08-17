@@ -24,6 +24,9 @@
                     银行
                 </th>
                 <th>
+                    汇款单号
+                </th>
+                <th>
                     申请时间
                 </th>
 
@@ -44,6 +47,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Bank)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RemitNumber)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DateTime)
