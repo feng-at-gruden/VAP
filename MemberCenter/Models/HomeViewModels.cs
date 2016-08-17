@@ -57,6 +57,8 @@ namespace MemberCenter.Models
         [Display(Name = "历史卖出数据")]
         public IEnumerable<DailyAmountViewModel> SellHistory { get; set; }
 
+        public IEnumerable<NewsViewModel> News { get; set; }
+
     }
 
 
@@ -79,5 +81,12 @@ namespace MemberCenter.Models
         [Display(Name = "日期")]
         public DateTime DateTime { get; set; }
     }
+
+    public class NewsViewModel
+    {
+        public string Title { get; set; }
+        public string Content { get; set; }
+    }
+
 
 }

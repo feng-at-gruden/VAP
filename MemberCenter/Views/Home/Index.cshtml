@@ -8,28 +8,26 @@
     ViewBag.Title = "首页";
     Layout = "~/Views/Shared/NewSkin/_LayoutHome.cshtml";
     ViewBag.ReturnUrl = "~/";
+    var newsActive = "active";
+    
 }
 
 
 <section id="main-slider" class="carousel">
     <div class="container">
         <div class="carousel-inner1 col-sm-9">
-            <div class="item active">
-                <div class="container">
-                    <div class="carousel-content" style="text-align:center;">
-                        <h1>最具投资价值的虚拟资产</h1>
-                        <p class="lead">联合通用积分是商家联盟的新型数字加密资产，整合商家电商平台形成联盟，将数字加密进行流通，变为资产。联合通用积分不仅仅可以用来购物，消费，它也是我们每个人的个人银行，具有货币功能。联合通用积分，自发行以来，每天都稳步增长，最低年收益3-5倍，公司签订合同，保证本金</p>
+            @foreach(var news in Model.News)
+            {
+                <div class="item @newsActive">
+                    <div class="container">
+                        <div class="carousel-content" style="text-align:center;">
+                            <h1>@news.Title</h1>
+                            <p class="lead">@news.Content<p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="item">
-                <div class="container">
-                    <div class="carousel-content" style="text-align:center;">
-                        <h1>最新动态</h1>
-                        <p class="lead">热烈庆祝本站全新改版上线</p>
-                    </div>
-                </div>
-            </div>
+                { newsActive = ""; }
+            }
         </div><!--/.item-->
         <div class="col-sm-3 index_login_box">
             <div class="login_box">
@@ -326,7 +324,7 @@
                     <h1>投资咨询</h1>
                     <p>如果您想更深入了解数字资产投资，请填写以下咨询表，我们会有专人与您联系。</p>
                     <div class="status alert alert-success" style="display: none"></div>
-                    <form id="main-contact-form" class="contact-form" name="contact-form" method="post" action="#" role="form">
+                    <form class="contact-form" name="contact-form" action="MAILTO:someone@example.com" method="post" enctype="text/plain">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
