@@ -64,6 +64,8 @@ namespace MemberCenter.Controllers
                         });
                         db.SaveChanges();
                         ViewBag.ActionMessage = "充值信息已提交，请等待审核！";
+                        TempData["ActionMessage"] = ViewBag.ActionMessage;
+                        return RedirectToAction("Success", "Message");
                     }catch(Exception e){
                         ModelState.AddModelError("", e.Message);
                     }
@@ -120,6 +122,8 @@ namespace MemberCenter.Controllers
                     CurrentUser.Cash1 -= model.RequestAmount;
                     db.SaveChanges();
                     ViewBag.ActionMessage = "提现申请已提交，等待审核！";
+                    TempData["ActionMessage"] = ViewBag.ActionMessage;
+                    return RedirectToAction("Success", "Message");
                 }
             }
             return View(GetCashWithdrawViewModel());
@@ -217,6 +221,8 @@ namespace MemberCenter.Controllers
 
                     db.SaveChanges();
                     ViewBag.ActionMessage = "资金转账成功！";
+                    TempData["ActionMessage"] = ViewBag.ActionMessage;
+                    return RedirectToAction("Success", "Message");
                 }
             }
             SetMyAccountViewModel();

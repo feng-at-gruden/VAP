@@ -142,6 +142,8 @@ namespace MemberCenter.Controllers
 
                     db.SaveChanges();
                     ViewBag.ActionMessage = "报单成功！";
+                    TempData["ActionMessage"] = ViewBag.ActionMessage;
+                    return RedirectToAction("Success", "Message");
                 }
                 catch (DbEntityValidationException dbEx)
                 {
@@ -196,7 +198,8 @@ namespace MemberCenter.Controllers
                     CurrentUser.Coin1 -= model.RequestAmount;
                     db.SaveChanges();
                     ViewBag.ActionMessage = "报单已提交，等待审核！";
-
+                    TempData["ActionMessage"] = ViewBag.ActionMessage;
+                    return RedirectToAction("Success", "Message");
                     //NOTE: Admin后台操作， (1)审核通过BaoDanTransaction记录, (2)增加CashTransaction记录, (3)更新Member.Cash2 
                 }
             }
@@ -365,6 +368,8 @@ namespace MemberCenter.Controllers
 
                     db.SaveChanges();
                     ViewBag.ActionMessage = "积分转账成功！";
+                    TempData["ActionMessage"] = ViewBag.ActionMessage;
+                    return RedirectToAction("Success", "Message");
                 }
             }
             SetMyAccountViewModel();

@@ -54,11 +54,12 @@ $(function(){
                 <span><img src="~/images/leftico04.png" /></span>资产管理
             </div>
             <ul class="menuson" id="cashParent">
-                <li><cite></cite><a href="@Url.Action("PendingTopups","Cash")">现金充值审核</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("PendingWithdraws","Cash")">现金提现审核</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("PendingSells","BaoDan")">联合通用积分提现审核</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("GetBaodanTrans","BaoDan")">联合通用积分交易查询</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("CashTrans","Cash")">奖金积分操作记录查询</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("PendingTopups","Cash")">资金充值审核</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("PendingWithdraws","Cash")">提现申请审核</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("CashTrans","Cash")">资金操作记录查询</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("PendingSells","BaoDan")">通用积分出售审核</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("GetBaodanTrans","BaoDan")">通用积分交易查询</a><i></i></li>
+                
             </ul>
         </dd>
         <dd>
@@ -71,11 +72,11 @@ $(function(){
         </dd>
         <dd>
             <div class="title">
-                <span><img src="~/images/leftico03.png" /></span>电子货币管理
+                <span><img src="~/images/leftico03.png" /></span>通用积分管理
             </div>
             <ul class="menuson" id="coinParent">
                 <li><cite></cite><a href="@Url.Action("Index","CoinPrices")">历史价格</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create", "CoinPrices")">价格调整</a><i></i></li>
+                <li><cite></cite><a href="@Url.Action("Create", "CoinPrices")">积分价格调整</a><i></i></li>
             </ul>
         </dd>
         <dd>

@@ -197,6 +197,7 @@
     <Compile Include="Controllers\BaoDanController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Extensions\Extensions.cs" />
@@ -2241,6 +2242,7 @@
     <Content Include="Views\Transaction\Transfer.cshtml" />
     <Content Include="Views\Store\PointHistory.cshtml" />
     <Content Include="Views\Store\ChongXiaoHistory.cshtml" />
+    <Content Include="Views\Message\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
