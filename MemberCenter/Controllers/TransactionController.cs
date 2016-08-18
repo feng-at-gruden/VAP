@@ -64,6 +64,8 @@ namespace MemberCenter.Controllers
                         });
                         db.SaveChanges();
                         ViewBag.ActionMessage = "充值信息已提交，请等待审核！";
+                        TempData["ActionMessage"] = ViewBag.ActionMessage;
+                        return RedirectToAction("Success", "Message");
                     }catch(Exception e){
                         ModelState.AddModelError("", e.Message);
                     }
@@ -120,6 +122,8 @@ namespace MemberCenter.Controllers
                     CurrentUser.Cash1 -= model.RequestAmount;
                     db.SaveChanges();
                     ViewBag.ActionMessage = "提现申请已提交，等待审核！";
+                    TempData["ActionMessage"] = ViewBag.ActionMessage;
+                    return RedirectToAction("Success", "Message");
                 }
             }
             return View(GetCashWithdrawViewModel());
@@ -195,7 +199,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Amount = -model.Amount,
-                        Type = 现金交易类型.会员间转出.ToString(),
+                        Type = 现金交易类型.会员转出.ToString(),
                         Status = 现金状态.已审核.ToString(),
                         Fee = 0,
                         Comment = "转出至会员(UID:" + mUser.Id + ")",
@@ -205,7 +209,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Amount = model.Amount,
-                        Type = 现金交易类型.会员间转入.ToString(),
+                        Type = 现金交易类型.会员转入.ToString(),
                         Status = 现金状态.已审核.ToString(),
                         Fee = 0,
                         Comment = "会员(UID:" + CurrentUser.Id + ")转入",
@@ -217,6 +221,8 @@ namespace MemberCenter.Controllers
 
                     db.SaveChanges();
                     ViewBag.ActionMessage = "资金转账成功！";
+                    TempData["ActionMessage"] = ViewBag.ActionMessage;
+                    return RedirectToAction("Success", "Message");
                 }
             }
             SetMyAccountViewModel();

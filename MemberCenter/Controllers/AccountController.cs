@@ -35,7 +35,7 @@ namespace MemberCenter.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [CaptchaMvc.Attributes.CaptchaVerify("验证码错误")]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace MemberCenter.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [CaptchaMvc.Attributes.CaptchaVerify("验证码错误")]
-        public async Task<ActionResult> Register(RegisterViewModel model, int? referral)
+        public ActionResult Register(RegisterViewModel model, int? referral)
         {
             if (ModelState.IsValid)
             {
@@ -175,7 +175,7 @@ namespace MemberCenter.Controllers
             if (returnUrl!=null)
                 return RedirectToLocal(returnUrl);
             else
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Home");
         }
 
         //
@@ -209,7 +209,7 @@ namespace MemberCenter.Controllers
         public ActionResult MyAccount()
         {
             IPLog iplog = CurrentUser.IPLog.OrderByDescending(m=>m.DateTime).Take(1).ToArray()[0];
-            String sType = 现金交易类型.购币消费.ToString();
+            String sType = 现金交易类型.购买积分.ToString();
             MyAccountInfoViewModel model = new MyAccountInfoViewModel
             {
                 Id = CurrentUser.Id,
@@ -254,7 +254,7 @@ namespace MemberCenter.Controllers
         // POST: /Account/EditMyAccount
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditMyAccount(MyAccountInfoViewModel model)
+        public ActionResult EditMyAccount(MyAccountInfoViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -263,10 +263,12 @@ namespace MemberCenter.Controllers
                 CurrentUser.UserName = model.UserName;
                 CurrentUser.RealName = model.RealName;
                 CurrentUser.Mobile = model.Mobile;
-                CurrentUser.IdentityPath = filePath;
+                CurrentUser.IdentityPath = filePath != "" ? filePath : CurrentUser.IdentityPath;
 
                 db.SaveChanges();
-                ViewBag.ActionMessage = "更新成功!";
+                ViewBag.ActionMessage = "个人资料更新成功!";
+                TempData["ActionMessage"] = ViewBag.ActionMessage;
+                return RedirectToAction("Success", "Message");
             }
             SetMyAccountViewModel();
             return View(model);
@@ -303,6 +305,7 @@ namespace MemberCenter.Controllers
             if (TempData["ActionMessage"] != null)
             {
                 ViewBag.ActionMessage = TempData["ActionMessage"];
+                return RedirectToAction("Success", "Message");
             }
             SetMyAccountViewModel();
             return View(model);
@@ -311,7 +314,7 @@ namespace MemberCenter.Controllers
         //
         // POST: /Account/UpdatePassword
         [HttpPost]
-        public async Task<ActionResult> UpdatePassword(ChangePasswordViewModel model)
+        public ActionResult UpdatePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -344,6 +347,7 @@ namespace MemberCenter.Controllers
                 db.SaveChanges();
                 ViewBag.ActionMessage = pwdType + "更新成功!";
                 TempData["ActionMessage"] = ViewBag.ActionMessage;
+                return RedirectToAction("Success", "Message");
             }
             TempData["ModelState"] = ModelState;
             SetMyAccountViewModel();
@@ -353,7 +357,7 @@ namespace MemberCenter.Controllers
         //
         // POST: /Account/BankInfo
         [HttpPost]
-        public async Task<ActionResult> BankInfo(BankInfoViewModel model)
+        public ActionResult BankInfo(BankInfoViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -380,6 +384,7 @@ namespace MemberCenter.Controllers
                 db.SaveChanges();
                 ViewBag.ActionMessage = "银行账户信息更新成功!";
                 TempData["ActionMessage"] = ViewBag.ActionMessage;
+                return RedirectToAction("Success", "Message");
             }
             TempData["ModelState"] = ModelState;
             SetMyAccountViewModel();

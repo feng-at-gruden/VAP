@@ -97,7 +97,7 @@ namespace Backend.Controllers
                     member.CashTransactions.Add(new CashTransaction
                     {
                         DateTime = DateTime.Now,
-                        Type = 现金交易类型.售币所得.ToString(),
+                        Type = 现金交易类型.积分出售.ToString(),
                         Status = 现金状态.解冻.ToString(),
                         Amount = tempAmount,
                         Fee = 0m,
