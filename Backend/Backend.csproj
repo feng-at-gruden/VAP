@@ -548,6 +548,7 @@
     </Content>
     <Content Include="Environment.UAT.config" />
     <Content Include="Environment.PROD.config" />
+    <None Include="Properties\PublishProfiles\PROD.pubxml" />
     <None Include="Properties\PublishProfiles\UAT.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart.min.js" />

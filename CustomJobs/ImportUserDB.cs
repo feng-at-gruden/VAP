@@ -19,9 +19,9 @@ namespace CustomJobs
             string fileName = args[0];
             DataTable content = OpenCSV(fileName);
 
-            bool Step1 = false;
-            bool Step2 = false;
-            bool Step3 = false;
+            bool Step1 = true;
+            bool Step2 = true;
+            bool Step3 = true;
             bool Step4 = true;
 
 

@@ -2183,6 +2183,7 @@
     <Content Include="Content\new-skin\login\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\new-skin\login\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\new-skin\login\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\PROD.pubxml" />
     <None Include="Properties\PublishProfiles\UAT.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
