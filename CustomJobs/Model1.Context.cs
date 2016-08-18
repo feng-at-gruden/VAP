@@ -33,7 +33,7 @@ namespace CustomJobs
         public virtual DbSet<IPLogs> IPLogs { get; set; }
         public virtual DbSet<LockedCoins> LockedCoins { get; set; }
         public virtual DbSet<MemberLevel> MemberLevel { get; set; }
-        public virtual DbSet<Members> Members { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<News> News { get; set; }
         public virtual DbSet<PaymentMethods> PaymentMethods { get; set; }
         public virtual DbSet<PointTransactions> PointTransactions { get; set; }

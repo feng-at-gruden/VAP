@@ -12,9 +12,9 @@ namespace CustomJobs
     using System;
     using System.Collections.Generic;
     
-    public partial class Members
+    public partial class Member
     {
-        public Members()
+        public Member()
         {
             this.BankInfo = new HashSet<BankInfo>();
             this.BaoDanTransactions = new HashSet<BaoDanTransactions>();
@@ -22,7 +22,7 @@ namespace CustomJobs
             this.ChongXiaoTransactions = new HashSet<ChongXiaoTransactions>();
             this.IPLogs = new HashSet<IPLogs>();
             this.LockedCoins = new HashSet<LockedCoins>();
-            this.Members1 = new HashSet<Members>();
+            this.MyMembers = new HashSet<Member>();
             this.PointTransactions = new HashSet<PointTransactions>();
         }
     
@@ -60,8 +60,8 @@ namespace CustomJobs
         public virtual ICollection<IPLogs> IPLogs { get; set; }
         public virtual ICollection<LockedCoins> LockedCoins { get; set; }
         public virtual MemberLevel MemberLevel { get; set; }
-        public virtual ICollection<Members> Members1 { get; set; }
-        public virtual Members Members2 { get; set; }
+        public virtual ICollection<Member> MyMembers { get; set; }
+        public virtual Member Referral { get; set; }
         public virtual ICollection<PointTransactions> PointTransactions { get; set; }
     }
 }

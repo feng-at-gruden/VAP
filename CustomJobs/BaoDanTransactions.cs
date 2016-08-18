@@ -36,6 +36,6 @@ namespace CustomJobs
         public virtual ICollection<ChongXiaoTransactions> ChongXiaoTransactions { get; set; }
         public virtual ICollection<LockedCoins> LockedCoins { get; set; }
         public virtual ICollection<PointTransactions> PointTransactions { get; set; }
-        public virtual Members Members { get; set; }
+        public virtual Member Members { get; set; }
     }
 }

@@ -89,10 +89,10 @@
     <Compile Include="LockedCoins.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="MemberLevel.cs">
+    <Compile Include="Member.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Members.cs">
+    <Compile Include="MemberLevel.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Model1.Context.cs">

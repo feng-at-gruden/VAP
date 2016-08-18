@@ -20,6 +20,6 @@ namespace CustomJobs
         public System.DateTime DateTime { get; set; }
         public int MemberId { get; set; }
     
-        public virtual Members Members { get; set; }
+        public virtual Member Members { get; set; }
     }
 }

@@ -546,7 +546,7 @@
           <Property Name="Achievement" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <NavigationProperty Name="Members" Relationship="Self.FK_MemberMemberLevel" FromRole="MemberLevel" ToRole="Members" />
         </EntityType>
-        <EntityType Name="Members">
+        <EntityType Name="Member">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -583,8 +583,8 @@
           <NavigationProperty Name="IPLogs" Relationship="Self.FK_MemberIPLog" FromRole="Members" ToRole="IPLogs" />
           <NavigationProperty Name="LockedCoins" Relationship="Self.FK_MemberLockedCoin" FromRole="Members" ToRole="LockedCoins" />
           <NavigationProperty Name="MemberLevel" Relationship="Self.FK_MemberMemberLevel" FromRole="Members" ToRole="MemberLevel" />
-          <NavigationProperty Name="Members1" Relationship="Self.FK_MemberMember" FromRole="Members" ToRole="Members1" />
-          <NavigationProperty Name="Members2" Relationship="Self.FK_MemberMember" FromRole="Members1" ToRole="Members" />
+          <NavigationProperty Name="MyMembers" Relationship="Self.FK_MemberMember" FromRole="Members" ToRole="Members1" />
+          <NavigationProperty Name="Referral" Relationship="Self.FK_MemberMember" FromRole="Members1" ToRole="Members" />
           <NavigationProperty Name="PointTransactions" Relationship="Self.FK_MemberPointTransaction" FromRole="Members" ToRole="PointTransactions" />
         </EntityType>
         <EntityType Name="News">
@@ -649,7 +649,7 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_MemberBankInfo">
-          <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
+          <End Role="Members" Type="VapModel.Member" Multiplicity="0..1" />
           <End Role="BankInfo" Type="Self.BankInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Members">
@@ -709,7 +709,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MemberBaoDanTransaction">
-          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Members" Type="VapModel.Member" Multiplicity="1" />
           <End Role="BaoDanTransactions" Type="Self.BaoDanTransactions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Members">
@@ -721,7 +721,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MemberCashTransaction">
-          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Members" Type="VapModel.Member" Multiplicity="1" />
           <End Role="CashTransactions" Type="Self.CashTransactions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Members">
@@ -733,7 +733,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MemberChongXiaoTransaction">
-          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Members" Type="VapModel.Member" Multiplicity="1" />
           <End Role="ChongXiaoTransactions" Type="Self.ChongXiaoTransactions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Members">
@@ -745,7 +745,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MemberIPLog">
-          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Members" Type="VapModel.Member" Multiplicity="1" />
           <End Role="IPLogs" Type="Self.IPLogs" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Members">
@@ -757,7 +757,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MemberLockedCoin">
-          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Members" Type="VapModel.Member" Multiplicity="1" />
           <End Role="LockedCoins" Type="Self.LockedCoins" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Members">
@@ -770,7 +770,7 @@
         </Association>
         <Association Name="FK_MemberMemberLevel">
           <End Role="MemberLevel" Type="Self.MemberLevel" Multiplicity="1" />
-          <End Role="Members" Type="Self.Members" Multiplicity="*" />
+          <End Role="Members" Type="VapModel.Member" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MemberLevel">
               <PropertyRef Name="Id" />
@@ -781,8 +781,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MemberMember">
-          <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
-          <End Role="Members1" Type="Self.Members" Multiplicity="*" />
+          <End Role="Members" Type="VapModel.Member" Multiplicity="0..1" />
+          <End Role="Members1" Type="VapModel.Member" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Members">
               <PropertyRef Name="Id" />
@@ -793,7 +793,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MemberPointTransaction">
-          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="Members" Type="VapModel.Member" Multiplicity="1" />
           <End Role="PointTransactions" Type="Self.PointTransactions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Members">
@@ -813,7 +813,7 @@
           <EntitySet Name="IPLogs" EntityType="Self.IPLogs" />
           <EntitySet Name="LockedCoins" EntityType="Self.LockedCoins" />
           <EntitySet Name="MemberLevel" EntityType="Self.MemberLevel" />
-          <EntitySet Name="Members" EntityType="Self.Members" />
+          <EntitySet Name="Members" EntityType="VapModel.Member" />
           <EntitySet Name="News" EntityType="Self.News" />
           <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethods" />
           <EntitySet Name="PointTransactions" EntityType="Self.PointTransactions" />
@@ -991,7 +991,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Members">
-            <EntityTypeMapping TypeName="VapModel.Members">
+            <EntityTypeMapping TypeName="VapModel.Member">
               <MappingFragment StoreEntitySet="Members">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

@@ -23,6 +23,6 @@ namespace CustomJobs
         public string Type { get; set; }
         public Nullable<int> Member_Id { get; set; }
     
-        public virtual Members Members { get; set; }
+        public virtual Member Members { get; set; }
     }
 }

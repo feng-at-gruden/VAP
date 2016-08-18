@@ -32,6 +32,6 @@ namespace CustomJobs
         public string RemitNumber { get; set; }
     
         public virtual BaoDanTransactions BaoDanTransactions { get; set; }
-        public virtual Members Members { get; set; }
+        public virtual Member Members { get; set; }
     }
 }

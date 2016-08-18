@@ -16,7 +16,7 @@ namespace CustomJobs
     {
         public MemberLevel()
         {
-            this.Members = new HashSet<Members>();
+            this.Members = new HashSet<Member>();
         }
     
         public int Id { get; set; }
@@ -26,6 +26,6 @@ namespace CustomJobs
         public decimal MemberAchievement { get; set; }
         public decimal Achievement { get; set; }
     
-        public virtual ICollection<Members> Members { get; set; }
+        public virtual ICollection<Member> Members { get; set; }
     }
 }

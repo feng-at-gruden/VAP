@@ -19,10 +19,16 @@ namespace CustomJobs
             string fileName = args[0];
             DataTable content = OpenCSV(fileName);
 
-            //Import users;     //7181, 4579, 81025
             bool Step1 = false;
+            bool Step2 = false;
+            bool Step3 = false;
+            bool Step4 = true;
+
+
+            //Import users;     //7181, 4579, 81025
             if (Step1)
             {
+                Console.WriteLine("====================== Step 1 ======================");
                 foreach (DataRow dr in content.Rows)
                 {
                     var userName = dr["网号"].ToString();
@@ -32,17 +38,17 @@ namespace CustomJobs
                     var chongXiao = decimal.Parse(dr["重复消费"].ToString());
                     var coin1 = decimal.Parse(dr["溢出联合积分"].ToString());
                     var coin2 = decimal.Parse(dr["联合积分"].ToString());
-                    var cash1 = decimal.Parse(dr["可用资金"].ToString());
-                    var cash2 = 0m;
-                    var status = 会员状态.正常.ToString();
+                    var cash1 = decimal.Parse(dr["电子货币"].ToString());
                     var password1 = "123456";
                     var password2 = "654321";
                     var realName = dr["姓名"].ToString();
                     var phone = dr["电话"].ToString();
                     var email = dr["Email"].ToString();
                     var referral = dr["推荐用户"].ToString();
+                    var s = dr["公司确认"].ToString();
+                    var status = s.Equals("Y", StringComparison.InvariantCultureIgnoreCase) ? 会员状态.正常.ToString() : 会员状态.待审核.ToString();
 
-                    db.Members.Add(new Members
+                    db.Members.Add(new Member
                     {
                         UserName = userName,
                         Email = email,
@@ -69,16 +75,16 @@ namespace CustomJobs
             }
 
             //Update referral 
-            bool Step2 = true;
             if (Step2)
             {
+                Console.WriteLine("====================== Step 2 ======================");
                 foreach (DataRow dr in content.Rows)
                 {
                     var userName = dr["网号"].ToString();
                     var referral = dr["推荐用户"].ToString();
 
-                    Members member = db.Members.SingleOrDefault(m => m.UserName == userName);
-                    Members mReferral = db.Members.SingleOrDefault(m => m.UserName == referral);
+                    Member member = db.Members.SingleOrDefault(m => m.UserName == userName);
+                    Member mReferral = db.Members.SingleOrDefault(m => m.UserName == referral);
                     if (member.Referral_Id == null && mReferral != null)
                     {
                         member.Referral_Id = mReferral.Id;
@@ -91,53 +97,82 @@ namespace CustomJobs
 
             //Insert Baodan buy record
             //Insert lock coins record
-            bool Step3 = false;
             if (Step3)
             {
+                Console.WriteLine("====================== Step 3 ======================");
                 foreach (DataRow dr in content.Rows)
                 {
                     var userName = dr["网号"].ToString();
                     var buyPrice = decimal.Parse(dr["购买价格"].ToString());
                     var lastPrice = decimal.Parse(dr["上次溢出价格"].ToString());
-                    var coin1 = decimal.Parse(dr["可用积分"].ToString());
-                    var coin2 = decimal.Parse(dr["冻结积分"].ToString());
+                    var coin1 = decimal.Parse(dr["溢出联合积分"].ToString());
+                    var coin2 = decimal.Parse(dr["联合积分"].ToString());
 
-                    Members member = db.Members.SingleOrDefault(m => m.UserName == userName);
-                    if(member != null)
+                    if (coin1 > 0 || coin2 > 0)
                     {
-                        BaoDanTransactions mBaoDan = new BaoDanTransactions
+                        Member member = db.Members.SingleOrDefault(m => m.UserName == userName);
+                        if (member != null)
                         {
-                            DateTime = DateTime.Now,
-                            Amount = coin1 + coin2,
-                            Price = buyPrice,
-                            Fee = 0,
-                            Status = 报单状态.已成交.ToString(),
-                            Type = 报单类型.买入.ToString(),
-                        };
-                        member.BaoDanTransactions.Add(mBaoDan);
+                            BaoDanTransactions mBaoDan = new BaoDanTransactions
+                            {
+                                DateTime = DateTime.Now,
+                                Amount = coin1 + coin2,
+                                Price = buyPrice,
+                                Fee = 0,
+                                Status = 报单状态.已成交.ToString(),
+                                Type = 报单类型.买入.ToString(),
+                            };
+                            member.BaoDanTransactions.Add(mBaoDan);
 
-                        member.LockedCoins.Add(new LockedCoins
-                        {
-                            Price = buyPrice,
-                            LastPrice = lastPrice,
-                            NextPrice = Math.Ceiling(lastPrice * 1.05m * 100) / 100,
-                            TotalAmount = coin1 + coin2,
-                            LockedAmount = coin2,
-                            AvailabeAmount = coin1,
-                            BaoDanTransactions = mBaoDan,
-                        });
-                        db.SaveChanges();
-                        Console.WriteLine(userName + " - BaoDan updated");
+                            member.LockedCoins.Add(new LockedCoins
+                            {
+                                Price = buyPrice,
+                                LastPrice = lastPrice,
+                                NextPrice = Math.Ceiling(lastPrice * 1.05m * 100) / 100,
+                                TotalAmount = coin1 + coin2,
+                                LockedAmount = coin2,
+                                AvailabeAmount = coin1,
+                                BaoDanTransactions = mBaoDan,
+                            });
+                            db.SaveChanges();
+                            Console.WriteLine(userName + " - BaoDan updated");
+                        }
                     }
                 }
             }
             
             //Update achievement
+            if (Step4)
+            {
+                Console.WriteLine("====================== Step 4 ======================");
+                foreach (DataRow dr in content.Rows)
+                {
+                    var userName = dr["网号"].ToString();
+                    var achievement = decimal.Parse(dr["兑换券"].ToString());
+                    Member member = db.Members.SingleOrDefault(m => m.UserName == userName);
+                    if (member != null)
+                    {
+                        UpdateReferralAchievement(member, achievement);
+                        Console.WriteLine(userName + " - Referral achievement updated");
+                    }
+                }
+                db.SaveChanges();
+            }
 
             if (db != null)
             {
                 db.Dispose();
                 db = null;
+            }
+        }
+
+        private static void UpdateReferralAchievement(Member member, decimal amount)
+        {
+            Member referral = member.Referral;
+            if(referral !=null )
+            {
+                referral.Achievement += amount;
+                UpdateReferralAchievement(referral, amount);
             }
         }
 
