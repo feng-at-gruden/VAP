@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.List<Backend.Models.CashTransaction>
+﻿@model IEnumerable<Backend.Models.LockedCoinViewModel>
 
 @{
     ViewBag.Title = "积分冻结记录";
@@ -14,15 +14,23 @@
             <tr>
 
                 <th>
-                    金额
+                    总量
                 </th>
                 <th>
-                    交易类型
+                    冻结数量
                 </th>
                 <th>
-                    状态
+                    可用数量
                 </th>
-               
+                <th>
+                    买入价格
+                </th>
+                <th>
+                    上次解冻价格
+                </th>
+                <th>
+                    下次解冻价格
+                </th>
                 <th>
                     时间
                 </th>
@@ -36,19 +44,27 @@
                 <tr>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.Amount)
+                        @Html.DisplayFor(modelItem => item.TotalAmount)
                     </td>
 
                    
                     <td>
-                        @Html.DisplayFor(modelItem => item.Type)
+                        @Html.DisplayFor(modelItem => item.LockedAmount)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Status)
+                        @Html.DisplayFor(modelItem => item.AvailableAmount)
                     </td>
-                    
                     <td>
-                        @Html.DisplayFor(modelItem => item.DateTime)
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NextPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BaoDanTime)
                     </td>
                     
                         <td>

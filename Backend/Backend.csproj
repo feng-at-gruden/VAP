@@ -236,6 +236,7 @@
     <Compile Include="Models\PointTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LockedCoinViewModel.cs" />
     <Compile Include="Models\ReportViewModels.cs" />
     <Compile Include="Models\SysStatistic.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>

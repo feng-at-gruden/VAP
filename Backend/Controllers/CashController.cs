@@ -69,24 +69,28 @@ namespace Backend.Controllers
             {
                 ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
             }
-            var status = 现金状态.冻结.ToString();
+            //var status = 现金状态.冻结.ToString();
             //var type = 现金交易类型.充值.ToString();
-            var cashtransactions = db.CashTransactions.Where(c => c.MemberId == memberId
-                                                                  && c.Status == status)
-                                                                  .OrderBy(c => c.DateTime);
-            return View(cashtransactions.ToList());
+            var lockedCv = db.LockedCoins.Where(c => c.MemberId == memberId
+                                                && c.LockedAmount >0).ToList()
+                                                .Select(c=>new LockedCoinViewModel(c));
+
+            return View(lockedCv);
         }
         public ActionResult UnlockCashTrans(int id)
         {
-           
-            var record = db.CashTransactions.Find(id);
+
+            var record = db.LockedCoins.Find(id);
             var member = db.Members.Find(record.MemberId);
-            if(record.Status==现金状态.冻结.ToString())
+            if(record.LockedAmount>0)
             {
+                var amount = record.LockedAmount;
+                record.AvailabeAmount = record.TotalAmount;
+                record.LockedAmount = 0;
                 
-                member.Cash1 += record.Amount;
-                member.Cash2 -= record.Amount;
-                record.Status = VapLib.现金状态.解冻.ToString();
+               
+                member.Coin1 += amount;
+                member.Coin2 -= amount;
 
                 db.Entry(member).State = EntityState.Modified;
                 db.Entry(record).State = EntityState.Modified;
