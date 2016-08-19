@@ -147,7 +147,7 @@ namespace Backend.Controllers
             for (int i = 0; i < rst.Count; i++)
             {
                 sb.Append("{\"id\":\"" + rst[i].Id+"|"+ rst[i].Achievement+"|"+rst[i].MemberLevel.Level
-                    + "|" + rst[i].Cash1 + "|" + rst[i].Coin1);
+                    + "|" + rst[i].Cash1 + "|" + rst[i].Coin1 + "|" + rst[i].RegisterTime.ToString("yyyy/MM/dd") + "|" + rst[i].Coin2);
                 sb.Append("\",\"text\":\"" + rst[i].Email + "\"");
                 //sb.Append("\",\"info\":\"" + rst[i].Achievement+"|"+rst[i].MemberLevel.Level + "\"");
                 

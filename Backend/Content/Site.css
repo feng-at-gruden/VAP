@@ -530,3 +530,13 @@ table.dataTable thead .sorting_desc_disabled {
 .field-validation-error{ font-weight: bold; color: #f00;margin-bottom: 10px; } 
 
 .hide{display:none;}
+.memberInfo{
+    float: right;
+    width: auto;
+    background-color: #eee;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    border: solid 1px #ccc;
+}   
