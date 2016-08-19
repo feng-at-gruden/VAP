@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VapModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="VapModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -77,7 +77,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="6" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="3" />
           <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="MemberId" Type="int" Nullable="false" />
@@ -123,7 +123,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="3" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="IPLogs">
@@ -141,9 +141,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LastPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="NextPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="LastPrice" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="NextPrice" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="3" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="LockedAmount" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="AvailabeAmount" Type="decimal" Precision="18" Scale="6" Nullable="false" />
@@ -227,10 +227,10 @@
           <Property Name="BaoDanSellAmount" Type="decimal" Precision="18" Scale="6" />
           <Property Name="NewMemberAmount" Type="smallint" />
           <Property Name="TotalCashTransactionAmount" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="BeginCoinPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="EndCoinPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="MaxCoinPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="MinCoinPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BeginCoinPrice" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="EndCoinPrice" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="MaxCoinPrice" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="MinCoinPrice" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <EntityType Name="SystemSettings">
           <Key>
@@ -572,7 +572,6 @@
           <EntitySet Name="BaoDanTransactions" EntityType="VapModel.BaoDanTransaction" />
           <EntitySet Name="CashTransactions" EntityType="VapModel.CashTransaction" />
           <EntitySet Name="IPLogs" EntityType="VapModel.IPLog" />
-          <EntitySet Name="LockedCoins" EntityType="VapModel.LockedCoin" />
           <EntitySet Name="Members" EntityType="VapModel.Member" />
           <EntitySet Name="PointTransactions" EntityType="VapModel.PointTransaction" />
           <AssociationSet Name="FK_MemberBankInfo" Association="VapModel.FK_MemberBankInfo">
@@ -586,10 +585,6 @@
           <AssociationSet Name="FK_BaoDanTransactionChongXiaoTransaction" Association="VapModel.FK_BaoDanTransactionChongXiaoTransaction">
             <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
             <End Role="ChongXiaoTransaction" EntitySet="ChongXiaoTransactions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BaoDanTransactionLockedCoin" Association="VapModel.FK_BaoDanTransactionLockedCoin">
-            <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
-            <End Role="LockedCoin" EntitySet="LockedCoins" />
           </AssociationSet>
           <AssociationSet Name="FK_BaoDanTransactionPointTransaction" Association="VapModel.FK_BaoDanTransactionPointTransaction">
             <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
@@ -611,10 +606,6 @@
             <End Role="Member" EntitySet="Members" />
             <End Role="IPLog" EntitySet="IPLogs" />
           </AssociationSet>
-          <AssociationSet Name="FK_MemberLockedCoin" Association="VapModel.FK_MemberLockedCoin">
-            <End Role="Member" EntitySet="Members" />
-            <End Role="LockedCoin" EntitySet="LockedCoins" />
-          </AssociationSet>
           <AssociationSet Name="FK_MemberMemberLevel" Association="VapModel.FK_MemberMemberLevel">
             <End Role="MemberLevel" EntitySet="MemberLevels" />
             <End Role="Member" EntitySet="Members" />
@@ -626,6 +617,15 @@
           <AssociationSet Name="FK_MemberPointTransaction" Association="VapModel.FK_MemberPointTransaction">
             <End Role="Member" EntitySet="Members" />
             <End Role="PointTransaction" EntitySet="PointTransactions" />
+          </AssociationSet>
+          <EntitySet Name="LockedCoins" EntityType="VapModel.LockedCoin" />
+          <AssociationSet Name="FK_BaoDanTransactionLockedCoin" Association="VapModel.FK_BaoDanTransactionLockedCoin">
+            <End Role="BaoDanTransaction" EntitySet="BaoDanTransactions" />
+            <End Role="LockedCoin" EntitySet="LockedCoins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MemberLockedCoin" Association="VapModel.FK_MemberLockedCoin">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="LockedCoin" EntitySet="LockedCoins" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AspNetRole">
@@ -730,7 +730,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="MemberLevel">
@@ -776,10 +776,10 @@
           <Property Name="BaoDanSellAmount" Type="Decimal" Precision="18" Scale="6" />
           <Property Name="NewMemberAmount" Type="Int16" />
           <Property Name="TotalCashTransactionAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BeginCoinPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="EndCoinPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MaxCoinPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MinCoinPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BeginCoinPrice" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="EndCoinPrice" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="MaxCoinPrice" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="MinCoinPrice" Type="Decimal" Precision="18" Scale="3" />
         </EntityType>
         <EntityType Name="BankInfo">
           <Key>
@@ -802,7 +802,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
           <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
@@ -810,9 +810,9 @@
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="CashTransactions" Relationship="VapModel.FK_BaoDanTransactionCashTransaction" FromRole="BaoDanTransaction" ToRole="CashTransaction" />
           <NavigationProperty Name="ChongXiaoTransactions" Relationship="VapModel.FK_BaoDanTransactionChongXiaoTransaction" FromRole="BaoDanTransaction" ToRole="ChongXiaoTransaction" />
-          <NavigationProperty Name="LockedCoins" Relationship="VapModel.FK_BaoDanTransactionLockedCoin" FromRole="BaoDanTransaction" ToRole="LockedCoin" />
           <NavigationProperty Name="PointTransactions" Relationship="VapModel.FK_BaoDanTransactionPointTransaction" FromRole="BaoDanTransaction" ToRole="PointTransaction" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="Member" />
+          <NavigationProperty Name="LockedCoins" Relationship="VapModel.FK_BaoDanTransactionLockedCoin" FromRole="BaoDanTransaction" ToRole="LockedCoin" />
         </EntityType>
         <EntityType Name="CashTransaction">
           <Key>
@@ -847,22 +847,6 @@
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberIPLog" FromRole="IPLog" ToRole="Member" />
-        </EntityType>
-        <EntityType Name="LockedCoin">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="NextPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
-          <Property Name="LockedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
-          <Property Name="AvailabeAmount" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
-          <Property Name="MemberId" Type="Int32" Nullable="false" />
-          <Property Name="BaoDanTransaction_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionLockedCoin" FromRole="LockedCoin" ToRole="BaoDanTransaction" />
-          <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberLockedCoin" FromRole="LockedCoin" ToRole="Member" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -899,11 +883,11 @@
           <NavigationProperty Name="CashTransactions" Relationship="VapModel.FK_MemberCashTransaction" FromRole="Member" ToRole="CashTransaction" />
           <NavigationProperty Name="ChongXiaoTransactions" Relationship="VapModel.FK_MemberChongXiaoTransaction" FromRole="Member" ToRole="ChongXiaoTransaction" />
           <NavigationProperty Name="IPLogs" Relationship="VapModel.FK_MemberIPLog" FromRole="Member" ToRole="IPLog" />
-          <NavigationProperty Name="LockedCoins" Relationship="VapModel.FK_MemberLockedCoin" FromRole="Member" ToRole="LockedCoin" />
           <NavigationProperty Name="MemberLevel" Relationship="VapModel.FK_MemberMemberLevel" FromRole="Member" ToRole="MemberLevel" />
           <NavigationProperty Name="Members1" Relationship="VapModel.FK_MemberMember" FromRole="Member" ToRole="Member1" />
           <NavigationProperty Name="Member1" Relationship="VapModel.FK_MemberMember" FromRole="Member1" ToRole="Member" />
           <NavigationProperty Name="PointTransactions" Relationship="VapModel.FK_MemberPointTransaction" FromRole="Member" ToRole="PointTransaction" />
+          <NavigationProperty Name="LockedCoins" Relationship="VapModel.FK_MemberLockedCoin" FromRole="Member" ToRole="LockedCoin" />
         </EntityType>
         <EntityType Name="PointTransaction">
           <Key>
@@ -953,18 +937,6 @@
             </Principal>
             <Dependent Role="ChongXiaoTransaction">
               <PropertyRef Name="BaoDanTransactionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BaoDanTransactionLockedCoin">
-          <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="1" />
-          <End Type="VapModel.LockedCoin" Role="LockedCoin" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BaoDanTransaction">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LockedCoin">
-              <PropertyRef Name="BaoDanTransaction_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1028,18 +1000,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MemberLockedCoin">
-          <End Type="VapModel.Member" Role="Member" Multiplicity="1" />
-          <End Type="VapModel.LockedCoin" Role="LockedCoin" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LockedCoin">
-              <PropertyRef Name="MemberId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MemberMemberLevel">
           <End Type="VapModel.MemberLevel" Role="MemberLevel" Multiplicity="1" />
           <End Type="VapModel.Member" Role="Member" Multiplicity="*" />
@@ -1072,6 +1032,46 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="PointTransaction">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LockedCoin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastPrice" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="NextPrice" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="TotalAmount" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="LockedAmount" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="AvailabeAmount" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="MemberId" Type="Int32" Nullable="false" />
+          <Property Name="BaoDanTransaction_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BaoDanTransaction" Relationship="VapModel.FK_BaoDanTransactionLockedCoin" FromRole="LockedCoin" ToRole="BaoDanTransaction" />
+          <NavigationProperty Name="Member" Relationship="VapModel.FK_MemberLockedCoin" FromRole="LockedCoin" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK_BaoDanTransactionLockedCoin">
+          <End Type="VapModel.BaoDanTransaction" Role="BaoDanTransaction" Multiplicity="1" />
+          <End Type="VapModel.LockedCoin" Role="LockedCoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaoDanTransaction">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LockedCoin">
+              <PropertyRef Name="BaoDanTransaction_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MemberLockedCoin">
+          <End Type="VapModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="VapModel.LockedCoin" Role="LockedCoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LockedCoin">
               <PropertyRef Name="MemberId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1272,21 +1272,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LockedCoins">
-            <EntityTypeMapping TypeName="VapModel.LockedCoin">
-              <MappingFragment StoreEntitySet="LockedCoins">
-                <ScalarProperty Name="BaoDanTransaction_Id" ColumnName="BaoDanTransaction_Id" />
-                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-                <ScalarProperty Name="AvailabeAmount" ColumnName="AvailabeAmount" />
-                <ScalarProperty Name="LockedAmount" ColumnName="LockedAmount" />
-                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="NextPrice" ColumnName="NextPrice" />
-                <ScalarProperty Name="LastPrice" ColumnName="LastPrice" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="VapModel.Member">
               <MappingFragment StoreEntitySet="Members">
@@ -1329,6 +1314,21 @@
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LockedCoins">
+            <EntityTypeMapping TypeName="VapModel.LockedCoin">
+              <MappingFragment StoreEntitySet="LockedCoins">
+                <ScalarProperty Name="BaoDanTransaction_Id" ColumnName="BaoDanTransaction_Id" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="AvailabeAmount" ColumnName="AvailabeAmount" />
+                <ScalarProperty Name="LockedAmount" ColumnName="LockedAmount" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="NextPrice" ColumnName="NextPrice" />
+                <ScalarProperty Name="LastPrice" ColumnName="LastPrice" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

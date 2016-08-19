@@ -99,13 +99,13 @@ namespace Backend.Controllers
                         DateTime = DateTime.Now,
                         Type = 现金交易类型.积分出售.ToString(),
                         Status = 现金状态.解冻.ToString(),
-                        Amount = tempAmount,
+                        Amount = tempAmount.Value,
                         Fee = 0m,
                         BaoDanTransactionId = sell.Id
                     });
 
                     //增加会员可用现金
-                    member.Cash1 += tempAmount;
+                    member.Cash1 += tempAmount.Value;
                     db.Entry(member).State = EntityState.Modified;
                     db.Entry(sell).State = EntityState.Modified;
 

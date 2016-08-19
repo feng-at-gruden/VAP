@@ -66,7 +66,7 @@ namespace Backend.Controllers
                         lockRecord.LockedAmount -= amount;
                         lockRecord.AvailabeAmount += amount;
                         lockRecord.LastPrice = currentPrice;
-                        lockRecord.NextPrice = Math.Round(currentPrice + currentPrice * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate"), 2);
+                        lockRecord.NextPrice = Math.Round(currentPrice.Value + currentPrice.Value * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate"), 3);
 
                         member.Coin1 += amount;
                         member.Coin2 -= amount;
@@ -83,7 +83,7 @@ namespace Backend.Controllers
         }
         public ActionResult GetCoinPrices(int count)
         {
-            var reportData = db.CoinPrices.OrderByDescending(c=>c.Id).Take(count).ToList().OrderBy(c=>c.Id).Select(c => new ReportData() {Title = c.DateTime.ToString("yy-MM-dd"), Price = c.Price});
+            var reportData = db.CoinPrices.OrderByDescending(c=>c.Id).Take(count).ToList().OrderBy(c=>c.Id).Select(c => new ReportData() {Title = c.DateTime.ToString("yy-MM-dd"), Price = c.Price.Value});
             return Json(new { Data = reportData }, JsonRequestBehavior.AllowGet); 
             
         }

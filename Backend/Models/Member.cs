@@ -22,9 +22,9 @@ namespace Backend.Models
             this.CashTransactions = new HashSet<CashTransaction>();
             this.ChongXiaoTransactions = new HashSet<ChongXiaoTransaction>();
             this.IPLogs = new HashSet<IPLog>();
-            this.LockedCoins = new HashSet<LockedCoin>();
             this.Members1 = new HashSet<Member>();
             this.PointTransactions = new HashSet<PointTransaction>();
+            this.LockedCoins = new HashSet<LockedCoin>();
         }
     
         public int Id { get; set; }
@@ -64,13 +64,13 @@ namespace Backend.Models
         public virtual ICollection<ChongXiaoTransaction> ChongXiaoTransactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IPLog> IPLogs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LockedCoin> LockedCoins { get; set; }
         public virtual MemberLevel MemberLevel { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Member> Members1 { get; set; }
         public virtual Member Member1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PointTransaction> PointTransactions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LockedCoin> LockedCoins { get; set; }
     }
 }

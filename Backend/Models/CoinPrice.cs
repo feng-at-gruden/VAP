@@ -15,7 +15,7 @@ namespace Backend.Models
     public partial class CoinPrice
     {
         public int Id { get; set; }
-        public decimal Price { get; set; }
+        public Nullable<decimal> Price { get; set; }
         public System.DateTime DateTime { get; set; }
     }
 }

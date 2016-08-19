@@ -19,14 +19,14 @@ namespace Backend.Models
         {
             this.CashTransactions = new HashSet<CashTransaction>();
             this.ChongXiaoTransactions = new HashSet<ChongXiaoTransaction>();
-            this.LockedCoins = new HashSet<LockedCoin>();
             this.PointTransactions = new HashSet<PointTransaction>();
+            this.LockedCoins = new HashSet<LockedCoin>();
         }
     
         public int Id { get; set; }
         public System.DateTime DateTime { get; set; }
         public decimal Amount { get; set; }
-        public decimal Price { get; set; }
+        public Nullable<decimal> Price { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
         public int MemberId { get; set; }
@@ -38,9 +38,9 @@ namespace Backend.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChongXiaoTransaction> ChongXiaoTransactions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LockedCoin> LockedCoins { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PointTransaction> PointTransactions { get; set; }
         public virtual Member Member { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LockedCoin> LockedCoins { get; set; }
     }
 }

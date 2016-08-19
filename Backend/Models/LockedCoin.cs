@@ -15,9 +15,9 @@ namespace Backend.Models
     public partial class LockedCoin
     {
         public int Id { get; set; }
-        public decimal LastPrice { get; set; }
-        public decimal NextPrice { get; set; }
-        public decimal Price { get; set; }
+        public Nullable<decimal> LastPrice { get; set; }
+        public Nullable<decimal> NextPrice { get; set; }
+        public Nullable<decimal> Price { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal LockedAmount { get; set; }
         public decimal AvailabeAmount { get; set; }

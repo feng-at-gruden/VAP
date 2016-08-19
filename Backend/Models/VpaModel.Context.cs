@@ -39,8 +39,8 @@ namespace Backend.Models
         public virtual DbSet<BaoDanTransaction> BaoDanTransactions { get; set; }
         public virtual DbSet<CashTransaction> CashTransactions { get; set; }
         public virtual DbSet<IPLog> IPLogs { get; set; }
-        public virtual DbSet<LockedCoin> LockedCoins { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<PointTransaction> PointTransactions { get; set; }
+        public virtual DbSet<LockedCoin> LockedCoins { get; set; }
     }
 }

@@ -22,22 +22,22 @@
         <EntityTypeShape EntityType="VapModel.BaoDanTransaction" Width="1.5" PointX="5.25" PointY="25.75" />
         <EntityTypeShape EntityType="VapModel.CashTransaction" Width="1.5" PointX="7.5" PointY="17.75" />
         <EntityTypeShape EntityType="VapModel.IPLog" Width="1.5" PointX="5.25" PointY="19.375" />
-        <EntityTypeShape EntityType="VapModel.LockedCoin" Width="1.5" PointX="7.5" PointY="23.375" />
         <EntityTypeShape EntityType="VapModel.Member" Width="1.5" PointX="3" PointY="20.5" />
         <EntityTypeShape EntityType="VapModel.PointTransaction" Width="1.5" PointX="7.5" PointY="27.5" />
         <AssociationConnector Association="VapModel.FK_MemberBankInfo" />
         <AssociationConnector Association="VapModel.FK_BaoDanTransactionCashTransaction" />
         <AssociationConnector Association="VapModel.FK_BaoDanTransactionChongXiaoTransaction" />
-        <AssociationConnector Association="VapModel.FK_BaoDanTransactionLockedCoin" />
         <AssociationConnector Association="VapModel.FK_BaoDanTransactionPointTransaction" />
         <AssociationConnector Association="VapModel.FK_MemberBaoDanTransaction" />
         <AssociationConnector Association="VapModel.FK_MemberCashTransaction" />
         <AssociationConnector Association="VapModel.FK_MemberChongXiaoTransaction" />
         <AssociationConnector Association="VapModel.FK_MemberIPLog" />
-        <AssociationConnector Association="VapModel.FK_MemberLockedCoin" />
         <AssociationConnector Association="VapModel.FK_MemberMemberLevel" />
         <AssociationConnector Association="VapModel.FK_MemberMember" />
         <AssociationConnector Association="VapModel.FK_MemberPointTransaction" />
+        <EntityTypeShape EntityType="VapModel.LockedCoin" Width="1.5" PointX="7.5" PointY="23.375" />
+        <AssociationConnector Association="VapModel.FK_BaoDanTransactionLockedCoin" />
+        <AssociationConnector Association="VapModel.FK_MemberLockedCoin" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

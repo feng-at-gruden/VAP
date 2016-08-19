@@ -12,10 +12,10 @@ namespace Backend.Models
         
         public int Id { get; set; }
         
-        public decimal LastPrice { get; set; }
+        public decimal? LastPrice { get; set; }
 
-        public decimal NextPrice { get; set; }
-        public decimal Price { get; set; }
+        public decimal? NextPrice { get; set; }
+        public decimal? Price { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal LockedAmount { get; set; }
         public decimal AvailableAmount { get; set; }
