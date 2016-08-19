@@ -37,7 +37,7 @@
     <div class="formtitle"><span>会员列表</span></div>
     <div>
         
-        <div style="float: right;width: 50%">
+        <div class="memberInfo">
             <div ><B>会员信息</B></div>
             <table style="text-align: center; margin-top: 5px; line-height: 35px;">
 
@@ -46,7 +46,8 @@
                     <td width="40px" id="achmet"></td>
                     <td width="150px">等级：</td>
                     <td width="40px" id="level"></td>
-
+                    <td width="150px">注册时间：</td>
+                    <td width="40px" id="regDate"></td>
                 </tr>
 
                 <tr>
@@ -54,7 +55,8 @@
                     <td width="40px" id="cash"></td>
                     <td width="150px">可用联合积分：</td>
                     <td width="40px" id="coin"></td>
-
+                    <td width="150px">冻结联合积分：</td>
+                    <td width="40px" id="lockCoin"></td>
                 </tr>
 
             </table>
@@ -137,6 +139,8 @@
         $("#level").html(arlist[2]);
         $("#cash").html(arlist[3]);
         $("#coin").html(arlist[4]);
+        $("#regDate").html(arlist[5]);
+        $("#lockCoin").html(arlist[6]);
         // form_data.ay = data.node.text;
         // form_data.ay_id = data.node.id;
 
