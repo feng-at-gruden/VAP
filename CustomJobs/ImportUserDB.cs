@@ -25,7 +25,7 @@ namespace CustomJobs
             bool Step4 = false;
             bool Step5 = false;
             bool Step6 = false;
-            bool Step7 = true;
+            bool Step7 = false;
 
             //Import users;     //7181, 4579, 81025
             if (Step1)

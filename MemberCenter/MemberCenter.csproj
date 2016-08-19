@@ -2244,6 +2244,7 @@
     <Content Include="Views\Store\PointHistory.cshtml" />
     <Content Include="Views\Store\ChongXiaoHistory.cshtml" />
     <Content Include="Views\Message\Success.cshtml" />
+    <Content Include="Views\Message\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

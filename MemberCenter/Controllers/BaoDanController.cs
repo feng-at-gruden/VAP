@@ -24,6 +24,11 @@ namespace MemberCenter.Controllers
         // GET: /BaoDan/Buy
         public ActionResult Buy()
         {
+            if (GetSystemSettingBoolean("SystemIsLocked"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停交易！";
+                return RedirectToAction("Error", "Message");
+            }
             if (CurrentUser.Cash1 < GetSystemSettingDecimal("MinBaoDanCashBalance") + GetSystemSettingDecimal("BaoDanBuyFee"))
             {
                 ModelState.AddModelError("", "对不起，您的账户可用资金不足￥" + (GetSystemSettingDecimal("MinBaoDanCashBalance") + GetSystemSettingDecimal("BaoDanBuyFee")).ToString("0,0.00") + "，请先充值。");
@@ -103,7 +108,7 @@ namespace MemberCenter.Controllers
                         TotalAmount = requestQty,
                         Price = CurrentCoinPrice.Price,
                         LastPrice = CurrentCoinPrice.Price,
-                        NextPrice = Math.Ceiling(CurrentCoinPrice.Price * 1.05m * 100) / 100,
+                        NextPrice = Math.Ceiling(CurrentCoinPrice.Price * 1.05m * 1000) / 1000,
                         BaoDanTransaction = mBaoDan,
                     });
 
@@ -163,6 +168,11 @@ namespace MemberCenter.Controllers
         // GET: /BaoDan/Sell
         public ActionResult Sell()
         {
+            if (GetSystemSettingBoolean("SystemIsLocked"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停交易！";
+                return RedirectToAction("Error", "Message");
+            }
             return View(GetBaoDanSellModel());
         }
 
@@ -280,6 +290,11 @@ namespace MemberCenter.Controllers
         // GET: /Transaction/Transfer
         public ActionResult Transfer()
         {
+            if (GetSystemSettingBoolean("SystemIsLocked"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停交易！";
+                return RedirectToAction("Error", "Message");
+            }
             SetMyAccountViewModel();
             return View(new BaoDanTransferViewModel { 
                 AvailableAmount = CurrentUser.Coin1,
