@@ -144,7 +144,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DateTime" Type="datetime" Nullable="false" />
     <Property Name="Amount" Type="decimal" Nullable="false" Scale="6" />
-    <Property Name="Price" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Price" Type="decimal" Nullable="false" Scale="3" />
     <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="MemberId" Type="int" Nullable="false" />
@@ -169,7 +169,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Price" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="Price" Type="decimal" Nullable="false" Scale="3" />
     <Property Name="DateTime" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="SystemSettings">
@@ -197,9 +197,9 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="LastPrice" Type="decimal" Nullable="false" Scale="2" />
-    <Property Name="NextPrice" Type="decimal" Nullable="false" Scale="2" />
-    <Property Name="Price" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="LastPrice" Type="decimal" Nullable="false" Scale="3" />
+    <Property Name="NextPrice" Type="decimal" Nullable="false" Scale="3" />
+    <Property Name="Price" Type="decimal" Nullable="false" Scale="3" />
     <Property Name="TotalAmount" Type="decimal" Nullable="false" Scale="6" />
     <Property Name="LockedAmount" Type="decimal" Nullable="false" Scale="6" />
     <Property Name="AvailabeAmount" Type="decimal" Nullable="false" Scale="6" />
@@ -251,10 +251,10 @@
     <Property Name="BaoDanSellAmount" Type="decimal" Nullable="true" Scale="6" />
     <Property Name="NewMemberAmount" Type="smallint" Nullable="true" />
     <Property Name="TotalCashTransactionAmount" Type="decimal" Nullable="true" Scale="2" />
-    <Property Name="BeginCoinPrice" Type="decimal" Nullable="true" Scale="2" />
-    <Property Name="EndCoinPrice" Type="decimal" Nullable="true" Scale="2" />
-    <Property Name="MaxCoinPrice" Type="decimal" Nullable="true" Scale="2" />
-    <Property Name="MinCoinPrice" Type="decimal" Nullable="true" Scale="2" />
+    <Property Name="BeginCoinPrice" Type="decimal" Nullable="true" Scale="3" />
+    <Property Name="EndCoinPrice" Type="decimal" Nullable="true" Scale="3" />
+    <Property Name="MaxCoinPrice" Type="decimal" Nullable="true" Scale="3" />
+    <Property Name="MinCoinPrice" Type="decimal" Nullable="true" Scale="3" />
   </EntityType>
   <Association Name="MemberCashTransaction">
     <End Role="Member" Type="Model1.Store.Members" Multiplicity="1" />
@@ -595,7 +595,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="false" Scale="6" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Scale="3" />
           <Property Name="Type" Type="String" Nullable="false" />
           <Property Name="Status" Type="String" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="Model1.MemberBaoDanTransaction" FromRole="BaoDanTransaction" ToRole="Member" />
@@ -651,7 +651,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Scale="3" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" />
         </EntityType>
         <EntityType Name="SystemSetting">
@@ -680,9 +680,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastPrice" Type="Decimal" Nullable="false" Scale="2" />
-          <Property Name="NextPrice" Type="Decimal" Nullable="false" Scale="2" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="LastPrice" Type="Decimal" Nullable="false" Scale="3" />
+          <Property Name="NextPrice" Type="Decimal" Nullable="false" Scale="3" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Scale="3" />
           <Property Name="TotalAmount" Type="Decimal" Nullable="false" Scale="6" />
           <Property Name="LockedAmount" Type="Decimal" Nullable="false" Scale="6" />
           <Property Name="AvailabeAmount" Type="Decimal" Nullable="false" Scale="6" />
@@ -808,10 +808,10 @@
           <Property Name="BaoDanSellAmount" Type="Decimal" Scale="6" Nullable="true" />
           <Property Name="NewMemberAmount" Type="Int16" Nullable="true" />
           <Property Name="TotalCashTransactionAmount" Type="Decimal" Nullable="true" Scale="2" />
-          <Property Name="BeginCoinPrice" Type="Decimal" Nullable="true" Scale="2" />
-          <Property Name="EndCoinPrice" Type="Decimal" Nullable="true" Scale="2" />
-          <Property Name="MaxCoinPrice" Type="Decimal" Nullable="true" Scale="2" />
-          <Property Name="MinCoinPrice" Type="Decimal" Nullable="true" Scale="2" />
+          <Property Name="BeginCoinPrice" Type="Decimal" Nullable="true" Scale="3" />
+          <Property Name="EndCoinPrice" Type="Decimal" Nullable="true" Scale="3" />
+          <Property Name="MaxCoinPrice" Type="Decimal" Nullable="true" Scale="3" />
+          <Property Name="MinCoinPrice" Type="Decimal" Nullable="true" Scale="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>

@@ -7,22 +7,22 @@ namespace MemberCenter.Models
 {
     public class HomeViewModel
     {
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         [Display(Name = "当前价格")]
         public decimal CurrentCoinPrice { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         [Display(Name = "昨日价格")]
         public decimal YesterdayCoinPrice { get; set; }
 
         [Display(Name = "涨幅")]
         public string PriceIncreaseAmount { get { return (((CurrentCoinPrice - YesterdayCoinPrice) / YesterdayCoinPrice) * 100).ToString("0.00") + "%"; } }
 
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         [Display(Name = "最高价格")]
         public decimal MaxCoinPrice { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         [Display(Name = "最低价格")]
         public decimal MinCoinPrice { get; set; }
 
@@ -64,7 +64,7 @@ namespace MemberCenter.Models
 
     public class CoinPriceHistoryViewModel
     {
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         [Display(Name = "价格")]
         public decimal Price { get; set; }
 

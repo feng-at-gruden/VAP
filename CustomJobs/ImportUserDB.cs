@@ -19,11 +19,13 @@ namespace CustomJobs
             string fileName = args[0];
             DataTable content = OpenCSV(fileName);
 
-            bool Step1 = true;
-            bool Step2 = true;
-            bool Step3 = true;
-            bool Step4 = true;
-
+            bool Step1 = false;
+            bool Step2 = false;
+            bool Step3 = false;
+            bool Step4 = false;
+            bool Step5 = false;
+            bool Step6 = false;
+            bool Step7 = false;
 
             //Import users;     //7181, 4579, 81025
             if (Step1)
@@ -39,6 +41,7 @@ namespace CustomJobs
                     var coin1 = decimal.Parse(dr["溢出联合积分"].ToString());
                     var coin2 = decimal.Parse(dr["联合积分"].ToString());
                     var cash1 = decimal.Parse(dr["电子货币"].ToString());
+                    var cash11 = decimal.Parse(dr["可报单货币额"].ToString());
                     var password1 = "123456";
                     var password2 = "654321";
                     var realName = dr["姓名"].ToString();
@@ -59,7 +62,7 @@ namespace CustomJobs
                         Status = status,
                         Cash1 = cash1,
                         Cash2 = 0,
-                        Coin1 = coin1,
+                        Coin1 = coin1 + cash11,
                         Coin2 = coin2,
                         ChongXiao1 = chongXiao,
                         ChongXiao2 = 0,
@@ -157,6 +160,69 @@ namespace CustomJobs
                     }
                 }
                 db.SaveChanges();
+            }
+
+            //Update user mail address
+            if (Step5)
+            {
+                Console.WriteLine("====================== Step 5 ======================");
+                foreach (DataRow dr in content.Rows)
+                {
+                    var userName = dr["网号"].ToString();
+                    Member member = db.Members.SingleOrDefault(m => m.UserName == userName);
+                    if (member != null)
+                    {
+                        member.Email = userName + "@lianhe319.com";
+                        Console.WriteLine(member.Email + " - Email updated");
+                    }
+                }
+                db.SaveChanges();
+            }
+
+            //Update user cash1
+            if (Step6)
+            {
+                Console.WriteLine("====================== Step 6 ======================");
+                foreach (DataRow dr in content.Rows)
+                {
+                    var userName = dr["网号"].ToString();
+                    var cash1 = decimal.Parse(dr["电子货币"].ToString());
+                    var cash11 = decimal.Parse(dr["可报单货币额"].ToString());
+                    Member member = db.Members.SingleOrDefault(m => m.Email == userName + "@lianhe319.com");
+                    if (member != null)
+                    {
+                        member.Cash1 = cash1 + cash11;
+                        Console.WriteLine(member.Email + " - Cash updated");
+                    }
+                }
+                db.SaveChanges();
+            }
+
+            //Update user register date
+            if (Step7)
+            {
+                Console.WriteLine("====================== Step 7 ======================");
+                foreach (DataRow dr in content.Rows)
+                {
+                    var userName = dr["网号"].ToString();
+                    var dStr = dr["确认时间"].ToString();
+                    if(dStr != null && !"NULL".Equals(dStr, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var date = DateTime.Parse(dStr);
+                        Member member = db.Members.SingleOrDefault(m => m.Email == userName + "@lianhe319.com");
+                        if (member != null)
+                        {
+                            member.RegisterTime = date;
+                            foreach (var b in member.BaoDanTransactions)
+                            {
+                                b.DateTime = date;
+                            }
+                            Console.WriteLine(member.Email + " - Register Date updated");
+                            db.SaveChanges();
+                        }
+                    }
+                }
+                
             }
 
             if (db != null)

@@ -47,7 +47,7 @@
                             @Html.Captcha(4, "~/Views/Shared/_CaptchaPartial.cshtml")
                             <br class="clearfix" />
                             <button class="btn btn_success sign_btn" type="submit">登录</button>
-                            <a href="/Account/Register" target="_blank" style="margin:30px 0 0 10px;display:block;">注册新账号？</a>
+                            <a href="@SiteConfigurationHelper.SiteRootPath/Account/Register" target="_blank" style="margin:30px 0 0 10px;display:block;">注册新账号？</a>
                             <input type="hidden" name="step" value="">
                         }
                         <hr class="login_hr">

@@ -21,6 +21,11 @@ namespace MemberCenter.Controllers
         // GET: /Transaction/CashTopup
         public ActionResult CashTopup()
         {
+            if (GetSystemSettingBoolean("SystemIsLocked"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停交易！";
+                return RedirectToAction("Error", "Message");
+            }
             return View(GetCashTopupViewModel());
         }
 
@@ -80,6 +85,11 @@ namespace MemberCenter.Controllers
         // GET: /Transaction/CashWithdraw
         public ActionResult CashWithdraw()
         {
+            if (GetSystemSettingBoolean("SystemIsLocked"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停交易！";
+                return RedirectToAction("Error", "Message");
+            }
             return View(GetCashWithdrawViewModel());
         }
 
@@ -133,6 +143,11 @@ namespace MemberCenter.Controllers
         // GET: /Transaction/Transfer
         public ActionResult Transfer()
         {
+            if (GetSystemSettingBoolean("SystemIsLocked"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停交易！";
+                return RedirectToAction("Error", "Message");
+            }
             SetMyAccountViewModel();
             return View(new CashTransferViewModel { 
                 AvailableAmount = CurrentUser.Cash1,

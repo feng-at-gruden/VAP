@@ -15,5 +15,15 @@ namespace MemberCenter.Controllers
             SetMyAccountViewModel();
             return View();
         }
+
+
+        //
+        // GET: /Message/
+        public ActionResult Error()
+        {
+            SetMyAccountViewModel();
+            return View();
+        }
+
 	}
 }
