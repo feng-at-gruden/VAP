@@ -60,6 +60,8 @@ namespace Backend.Models
             var members = db.Members.Where(c => c.Id > 0);
             MemberCount = members.Count();
             TodayMemberCount = members.Count(c => c.RegisterTime >= DateTime.Today);
+            TotalCx = members.Sum(c => c.ChongXiao1+c.Coin2);
+            TotalLockCx = members.Sum(c => c.ChongXiao2);
             TotalLockCash = members.Sum(c => c.Cash2);
             TotalCash = members.Sum(c => c.Cash2+c.Cash1);
             TotalLockCoin = members.Sum(c => c.Coin2);
