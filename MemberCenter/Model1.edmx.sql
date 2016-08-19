@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/16/2016 15:32:53
+-- Date Created: 08/19/2016 17:23:59
 -- Generated from EDMX file: D:\Projects\VS2013\VAP\VAP\MemberCenter\Model1.edmx
 -- --------------------------------------------------
 
@@ -175,7 +175,7 @@ CREATE TABLE [dbo].[BaoDanTransactions] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DateTime] datetime  NOT NULL,
     [Amount] decimal(18,6)  NOT NULL,
-    [Price] decimal(18,2)  NOT NULL,
+    [Price] decimal(18,3)  NOT NULL,
     [Type] nvarchar(max)  NOT NULL,
     [Status] nvarchar(max)  NOT NULL,
     [MemberId] int  NOT NULL,
@@ -200,7 +200,7 @@ GO
 -- Creating table 'CoinPrices'
 CREATE TABLE [dbo].[CoinPrices] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Price] decimal(18,2)  NOT NULL,
+    [Price] decimal(18,3)  NOT NULL,
     [DateTime] datetime  NOT NULL
 );
 GO
@@ -228,9 +228,9 @@ GO
 -- Creating table 'LockedCoins'
 CREATE TABLE [dbo].[LockedCoins] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [LastPrice] decimal(18,2)  NOT NULL,
-    [NextPrice] decimal(18,2)  NOT NULL,
-    [Price] decimal(18,2)  NOT NULL,
+    [LastPrice] decimal(18,3)  NOT NULL,
+    [NextPrice] decimal(18,3)  NOT NULL,
+    [Price] decimal(18,3)  NOT NULL,
     [TotalAmount] decimal(18,6)  NOT NULL,
     [LockedAmount] decimal(18,6)  NOT NULL,
     [AvailabeAmount] decimal(18,6)  NOT NULL,
@@ -282,10 +282,10 @@ CREATE TABLE [dbo].[SysStatistics] (
     [BaoDanSellAmount] decimal(18,6)  NULL,
     [NewMemberAmount] smallint  NULL,
     [TotalCashTransactionAmount] decimal(18,2)  NULL,
-    [BeginCoinPrice] decimal(18,2)  NULL,
-    [EndCoinPrice] decimal(18,2)  NULL,
-    [MaxCoinPrice] decimal(18,2)  NULL,
-    [MinCoinPrice] decimal(18,2)  NULL
+    [BeginCoinPrice] decimal(18,3)  NULL,
+    [EndCoinPrice] decimal(18,3)  NULL,
+    [MaxCoinPrice] decimal(18,3)  NULL,
+    [MinCoinPrice] decimal(18,3)  NULL
 );
 GO
 

@@ -15,7 +15,7 @@ namespace MemberCenter.Models
         public decimal AvailableCash { get; set; }
 
         [Display(Name = "报单价格")]
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public decimal RequestPrice { get; set; }
 
         [Display(Name = "报单个数")]
@@ -51,13 +51,13 @@ namespace MemberCenter.Models
         [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal BaoDanQuantity { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public decimal BaoDanPrice { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public decimal LastPrice { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public decimal NextPrice { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:n6}")]
@@ -91,10 +91,10 @@ namespace MemberCenter.Models
         [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal Fee { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public decimal RequestPrice { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public decimal FinalPrice { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:n6}")]
@@ -111,7 +111,7 @@ namespace MemberCenter.Models
         public IEnumerable<BaoDanHistoryViewModel> RecentPendingRequests { get; set; }
 
         [Display(Name = "当前价格")]
-        [DisplayFormat(DataFormatString = "{0:n2}")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public decimal CurrentPrice { get; set; }
 
         [Display(Name = "卖出数量")]
