@@ -11,13 +11,21 @@ namespace Backend.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
     
     public partial class LockedCoin
     {
         public int Id { get; set; }
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public Nullable<decimal> LastPrice { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public Nullable<decimal> NextPrice { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public Nullable<decimal> Price { get; set; }
+
         public decimal TotalAmount { get; set; }
         public decimal LockedAmount { get; set; }
         public decimal AvailabeAmount { get; set; }

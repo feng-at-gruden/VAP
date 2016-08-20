@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace Backend.Models
 {
@@ -11,10 +13,15 @@ namespace Backend.Models
 
         
         public int Id { get; set; }
-        
+
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public decimal? LastPrice { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public decimal? NextPrice { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n3}")]
+
         public decimal? Price { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal LockedAmount { get; set; }

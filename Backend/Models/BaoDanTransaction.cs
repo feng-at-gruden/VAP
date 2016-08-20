@@ -11,6 +11,7 @@ namespace Backend.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class BaoDanTransaction
     {
@@ -26,6 +27,8 @@ namespace Backend.Models
         public int Id { get; set; }
         public System.DateTime DateTime { get; set; }
         public decimal Amount { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:n3}")]
         public Nullable<decimal> Price { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }
