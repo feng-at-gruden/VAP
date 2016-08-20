@@ -539,4 +539,9 @@ table.dataTable thead .sorting_desc_disabled {
     right: 10px;
     padding: 10px 20px;
     border: solid 1px #ccc;
-}   
+}
+
+
+table.dataTable td{
+    border-bottom: solid 1px #ccc;
+}

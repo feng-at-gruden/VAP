@@ -33,3 +33,5 @@ INSERT INTO [SystemSettings] VALUES ('MemberUploadTopupFilePath', 'Upload/Topup'
 GO
 INSERT INTO [SystemSettings] VALUES ('MemberUploadIdentityFilePath', 'Upload/Identity', '用户上传身份证存储路径');
 GO
+INSERT INTO [SystemSettings] VALUES ('SystemIsLocked', 'true', '系统锁定 用户只能登录查询 不能交易(true 或 false)');
+GO

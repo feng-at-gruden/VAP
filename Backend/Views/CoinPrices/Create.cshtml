@@ -13,7 +13,7 @@
     </ul>
 </div>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "CoinPrices", FormMethod.Post, new { id = "form1" }))
 {
     @Html.AntiForgeryToken()
     <div class="formbody">
@@ -23,7 +23,7 @@
         <ul class="forminfo">
             <li>
                 <label>上次价格</label>
-                @Html.TextBox("LastPrice",@temp, new { @class = "dfinput", @readonly = true })
+                @Html.TextBox("LastPrice", @temp, new { @class = "dfinput", @readonly = true })
                 
 
             </li>
@@ -33,7 +33,8 @@
                 
             </li>
             
-            <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="保存" /></li>
+            <li><label>&nbsp;</label><input id="button1" type="button" class="btn-new" value="周一（保存价格并解锁积分）" /></li>
+            <li><label>&nbsp;</label><input id="button2" type="button" class="btn-new" value="周二至周日（保存价格不解锁积分）" /></li>
         </ul>
 
 
@@ -48,6 +49,17 @@
 <script>
     $(document).ready(function () {
         
-        $('#coinParent').slideDown();
+        $('#button1').click(function () {
+            var action = $('#form1').attr('action');
+            $('#form1').attr('action', action + '?type=1');
+            $('#form1').submit();
+        });
+
+        $('#button2').click(function () {
+            var action = $('#form1').attr('action');
+            $('#form1').attr('action', action + '?type=2');
+            $('#form1').submit();
+        });
+        
     });
 </script>

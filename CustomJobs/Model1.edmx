@@ -25,7 +25,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="6" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="MemberId" Type="int" Nullable="false" />
@@ -71,7 +71,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="DateTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="IPLogs">
@@ -89,9 +89,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LastPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="NextPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="LastPrice" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="NextPrice" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="TotalAmount" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="LockedAmount" Type="decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="AvailabeAmount" Type="decimal" Precision="18" Scale="6" Nullable="false" />
@@ -185,10 +185,10 @@
           <Property Name="BaoDanSellAmount" Type="decimal" Precision="18" Scale="6" />
           <Property Name="NewMemberAmount" Type="smallint" />
           <Property Name="TotalCashTransactionAmount" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="BeginCoinPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="EndCoinPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="MaxCoinPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="MinCoinPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BeginCoinPrice" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="EndCoinPrice" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="MaxCoinPrice" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="MinCoinPrice" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
         <EntityType Name="SystemSettings">
           <Key>
@@ -449,7 +449,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Amount" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="MemberId" Type="Int32" Nullable="false" />
@@ -504,7 +504,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="IPLogs">
@@ -523,9 +523,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="NextPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="LastPrice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="NextPrice" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
           <Property Name="TotalAmount" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="LockedAmount" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
           <Property Name="AvailabeAmount" Type="Decimal" Precision="18" Scale="6" Nullable="false" />
@@ -634,10 +634,10 @@
           <Property Name="BaoDanSellAmount" Type="Decimal" Precision="18" Scale="6" />
           <Property Name="NewMemberAmount" Type="Int16" />
           <Property Name="TotalCashTransactionAmount" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="BeginCoinPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="EndCoinPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MaxCoinPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="MinCoinPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BeginCoinPrice" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="EndCoinPrice" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="MaxCoinPrice" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="MinCoinPrice" Type="Decimal" Precision="18" Scale="3" />
         </EntityType>
         <EntityType Name="SystemSettings">
           <Key>

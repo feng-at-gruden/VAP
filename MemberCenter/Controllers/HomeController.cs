@@ -69,6 +69,7 @@ namespace MemberCenter.Controllers
                                     }).Take(6),
                 CoinPriceHistory = (from row in db.CoinPrices
                                    //where row.DateTime >= chartStTime && row.DateTime <= chartEdTime
+                                    orderby row.DateTime descending
                                    select new CoinPriceHistoryViewModel
                                    {
                                         Price = row.Price,
@@ -76,6 +77,7 @@ namespace MemberCenter.Controllers
                                    }).Take(30),
                 BuyHistory = (from row in db.SysStatistics
                               where row.Date >= chartStTime && row.Date <= chartEdTime
+                              orderby row.Date descending
                                    select new DailyAmountViewModel
                                    {
                                        Amount = row.BaoDanBuyAmount.Value,
@@ -83,6 +85,7 @@ namespace MemberCenter.Controllers
                                    }).Take(30),
                 SellHistory = (from row in db.SysStatistics
                                where row.Date >= chartStTime && row.Date <= chartEdTime
+                               orderby row.Date descending
                              select new DailyAmountViewModel
                              {
                                  Amount = row.BaoDanSellAmount.Value,

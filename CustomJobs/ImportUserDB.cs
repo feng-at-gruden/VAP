@@ -23,9 +23,14 @@ namespace CustomJobs
             bool Step2 = false;
             bool Step3 = false;
             bool Step4 = false;
+
             bool Step5 = false;
             bool Step6 = false;
             bool Step7 = false;
+
+            bool Step8 = false;
+
+            bool Step9 = true;
 
             //Import users;     //7181, 4579, 81025
             if (Step1)
@@ -49,27 +54,34 @@ namespace CustomJobs
                     var email = dr["Email"].ToString();
                     var referral = dr["推荐用户"].ToString();
                     var s = dr["公司确认"].ToString();
+
+                    var date = DateTime.Now;
+                    var dStr = dr["确认时间"].ToString();
+                    if (dStr != null && !"NULL".Equals(dStr, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        date = DateTime.Parse(dStr);
+                    }
                     var status = s.Equals("Y", StringComparison.InvariantCultureIgnoreCase) ? 会员状态.正常.ToString() : 会员状态.待审核.ToString();
 
                     db.Members.Add(new Member
                     {
                         UserName = userName,
-                        Email = email,
+                        Email = userName + "@lianhe319.com",
                         RealName = realName,
                         Mobile = phone,
                         Password1 = password1,
                         Password2 = password2,
                         Status = status,
-                        Cash1 = cash1,
+                        Cash1 = cash1 + cash11,
                         Cash2 = 0,
-                        Coin1 = coin1 + cash11,
+                        Coin1 = coin1,
                         Coin2 = coin2,
                         ChongXiao1 = chongXiao,
                         ChongXiao2 = 0,
                         Point1 = points,
                         Point2 = 0,
                         Achievement = achievement,
-                        RegisterTime = DateTime.Now,
+                        RegisterTime = date,
                         MemberLevel_Id = GetMemberLevelId(db, level),
                     });
                     Console.WriteLine(userName + " - " + level + " Inserted");
@@ -116,9 +128,15 @@ namespace CustomJobs
                         Member member = db.Members.SingleOrDefault(m => m.UserName == userName);
                         if (member != null)
                         {
+                            var date = DateTime.Now;
+                            var dStr = dr["确认时间"].ToString();
+                            if (dStr != null && !"NULL".Equals(dStr, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                date = DateTime.Parse(dStr);
+                            }
                             BaoDanTransactions mBaoDan = new BaoDanTransactions
                             {
-                                DateTime = DateTime.Now,
+                                DateTime = date,
                                 Amount = coin1 + coin2,
                                 Price = buyPrice,
                                 Fee = 0,
@@ -131,7 +149,7 @@ namespace CustomJobs
                             {
                                 Price = buyPrice,
                                 LastPrice = lastPrice,
-                                NextPrice = Math.Ceiling(lastPrice * 1.05m * 100) / 100,
+                                NextPrice = Math.Ceiling(lastPrice * 1.05m * 1000) / 1000,
                                 TotalAmount = coin1 + coin2,
                                 LockedAmount = coin2,
                                 AvailabeAmount = coin1,
@@ -222,7 +240,62 @@ namespace CustomJobs
                         }
                     }
                 }
-                
+            }
+
+            if (Step8)
+            {
+                Console.WriteLine("====================== Step 8 ======================");
+                string priceFileName = args[1];
+                DataTable priceContent = OpenCSV(priceFileName);
+                foreach (DataRow dr in priceContent.Rows)
+                {
+                    decimal price = decimal.Parse(dr["价格"].ToString());
+                    DateTime date = DateTime.Parse(dr["日期"].ToString());
+                    var coin = new CoinPrices
+                    {
+                        Price = price,
+                        DateTime = date,
+                    };
+                    db.CoinPrices.Add(coin);
+                    db.SaveChanges();
+                }
+            }
+
+            if (Step9)
+            {
+                Console.WriteLine("====================== Step 9 ======================");
+                foreach (DataRow dr in content.Rows)
+                {
+                    var userName = dr["网号"].ToString();
+                    var buyPrice = decimal.Parse(dr["购买价格"].ToString());
+                    var lastPrice = decimal.Parse(dr["上次溢出价格"].ToString());
+                    var coin1 = decimal.Parse(dr["溢出联合积分"].ToString());
+                    var coin2 = decimal.Parse(dr["联合积分"].ToString());
+
+                    if (coin1 > 0 || coin2 > 0)
+                    {
+                        Member member = db.Members.SingleOrDefault(m => m.UserName == userName);
+                        if (member != null)
+                        {
+                            var mBaoDan = member.BaoDanTransactions.SingleOrDefault();
+                            if (mBaoDan != null)
+                            {
+                                mBaoDan.Price = buyPrice;
+                            }
+
+                            var mLockedCoin = member.LockedCoins.SingleOrDefault();
+                            if (mLockedCoin != null)
+                            {
+                                mLockedCoin.Price = buyPrice;
+                                mLockedCoin.LastPrice = lastPrice;
+                                mLockedCoin.NextPrice = Math.Ceiling(lastPrice * 1.05m * 1000) / 1000;
+                            }
+
+                            db.SaveChanges();
+                            Console.WriteLine(userName + " - BaoDan Price updated");
+                        }
+                    }
+                }
             }
 
             if (db != null)

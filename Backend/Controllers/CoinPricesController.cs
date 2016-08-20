@@ -47,7 +47,7 @@ namespace Backend.Controllers
          [MyAuthorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CoinPrice model)
+        public ActionResult Create(CoinPrice model, int type = 2)
         {
             if (ModelState.IsValid)
             {
@@ -55,25 +55,30 @@ namespace Backend.Controllers
                 var currentPrice = model.Price;
                 db.CoinPrices.Add(model);
                 db.SaveChanges();
+
                 // 触发可用币释放 逻辑
-                var lockRecords = db.LockedCoins;
-                foreach (var lockRecord in lockRecords)
+                if (type == 1)
                 {
-                    if (currentPrice >= lockRecord.NextPrice)
+                    var lockRecords = db.LockedCoins;
+                    foreach (var lockRecord in lockRecords)
                     {
-                        var member = db.Members.Find(lockRecord.MemberId);
-                        var amount = lockRecord.LockedAmount * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate");
-                        lockRecord.LockedAmount -= amount;
-                        lockRecord.AvailabeAmount += amount;
-                        lockRecord.LastPrice = currentPrice;
-                        lockRecord.NextPrice = Math.Round(currentPrice.Value + currentPrice.Value * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate"), 3);
+                        if (currentPrice >= lockRecord.NextPrice)
+                        {
+                            var member = db.Members.Find(lockRecord.MemberId);
+                            var amount = lockRecord.LockedAmount * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate");
+                            lockRecord.LockedAmount -= amount;
+                            lockRecord.AvailabeAmount += amount;
+                            lockRecord.LastPrice = currentPrice;
+                            lockRecord.NextPrice = Math.Ceiling(currentPrice.Value * (1 + SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate")) * 1000) / 1000;
+                            //lockRecord.NextPrice = Math.Round(currentPrice.Value + currentPrice.Value * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate"), 3);
 
-                        member.Coin1 += amount;
-                        member.Coin2 -= amount;
+                            member.Coin1 += amount;
+                            member.Coin2 -= amount;
 
-                        db.Entry(lockRecord).State = EntityState.Modified;
-                        db.Entry(member).State = EntityState.Modified;
-                        db.SaveChanges();
+                            db.Entry(lockRecord).State = EntityState.Modified;
+                            db.Entry(member).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
                     }
                 }
                 return RedirectToAction("Index");
