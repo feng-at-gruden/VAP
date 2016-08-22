@@ -156,17 +156,17 @@
                         @Html.DisplayFor(modelItem => item.Amount)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td>
                         @if (item.Type == 现金交易类型.充值.ToString())
                         {
-                            <a href="@SiteConfigurationHelper.UploadFolderPath@item.FileUrl" style="text-decoration: underline;" target="_blank">@Html.DisplayFor(modelItem => item.Status)</a>
+                            <a href="@SiteConfigurationHelper.UploadFolderPath@item.FileUrl" style="text-decoration: underline;" target="_blank">@Html.DisplayFor(modelItem => item.Type)</a>
                         }
                         else
                         {
-                            @Html.DisplayFor(modelItem => item.Status)
+                            @Html.DisplayFor(modelItem => item.Type)
                         }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Comment)
