@@ -1,4 +1,7 @@
-﻿@model System.Collections.Generic.List<Backend.Models.CashTransaction>
+﻿@model IEnumerable<Backend.Models.CashTransactionViewModel>
+@using VapLib
+@using Backend.Helper
+
 
 @{
     ViewBag.Title = "记录查询";
@@ -144,10 +147,10 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Member.Email)
+                        @Html.DisplayFor(modelItem => item.MemberEmail)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Member.Id)
+                        @Html.DisplayFor(modelItem => item.MemberId)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Amount)
@@ -156,7 +159,14 @@
                         @Html.DisplayFor(modelItem => item.Type)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Status)
+                        @if (item.Type == 现金交易类型.充值.ToString())
+                        {
+                            <a href="@SiteConfigurationHelper.UploadFolderPath@item.FileUrl" style="text-decoration: underline;" target="_blank">@Html.DisplayFor(modelItem => item.Status)</a>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Status)
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Comment)

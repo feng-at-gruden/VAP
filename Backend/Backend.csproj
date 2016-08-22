@@ -211,6 +211,7 @@
     <Compile Include="Models\CashTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CashViewModels.cs" />
     <Compile Include="Models\ChongXiaoTransaction.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>

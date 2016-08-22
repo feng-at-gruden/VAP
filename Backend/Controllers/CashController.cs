@@ -39,7 +39,25 @@ namespace Backend.Controllers
             ViewBag.memberAccount = memberAccount;
             ViewBag.status = status;
             ViewBag.type = type;
-            return View(records.ToList());
+
+            IEnumerable<CashTransactionViewModel> modle = from row in records
+                                                          select new CashTransactionViewModel
+                                                          {
+                                                              Type = row.Type,
+                                                              Status = row.Status,
+                                                              DateTime = row.DateTime,
+                                                              Fee = row.Fee,
+                                                              Amount = row.Amount,
+                                                              ID = row.Id,
+                                                              FileUrl = row.FileUrl,
+                                                              Bank = row.Bank,
+                                                              RemitNumber = row.RemitNumber,
+                                                              RemitAccount = row.RemitUserName,
+                                                              MemberEmail = row.Member.Email,
+                                                              MemberId = row.Member.Id,
+                                                              Comment = row.Comment
+                                                          };
+            return View(modle);
         }
         /// <summary>
         /// 待审批现金充值记录
@@ -119,7 +137,23 @@ namespace Backend.Controllers
             var cashtransactions = db.CashTransactions.Where(c => c.MemberId == memberId
                                                                   && c.Type == type)
                                                                   .OrderBy(c => c.DateTime);
-            return View(cashtransactions.ToList());
+
+            IEnumerable<CashTransactionViewModel> model = from row in cashtransactions
+                                                          select new CashTransactionViewModel
+                                                          {
+                                                              Type = row.Type,
+                                                              Status = row.Status,
+                                                              DateTime = row.DateTime,
+                                                              Fee = row.Fee,
+                                                              Amount = row.Amount,
+                                                              ID = row.Id,
+                                                              FileUrl = row.FileUrl,
+                                                              Bank = row.Bank,
+                                                              RemitNumber = row.RemitNumber,
+                                                              RemitAccount = row.RemitUserName,
+                                                              Comment = row.Comment
+                                                          };
+            return View(model);
         }
         /// <summary>
         /// 会员提现记录
@@ -135,6 +169,8 @@ namespace Backend.Controllers
                                                                   .OrderBy(c => c.DateTime);
             return View(cashtransactions.ToList());
         }
+
+
         public ActionResult PendingWithdraws()
         {
             if (TempData.ContainsKey("ModelState"))
@@ -143,10 +179,28 @@ namespace Backend.Controllers
             }
             var status = 现金状态.待审核.ToString();
             var type = 现金交易类型.提现.ToString();
+            /*
             var cashtransactions = db.CashTransactions.Where(c => c.Status == status
                                                                   && c.Type == type)
                                                                   .OrderBy(c => c.DateTime);
-            return View(cashtransactions.ToList());
+            return View(cashtransactions.ToList());*/
+            IEnumerable<CashWithdrawHistoryViewModel> model = from row in db.CashTransactions
+                                                              where row.Status==status && row.Type==type
+                                                              orderby row.DateTime descending
+                                                              select new CashWithdrawHistoryViewModel
+                                                              {
+                                                                  Status = status.Equals(row.Status) ? "待审核" : "已审核",
+                                                                  WithdrawTime = row.DateTime,
+                                                                  Fee = row.Fee,
+                                                                  Amount = Math.Abs(row.Amount),
+                                                                  Bank = row.Bank,
+                                                                  BankAccount = row.BankAccount,
+                                                                  Id = row.Id,
+                                                                  MemberId = row.MemberId,
+                                                                  MemberEmail = row.Member.Email,
+                                                              };
+
+            return View(model);
         }
         public ActionResult DeleteCashTrans(int id,string type="T")
         {

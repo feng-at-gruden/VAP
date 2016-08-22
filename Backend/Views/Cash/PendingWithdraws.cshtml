@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Backend.Models.CashTransaction>
+﻿@model IEnumerable<Backend.Models.CashWithdrawHistoryViewModel>
 
 @{
     ViewBag.Title = "待审批现金提现";
@@ -61,10 +61,13 @@
                     会员UID
                 </th>
                 <th>
-                    金额
+                    申请提现
                 </th>
                 <th>
-                    类型
+                    手续费
+                </th>
+                <th>
+                    实提金额
                 </th>
                 <th>
                     状态
@@ -84,7 +87,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Member.Email)
+                        @Html.DisplayFor(modelItem => item.MemberEmail)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.MemberId)
@@ -93,7 +96,10 @@
                         @Html.DisplayFor(modelItem => item.Amount)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Type)
+                        @Html.DisplayFor(modelItem => item.Fee)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RealAmount)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Status)
@@ -102,7 +108,7 @@
                         @Html.DisplayFor(modelItem => item.Bank)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DateTime)
+                        @Html.DisplayFor(modelItem => item.WithdrawTime)
                     </td>
 
                     <td>

@@ -1,4 +1,7 @@
-﻿@model System.Collections.Generic.List<Backend.Models.CashTransaction>
+﻿@model IEnumerable<Backend.Models.CashTransactionViewModel>
+@using VapLib
+@using Backend.Helper
+
 
 @{
     ViewBag.Title = "充值记录";
@@ -49,7 +52,14 @@
                         @Html.DisplayFor(modelItem => item.Bank)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.RemitNumber)
+                        @if (item.Type == 现金交易类型.充值.ToString())
+                        {
+                            <a href="@SiteConfigurationHelper.UploadFolderPath@item.FileUrl" style="text-decoration: underline;" target="_blank">@Html.DisplayFor(modelItem => item.RemitNumber)</a>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.RemitNumber)
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DateTime)
