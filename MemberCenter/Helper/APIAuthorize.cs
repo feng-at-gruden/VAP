@@ -45,7 +45,7 @@ namespace MemberCenter
             string password;
             GetUserFromCurrentHttpContext(httpContextCurrent, out username, out password);
 
-            Member member = DbContext.Members.SingleOrDefault(m => m.Email.Equals(username, StringComparison.InvariantCultureIgnoreCase) && m.Password1.Equals(password));
+            Member member = DbContext.Members.SingleOrDefault(m => m.Email.Equals(username, StringComparison.InvariantCultureIgnoreCase) && m.Password2.Equals(password));
             if (member == null)
                 ThrowApiError("身份验证错误！", HttpStatusCode.Unauthorized);
 
