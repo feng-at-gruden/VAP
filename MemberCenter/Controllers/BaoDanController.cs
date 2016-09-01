@@ -502,7 +502,7 @@ namespace MemberCenter.Controllers
         /// </summary>
         /// <param name="member"></param>
         /// <param name="lastRefundRate">向上遍历 如果某上线的级别等于或低于其自己 则跳过其上线, lastRefundRate为上一次等级高于自己的上线的rate</param>
-        private void RefundForReferral(Member member, decimal amount, BaoDanTransaction mBaoDan, decimal lastRefundRate)
+        private void RefundForReferral(Member member, decimal amount, BaoDanTransaction mBaoDan, decimal currentTotalRefundRate)
         {
             Member mRef = member.Referral;
             if (mRef == null)
@@ -527,7 +527,7 @@ namespace MemberCenter.Controllers
                 }
                 else
                 {
-                    if (mBaoDan.Member.MemberLevel.RefundRate >= mRef.MemberLevel.RefundRate)
+                    if (member.MemberLevel.RefundRate >= mRef.MemberLevel.RefundRate)
                     {
                         //如果某上线的级别等于或低于其自己 
                         //Nothing
@@ -535,7 +535,7 @@ namespace MemberCenter.Controllers
                     }
                     else
                     {
-                        currentRefundRate = mRef.MemberLevel.RefundRate - lastRefundRate;
+                        currentRefundRate = mRef.MemberLevel.RefundRate - currentTotalRefundRate;
                     }
                 }
 
@@ -578,10 +578,7 @@ namespace MemberCenter.Controllers
                 return;
             }
 
-            if (refAvailable)
-                RefundForReferral(mRef, amount, mBaoDan, mRef.MemberLevel.RefundRate);
-            else
-                RefundForReferral(mRef, amount, mBaoDan, lastRefundRate);
+            RefundForReferral(mRef, amount, mBaoDan, currentTotalRefundRate + currentRefundRate);
 
             /*
             //if (member.Id != mBaoDan.Member.Id && member.MemberLevel.RefundRate >= mRef.MemberLevel.RefundRate )
