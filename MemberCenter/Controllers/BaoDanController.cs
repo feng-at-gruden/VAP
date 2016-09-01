@@ -510,13 +510,11 @@ namespace MemberCenter.Controllers
 
             string mBaoDanBuyStatus = 报单类型.买入.ToString();
             decimal currentRefundRate = 0;
-            bool refAvailable = true;
             
             //计算mRef返利比例
             if (GetSystemSettingBoolean("EnableRefundOnlyForActivateUser") && mRef.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) <= 0)
             {
                 //上线从未报过单 则跳过
-                refAvailable = false;
             }
             else
             {
@@ -531,7 +529,6 @@ namespace MemberCenter.Controllers
                     {
                         //如果某上线的级别等于或低于其自己 
                         //Nothing
-                        refAvailable = false;
                     }
                     else
                     {
@@ -539,7 +536,7 @@ namespace MemberCenter.Controllers
                     }
                 }
 
-                if (refAvailable)
+                if (currentRefundRate > 0)
                 {
                     //保存记录
                     decimal refTotalRefund = currentRefundRate * GetCorrectSettingPercentValue("PV") * amount;
@@ -579,76 +576,6 @@ namespace MemberCenter.Controllers
             }
 
             RefundForReferral(mRef, amount, mBaoDan, currentTotalRefundRate + currentRefundRate);
-
-            /*
-            //if (member.Id != mBaoDan.Member.Id && member.MemberLevel.RefundRate >= mRef.MemberLevel.RefundRate )
-            if (mBaoDan.Member.MemberLevel.RefundRate >= mRef.MemberLevel.RefundRate)
-            {
-                //向上遍历 如果某上线的级别等于或低于其自己 
-                //Nothing
-            }
-            else
-            {
-                //如果该上线从未报单过 则跳过其上线
-                if (!GetSystemSettingBoolean("EnableRefundOnlyForActivateUser") || mRef.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
-                {
-                    //直接上线获利最多
-                    decimal finalRefundRate; //= (member.Id == mBaoDan.Member.Id) ? mRef.MemberLevel.RefundRate : (mRef.MemberLevel.RefundRate - Math.Max(member.MemberLevel.RefundRate, lastRefundRate));
-                    if(member.Id == mBaoDan.Member.Id)
-                    {
-                        //直接上线
-                        finalRefundRate =  mRef.MemberLevel.RefundRate;
-                    }
-                    else
-                    {
-                        if (!GetSystemSettingBoolean("EnableRefundOnlyForActivateUser") || member.BaoDanTransaction.Count(m => m.Type == mBaoDanBuyStatus) > 0)
-                        {
-                            finalRefundRate =  mRef.MemberLevel.RefundRate - Math.Max(member.MemberLevel.RefundRate, lastRefundRate);
-                        }
-                        else
-                        {
-                            //该上线会员从未报过单, 则无返利
-                            finalRefundRate = mRef.MemberLevel.RefundRate - Math.Max(0, lastRefundRate);
-                        }
-                    }
-                    
-                    decimal refTotalRefund = finalRefundRate * GetCorrectSettingPercentValue("PV") * amount;
-                    currentRefundRate = finalRefundRate;
-
-                    // Step 3.1 为自己所有上线增加返利
-                    decimal refRfund = refTotalRefund * (1 - GetCorrectSettingPercentValue("ChongXiaoRate"));
-                    mRef.CashTransaction.Add(new CashTransaction
-                    {
-                        DateTime = DateTime.Now,
-                        Status = 现金状态.冻结.ToString(),
-                        Type = 现金交易类型.下线返利.ToString(),
-                        Amount = refRfund,
-                        Fee = 0,
-                        BaoDanTransaction = mBaoDan,
-                    });
-                    mRef.Cash2 += refRfund;
-
-                    // Step 3.2 为上线增加重消记录
-                    decimal refChonXiao = refTotalRefund * GetCorrectSettingPercentValue("ChongXiaoRate");
-                    mRef.ChongXiaoTransaction.Add(new ChongXiaoTransaction
-                        {
-                            DateTime = DateTime.Now,
-                            Status = 重消状态.可用.ToString(),
-                            Type = 重消记录类型.下线返利.ToString(),
-                            Amount = refChonXiao,
-                            BaoDanTransaction = mBaoDan,
-                        });
-                    mRef.ChongXiao1 += refChonXiao;
-                }
-                // 直到最高价 七钻结束
-                if (mRef.MemberLevel.Level.Equals(会员等级.七钻.ToString()))
-                {
-                    return;
-                }
-            }
-
-            RefundForReferral(mRef, amount, mBaoDan, currentRefundRate);
-            */
         }
 
         /// <summary>
