@@ -37,7 +37,7 @@
                 @if (ViewData.ModelState.IsValid && Model.RequestQuantity > 0)
                 {
                     <td rowspan="2" style="vertical-align: bottom;text-align: right;">
-                        <button type="submit" class="btn btn-primary">报单</button>
+                        <a data-toggle="modal" href="#myModal" class="btn btn-primary">报单</a>
                     </td>
                 } 
             </tr>
@@ -59,7 +59,9 @@
                 <td class="CashLeft">￥@Html.DisplayFor(m => m.CashLeft, new { @class = "CashLeft" }) </td>
                 
             </tr>
-        </table>
+        </table>        
+        <!-- /.Table -->
+
         @Html.HiddenFor(m => m.MaxRequestCash)
         @Html.HiddenFor(m => m.CurrentCoinPrice)
         @Html.HiddenFor(m => m.RequestPrice)
@@ -69,8 +71,29 @@
         @Html.HiddenFor(m => m.TotalCostCash, new { @class = "TotalCostCash" })
         @Html.HiddenFor(m => m.CashLeft, new { @class = "CashLeft" })
         @Html.HiddenFor(m => m.Fee, new { @class = "Fee" })
+        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">报单确认</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>您确定要支出￥<span id="modal_cash">@Html.DisplayFor(m => m.MaxRequestCash)</span>万元现金，购买<span id="modal_amount">@Html.DisplayFor(m => m.RequestQuantity)</span>个积分吗？</p>
+                    </div>
+                    <div class="modal-footer">
+		                <button type="submit" class="btn btn-success">确认</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        
     }
-        <!-- /.Table -->
     </div>
     <!-- /.panel-body -->
     <div class="panel-footer">
@@ -93,6 +116,9 @@
             $('.RequestQuantity').text(requestQty);
             $('.TotalCostCash').text("￥" + toThousands(requestCash + @Model.Fee));
             $('.CashLeft').text("￥" + toThousands(@Model.AvailableCash - requestCash - @Model.Fee));
+
+            $('#modal_cash').html(w);
+            $('#modal_amount').html(requestQty);
         });
     });
 
@@ -109,4 +135,10 @@
         }
         return num.match(/\d{3}/g).join(',').replace(/^0+/, '');
     }
+
+    function showModal()
+    {
+        $("#myModal").modal('show');
+    }
 </script>
+
