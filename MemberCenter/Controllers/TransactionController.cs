@@ -322,8 +322,9 @@ namespace MemberCenter.Controllers
 
             String type = 现金交易类型.提现.ToString();
             String statusDone = 现金状态.已审核.ToString();
+            String statusPending = 现金状态.待审核.ToString();
             model.WithdrawHistory = from row in CurrentUser.CashTransaction
-                                          where row.Type.Equals(type)
+                                    where row.Type.Equals(type) && row.Status.Equals(statusPending)
                                           orderby row.DateTime descending
                                           select new CashWithdrawHistoryViewModel
                                           {
