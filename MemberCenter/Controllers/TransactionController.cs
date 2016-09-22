@@ -101,9 +101,21 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.RequestAmount > CurrentUser.Cash1 || model.RequestAmount < GetSystemSettingDecimal("CashWithdrawMin") || model.RequestAmount > GetSystemSettingDecimal("CashWithdrawMax"))
+                //计算当日已体现量
+                String type = 现金交易类型.提现.ToString();
+                DateTime stDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                DateTime edDate = stDate.AddDays(1);
+                
+                var transactionAmount = CurrentUser.CashTransaction.Where(m => type.Equals(m.Type) && m.DateTime >= stDate && m.DateTime <= edDate);
+                decimal todayTransactionAmount = transactionAmount.Count() == 0 ? 0 : transactionAmount.Sum(m => m.Amount);
+
+                if (Math.Abs(todayTransactionAmount) + model.RequestAmount > GetSystemSettingDecimal("DailyMaxWithdrawAmount"))
                 {
-                    ModelState.AddModelError("", "提现金额有误(" + model.RequestAmount + ")");
+                    ModelState.AddModelError("", "已超过单日最大提现限额");
+                }
+                else if (model.RequestAmount > CurrentUser.Cash1 || model.RequestAmount < GetSystemSettingDecimal("CashWithdrawMin") || model.RequestAmount > GetSystemSettingDecimal("CashWithdrawMax"))
+                {
+                    ModelState.AddModelError("", "提现金额有误(" + model.RequestAmount + ")，每笔最少￥" + GetSystemSettingDecimal("CashWithdrawMin") + "，最多￥" + GetSystemSettingDecimal("CashWithdrawMax"));
                 }
                 else if (CurrentUser.BankInfo.Count<=0)       
                 {
@@ -317,6 +329,7 @@ namespace MemberCenter.Controllers
                 BankInfoId = bankInfoId,
                 MaxWithdrawAmount = GetSystemSettingDecimal("CashWithdrawMax"),
                 MinWithdrawAmount = GetSystemSettingDecimal("CashWithdrawMin"),
+                DailyMaxWithdrawAmount = GetSystemSettingDecimal("DailyMaxWithdrawAmount"),
                 FeeSetting = GetSystemSettingString("CashWithdrawFee"),
             };
 

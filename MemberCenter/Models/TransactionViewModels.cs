@@ -91,6 +91,9 @@ namespace MemberCenter.Models
         [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal MinWithdrawAmount { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:n2}")]
+        public decimal DailyMaxWithdrawAmount { get; set; }
+
 
         public int BankInfoId { get; set; }
 
