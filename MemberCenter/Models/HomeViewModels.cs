@@ -32,11 +32,11 @@ namespace MemberCenter.Models
 
         [DisplayFormat(DataFormatString = "{0:n0}")]
         [Display(Name = "今日成交额")]
-        public int TodayBaoDanCash { get; set; }
+        public Int64 TodayBaoDanCash { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:n0}")]
         [Display(Name = "历史成交额")]
-        public int TotalTransactionCash { get; set; }
+        public Int64 TotalTransactionCash { get; set; }
 
         [DisplayFormat(DataFormatString = "{0}")]
         [Display(Name = "注册用户数")]

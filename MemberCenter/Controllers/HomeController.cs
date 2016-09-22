@@ -47,8 +47,8 @@ namespace MemberCenter.Controllers
                 MinCoinPrice = db.CoinPrices.Min(m=>m.Price),
                 MemberAmount = db.Members.Count(),
                 TodayBaoDanAmount = todayBodan.Count() == 0 ? 0 : todayBodan.Sum(m => m.Amount),
-                TodayBaoDanCash = (int)Math.Ceiling(todayBodan.Count() == 0 ? 0 : todayBodan.Sum(m => m.Amount * m.Price)),
-                TotalTransactionCash = (int)Math.Ceiling(totalBaoDan.Count() == 0 ? 0 : totalBaoDan.Sum(m => m.Amount * m.Price)),
+                TodayBaoDanCash = (Int64)Math.Ceiling(todayBodan.Count() == 0 ? 0 : todayBodan.Sum(m => m.Amount * m.Price)),
+                TotalTransactionCash = (Int64)Math.Ceiling(totalBaoDan.Count() == 0 ? 0 : totalBaoDan.Sum(m => m.Amount * m.Price) + GetSystemSettingDecimal("InitialTransactionAmount")),
                 RecentBaoDanBuy = (from row in db.BaoDanTransactions
                                    where row.Type.Equals(typeBuy) && !row.Status.Equals(statusStr)
                                     orderby row.DateTime descending
