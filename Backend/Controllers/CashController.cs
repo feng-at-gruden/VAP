@@ -12,7 +12,7 @@ using VapLib;
 
 namespace Backend.Controllers
 {
-    [MyAuthorize(Roles = "Admin,Finance")]
+    [MyAuthorize(Roles = "Admin")]
     public class CashController : Controller
     {
         private vapEntities1 db = new vapEntities1();
@@ -63,7 +63,7 @@ namespace Backend.Controllers
         /// 待审批现金充值记录
         /// </summary>
         /// <returns></returns>
-        [MyAuthorize(Roles = "Admin")]
+        
         public ActionResult PendingTopups()
         {
             if (TempData.ContainsKey("ModelState"))
@@ -170,7 +170,7 @@ namespace Backend.Controllers
             return View(cashtransactions.ToList());
         }
 
-
+        [MyAuthorize(Roles = "Admin,Finance")]
         public ActionResult PendingWithdraws()
         {
             if (TempData.ContainsKey("ModelState"))
@@ -202,6 +202,7 @@ namespace Backend.Controllers
 
             return View(model);
         }
+        [MyAuthorize(Roles = "Admin,Finance")]
         public ActionResult DeleteCashTrans(int id,string type="T")
         {
             var recored = db.CashTransactions.Find(id);
@@ -214,6 +215,7 @@ namespace Backend.Controllers
             else
                 return RedirectToAction("PendingWithdraws");
         }
+        [MyAuthorize(Roles = "Admin,Finance")]
         // GET: /Cash/Edit/5
         public ActionResult ApproveCashTrans(int id)
         {
@@ -221,7 +223,7 @@ namespace Backend.Controllers
             CashTransaction cashtransaction = db.CashTransactions.Find(id);
             return View(cashtransaction);
         }
-       
+       [MyAuthorize(Roles = "Admin,Finance")]
         [HttpPost]
         public ActionResult ApproveCashTrans(CashTransaction model)
         {

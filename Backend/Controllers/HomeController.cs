@@ -8,7 +8,7 @@ using Backend.Helper;
 
 namespace Backend.Controllers
 {
-    [MyAuthorize(Roles = "Admin,Finance,ClientService")]
+    [MyAuthorize(Roles = "Admin,Finance,ClientService,Secretary")]
     public class HomeController : Controller
     {
         

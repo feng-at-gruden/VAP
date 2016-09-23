@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "修改账号";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string role = ViewBag.RoleType;
+    string role = Model.Email;
 }
 
 <div class="place">
@@ -52,12 +52,21 @@
 
                     roleOption.Insert(2, new SelectListItem
                     {
+                        Text = "秘书",
+                        Value = "4",
+                        Selected = ViewBag.RoleType == "Secretary"
+                    });
+                    roleOption.Insert(3, new SelectListItem
+                    {
                         Text = "超级管理员",
                         Value = "1",
                         Selected = ViewBag.RoleType == "Admin"
                     });
                 }
-                @Html.DropDownList("roleType", roleOption, new { @class = "dfinput" })<br />
+               @* @Html.DropDownList("roleType", roleOption, new { @class = "dfinput" })<br />*@
+                @Html.DropDownListFor(model => model.Email, roleOption, new { @class = "dfinput" })
+
+
             </li>
             <li><label>&nbsp;</label><input name="" type="submit" class="btn" value="保存" /></li>
         </ul>

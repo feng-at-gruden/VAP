@@ -1,10 +1,14 @@
 ﻿@using Backend.Helper
+@using Backend.Models
+@using Microsoft.AspNet.Identity
 @model IEnumerable<Backend.Models.Member>
 
 @{
     ViewBag.Title = "会员管理";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
+    var total = 0m;
+    var db = new vapEntities1();
+    var userRole = Helper.GetUserRole(User.Identity.GetUserId(), db);
 }
 
 <div class="place">
@@ -99,12 +103,16 @@
                 <th>
                     会员业绩
                 </th>
-                <th>操作</th>
+                @if (Helper.IsUserInRole(userRole, "Admin,ClientService"))
+                {
+                    <th>操作</th>
+                }
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
+                total += item.Achievement;
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Id)
@@ -140,31 +148,34 @@
                     <td style="text-align:right;">
                         ￥@Html.DisplayFor(modelItem => item.Achievement)
                     </td>
-                    
-                    <td>
-                        @if (item.Status == VapLib.会员状态.待审核.ToString())
-                        {
-                            @Html.ActionLink("批准", "ApproveMember", new { id = item.Id }, new { @class = "tablelink" })
-                        }
-                        else if (item.Status == VapLib.会员状态.锁定.ToString())
-                        {
-                            @Html.ActionLink("解锁", "ApproveMember", new { id = item.Id }, new { @class = "tablelink" })
-                        }
-                        else if(item.Status == VapLib.会员状态.正常.ToString())
-                        {
-                            @Html.ActionLink("锁定", "LockMember", new { id = item.Id },new{@class="tablelink"})
-                            @:|
-                            @Html.ActionLink("身份认证", "ApproveIdentity", new { id = item.Id }, new { @class = "tablelink", onclick = "javascript:return confirm('确认通过该会员身份认证？')" })
-                        }
-                        | @Html.ActionLink("详情", "Edit", new { id = item.Id }, new { @class = "tablelink" })
+                    @if (Helper.IsUserInRole(userRole, "Admin,ClientService"))
+                    {
+                        <td>
+                            @if (item.Status == VapLib.会员状态.待审核.ToString())
+                            {
+                                @Html.ActionLink("批准", "ApproveMember", new {id = item.Id}, new {@class = "tablelink"})
+                            }
+                            else if (item.Status == VapLib.会员状态.锁定.ToString())
+                            {
+                                @Html.ActionLink("解锁", "ApproveMember", new {id = item.Id}, new {@class = "tablelink"})
+                            }
+                            else if (item.Status == VapLib.会员状态.正常.ToString())
+                            {
+                                @Html.ActionLink("锁定", "LockMember", new {id = item.Id}, new {@class = "tablelink"})
+                                @:|
+                                @Html.ActionLink("身份认证", "ApproveIdentity", new {id = item.Id}, new {@class = "tablelink", onclick = "javascript:return confirm('确认通过该会员身份认证？')"})
+                            }
+                            | @Html.ActionLink("详情", "Edit", new {id = item.Id}, new {@class = "tablelink"})
                         
                        
                         
-                    </td>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
     </table>
+    <span class="text-danger "><b>会员业绩汇总：￥@total</b></span>
 </div>
 
 

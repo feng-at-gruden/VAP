@@ -1,4 +1,7 @@
-﻿<script type="text/javascript">
+﻿@using Backend.Helper
+@using Backend.Models
+@using Microsoft.AspNet.Identity
+<script type="text/javascript">
 $(function(){
 	//导航切换
 	$(".menuson .header").click(function(){
@@ -38,67 +41,118 @@ $(function(){
 <div class="page-sidebar">
     @*<div class="lefttop"><span></span>主菜单</div>
 *@
+    @{
+        var db = new vapEntities1();
+        var userRole = Helper.GetUserRole(User.Identity.GetUserId(), db);
+    }
     <dl class="leftmenu">
-        <dd>
-            <div class="title">
-                <span><img src="~/images/leftico01.png" /></span>会员管理
-            </div>
-            <ul class="menuson" id="memberParent">
-                <li><cite></cite><a href="@Url.Action("Index","Member")">会员列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("MemberTree","Member")">会员关系</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("IpLogs","Member")">会员登录日志</a><i></i></li>
-            </ul>
-        </dd>
-        <dd>
-            <div class="title">
-                <span><img src="~/images/leftico04.png" /></span>资产管理
-            </div>
-            <ul class="menuson" id="cashParent">
-                <li><cite></cite><a href="@Url.Action("PendingTopups","Cash")">资金充值审核</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("PendingWithdraws","Cash")">提现申请审核</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("CashTrans","Cash")">资金操作记录查询</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("PendingSells","BaoDan")">通用积分出售审核</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("GetBaodanTrans","BaoDan")">通用积分交易查询</a><i></i></li>
+        @if (Helper.IsUserInRole(userRole, "Secretary,Admin,ClientService"))
+        {
+            <dd>
+                <div class="title">
+               
+                    <span><img src="~/images/leftico01.png" /></span>会员管理
                 
-            </ul>
-        </dd>
-        <dd>
-            <div class="title">
-                <span><img src="~/images/leftico.png" /></span>报表统计
-            </div>
-            <ul class="menuson" id="reportParent">
-                <li><cite></cite><a href="@Url.Action("GeneralReport","Reports")">汇总统计</a><i></i></li>
-            </ul>
-        </dd>
-        <dd>
-            <div class="title">
-                <span><img src="~/images/leftico03.png" /></span>通用积分管理
-            </div>
-            <ul class="menuson" id="coinParent">
-                <li><cite></cite><a href="@Url.Action("Index","CoinPrices")">历史价格</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create", "CoinPrices")">积分价格调整</a><i></i></li>
-            </ul>
-        </dd>
-        <dd>
-            <div class="title">
-                <span><img src="~/images/leftico02.png" /></span>新闻管理
-            </div>
-            <ul class="menuson" id="newsParent">
-                <li><cite></cite><a href="@Url.Action("Index","News")">新闻列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Create","News")">添加新闻</a><i></i></li>
-            </ul>
-        </dd>
-        <dd>
-            <div class="title">
-                <span><img src="~/images/leftico01.png" /></span>系统管理
-            </div>
-            <ul class="menuson" id="adminParent">
-                <li><cite></cite><a href="@Url.Action("UnlockCash","Admin")">资金解冻</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("MetaIndex","Admin")">系统参数设置</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Banks","Admin")">银行账号列表</a><i></i></li>
-                <li><cite></cite><a href="@Url.Action("Users","Admin")">后台账号管理</a><i></i></li>
-            </ul>
-        </dd>
-        
+                </div>
+                <ul class="menuson" id="memberParent">
+                    @if (Helper.IsUserInRole(userRole, "Secretary,Admin,ClientService"))
+                    {
+                        <li><cite></cite><a href="@Url.Action("Index", "Member")">会员列表</a><i></i></li>
+                    }
+                    @if (Helper.IsUserInRole(userRole, "Admin,ClientService"))
+                    {
+                        <li><cite></cite><a href="@Url.Action("MemberTree", "Member")">会员关系</a><i></i></li>
+                        <li><cite></cite><a href="@Url.Action("IpLogs", "Member")">会员登录日志</a><i></i></li>
+                    }
+                </ul>
+            </dd>
+        }
+        @if (Helper.IsUserInRole(userRole, "Admin,Finance"))
+        {
+            <dd>
+                <div class="title">
+                
+                    <span><img src="~/images/leftico04.png" /></span>资产管理
+                
+                </div>
+                <ul class="menuson" id="cashParent">
+                    @if (Helper.IsUserInRole(userRole, "Admin,Finance"))
+                    {
+                        <li><cite></cite><a href="@Url.Action("PendingWithdraws","Cash")">提现申请审核</a><i></i></li>
+                    }
+                    @if (Helper.IsUserInRole(userRole, "Admin"))
+                    {
+                        <li><cite></cite><a href="@Url.Action("PendingTopups", "Cash")">资金充值审核</a><i></i></li>
+
+                        <li><cite></cite><a href="@Url.Action("CashTrans", "Cash")">资金操作记录查询</a><i></i></li>
+                        <li><cite></cite><a href="@Url.Action("PendingSells", "BaoDan")">通用积分出售审核</a><i></i></li>
+                        <li><cite></cite><a href="@Url.Action("GetBaodanTrans", "BaoDan")">通用积分交易查询</a><i></i></li>
+                    }
+                </ul>
+            </dd>
+        }
+        @if (Helper.IsUserInRole(userRole, "Admin,ClientService"))
+        {
+            <dd>
+                <div class="title">
+                
+                    <span><img src="~/images/leftico.png" /></span>
+                    报表统计
+                
+                </div>
+                <ul class="menuson" id="reportParent">
+                    <li><cite></cite><a href="@Url.Action("GeneralReport","Reports")">汇总统计</a><i></i></li>
+                </ul>
+            </dd>
+        }
+        @if (Helper.IsUserInRole(userRole, "Admin,ClientService"))
+        {
+            <dd>
+                <div class="title">
+                
+                    <span><img src="~/images/leftico03.png" /></span>
+                    通用积分管理
+                
+                </div>
+                <ul class="menuson" id="coinParent">
+                    <li><cite></cite><a href="@Url.Action("Index","CoinPrices")">历史价格</a><i></i></li>
+                
+                    <li><cite></cite><a href="@Url.Action("Create", "CoinPrices")">积分价格调整</a><i></i></li>
+                
+                </ul>
+            </dd>
+        }
+        @if (Helper.IsUserInRole(userRole, "Admin,ClientService"))
+        {
+            <dd>
+                <div class="title">
+                
+                    <span><img src="~/images/leftico02.png" /></span>
+                    新闻管理
+                
+                </div>
+                <ul class="menuson" id="newsParent">
+                    <li><cite></cite><a href="@Url.Action("Index","News")">新闻列表</a><i></i></li>
+                    <li><cite></cite><a href="@Url.Action("Create","News")">添加新闻</a><i></i></li>
+                </ul>
+            </dd>
+        }
+        @if (Helper.IsUserInRole(userRole, "Admin"))
+        {
+            <dd>
+                <div class="title">
+                
+                    <span><img src="~/images/leftico01.png" /></span>
+                    系统管理
+               
+                </div>
+                <ul class="menuson" id="adminParent">
+                    <li><cite></cite><a href="@Url.Action("UnlockCash","Admin")">资金解冻</a><i></i></li>
+                    <li><cite></cite><a href="@Url.Action("MetaIndex","Admin")">系统参数设置</a><i></i></li>
+                    <li><cite></cite><a href="@Url.Action("Banks","Admin")">银行账号列表</a><i></i></li>
+                    <li><cite></cite><a href="@Url.Action("Users","Admin")">后台账号管理</a><i></i></li>
+                </ul>
+            </dd>
+        }
     </dl>
 </div>

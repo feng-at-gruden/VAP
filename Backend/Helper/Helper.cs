@@ -25,5 +25,11 @@ namespace Backend.Helper
             return GetUserRole(userId,dbEntities) == role;
             
         }
+        public static bool IsUserInRole(string userRole, string roles)
+        {
+
+            return roles.Contains(userRole);
+
+        }
     }
 }

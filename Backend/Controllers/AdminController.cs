@@ -120,7 +120,8 @@ namespace Backend.Controllers
             {
                 var userRole = record.AspNetRoles.FirstOrDefault();
                 if (userRole != null)
-                {
+                {//借用email字段传参数
+                    record.Email = userRole.Id;
                     //var roleid = userRole.Id;
                     ViewBag.RoleType = userRole.Name;
                 }
@@ -142,12 +143,12 @@ namespace Backend.Controllers
 
                 var record = db.AspNetUsers.Find(user.Id);
                 if (record != null)
-                {
-                    if (roleType != oldRole)
+                {//借用email字段传参数
+                    if (user.Email != oldRole)
                     {
 
                         record.AspNetRoles.Clear();
-                        var newrole = db.AspNetRoles.Find(roleType);
+                        var newrole = db.AspNetRoles.Find(user.Email);
                         record.AspNetRoles.Add(newrole);
 
                         /*UserManager.RemoveFromRole(user.Id, oldRole);

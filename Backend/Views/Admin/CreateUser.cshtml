@@ -46,8 +46,13 @@
                         Value = "2",
                         Selected = ViewBag.RoleType == "Finance"
                     });
-
                     roleOption.Insert(2, new SelectListItem
+                    {
+                        Text = "秘书",
+                        Value = "4",
+                        Selected = ViewBag.RoleType == "Secretary"
+                    });
+                    roleOption.Insert(3, new SelectListItem
                     {
                         Text = "超级管理员",
                         Value = "1",
@@ -66,7 +71,7 @@
 
 <div>
     @Html.ActionLink("返回", "Users")
-    <a href="@Url.Action("Users","Admin")" class="btn-primary">返回</a>
+    @*<a href="@Url.Action("Users","Admin")" class="btn-primary">返回</a>*@
 </div>
 
 @section Scripts {

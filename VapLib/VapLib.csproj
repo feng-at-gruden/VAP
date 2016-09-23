@@ -46,6 +46,7 @@
   <ItemGroup>
     <Content Include="InitSQL\BankInfo.sql" />
     <Content Include="InitSQL\CoinPrices.sql" />
+    <Content Include="InitSQL\NewRole-Secretary.sql" />
     <Content Include="InitSQL\IdentityInitial.sql" />
     <Content Include="InitSQL\MemberLevel.sql" />
     <Content Include="InitSQL\Members.sql" />

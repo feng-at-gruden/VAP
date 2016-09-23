@@ -40,18 +40,30 @@
                         @Html.DisplayFor(modelItem => item.UserName)
                     </td>
                     <td>
-                        @if (item.AspNetRoles.FirstOrDefault().Name == "Admin")
-                        {
-                            @:超级管理员
+                        
+                        @{
+                            var firstOrDefault = item.AspNetRoles.FirstOrDefault();
                         }
-                        else if (item.AspNetRoles.FirstOrDefault().Name == "Finance")
+                        @if (firstOrDefault != null)
                         {
-                            @:财务
+                            if (firstOrDefault.Name == "Admin")
+                            {
+                                @:超级管理员
+                                                }
+                            else if (firstOrDefault.Name == "Finance")
+                            {
+                                @:财务
+                                                }
+                            else if (firstOrDefault.Name == "Secretary")
+                            {
+                                @:秘书
+                                                }
+                            else
+                            {
+                                @:客服
+                                                }
                         }
-                        else
-                        {
-                            @:客服
-                        }
+                        
                         
                     </td>
                    

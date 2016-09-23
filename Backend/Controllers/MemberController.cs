@@ -14,12 +14,13 @@ using Member = Backend.Models.Member;
 
 namespace Backend.Controllers
 {
-    [MyAuthorize(Roles = "Admin,ClientService")]
+    [MyAuthorize(Roles = "Admin,ClientService,Secretary")]
     public class MemberController : Controller
     {
         private vapEntities1 db = new vapEntities1();
 
         // GET: /Member/
+        
         public ActionResult Index(string account, string status)
         {
             if (TempData.ContainsKey("ModelState"))
