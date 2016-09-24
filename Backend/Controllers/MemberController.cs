@@ -40,7 +40,7 @@ namespace Backend.Controllers
             
             ViewBag.account = account;
             ViewBag.status = status;
-            return View(members.ToList());
+            return View(members.ToList().Select(c=>new MemberViewModel(c)).ToList());
         }
         public ActionResult MemberTree()
         {

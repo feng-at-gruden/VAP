@@ -21,9 +21,20 @@ namespace Backend.Controllers
         /// </summary>
         /// <returns></returns>
         [MyAuthorize(Roles = "Admin,Finance")]
-        public ActionResult CashTrans(string type,string status,string memberAccount)
+        public ActionResult CashTrans(string type,string status,string memberAccount,string startDate,string endDate)
         {
-
+            var start = DateTime.Now;
+            var end = DateTime.Now;
+            if (!DateTime.TryParse(startDate, out start) &&!string.IsNullOrEmpty(startDate))
+            {
+                ModelState.AddModelError("","起始日期格式输入不正确");
+                return View();
+            }
+            if (!DateTime.TryParse(endDate, out end) && !string.IsNullOrEmpty(endDate))
+            {
+                ModelState.AddModelError("", "截止日期格式输入不正确");
+                return View();
+            }
             var records = db.CashTransactions.Include(c=>c.Member);
             if (!string.IsNullOrEmpty(type))
             {
@@ -37,9 +48,19 @@ namespace Backend.Controllers
             {
                 records = records.Where(c => c.Member.Email.Contains(memberAccount));
             }
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                records = records.Where(c => c.DateTime>=start);
+            }
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                records = records.Where(c => c.DateTime <= end);
+            }
             ViewBag.memberAccount = memberAccount;
             ViewBag.status = status;
             ViewBag.type = type;
+            ViewBag.startDate = startDate;
+            ViewBag.endDate = endDate;
 
             IEnumerable<CashTransactionViewModel> modle = from row in records
                                                           select new CashTransactionViewModel

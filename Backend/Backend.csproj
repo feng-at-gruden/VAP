@@ -225,6 +225,7 @@
     <Compile Include="Models\LockedCoin.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MemberViewModel.cs" />
     <Compile Include="Models\Member.cs">
       <DependentUpon>VpaModel.tt</DependentUpon>
     </Compile>

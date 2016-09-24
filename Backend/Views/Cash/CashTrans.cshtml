@@ -6,6 +6,7 @@
 @{
     ViewBag.Title = "记录查询";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var total = 0m;
 }
 
 <div class="place">
@@ -103,11 +104,24 @@
                 @Html.DropDownList("type", options1, new { @class = "scinput1" })
 
             </li>
+
+            
+        </ul>
+        <ul class="seachform1">
+            <li>
+                <label>起始时间</label>
+                @Html.TextBox("startDate", "", new { @class = "scinput1" ,@Type="Date"})
+            </li>
+            <li>
+                <label>截止时间</label>
+                @Html.TextBox("endDate", "", new { @class = "scinput1", @Type = "Date" })
+            </li>
             <li class="sarchbtn">
                 <input name="" type="submit" class="scbtn" value="查询" />
                 @*<input name="" type="button" class="scbtn2" value="导出" />*@
             </li>
         </ul>
+        
 
 
 
@@ -145,6 +159,7 @@
         <tbody>
             @foreach (var item in Model)
             {
+                total += item.Amount;
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.MemberEmail)
@@ -179,6 +194,7 @@
             }
         </tbody>
     </table>
+    <span class="text-danger "><b>金额汇总：￥@total</b></span>
 </div>
 <script>
     $(document).ready(function () {

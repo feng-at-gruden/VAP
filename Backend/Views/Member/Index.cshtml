@@ -1,7 +1,7 @@
 ﻿@using Backend.Helper
 @using Backend.Models
 @using Microsoft.AspNet.Identity
-@model IEnumerable<Backend.Models.Member>
+@model IEnumerable<Backend.Models.MemberViewModel>
 
 @{
     ViewBag.Title = "会员管理";
@@ -82,7 +82,7 @@
                     登录名
                 </th>
                 <th>
-                    会员状态
+                    状态
                 </th>
                 <!--
                     <th>
@@ -95,10 +95,13 @@
                     昵称
                 </th>
                 <th>
-                    真实姓名
+                    姓名
                 </th>
                 <th>
                     等级
+                </th>
+                <th>
+                    报单总额
                 </th>
                 <th>
                     会员业绩
@@ -118,7 +121,7 @@
                         @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Referral_Id)
+                        @Html.DisplayFor(modelItem => item.ReferId)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.RegisterTime)
@@ -129,13 +132,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Status)
                     </td>
-                    <!--
+                    @*<!--
                         <td>
                             @Html.DisplayFor(modelItem => item.TiXianStatus)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TiBiStatus)
-                        </td>-->
+                        </td>-->*@
                     <td>
                         @Html.DisplayFor(modelItem => item.UserName)
                     </td>
@@ -143,7 +146,10 @@
                         @Html.DisplayFor(modelItem => item.RealName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.MemberLevel.Level)
+                        @Html.DisplayFor(modelItem => item.MemberLevel)
+                    </td>
+                    <td style="text-align:right;">
+                        ￥@Html.DisplayFor(modelItem => item.BuyAmount)
                     </td>
                     <td style="text-align:right;">
                         ￥@Html.DisplayFor(modelItem => item.Achievement)
