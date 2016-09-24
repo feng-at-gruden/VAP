@@ -12,7 +12,7 @@ using VapLib;
 
 namespace Backend.Controllers
 {
-    [MyAuthorize(Roles = "Admin")]
+   
     public class CashController : Controller
     {
         private vapEntities1 db = new vapEntities1();
@@ -20,6 +20,7 @@ namespace Backend.Controllers
         /// 所有cash 操作记录
         /// </summary>
         /// <returns></returns>
+        [MyAuthorize(Roles = "Admin,Finance")]
         public ActionResult CashTrans(string type,string status,string memberAccount)
         {
 
@@ -63,7 +64,7 @@ namespace Backend.Controllers
         /// 待审批现金充值记录
         /// </summary>
         /// <returns></returns>
-        
+        [MyAuthorize(Roles = "Admin")]
         public ActionResult PendingTopups()
         {
             if (TempData.ContainsKey("ModelState"))
@@ -81,6 +82,7 @@ namespace Backend.Controllers
         /// 会员冻结积分记录
         /// </summary>
         /// <returns></returns>
+        [MyAuthorize(Roles = "Admin")]
         public ActionResult MemberLocks(int memberId)
         {
             if (TempData.ContainsKey("ModelState"))
@@ -95,6 +97,7 @@ namespace Backend.Controllers
 
             return View(lockedCv);
         }
+        [MyAuthorize(Roles = "Admin")]
         public ActionResult UnlockCashTrans(int id)
         {
 
@@ -129,6 +132,8 @@ namespace Backend.Controllers
         /// 会员现金充值记录
         /// </summary>
         /// <returns></returns>
+        [MyAuthorize(Roles = "Admin")]
+        
         public ActionResult MemberTopups(int memberId)
         {
             
@@ -159,6 +164,7 @@ namespace Backend.Controllers
         /// 会员提现记录
         /// </summary>
         /// <returns></returns>
+        [MyAuthorize(Roles = "Admin")]
         public ActionResult MemberWithdraws(int memberId)
         {
 

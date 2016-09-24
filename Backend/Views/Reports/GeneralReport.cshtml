@@ -1,8 +1,13 @@
-﻿@model Backend.Models.GeneralReportViewModel
+﻿@using Backend.Helper
+@using Backend.Models
+@using Microsoft.AspNet.Identity
+@model Backend.Models.GeneralReportViewModel
 
 @{
     ViewBag.Title = "综合统计表";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = User.Identity.GetUserId();
+    var db = new vapEntities1();
 }
 
 <div class="place">
@@ -71,8 +76,15 @@
     $(document).ready(function () {
         //alert($('.leftmenu').children('ul'))
         //alert($('.leftmenu').first().children('ul'))
-        $('.leftmenu').first().children('ul').slideDown();
-        //$('#cashParent').slideDown();
+        @if (Helper.IsUserInRole(userId, "Finance",db))
+        {
+           @: $('#cashParent').slideDown();
+        }
+        @if (Helper.IsUserInRole(userId, "Secretary",db))
+        {
+            @: $('#memberParent').slideDown();
+        }
+        
     });
 
 </script>
