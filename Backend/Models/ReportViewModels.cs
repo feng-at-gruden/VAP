@@ -55,7 +55,7 @@ namespace Backend.Models
         //当前会员冻结冲销总额
         public decimal TotalLockCx { get; set; }
 
-        public GeneralReportViewModel(vapEntities1 db)
+        public GeneralReportViewModel(vapEntities1 db,string startDate,string endDate)
         {
             var members = db.Members.Where(c => c.Id > 0);
             MemberCount = members.Count();
@@ -76,20 +76,52 @@ namespace Backend.Models
             var topups = cashRecords.Where(c => c.Type == chongzhi).ToList();
             if (topups.Any())
             {
-                TotalTopup = topups.Sum(c => c.Amount);
                 TotalPendingTopup = topups.Where(c => c.Status == daishenhe).Sum(c => c.Amount);
+
                 TodayTotalTopup = topups.Where(c => c.DateTime >= DateTime.Today).Sum(c => c.Amount);
+                if (!string.IsNullOrEmpty(startDate))
+                {
+                    DateTime start;
+                    DateTime.TryParse(startDate, out start);
+                    topups = topups.Where(c => c.DateTime >= start).ToList();
+                }
+                if (!string.IsNullOrEmpty(endDate))
+                {
+                    DateTime end;
+                    DateTime.TryParse(endDate, out end);
+                    end = end.AddDays(1);
+                    topups = topups.Where(c => c.DateTime < end).ToList();
+                }
+                TotalTopup = topups.Sum(c => c.Amount);
+                
             }
             
 
             var withdraws = cashRecords.Where(c => c.Type == tixian).ToList();
             if (withdraws.Any())
             {
-                TotalWithdraw = withdraws.Sum(c => c.Amount);
-                TotalPendingWithdraw = withdraws.Where(c => c.Status == daishenhe).Sum(c => c.Amount);
                 TodayTotalWithdraw = withdraws.Where(c => c.DateTime >= DateTime.Today).Sum(c => c.Amount);
-                TotalWithdrawFee = withdraws.Sum(c => c.Fee);
                 TodayTotalWithdrawFee = withdraws.Where(c => c.DateTime >= DateTime.Today).Sum(c => c.Fee);
+                TotalPendingWithdraw = withdraws.Where(c => c.Status == daishenhe).Sum(c => c.Amount);
+
+                if (!string.IsNullOrEmpty(startDate))
+                {
+                    DateTime start;
+                    DateTime.TryParse(startDate, out start);
+                    withdraws = withdraws.Where(c => c.DateTime >= start).ToList();
+                }
+                if (!string.IsNullOrEmpty(endDate))
+                {
+                    DateTime end;
+                    DateTime.TryParse(endDate, out end);
+                    end = end.AddDays(1);
+                    withdraws = withdraws.Where(c => c.DateTime < end).ToList();
+                }
+                
+                TotalWithdraw = withdraws.Sum(c => c.Amount);
+                TotalWithdrawFee = withdraws.Sum(c => c.Fee);
+
+                
 
             }
             

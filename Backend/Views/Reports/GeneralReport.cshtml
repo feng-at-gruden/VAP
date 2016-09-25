@@ -18,7 +18,7 @@
     </ul>
 </div>
 <div class="formbody">
-
+    
     <div class="formtitle"><span>会员信息</span></div>
 
     <div class="toolsli">
@@ -27,6 +27,47 @@
             <li><h2>今日注册会员数： @Html.DisplayFor(model => model.TodayMemberCount)</h2></li>
         </ul>
     </div>
+    <div class="formtitle"><span>会员钱包信息</span></div>
+    <div class="toolsli">
+        <ul class="toollist">
+            <li><h2>全站现金金额： @Html.DisplayFor(model => model.TotalCash)</h2></li>
+            <li><h2>全站冻结现金金额： @Html.DisplayFor(model => model.TotalLockCash)</h2></li>
+            <li><h2>全站虚拟币数量： @Html.DisplayFor(model => model.TotalCoin)</h2></li>
+            <li><h2>全站冻结虚拟币数量： @Html.DisplayFor(model => model.TotalLockCoin)</h2></li>
+            <li><h2>全站购物券： @Html.DisplayFor(model => model.TotalPoint)</h2></li>
+            <li><h2>全站冻结购物券： @Html.DisplayFor(model => model.TotalLockPoint)</h2></li>
+            <li><h2>全站冲销： @Html.DisplayFor(model => model.TotalCx)</h2></li>
+            <li><h2>全站冻结冲销： @Html.DisplayFor(model => model.TotalLockCx)</h2></li>
+        </ul>
+    </div>
+    <div class="formtitle"><span>当前待审核信息</span></div>
+    <div class="toolsli">
+        <ul class="toollist">
+            <li><h2>待审核会员： @Html.DisplayFor(model => model.PendingMemberCount)</h2></li>
+            <li><h2>待审核充值金额： @Html.DisplayFor(model => model.TotalPendingTopup)</h2></li>
+            <li><h2>待审核提现金额： @Html.DisplayFor(model => model.TotalPendingWithdraw)</h2></li>
+            <li><h2>待审核售币数量： @Html.DisplayFor(model => model.TotalPendingSells)</h2></li>
+        </ul>
+    </div>
+    <div class="formtitle"><span>按时间统计</span></div><br/>
+    @using (Html.BeginForm("GeneralReport", "Reports", FormMethod.Get))
+    {
+
+        <ul class="seachform1">
+            <li>
+                <label>起始时间</label>
+                @Html.TextBox("startDate", "", new { @class = "scinput1", @Type = "Date" })
+            </li>
+            <li>
+                <label>截止时间</label>
+                @Html.TextBox("endDate", "", new { @class = "scinput1", @Type = "Date" })
+            </li>
+            <li class="sarchbtn">
+                <input name="" type="submit" class="scbtn" value="统计" />
+                @*<input name="" type="button" class="scbtn2" value="导出" />*@
+            </li>
+        </ul>
+    }
     <div class="formtitle"><span>会员充值信息</span></div>
 
     <div class="toolsli">
@@ -45,30 +86,7 @@
             <li><h2>今日提现手续费： @Html.DisplayFor(model => model.TodayTotalWithdrawFee)</h2></li>
         </ul>
     </div>
-    <div class="formtitle"><span>会员钱包信息</span></div>
-
-    <div class="toolsli">
-        <ul class="toollist">
-            <li><h2>全站现金金额： @Html.DisplayFor(model => model.TotalCash)</h2></li>
-            <li><h2>全站冻结现金金额： @Html.DisplayFor(model => model.TotalLockCash)</h2></li>
-            <li><h2>全站虚拟币数量： @Html.DisplayFor(model => model.TotalCoin)</h2></li>
-            <li><h2>全站冻结虚拟币数量： @Html.DisplayFor(model => model.TotalLockCoin)</h2></li>
-            <li><h2>全站购物券： @Html.DisplayFor(model => model.TotalPoint)</h2></li>
-            <li><h2>全站冻结购物券： @Html.DisplayFor(model => model.TotalLockPoint)</h2></li>
-            <li><h2>全站冲销： @Html.DisplayFor(model => model.TotalCx)</h2></li>
-            <li><h2>全站冻结冲销： @Html.DisplayFor(model => model.TotalLockCx)</h2></li>
-        </ul>
-    </div>
-    <div class="formtitle"><span>当前待审核信息</span></div>
-
-    <div class="toolsli">
-        <ul class="toollist">
-            <li><h2>待审核会员： @Html.DisplayFor(model => model.PendingMemberCount)</h2></li>
-            <li><h2>待审核充值金额： @Html.DisplayFor(model => model.TotalPendingTopup)</h2></li>
-            <li><h2>待审核提现金额： @Html.DisplayFor(model => model.TotalPendingWithdraw)</h2></li>
-            <li><h2>待审核售币数量： @Html.DisplayFor(model => model.TotalPendingSells)</h2></li>
-        </ul>
-    </div>
+    
 
 
 </div>

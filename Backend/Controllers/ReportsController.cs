@@ -15,9 +15,9 @@ namespace Backend.Controllers
         private vapEntities1 db = new vapEntities1();
 
         // GET: Reports
-        public ActionResult GeneralReport()
+        public ActionResult GeneralReport(string startDate, string endDate)
         {
-            var model = new GeneralReportViewModel(db);
+            var model = new GeneralReportViewModel(db,startDate,endDate);
             return View(model);
         }
     }
