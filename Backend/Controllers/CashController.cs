@@ -52,9 +52,10 @@ namespace Backend.Controllers
             {
                 records = records.Where(c => c.DateTime>=start);
             }
-            if (!string.IsNullOrEmpty(startDate))
+            if (!string.IsNullOrEmpty(endDate))
             {
-                records = records.Where(c => c.DateTime <= end);
+                end = end.AddDays(1);
+                records = records.Where(c => c.DateTime <end);
             }
             ViewBag.memberAccount = memberAccount;
             ViewBag.status = status;
@@ -86,18 +87,33 @@ namespace Backend.Controllers
         /// </summary>
         /// <returns></returns>
         [MyAuthorize(Roles = "Admin")]
-        public ActionResult PendingTopups()
+        public ActionResult PendingTopups(string startDate, string endDate)
         {
             if (TempData.ContainsKey("ModelState"))
             {
                 ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
             }
+            ViewBag.startDate = startDate;
+            ViewBag.endDate = endDate;
             var status =现金状态.待审核.ToString();
             var type = 现金交易类型.充值.ToString();
             var cashtransactions = db.CashTransactions.Where(c => c.Status == status
                                                                   && c.Type == type)
-                                                                  .OrderBy(c=>c.DateTime); 
-            return View(cashtransactions.ToList());
+                                                                  ;
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                DateTime start;
+                DateTime.TryParse(startDate, out start);
+                cashtransactions = cashtransactions.Where(c => c.DateTime >= start);
+            }
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                DateTime end;
+                DateTime.TryParse(endDate, out end);
+                end = end.AddDays(1);
+                cashtransactions = cashtransactions.Where(c => c.DateTime < end);
+            }
+            return View(cashtransactions.OrderBy(c => c.DateTime).ToList());
         }
         /// <summary>
         /// 会员冻结积分记录
@@ -198,20 +214,33 @@ namespace Backend.Controllers
         }
 
         [MyAuthorize(Roles = "Admin,Finance")]
-        public ActionResult PendingWithdraws()
+        public ActionResult PendingWithdraws(string startDate,string endDate)
         {
             if (TempData.ContainsKey("ModelState"))
             {
                 ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
             }
+            ViewBag.startDate = startDate;
+            ViewBag.endDate = endDate;
             var status = 现金状态.待审核.ToString();
             var type = 现金交易类型.提现.ToString();
-            /*
+            
             var cashtransactions = db.CashTransactions.Where(c => c.Status == status
-                                                                  && c.Type == type)
-                                                                  .OrderBy(c => c.DateTime);
-            return View(cashtransactions.ToList());*/
-            IEnumerable<CashWithdrawHistoryViewModel> model = from row in db.CashTransactions
+                                                                  && c.Type == type);
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                DateTime start;
+                DateTime.TryParse(startDate, out start);
+                cashtransactions = cashtransactions.Where(c => c.DateTime >= start);
+            }
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                DateTime end;
+                DateTime.TryParse(endDate, out end);
+                end = end.AddDays(1);
+                cashtransactions = cashtransactions.Where(c => c.DateTime < end);
+            }
+            /*IEnumerable<CashWithdrawHistoryViewModel> model = from row in db.CashTransactions
                                                               where row.Status==status && row.Type==type
                                                               orderby row.DateTime descending
                                                               select new CashWithdrawHistoryViewModel
@@ -225,7 +254,21 @@ namespace Backend.Controllers
                                                                   Id = row.Id,
                                                                   MemberId = row.MemberId,
                                                                   MemberEmail = row.Member.Email,
-                                                              };
+                                                              };*/
+            IEnumerable<CashWithdrawHistoryViewModel> model = cashtransactions.ToList()
+                .OrderByDescending(c => c.DateTime)
+                .Select(c => new CashWithdrawHistoryViewModel
+                {
+                    Status = status.Equals(c.Status) ? "待审核" : "已审核",
+                    WithdrawTime = c.DateTime,
+                    Fee = c.Fee,
+                    Amount = Math.Abs(c.Amount),
+                    Bank = c.Bank,
+                    BankAccount = c.BankAccount,
+                    Id = c.Id,
+                    MemberId = c.MemberId,
+                    MemberEmail = c.Member.Email,
+                });
 
             return View(model);
         }

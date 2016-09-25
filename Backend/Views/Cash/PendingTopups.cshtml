@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "待审批现金充值";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var total = 0m;
 }
 
 <div class="place">
@@ -15,6 +16,24 @@
 </div>
 <div class="formbody">
     @Html.ValidationSummary()
+    @using (Html.BeginForm("PendingTopups", "Cash", FormMethod.Get))
+    {
+
+        <ul class="seachform1">
+            <li>
+                <label>起始时间</label>
+                @Html.TextBox("startDate", "", new { @class = "scinput1", @Type = "Date" })
+            </li>
+            <li>
+                <label>截止时间</label>
+                @Html.TextBox("endDate", "", new { @class = "scinput1", @Type = "Date" })
+            </li>
+            <li class="sarchbtn">
+                <input name="" type="submit" class="scbtn" value="查询" />
+                @*<input name="" type="button" class="scbtn2" value="导出" />*@
+            </li>
+        </ul>
+    }
     @*<ul class="seachform1">
 
         <li><label>会员账号</label><input name="" type="text" class="scinput1" /></li>
@@ -86,6 +105,7 @@
         <tbody>
             @foreach (var item in Model)
             {
+                total += item.Amount;
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Member.Email)
@@ -123,6 +143,7 @@
             }
         </tbody>
     </table>
+    <span class="text-danger "><b>金额汇总：￥@total</b></span>
 </div>
 <script>
     $(document).ready(function () {

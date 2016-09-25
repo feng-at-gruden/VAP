@@ -22,8 +22,38 @@
     @using (Html.BeginForm("Index", "Member", FormMethod.Get))
     {
         @Html.ValidationSummary()
-        
-        <ul class="seachform1 hide">
+        <ul class="seachform1">
+            
+            <li>
+                <label>注册时间</label>
+                @{
+                    var options1 = new List<SelectListItem>();
+                    
+                    options1.Insert(0, new SelectListItem
+                    {
+                        Text = "最近一周",
+                        Value = "1"
+                    });
+                    options1.Insert(1, new SelectListItem
+                    {
+                        Text = "最近一个月",
+                        Value = "2"
+                    });
+                    options1.Insert(2, new SelectListItem
+                    {
+                        Text = "最近半年",
+                        Value = "3"
+                    });
+                    options1.Insert(3, new SelectListItem
+                    {
+                        Text = "全部",
+                        Value = "4"
+                    });
+                }
+                @Html.DropDownList("cate", options1, new { @class = "scinput1" })
+            </li>
+        </ul>
+        <ul class="seachform1">
             <li>
                 <label>会员账号</label>
                 @Html.TextBox("account", "", new { @class = "scinput1" })
@@ -56,10 +86,18 @@
                 @Html.DropDownList("status", options, new { @class = "scinput1" })
             </li>
         </ul>
-        <ul class="seachform1 hide">
+        <ul class="seachform1">
+            <li>
+                <label>起始时间</label>
+                @Html.TextBox("startDate", "", new { @class = "scinput1" ,@Type="Date"})
+            </li>
+            <li>
+                <label>截止时间</label>
+                @Html.TextBox("endDate", "", new { @class = "scinput1", @Type = "Date" })
+            </li>
             <li class="sarchbtn">
-                <label>&nbsp;</label>
-                <input name="" type="submit" class="scbtn" onclick="" value="查询" />
+                <input name="" type="submit" class="scbtn" value="查询" />
+                @*<input name="" type="button" class="scbtn2" value="导出" />*@
             </li>
         </ul>
     }

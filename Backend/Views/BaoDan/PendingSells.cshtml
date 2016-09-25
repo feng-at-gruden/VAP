@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "待审核联合积分售出";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var total = 0m;
 }
 <div class="place">
     <span>位置：</span>
@@ -13,6 +14,24 @@
 </div>
 <div class="formbody">
     @Html.ValidationSummary()
+    @using (Html.BeginForm("PendingSells", "BaoDan", FormMethod.Get))
+    {
+
+        <ul class="seachform1">
+            <li>
+                <label>起始时间</label>
+                @Html.TextBox("startDate", "", new { @class = "scinput1", @Type = "Date" })
+            </li>
+            <li>
+                <label>截止时间</label>
+                @Html.TextBox("endDate", "", new { @class = "scinput1", @Type = "Date" })
+            </li>
+            <li class="sarchbtn">
+                <input name="" type="submit" class="scbtn" value="查询" />
+                @*<input name="" type="button" class="scbtn2" value="导出" />*@
+            </li>
+        </ul>
+    }
     <div class="formtitle"><span>待审核联合积分售出列表</span></div>
     <div style="padding: 10px 20px ;float: right;">
         <a href="@Url.Action("GetBaodanTrans", "BaoDan", new { status = "已成交", type = "卖出" })" style="padding: 3px" class="scbtn">已成交的售出记录</a>
@@ -45,6 +64,7 @@
         <tbody>
             @foreach (var item in Model)
             {
+                total += item.Amount;
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Member.Email)
@@ -75,6 +95,7 @@
             }
         </tbody>
     </table>
+    <span class="text-danger "><b>积分数量汇总：@total</b></span>
 </div>
 <script>
     $(document).ready(function () {

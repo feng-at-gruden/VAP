@@ -43,19 +43,34 @@ namespace Backend.Controllers
             return View(records.ToList());
         }
         // GET: BaoDan
-        public ActionResult PendingSells()
+        public ActionResult PendingSells(string startDate, string endDate)
         {
             if (TempData.ContainsKey("ModelState"))
             {
                 ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
             }
+            ViewBag.startDate = startDate;
+            ViewBag.endDate = endDate;
             var status =报单状态.未成交.ToString();
             var type =报单类型.卖出.ToString();
             var records = db.BaoDanTransactions.Include(b => b.Member).Where(c=>c.Status==status
-                &&c.Type==type).OrderBy(c=>c.DateTime);
-            return View(records.ToList());
+                &&c.Type==type);
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                DateTime start;
+                DateTime.TryParse(startDate, out start);
+                records = records.Where(c => c.DateTime >= start);
+            }
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                DateTime end;
+                DateTime.TryParse(endDate, out end);
+                end = end.AddDays(1);
+                records = records.Where(c => c.DateTime < end);
+            }
+            return View(records.OrderBy(c => c.DateTime).ToList());
         }
-        public ActionResult GetBaodanTrans(string type,string status,string memberAccount)
+        public ActionResult GetBaodanTrans(string type, string status, string memberAccount, string startDate, string endDate)
         {
 
 
@@ -72,9 +87,24 @@ namespace Backend.Controllers
             {
                 records = records.Where(c => c.Member.Email.Contains(memberAccount));
             }
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                DateTime start;
+                DateTime.TryParse(startDate, out start);
+                records = records.Where(c => c.DateTime >= start);
+            }
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                DateTime end;
+                DateTime.TryParse(endDate, out end);
+                end = end.AddDays(1);
+                records = records.Where(c => c.DateTime < end);
+            }
             ViewBag.memberAccount = memberAccount;
             ViewBag.status = status;
             ViewBag.type = type;
+            ViewBag.startDate = startDate;
+            ViewBag.endDate = endDate;
             return View(records.OrderBy(c=>c.DateTime).ToList());
         }
 

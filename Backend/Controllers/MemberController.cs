@@ -21,25 +21,75 @@ namespace Backend.Controllers
 
         // GET: /Member/
         
-        public ActionResult Index(string account, string status)
+        public ActionResult Index(string account, string status,string cate,string startDate,string endDate)
         {
             if (TempData.ContainsKey("ModelState"))
             {
                 ModelState.Merge((ModelStateDictionary)TempData["ModelState"]);
             }
             var members = db.Members.Where(c => c.Id > 0);
-            if (!string.IsNullOrEmpty(account))
+            if (string.IsNullOrEmpty(account) && string.IsNullOrEmpty(status)
+                && string.IsNullOrEmpty(startDate) && string.IsNullOrEmpty(endDate))
             {
-                members = members.Where(c => c.Email.Contains(account));
-            }
+                if (string.IsNullOrEmpty(cate)||cate=="1")
+                {
+                 
+                    DateTime dt = DateTime.Now;
+                    dt = dt.AddDays(-7);
+                    members = members.Where(c => c.RegisterTime >= dt);
+                   
+                }
+                else if (cate == "2")
+                {
+                    DateTime dt = DateTime.Now;
+                    dt = dt.AddDays(-30);
+                    members = members.Where(c => c.RegisterTime >= dt);
+                }
+                else if (cate == "3")
+                {
+                    DateTime dt = DateTime.Now;
+                    dt = dt.AddDays(-182);
+                    members = members.Where(c => c.RegisterTime >= dt);
+                }
+                else if (cate == "4")
+                {
 
-            if (!string.IsNullOrEmpty(status))
-            {
-                members = members.Where(c => c.Status == status);
+                }
+                
+                
             }
+            else
+            {
+                if (!string.IsNullOrEmpty(account))
+                {
+                    members = members.Where(c => c.Email.Contains(account));
+                }
+
+                if (!string.IsNullOrEmpty(status))
+                {
+                    members = members.Where(c => c.Status == status);
+                }
+                if (!string.IsNullOrEmpty(startDate))
+                {
+                    DateTime start;
+                    DateTime.TryParse(startDate, out start);
+                    members = members.Where(c => c.RegisterTime >= start);
+                }
+                if (!string.IsNullOrEmpty(endDate))
+                {
+                    DateTime end;
+                    DateTime.TryParse(endDate, out end);
+                    end = end.AddDays(1);
+                    members = members.Where(c => c.RegisterTime <end);
+                }
+            }
+            
             
             ViewBag.account = account;
             ViewBag.status = status;
+            ViewBag.startDate = startDate;
+            ViewBag.endDate = endDate;
+            ViewBag.cate = cate;
             return View(members.ToList().Select(c=>new MemberViewModel(c)).ToList());
         }
         public ActionResult MemberTree()
