@@ -1264,6 +1264,7 @@
     <Content Include="Content\new-skin\img\carousel\c-1.jpg" />
     <Content Include="Content\new-skin\img\carousel\c-2.jpg" />
     <Content Include="Content\new-skin\img\carousel\c-3.jpg" />
+    <Content Include="Content\new-skin\img\coin.png" />
     <Content Include="Content\new-skin\img\color-picker\alpha.png" />
     <Content Include="Content\new-skin\img\color-picker\hue.png" />
     <Content Include="Content\new-skin\img\color-picker\saturation.png" />

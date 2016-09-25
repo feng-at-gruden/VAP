@@ -4,7 +4,7 @@
 
 
 @{
-    ViewBag.Title = "记录查询";
+    ViewBag.Title = "资金操作记录查询";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var total = 0m;
 }
@@ -13,7 +13,7 @@
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="@Url.Action("Index","Home")">首页</a></li>
-        <li><a href="#">记录查询</a></li>
+        <li><a href="#">资金操作记录查询</a></li>
     </ul>
 </div>
 <div class="formbody">
@@ -133,10 +133,7 @@
         <thead>
             <tr>
                 <th>
-                    会员账号
-                </th>
-                <th>
-                    会员UID
+                    会员账号(UID)
                 </th>
                 <th>
                     金额
@@ -147,7 +144,7 @@
                 <th>
                     状态
                 </th>
-                <th>
+                <th style="width:300px;">
                     备注
                 </th>
                 <th>
@@ -162,15 +159,12 @@
                 total += item.Amount;
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.MemberEmail)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MemberId)
+                        @Html.DisplayFor(modelItem => item.MemberEmail) (@Html.DisplayFor(modelItem => item.MemberId))
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Amount)
                     </td>
-                    <td>
+                    <td style="">
                         @if (item.Type == 现金交易类型.充值.ToString())
                         {
                             <a href="@SiteConfigurationHelper.UploadFolderPath@item.FileUrl" style="text-decoration: underline;" target="_blank">@Html.DisplayFor(modelItem => item.Type)</a>

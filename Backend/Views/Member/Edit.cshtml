@@ -5,6 +5,9 @@
     ViewBag.Title = "会员编辑";
     Layout = "~/Views/Shared/_Layout.cshtml";
     // List<string> subs = ViewBag.subordinates;
+
+    var BaoDanAmountTotal = (int)Model.BaoDanTransactions.Where(c => c.Type == VapLib.报单类型.买入.ToString() && c.Status == VapLib.报单状态.已成交.ToString()).Sum(c => c.Amount * c.Price);
+    //var BaoDanAmountTotal = Model.CashTransactions.Where(c => c.Type == VapLib.现金交易类型.购买积分.ToString() && c.Status == VapLib.现金状态.已审核.ToString()).Sum(c => c.Amount);
 }
 
 <div class="place">
@@ -22,6 +25,7 @@
             <li><h2>注册时间： @Html.DisplayFor(model => model.RegisterTime)</h2></li>
             <li><h2>级别： @Html.DisplayFor(model => model.MemberLevel.Level)</h2></li>
             <li><h2>业绩： @Html.DisplayFor(model => model.Achievement)</h2></li>
+            <li><h2>总报单额： @BaoDanAmountTotal</h2></li>
         </ul>
     </div>
     <div class="formtitle"><span>身份认证</span></div>
