@@ -37,9 +37,7 @@ namespace Backend.Models
             RealName = model.RealName;
             MemberLevel = model.MemberLevel.Level;
             RegisterTime = model.RegisterTime;
-            BuyAmount = model.BaoDanTransactions.Where(c => c.Type == VapLib.报单类型.买入.ToString()
-                &&c.Status==VapLib.报单状态.已成交.ToString())
-                .Sum(c=>c.Amount);
+            //BuyAmount = model.BaoDanTransactions.Where(c => c.Type == VapLib.报单类型.买入.ToString() && c.Status==VapLib.报单状态.已成交.ToString()).Sum(c=>c.Amount);
         }
 
      

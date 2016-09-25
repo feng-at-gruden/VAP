@@ -110,9 +110,12 @@
                 <th>
                     UID
                 </th>
+@if (!Helper.IsUserInRole(userRole, "Secretary"))
+{ 
                 <th>
                     推荐人UID
                 </th>
+}
                 <th>
                     注册日期
                 </th>
@@ -122,13 +125,6 @@
                 <th>
                     状态
                 </th>
-                <!--
-                    <th>
-                        提现状态
-                    </th>
-                    <th>
-                        提币状态
-                    </th>-->
                 <th>
                     昵称
                 </th>
@@ -137,9 +133,6 @@
                 </th>
                 <th>
                     等级
-                </th>
-                <th>
-                    报单总额
                 </th>
                 <th>
                     会员业绩
@@ -158,9 +151,12 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Id)
                     </td>
+@if (!Helper.IsUserInRole(userRole, "Secretary"))
+{
                     <td>
                         @Html.DisplayFor(modelItem => item.ReferId)
                     </td>
+}
                     <td>
                         @Html.DisplayFor(modelItem => item.RegisterTime)
                     </td>
@@ -170,13 +166,6 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Status)
                     </td>
-                    @*<!--
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TiXianStatus)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TiBiStatus)
-                        </td>-->*@
                     <td>
                         @Html.DisplayFor(modelItem => item.UserName)
                     </td>
@@ -185,9 +174,6 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.MemberLevel)
-                    </td>
-                    <td style="text-align:right;">
-                        ￥@Html.DisplayFor(modelItem => item.BuyAmount)
                     </td>
                     <td style="text-align:right;">
                         ￥@Html.DisplayFor(modelItem => item.Achievement)
@@ -210,16 +196,13 @@
                                 @Html.ActionLink("身份认证", "ApproveIdentity", new {id = item.Id}, new {@class = "tablelink", onclick = "javascript:return confirm('确认通过该会员身份认证？')"})
                             }
                             | @Html.ActionLink("详情", "Edit", new {id = item.Id}, new {@class = "tablelink"})
-                        
-                       
-                        
                         </td>
                     }
                 </tr>
             }
         </tbody>
     </table>
-    <span class="text-danger "><b>会员业绩汇总：￥@total</b></span>
+    <span class="text-danger hide "><b>会员业绩汇总：￥@total</b></span>
 </div>
 
 
