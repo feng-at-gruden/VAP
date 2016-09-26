@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -16,43 +17,60 @@ namespace Backend.Models
         //今日注册会员总数
         public int TodayMemberCount { get; set; }
         //累计充值金额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalTopup { get; set; }
         //累计待审核充值金额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalPendingTopup { get; set; }
 
         //累计待审核售币数量
+        [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal TotalPendingSells { get; set; }
         //今日充值金额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TodayTotalTopup { get; set; }
         //累计提现金额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalWithdraw { get; set; }
         //累计待提现金额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalPendingWithdraw { get; set; }
         //今日提现金额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TodayTotalWithdraw { get; set; }
         //累计提现手续费
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalWithdrawFee { get; set; }
         //今日提现手续费
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TodayTotalWithdrawFee { get; set; }
 
         //当前会员现金总额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalCash { get; set; }
         //当前会员冻结现金总额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalLockCash { get; set; }
 
         //当前会员虚拟币总额
+        [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal TotalCoin{ get; set; }
         //当前会员冻结虚拟币总额
+        [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal TotalLockCoin { get; set; }
 
         //当前会员积分总额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalPoint { get; set; }
         //当前会员冻结积分总额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalLockPoint { get; set; }
 
         //当前会员冲销总额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalCx { get; set; }
         //当前会员冻结冲销总额
+        [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal TotalLockCx { get; set; }
 
         public GeneralReportViewModel(vapEntities1 db,string startDate,string endDate)
@@ -100,9 +118,9 @@ namespace Backend.Models
             var withdraws = cashRecords.Where(c => c.Type == tixian).ToList();
             if (withdraws.Any())
             {
-                TodayTotalWithdraw = withdraws.Where(c => c.DateTime >= DateTime.Today).Sum(c => c.Amount);
+                TodayTotalWithdraw = Math.Abs(withdraws.Where(c => c.DateTime >= DateTime.Today).Sum(c => c.Amount));
                 TodayTotalWithdrawFee = withdraws.Where(c => c.DateTime >= DateTime.Today).Sum(c => c.Fee);
-                TotalPendingWithdraw = withdraws.Where(c => c.Status == daishenhe).Sum(c => c.Amount);
+                TotalPendingWithdraw = Math.Abs(withdraws.Where(c => c.Status == daishenhe).Sum(c => c.Amount));
 
                 if (!string.IsNullOrEmpty(startDate))
                 {
@@ -118,7 +136,7 @@ namespace Backend.Models
                     withdraws = withdraws.Where(c => c.DateTime < end).ToList();
                 }
                 
-                TotalWithdraw = withdraws.Sum(c => c.Amount);
+                TotalWithdraw = Math.Abs(withdraws.Sum(c => c.Amount));
                 TotalWithdrawFee = withdraws.Sum(c => c.Fee);
 
                 

@@ -14,7 +14,7 @@
     <span>位置：</span>
     <ul class="placeul">
         <li><a href="@Url.Action("Index","Home")">首页</a></li>
-        <li><a href="#">综合统计表</a></li>
+        <li><a href="#">综合统计</a></li>
     </ul>
 </div>
 <div class="formbody">
@@ -27,17 +27,17 @@
             <li><h2>今日注册会员数： @Html.DisplayFor(model => model.TodayMemberCount)</h2></li>
         </ul>
     </div>
-    <div class="formtitle"><span>会员钱包信息</span></div>
+    <div class="formtitle"><span>全站会员资金信息</span></div>
     <div class="toolsli">
         <ul class="toollist">
-            <li><h2>全站现金金额： @Html.DisplayFor(model => model.TotalCash)</h2></li>
-            <li><h2>全站冻结现金金额： @Html.DisplayFor(model => model.TotalLockCash)</h2></li>
-            <li><h2>全站虚拟币数量： @Html.DisplayFor(model => model.TotalCoin)</h2></li>
-            <li><h2>全站冻结虚拟币数量： @Html.DisplayFor(model => model.TotalLockCoin)</h2></li>
-            <li><h2>全站购物券： @Html.DisplayFor(model => model.TotalPoint)</h2></li>
-            <li><h2>全站冻结购物券： @Html.DisplayFor(model => model.TotalLockPoint)</h2></li>
-            <li><h2>全站冲销： @Html.DisplayFor(model => model.TotalCx)</h2></li>
-            <li><h2>全站冻结冲销： @Html.DisplayFor(model => model.TotalLockCx)</h2></li>
+            <li><h2>会员可用金额： @Html.DisplayFor(model => model.TotalCash)</h2></li>
+            <li><h2>会员冻结金额： @Html.DisplayFor(model => model.TotalLockCash)</h2></li>
+            <li><h2>会员所持积分数量： @Html.DisplayFor(model => model.TotalCoin)</h2></li>
+            <li><h2>会员冻结积分数量： @Html.DisplayFor(model => model.TotalLockCoin)</h2></li>
+            <li><h2>会员购物券： @Html.DisplayFor(model => model.TotalPoint)</h2></li>
+            <li><h2>会员冻结购物券： @Html.DisplayFor(model => model.TotalLockPoint)</h2></li>
+            <li><h2>会员重消额： @Html.DisplayFor(model => model.TotalCx)</h2></li>
+            <li><h2>冻结重消额： @Html.DisplayFor(model => model.TotalLockCx)</h2></li>
         </ul>
     </div>
     <div class="formtitle"><span>当前待审核信息</span></div>
@@ -46,10 +46,10 @@
             <li><h2>待审核会员： @Html.DisplayFor(model => model.PendingMemberCount)</h2></li>
             <li><h2>待审核充值金额： @Html.DisplayFor(model => model.TotalPendingTopup)</h2></li>
             <li><h2>待审核提现金额： @Html.DisplayFor(model => model.TotalPendingWithdraw)</h2></li>
-            <li><h2>待审核售币数量： @Html.DisplayFor(model => model.TotalPendingSells)</h2></li>
+            <li><h2>待审核积分出售数量： @Html.DisplayFor(model => model.TotalPendingSells)</h2></li>
         </ul>
     </div>
-    <div class="formtitle"><span>按时间统计</span></div><br/>
+    <div class="formtitle"><span>按时间段统计</span></div><br/>
     @using (Html.BeginForm("GeneralReport", "Reports", FormMethod.Get))
     {
 
@@ -68,7 +68,7 @@
             </li>
         </ul>
     }
-    <div class="formtitle"><span>会员充值信息</span></div>
+    <div class="formtitle"><span>会员充值统计</span></div>
 
     <div class="toolsli">
         <ul class="toollist">
