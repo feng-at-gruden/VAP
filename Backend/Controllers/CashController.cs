@@ -277,9 +277,11 @@ namespace Backend.Controllers
         {
             var recored = db.CashTransactions.Find(id);
             recored.Member.Cash1 += Math.Abs(recored.Amount);
+
             db.CashTransactions.Remove(recored);
             db.SaveChanges();
             ModelState.AddModelError("", "提现申请记录删除成功！ ￥" + Math.Abs(recored.Amount) + "元已返还至该用户可用资金账户。");
+
             TempData["ModelState"] = ModelState;
             if(type=="T")
                 return RedirectToAction("PendingTopups");
