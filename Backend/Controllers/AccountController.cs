@@ -16,7 +16,9 @@ namespace Backend.Controllers
 {
     [Authorize]
     public class AccountController : Controller
-    {
+    {    
+
+        private vapEntities1 db = new vapEntities1();
         public AccountController()
             : this(new UserManager<AspNetUser>(new UserStore<AspNetUser>(new vapEntities1())))
         {
@@ -46,11 +48,19 @@ namespace Backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userName = Constants.AdminAccount;
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
+                    String role = Helper.Helper.GetUserRole(user.Id, db);
+                    if (role.Equals("Secretary"))
+                    {
+                        return RedirectToAction("Index", "Member");
+                    }
+                    else if (role.Equals("Finance"))
+                    {
+                        return RedirectToAction("PendingWithdraws", "Cash");
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 else
@@ -318,6 +328,11 @@ namespace Backend.Controllers
             {
                 UserManager.Dispose();
                 UserManager = null;
+            }
+
+            if (disposing && db != null)
+            {
+                db.Dispose();
             }
             base.Dispose(disposing);
         }

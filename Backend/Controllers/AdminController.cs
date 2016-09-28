@@ -374,10 +374,8 @@ namespace Backend.Controllers
                 ModelState.AddModelError("", "解冻操作只能在每周一执行。");
             }*/
 
-            //var type = VapLib.现金交易类型.售币所得.ToString();
             var status = VapLib.现金状态.冻结.ToString();
-            var lockTrans = db.CashTransactions.Where(c => c.DateTime < date
-                && c.Status == status).ToList();
+            var lockTrans = db.CashTransactions.Where(c => c.DateTime < date && c.Status == status).ToList();
             foreach (var cashTransaction in lockTrans)
             {
                 var member = db.Members.Find(cashTransaction.MemberId);
@@ -388,9 +386,29 @@ namespace Backend.Controllers
                 //db.Entry(member).State = EntityState.Modified;
                 //db.Entry(cashTransaction).State = EntityState.Modified;
                 db.SaveChanges();
-
             }
-            ModelState.AddModelError("", "解冻操作执行成功。");
+
+            //Do verify again
+            List<Int64> errorMembers = new List<Int64>();
+            foreach (var cashTransaction in lockTrans)
+            {
+                var member = db.Members.Find(cashTransaction.MemberId);
+                var currentLockCash = member.CashTransactions.Where(m => status.Equals(m.Status)).Sum(m => m.Amount);
+                if(member.Cash2 != Math.Abs(currentLockCash))
+                {
+                    errorMembers.Add(member.Id);
+                }
+            }
+
+            if (errorMembers.Count()<=0)
+            {
+                ModelState.AddModelError("", "资金解冻操作成功！");
+            }
+            else
+            {
+                ModelState.AddModelError("", "部分用户资金解冻成功， 请检查以下用户UID：" + errorMembers.ToString());
+            }
+            
 
             TempData["ModelState"] = ModelState;
             return RedirectToAction("UnlockCash");

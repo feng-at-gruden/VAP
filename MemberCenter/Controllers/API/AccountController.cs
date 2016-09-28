@@ -99,12 +99,11 @@ namespace MemberCenter.Controllers.API
                 member.Cash2 -= cashTransaction.Amount;
                 cashTransaction.Status = VapLib.现金状态.解冻.ToString();
 
-                db.Entry(member).State = EntityState.Modified;
-                db.Entry(cashTransaction).State = EntityState.Modified;
+                //db.Entry(member).State = EntityState.Modified;
+                //db.Entry(cashTransaction).State = EntityState.Modified;
                 db.SaveChanges();
-
             }
-            db.SaveChanges();
+            //db.SaveChanges();
             return new APIResponseModel { Message = "Success" };
         }
 
