@@ -77,6 +77,7 @@ namespace MemberCenter.Controllers
                     decimal requestQty = model.RequestCash / CurrentCoinPrice.Price;
                     decimal totalCash = model.RequestCash + GetSystemSettingDecimal("BaoDanBuyFee");
 
+                    var initialCash = CurrentUser.Cash1;
                     //Step 1. 报单交易记录、现金交易记录
                     BaoDanTransaction mBaoDan = new BaoDanTransaction
                     {
@@ -146,6 +147,16 @@ namespace MemberCenter.Controllers
                     UpdateOrInsertSysStatistics(mBaoDan);
 
                     db.SaveChanges();
+
+                    //Add validation and error log
+                    var nowCash = CurrentUser.Cash1;
+                    if(initialCash - totalCash != nowCash)
+                    {
+                        //Write to log 
+                        String content = "报单用户UID:" + CurrentUser.Id + "; 报单金额:" + totalCash + "; 报单前金额:" + initialCash + "; 报单后金额:" + nowCash + "; 报单时间:" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+                        LogHelper.WriteErrorLog(content, "BaoDan");
+                    }
+                    
                     ViewBag.ActionMessage = "报单成功！";
                     TempData["ActionMessage"] = ViewBag.ActionMessage;
                     return RedirectToAction("Success", "Message");

@@ -406,9 +406,8 @@ namespace Backend.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "部分用户资金解冻成功， 请检查以下用户UID：" + errorMembers.ToString());
+                ModelState.AddModelError("", "部分用户资金解冻成功， 请检查以下用户UID： " + string.Join(",", errorMembers.ToArray()));
             }
-            
 
             TempData["ModelState"] = ModelState;
             return RedirectToAction("UnlockCash");

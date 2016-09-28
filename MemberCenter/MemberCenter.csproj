@@ -207,6 +207,7 @@
     <Compile Include="Helper\APIAuthorize.cs" />
     <Compile Include="Helper\BusinessLogic.cs" />
     <Compile Include="Helper\DateTimeHelper.cs" />
+    <Compile Include="Helper\LogHelper.cs" />
     <Compile Include="Helper\NetworkHelper.cs" />
     <Compile Include="Helper\RequestHelper.cs" />
     <Compile Include="Helper\SiteConfigurationHelper.cs" />
@@ -2250,6 +2251,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\images\" />
+    <Folder Include="log\" />
     <Folder Include="Upload\Identity\" />
     <Folder Include="Upload\Topup\" />
   </ItemGroup>

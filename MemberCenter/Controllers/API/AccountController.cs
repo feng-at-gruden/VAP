@@ -99,12 +99,28 @@ namespace MemberCenter.Controllers.API
                 member.Cash2 -= cashTransaction.Amount;
                 cashTransaction.Status = VapLib.现金状态.解冻.ToString();
 
-                //db.Entry(member).State = EntityState.Modified;
-                //db.Entry(cashTransaction).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            //db.SaveChanges();
-            return new APIResponseModel { Message = "Success" };
+            //Do verify again
+            List<Int64> errorMembers = new List<Int64>();
+            foreach (var cashTransaction in lockTrans)
+            {
+                var member = db.Members.Find(cashTransaction.MemberId);
+                var currentLockCash = member.CashTransaction.Where(m => status.Equals(m.Status)).Sum(m => m.Amount);
+                if(member.Cash2 != Math.Abs(currentLockCash))
+                {
+                    errorMembers.Add(member.Id);
+                }
+            }
+
+            if (errorMembers.Count()<=0)
+            {
+                return new APIResponseModel { Message = "资金解冻操作成功！" };
+            }
+            else
+            {
+                return new APIResponseModel { Message = "部分用户资金解冻成功， 请检查以下用户UID： " + string.Join(",", errorMembers.ToArray()) };
+            }
         }
 
 
