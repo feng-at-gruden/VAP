@@ -184,6 +184,11 @@ namespace MemberCenter.Controllers
                 TempData["ActionMessage"] = "系统维护中，暂停交易！";
                 return RedirectToAction("Error", "Message");
             }
+            if (!GetSystemSettingBoolean("EnableCoinSell"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停积分出售！";
+                return RedirectToAction("Error", "Message");
+            }
             return View(GetBaoDanSellModel());
         }
 
@@ -192,6 +197,16 @@ namespace MemberCenter.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Sell(BaoDanSellViewModel model)
         {
+            if (GetSystemSettingBoolean("SystemIsLocked"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停交易！";
+                return RedirectToAction("Error", "Message");
+            }
+            if (!GetSystemSettingBoolean("EnableCoinSell"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停积分出售！";
+                return RedirectToAction("Error", "Message");
+            }
             if (ModelState.IsValid)
             {
                 if (model.RequestAmount > CurrentUser.Coin1 || model.RequestAmount < GetSystemSettingDecimal("MinBaoDanSell"))

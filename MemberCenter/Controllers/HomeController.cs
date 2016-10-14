@@ -39,6 +39,7 @@ namespace MemberCenter.Controllers
             DateTime chartEdTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             DateTime chartStTime = chartEdTime.AddMonths(-1);
             string newsType = 新闻类型.公告.ToString();
+            string newsStatus = "正常";
             HomeViewModel model = new HomeViewModel
             {
                 CurrentCoinPrice = currrentPrice,
@@ -93,7 +94,7 @@ namespace MemberCenter.Controllers
                              }).Take(30),
 
                 News = (from row in db.News
-                       where row.Type == newsType
+                       where row.Type == newsType && row.Status == newsStatus
                        orderby row.DateTime descending
                        select new NewsViewModel
                        {
