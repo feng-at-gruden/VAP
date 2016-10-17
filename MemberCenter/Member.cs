@@ -42,6 +42,7 @@ namespace MemberCenter
         public decimal Coin2 { get; set; }
         public System.DateTime RegisterTime { get; set; }
         public decimal Achievement { get; set; }
+        public Nullable<decimal> TotalBaoDan { get; set; }
         public string Mobile { get; set; }
         public string Status { get; set; }
         public string TiXianStatus { get; set; }

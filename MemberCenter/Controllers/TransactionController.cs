@@ -219,6 +219,12 @@ namespace MemberCenter.Controllers
                     }
                 }
 
+                if (mUser != null && CurrentUser.Id == mUser.Id)
+                {
+                    ModelState.AddModelError("", "接受会员不能是自己，请重试！");
+                    hasError = true;
+                }
+
                 if (mUser != null && !hasError)
                 {
                     //Add Transaction record to db

@@ -6,10 +6,10 @@ namespace MemberCenter.Models
 {
     public class ConsumptionViewModel
     {
-        [Display(Name = "消费日期")]
+        [Display(Name = "日期")]
         public DateTime DateTime { get; set; }
 
-        [Display(Name = "消费数量")]
+        [Display(Name = "数量")]
         [DisplayFormat(DataFormatString = "{0:n2}")]
         public decimal Amount { get; set; }
 

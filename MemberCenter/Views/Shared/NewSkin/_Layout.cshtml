@@ -124,5 +124,17 @@
     </section>
 
 
+    <div id="form-loading"><span class="loading-box"><img src="~/Content/new-skin/images/loading.gif" class="loading" /></span></div>
+    <script language="javascript">
+
+        $(function () {
+            $('#form-loading').hide();
+            $('form').submit(function () {
+                $('#form-loading').show();
+            });
+            
+        });
+    </script>
+
 </body>
 </html>

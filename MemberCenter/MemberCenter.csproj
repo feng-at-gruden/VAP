@@ -198,6 +198,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\PointsController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Extensions\Extensions.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Models\BaoDanViewModels.cs" />
     <Compile Include="Models\APIModels.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
+    <Compile Include="Models\PointViewModels.cs" />
     <Compile Include="Models\StoreViewModels.cs" />
     <Compile Include="Models\TransactionViewModels.cs" />
     <Compile Include="News.cs">
@@ -1184,6 +1186,7 @@
     <Content Include="Content\new-skin\images\ico\apple-touch-icon-57-precomposed.png" />
     <Content Include="Content\new-skin\images\ico\apple-touch-icon-72-precomposed.png" />
     <Content Include="Content\new-skin\images\ico\favicon.ico" />
+    <Content Include="Content\new-skin\images\loading.gif" />
     <Content Include="Content\new-skin\images\logo.png" />
     <Content Include="Content\new-skin\images\portfolio\full\item1.jpg" />
     <Content Include="Content\new-skin\images\portfolio\full\item2.jpg" />
@@ -2243,10 +2246,12 @@
     <Content Include="Views\Shared\NewSkin\_LayoutHome.cshtml" />
     <Content Include="Views\BaoDan\Transfer.cshtml" />
     <Content Include="Views\Transaction\Transfer.cshtml" />
-    <Content Include="Views\Store\PointHistory.cshtml" />
+    <Content Include="Views\Points\History.cshtml" />
     <Content Include="Views\Store\ChongXiaoHistory.cshtml" />
     <Content Include="Views\Message\Success.cshtml" />
     <Content Include="Views\Message\Error.cshtml" />
+    <Content Include="Views\Points\Transfer.cshtml" />
+    <Content Include="Views\Points\Buy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

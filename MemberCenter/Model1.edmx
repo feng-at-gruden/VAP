@@ -92,6 +92,7 @@
     <Property Name="Coin2" Type="decimal" Nullable="false" Scale="6" />
     <Property Name="RegisterTime" Type="datetime" Nullable="false" />
     <Property Name="Achievement" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="TotalBaoDan" Type="decimal" Nullable="true" Scale="2" />
     <Property Name="Mobile" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="TiXianStatus" Type="nvarchar(max)" Nullable="true" />
@@ -507,6 +508,7 @@
           <NavigationProperty Name="Referral" Relationship="Model1.MemberMember" FromRole="Member" ToRole="Member1" />
           <NavigationProperty Name="MyMembers" Relationship="Model1.MemberMember" FromRole="Member1" ToRole="Member" />
           <Property Name="Achievement" Type="Decimal" Nullable="false" Scale="2" />
+          <Property Name="TotalBaoDan" Type="Decimal" Scale="2" Nullable="true" />
           <Property Name="Mobile" Type="String" Nullable="true" />
           <Property Name="Status" Type="String" Nullable="false" />
           <Property Name="TiXianStatus" Type="String" Nullable="true" />
@@ -838,6 +840,7 @@
           <ScalarProperty Name="Coin2" ColumnName="Coin2" />
           <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
           <ScalarProperty Name="Achievement" ColumnName="Achievement" />
+          <ScalarProperty Name="TotalBaoDan" ColumnName="TotalBaoDan" />
           <ScalarProperty Name="Mobile" ColumnName="Mobile" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="TiXianStatus" ColumnName="TiXianStatus" />

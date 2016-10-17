@@ -1,7 +1,7 @@
 ﻿@using MemberCenter.Helper
-@model MemberCenter.Models.BaoDanTransferViewModel
+@model MemberCenter.Models.PointTransferViewModel
 @{
-    ViewBag.Title = "积分转账";
+    ViewBag.Title = "兑换券转账";
 }
 
 
@@ -9,15 +9,15 @@
     <div class="col-xs-12 col-sm-6 col-sm-offset-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                COIN TRANSFER
+                POINTS TRANSFER
             </div>
             <div class="panel-body">
 
                 <div class="well">
-                    <p><b>重要提示：</b>当前账户可用积分为 @Html.DisplayFor(m => m.AvailableAmount)。</p>
+                    <p><b>重要提示：</b>当前账户可用兑换券为 @Html.DisplayFor(m => m.AvailableAmount)</p>
                 </div>
 
-                @using (Html.BeginForm("Transfer", "BaoDan", FormMethod.Post, new { role = "form" }))
+                @using (Html.BeginForm("Transfer", "Points", FormMethod.Post, new { role = "form" }))
                 {
                     @Html.AntiForgeryToken()
                     if (!ViewData.ModelState.IsValid)
@@ -33,7 +33,13 @@
                         </div>
                     }
                     <div class="form-group input-group">
-                        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", placeholder = "转账数量", maxlength = "7", id = "Amount" })
+                        <select id="RequestDropDown" style="width: 100%; height: 34px;">
+                            @for (int i = Model.MaxRequestAmount; i >= Model.MinRequestAmount; i = i - Model.MinRequestAmount)
+                            {
+                                <option>@i</option>
+                            }
+                        </select>
+                        @Html.HiddenFor(m=>m.Amount)
                         <span class="input-group-addon">转账数量</span>
                     </div>
                     <div class="form-group input-group">
@@ -43,7 +49,7 @@
                     <div class="form-group">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "交易密码", maxlength = "20" })
                     </div>
-                    <button type="submit" class="btn btn-warning btn-block">确认积分转账</button>
+                    <button type="submit" class="btn btn-warning btn-block">确认兑换券转账</button>
 
                 }
                 <!-- /.form -->
@@ -75,6 +81,12 @@
             if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
                 e.preventDefault();
             }
+        });
+
+
+        $('#RequestDropDown').change(function () {
+            var w = $('#RequestDropDown').val();
+            $('#Amount').val(w);
         });
 
     });

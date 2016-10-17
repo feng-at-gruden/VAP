@@ -37,15 +37,15 @@ namespace MemberCenter.Controllers.API
             Member member = GetCurrentUser();
             //Validation
             if(member.Point1 < request.Amount)
-                ThrowApiError("购物券余额不足！", HttpStatusCode.BadRequest);
+                ThrowApiError("兑换券余额不足！", HttpStatusCode.BadRequest);
 
             member.PointTransaction.Add(new PointTransaction
             {
                 DateTime = DateTime.Now,
                 Amount = -request.Amount,
                 Comment = request.Comment,
-                Type = 积分记录类型.商城消费.ToString(),
-                Status = 积分状态.可用.ToString(),
+                Type = 兑换券记录类型.商城消费.ToString(),
+                Status = 兑换券状态.可用.ToString(),
             });
             member.Point1 -= request.Amount;
 

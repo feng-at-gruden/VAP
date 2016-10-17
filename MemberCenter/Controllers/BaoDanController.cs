@@ -113,15 +113,15 @@ namespace MemberCenter.Controllers
                         BaoDanTransaction = mBaoDan,
                     });
 
-                    //Step 2.0 为自己增加积分
+                    //Step 2.0 为自己增加兑换券
                     decimal points = (model.RequestCash / GetSystemSettingDecimal("MinBaoDanCashBalance")) * GetSystemSettingDecimal("PointsRate");
                     CurrentUser.Point1 += points;
                     CurrentUser.PointTransaction.Add(new PointTransaction
                     {
                         DateTime = DateTime.Now,
                         Amount = points,
-                        Type = 积分记录类型.购买积分.ToString(),
-                        Status = 积分状态.可用.ToString(),
+                        Type = 兑换券记录类型.购买积分.ToString(),
+                        Status = 兑换券状态.可用.ToString(),
                         BaoDanTransaction = mBaoDan,
                     });
 
@@ -142,6 +142,9 @@ namespace MemberCenter.Controllers
 
                     //Step 4. 扣除现金
                     CurrentUser.Cash1 -= totalCash;
+                    
+                    //Step 4.5 增加个人报单额统计值
+                    CurrentUser.TotalBaoDan = CurrentUser.TotalBaoDan.HasValue ? totalCash + CurrentUser.TotalBaoDan.Value : totalCash + 0;
 
                     //Step 5. 更新系统统计表
                     UpdateOrInsertSysStatistics(mBaoDan);
@@ -313,7 +316,7 @@ namespace MemberCenter.Controllers
 
 
         //
-        // GET: /Transaction/Transfer
+        // GET: /BaoDan/Transfer
         public ActionResult Transfer()
         {
             if (GetSystemSettingBoolean("SystemIsLocked"))
@@ -328,7 +331,7 @@ namespace MemberCenter.Controllers
         }
 
         //
-        // POST: /Transaction/Transfer
+        // POST: /BaoDan/Transfer
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Transfer(BaoDanTransferViewModel model)
@@ -378,6 +381,12 @@ namespace MemberCenter.Controllers
                         ModelState.AddModelError("", "找不到接受会员，请重试！");
                         hasError = true;
                     }
+                }
+
+                if (mUser != null && CurrentUser.Id == mUser.Id)
+                {
+                    ModelState.AddModelError("", "接受会员不能是自己，请重试！");
+                    hasError = true;
                 }
 
                 if (mUser != null && !hasError)

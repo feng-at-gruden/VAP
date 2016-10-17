@@ -1,0 +1,118 @@
+﻿@model MemberCenter.Models.PointBuyViewModel
+@{
+    ViewBag.Title = "购买兑换券";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        POINTS PURCHASE
+    </div>
+    <div class="panel-body">
+    @using (Html.BeginForm("Buy", "Points", FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        if(!ViewData.ModelState.IsValid)
+        { 
+            <div class="alert alert-danger">
+                @Html.ValidationSummary()
+            </div>
+        }
+
+        if (ViewBag.ActionMessage != null)
+        {
+            <div class="alert alert-success">
+                @ViewBag.ActionMessage
+            </div>
+        }
+        <table class="table">
+            <caption style="padding-bottom:10px; float:left;"></caption>
+            <tr>
+                <td>@Html.DisplayNameFor(m => m.AvailableCash)：</td>
+                <td>@Html.DisplayNameFor(m => m.RequestAmount)：</td>
+                <td>@Html.DisplayNameFor(m => m.CashLeft)：</td>
+                @if (ViewData.ModelState.IsValid && Model.AvailableCash > Model.MinRequestAmount)
+                {
+                    <td rowspan="2" style="vertical-align: bottom;text-align: right;">
+                        <a data-toggle="modal" href="#myModal" class="btn btn-primary">购买</a>
+                    </td>
+                } 
+            </tr>
+            <tr>
+                <td>￥@Html.DisplayFor(m => m.AvailableCash) </td>
+                <td>
+                    <select id="RequestAmountDropDown">
+                        @for (int i = Model.MaxRequestAmount; i >= Model.MinRequestAmount; i = i - Model.MinRequestAmount)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                    @Html.HiddenFor(m=>m.RequestAmount)
+                </td>
+                <td class="CashLeft">￥@Html.DisplayFor(m => m.CashLeft, new { @class = "CashLeft" }) </td>
+            </tr>
+        </table>        
+        <!-- /.Table -->
+        
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">报单确认</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>您确定要支出￥<span id="modal_cash">@Html.DisplayFor(m => m.MaxRequestAmount)</span>元现金，购买<span id="modal_amount">@Html.DisplayFor(m => m.RequestAmount)</span>兑换券吗？</p>
+                    </div>
+                    <div class="modal-footer">
+		                <button type="submit" class="btn btn-success">确认</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        
+    }
+    </div>
+    <!-- /.panel-body -->
+    <div class="panel-footer">
+        &nbsp;
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+        $('#RequestAmountDropDown').change(function () {
+            var w = $('#RequestAmountDropDown').val();
+
+            $('#RequestAmount').val(w);
+            $('.CashLeft').text("￥" + toThousands(@Model.AvailableCash - w ));
+            $('#modal_cash').html(w);
+            $('#modal_amount').html(w);
+        });
+    });
+
+
+    function toThousands(num) {
+        var num = (num || 0).toString(), temp = num.length % 3;
+        switch (temp) {
+            case 1:
+                num = '00' + num;
+                break;
+            case 2:
+                num = '0' + num;
+                break;
+        }
+        return num.match(/\d{3}/g).join(',').replace(/^0+/, '');
+    }
+
+    function showModal()
+    {
+        $("#myModal").modal('show');
+    }
+</script>
+
+
