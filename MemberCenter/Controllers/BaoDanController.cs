@@ -19,7 +19,9 @@ namespace MemberCenter.Controllers
     [Authorize]
     public class BaoDanController : BaseController
     {
-        
+        // Oct 18, 新增修改:
+        // 报单检索推荐人是否有兑换券，有多少以1500兑换券对应10000元保单，推荐人减少相应兑换券，同时增加相应现金， 报单人增加相应兑换券
+
         //
         // GET: /BaoDan/Buy
         public ActionResult Buy()
@@ -142,6 +144,30 @@ namespace MemberCenter.Controllers
 
                     //Step 4. 扣除现金
                     CurrentUser.Cash1 -= totalCash;
+
+                    //Oct 18
+                    //Step 4.1 推荐人减少相应兑换券
+                    CurrentUser.Referral.Point1 -= points;
+                    CurrentUser.Referral.PointTransaction.Add(new PointTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Amount = -points,
+                        Type = 兑换券记录类型.下线报单.ToString(),
+                        Status = 兑换券状态.可用.ToString(),
+                        BaoDanTransaction = mBaoDan,
+                    });
+
+                    //Step 4.2 推荐人增加相应现金
+                    CurrentUser.Referral.Cash1 += points;
+                    CurrentUser.Referral.CashTransaction.Add(new CashTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Status = 现金状态.已审核.ToString(),
+                        Type = 现金交易类型.下线报单兑换券变现.ToString(),
+                        Amount = points,
+                        Fee = 0,
+                        BaoDanTransaction = mBaoDan,
+                    });
                     
                     //Step 4.5 增加个人报单额统计值
                     CurrentUser.TotalBaoDan = CurrentUser.TotalBaoDan.HasValue ? totalCash + CurrentUser.TotalBaoDan.Value : totalCash + 0;
@@ -438,7 +464,11 @@ namespace MemberCenter.Controllers
         /// <returns></returns>
         private BaoDanBuyViewModel CalculateBaoDanBuyModel()
         {
-            int maxRequestCash = (int)Math.Floor((CurrentUser.Cash1 - GetSystemSettingDecimal("BaoDanBuyFee")) / GetSystemSettingDecimal("MinBaoDanCashBalance"));
+            //int maxRequestCash = (int)Math.Floor((CurrentUser.Cash1 - GetSystemSettingDecimal("BaoDanBuyFee")) / GetSystemSettingDecimal("MinBaoDanCashBalance"));
+            Member referer = CurrentUser.Referral;
+            Int32 refererPoints = (Int32)Math.Floor(referer.Point1 / GetSystemSettingDecimal("PointsRate"));
+            Int32 myCash = (Int32)Math.Floor((CurrentUser.Cash1 - GetSystemSettingDecimal("BaoDanBuyFee")) / GetSystemSettingDecimal("MinBaoDanCashBalance"));
+            int maxRequestCash = Math.Min(refererPoints, myCash);
             decimal coinCash = maxRequestCash * GetSystemSettingDecimal("MinBaoDanCashBalance");
             decimal price = CurrentCoinPrice.Price;
             decimal qty = coinCash / price;
