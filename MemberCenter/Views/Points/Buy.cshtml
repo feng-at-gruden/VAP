@@ -30,7 +30,7 @@
                 <td>@Html.DisplayNameFor(m => m.AvailableCash)：</td>
                 <td>@Html.DisplayNameFor(m => m.RequestAmount)：</td>
                 <td>@Html.DisplayNameFor(m => m.CashLeft)：</td>
-                @if (ViewData.ModelState.IsValid && Model.AvailableCash > Model.MinRequestAmount)
+                @if (ViewData.ModelState.IsValid && Model.AvailableCash >= Model.MinRequestAmount)
                 {
                     <td rowspan="2" style="vertical-align: bottom;text-align: right;">
                         <a data-toggle="modal" href="#myModal" class="btn btn-primary">购买</a>
@@ -113,6 +113,10 @@
     {
         $("#myModal").modal('show');
     }
+
+    $('#RequestAmount').val('@Model.MaxRequestAmount');
+    $('#modal_cash').html('@Model.MaxRequestAmount');
+    $('#modal_amount').html('@Model.MaxRequestAmount');
 </script>
 
 
