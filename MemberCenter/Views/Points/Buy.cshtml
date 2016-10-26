@@ -8,73 +8,73 @@
         POINTS PURCHASE
     </div>
     <div class="panel-body">
-    @using (Html.BeginForm("Buy", "Points", FormMethod.Post, new { role = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        if(!ViewData.ModelState.IsValid)
-        { 
-            <div class="alert alert-danger">
-                @Html.ValidationSummary()
-            </div>
-        }
-
-        if (ViewBag.ActionMessage != null)
+        @using (Html.BeginForm("Buy", "Points", FormMethod.Post, new { role = "form" }))
         {
-            <div class="alert alert-success">
-                @ViewBag.ActionMessage
-            </div>
-        }
-        <table class="table">
-            <caption style="padding-bottom:10px; float:left;"></caption>
-            <tr>
-                <td>@Html.DisplayNameFor(m => m.AvailableCash)：</td>
-                <td>@Html.DisplayNameFor(m => m.RequestAmount)：</td>
-                <td>@Html.DisplayNameFor(m => m.CashLeft)：</td>
-                @if (ViewData.ModelState.IsValid && Model.AvailableCash > Model.MinRequestAmount)
-                {
-                    <td rowspan="2" style="vertical-align: bottom;text-align: right;">
-                        <a data-toggle="modal" href="#myModal" class="btn btn-primary">购买</a>
-                    </td>
-                } 
-            </tr>
-            <tr>
-                <td>￥@Html.DisplayFor(m => m.AvailableCash) </td>
-                <td>
-                    <select id="RequestAmountDropDown">
-                        @for (int i = Model.MaxRequestAmount; i >= Model.MinRequestAmount; i = i - Model.MinRequestAmount)
-                        {
-                            <option>@i</option>
-                        }
-                    </select>
-                    @Html.HiddenFor(m=>m.RequestAmount)
-                </td>
-                <td class="CashLeft">￥@Html.DisplayFor(m => m.CashLeft, new { @class = "CashLeft" }) </td>
-            </tr>
-        </table>        
-        <!-- /.Table -->
-        
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">报单确认</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>您确定要支出￥<span id="modal_cash">@Html.DisplayFor(m => m.MaxRequestAmount)</span>元现金，购买<span id="modal_amount">@Html.DisplayFor(m => m.RequestAmount)</span>兑换券吗？</p>
-                    </div>
-                    <div class="modal-footer">
-		                <button type="submit" class="btn btn-success">确认</button>
-                        <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
-                    </div>
+            @Html.AntiForgeryToken()
+            if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @Html.ValidationSummary()
                 </div>
-                <!-- /.modal-content -->
+            }
+
+            if (ViewBag.ActionMessage != null)
+            {
+                <div class="alert alert-success">
+                    @ViewBag.ActionMessage
+                </div>
+            }
+            <table class="table">
+                <caption style="padding-bottom:10px; float:left;"></caption>
+                <tr>
+                    <td>@Html.DisplayNameFor(m => m.AvailableCash)：</td>
+                    <td>@Html.DisplayNameFor(m => m.RequestAmount)：</td>
+                    <td>@Html.DisplayNameFor(m => m.CashLeft)：</td>
+                    @if (ViewData.ModelState.IsValid && Model.AvailableCash >= Model.MinRequestAmount)
+                    {
+                        <td rowspan="2" style="vertical-align: bottom;text-align: right;">
+                            <a data-toggle="modal" href="#myModal" class="btn btn-primary">购买</a>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>￥@Html.DisplayFor(m => m.AvailableCash) </td>
+                    <td>
+                        <select id="RequestAmountDropDown">
+                            @for (int i = Model.MaxRequestAmount; i >= Model.MinRequestAmount; i = i - Model.MinRequestAmount)
+                            {
+                                <option>@i</option>
+                            }
+                        </select>
+                        @Html.HiddenFor(m => m.RequestAmount)
+                    </td>
+                    <td class="CashLeft">￥@Html.DisplayFor(m => m.CashLeft, new { @class = "CashLeft" }) </td>
+                </tr>
+            </table>
+        <!-- /.Table -->
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">报单确认</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>您确定要支出￥<span id="modal_cash">@Html.DisplayFor(m => m.MaxRequestAmount)</span>元现金，购买<span id="modal_amount">@Html.DisplayFor(m => m.RequestAmount)</span>兑换券吗？</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">确认</button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal-dialog -->
-        </div>
         <!-- /.modal -->
-        
-    }
+
+        }
     </div>
     <!-- /.panel-body -->
     <div class="panel-footer">
@@ -113,6 +113,8 @@
     {
         $("#myModal").modal('show');
     }
+
+    $('#RequestAmount').val('@Model.MaxRequestAmount');
+    $('#modal_cash').html('@Model.MaxRequestAmount');
+    $('#modal_amount').html('@Model.MaxRequestAmount');
 </script>
-
-

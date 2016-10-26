@@ -39,7 +39,7 @@
                                 <option>@i</option>
                             }
                         </select>
-                        @Html.HiddenFor(m=>m.Amount)
+                        @Html.HiddenFor(m => m.Amount)
                         <span class="input-group-addon">转账数量</span>
                     </div>
                     <div class="form-group input-group">
@@ -88,6 +88,6 @@
             var w = $('#RequestDropDown').val();
             $('#Amount').val(w);
         });
-
+        $('#Amount').val('@Model.MaxRequestAmount');
     });
 </script>

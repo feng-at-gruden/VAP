@@ -276,17 +276,22 @@ namespace Backend.Controllers
         public ActionResult DeleteCashTrans(int id,string type="T")
         {
             var recored = db.CashTransactions.Find(id);
-            recored.Member.Cash1 += Math.Abs(recored.Amount);
 
             db.CashTransactions.Remove(recored);
             db.SaveChanges();
-            ModelState.AddModelError("", "提现申请记录删除成功！ ￥" + Math.Abs(recored.Amount) + "元已返还至该用户可用资金账户。");
 
             TempData["ModelState"] = ModelState;
-            if(type=="T")
+            if (type == "T")
+            {
+                ModelState.AddModelError("", "充值记录删除成功！");
                 return RedirectToAction("PendingTopups");
+            }
             else
+            {
+                recored.Member.Cash1 += Math.Abs(recored.Amount);
+                ModelState.AddModelError("", "提现申请记录删除成功！ ￥" + Math.Abs(recored.Amount) + "元已返还至该用户可用资金账户。");
                 return RedirectToAction("PendingWithdraws");
+            }
         }
         [MyAuthorize(Roles = "Admin,Finance")]
         // GET: /Cash/Edit/5
