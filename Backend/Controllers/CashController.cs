@@ -288,7 +288,10 @@ namespace Backend.Controllers
             }
             else
             {
-                recored.Member.Cash1 += Math.Abs(recored.Amount);
+                //recored.Member.Cash1 += Math.Abs(recored.Amount);
+                Member member = db.Members.Find(recored.MemberId);
+                member.Cash1 += Math.Abs(recored.Amount);
+                db.SaveChanges();
                 ModelState.AddModelError("", "提现申请记录删除成功！ ￥" + Math.Abs(recored.Amount) + "元已返还至该用户可用资金账户。");
                 return RedirectToAction("PendingWithdraws");
             }

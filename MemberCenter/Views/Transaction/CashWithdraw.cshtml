@@ -12,7 +12,7 @@
             <div class="panel-body">
 
                 <div class="well">
-                    <p><b>重要提示：</b>当前账户可提金额为￥@Html.DisplayFor(m=>m.AvailableAmount)。为了您的账户安全，每次现金提现的最高额度为￥@Html.DisplayFor(m => m.MaxWithdrawAmount)，提现最低额度为￥@Html.DisplayFor(m => m.MinWithdrawAmount)，单日最大提现额度为￥@Html.DisplayFor(m => m.DailyMaxWithdrawAmount)，每笔手续费为 @Html.DisplayFor(m => m.FeeSetting)，如果您有更高的需求，请与网站客服联系，不同银行实际到账时间可能会有延迟。</p>
+                    <p><b>重要提示：</b>法定节假日、星期六和星期日提现到账时间顺延至工作日。当前账户可提金额为￥@Html.DisplayFor(m=>m.AvailableAmount)。为了您的账户安全，每次现金提现的最高额度为￥@Html.DisplayFor(m => m.MaxWithdrawAmount)，提现最低额度为￥@Html.DisplayFor(m => m.MinWithdrawAmount)，单日最大提现额度为￥@Html.DisplayFor(m => m.DailyMaxWithdrawAmount)，每笔手续费为 @Html.DisplayFor(m => m.FeeSetting)，如果您有更高的需求，请与网站客服联系，不同银行实际到账时间可能会有延迟。</p>
                 </div>
 
                 @using (Html.BeginForm("CashWithdraw", "Transaction", FormMethod.Post, new { role = "form" }))
