@@ -77,5 +77,15 @@
             }
         });
 
+        $("#User").focus(function (e) {
+            if (typeof AndroidHandler.showScan !== 'undefined') {
+                AndroidHandler.showScan();
+            }
+        });
     });
+
+
+    function setUID(uid) {
+        $('#User').val(uid);
+    }
 </script>
