@@ -1,0 +1,91 @@
+﻿@using MemberCenter.Helper
+@model MemberCenter.Models.BaoDanConsumeViewModel
+@{
+    ViewBag.Title = "积分消费";
+}
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                COIN CONSUME
+            </div>
+            <div class="panel-body">
+
+                <div class="well">
+                    <p><b>提示：</b>当前账户可用积分为 @Html.DisplayFor(m => m.AvailableAmount)。</p>
+                </div>
+
+                @using (Html.BeginForm("Consume", "BaoDan", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                    }
+                    if (ViewBag.ActionMessage != null)
+                    {
+                        <div class="alert alert-success">
+                            @ViewBag.ActionMessage
+                        </div>
+                    }
+                    <div class="form-group input-group">
+                        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", placeholder = "消费金额(单位:元)", maxlength = "7", id = "Amount" })
+                        <span class="input-group-addon">消费金额￥</span>
+                    </div>
+                    <div class="form-group input-group">
+                        @Html.TextBoxFor(m => m.User, new { @class = "form-control", placeholder = "收款人UID或邮箱", maxlength = "50", })
+                        <span class="input-group-addon">收款人</span>
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "交易密码", maxlength = "20" })
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block">确认消费</button>
+
+                }
+                <!-- /.form -->
+            </div>
+            <!-- /.panel-body -->
+            <div class="panel-footer">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+
+<script>
+    $(document).ready(function () {
+
+        $("#Amount").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .190
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+
+        $("#User").focus(function (e) {
+            if (typeof AndroidHandler.showScan !== 'undefined') {
+                AndroidHandler.showScan();
+            }
+        });
+    });
+
+
+    function setUID(uid) {
+        $('#User').val(uid);
+    }
+</script>

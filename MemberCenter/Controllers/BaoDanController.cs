@@ -456,6 +456,123 @@ namespace MemberCenter.Controllers
         }
 
 
+        //
+        // GET: /BaoDan/Consume
+        public ActionResult Consume()
+        {
+            if (GetSystemSettingBoolean("SystemIsLocked"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停交易！";
+                return RedirectToAction("Error", "Message");
+            }
+            SetMyAccountViewModel();
+            return View(new BaoDanConsumeViewModel
+            {
+                AvailableAmount = CurrentUser.Coin1,
+            });
+        }
+
+        //
+        // POST: /BaoDan/Consume
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Consume(BaoDanConsumeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Member mUser = null;
+                bool hasError = false;
+                //Validation,
+                //Check current balance is much than request amount
+                decimal coinAmount = model.Amount / CurrentCoinPrice.Price;
+                if (coinAmount > CurrentUser.Coin1 || coinAmount <= 0)
+                {
+                    ModelState.AddModelError("", "消费金额有误，请重试！");
+                    hasError = true;
+                }
+
+                if (!CurrentUser.Password2.Equals(model.Password))
+                {
+                    ModelState.AddModelError("", "交易密码错误");
+                    hasError = true;
+                }
+
+                //Check target member exists
+                if (model.User.IndexOf("@") > 0)
+                {
+                    mUser = db.Members.SingleOrDefault(m => m.Email.Equals(model.User, StringComparison.InvariantCultureIgnoreCase));
+                    if (mUser == null)
+                    {
+                        ModelState.AddModelError("", "找不到接受会员，请重试！");
+                        hasError = true;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        int id = int.Parse(model.User);
+                        mUser = db.Members.SingleOrDefault(m => m.Id == id);
+                        if (mUser == null)
+                        {
+                            ModelState.AddModelError("", "找不到接受会员，请重试！");
+                            hasError = true;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ModelState.AddModelError("", "找不到接受会员，请重试！");
+                        hasError = true;
+                    }
+                }
+
+                if (mUser != null && CurrentUser.Id == mUser.Id)
+                {
+                    ModelState.AddModelError("", "接收会员不能是自己，请重试！");
+                    hasError = true;
+                }
+
+                if (mUser != null && !hasError)
+                {
+                    //Add Transaction record to db
+                    CurrentUser.BaoDanTransaction.Add(new BaoDanTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Amount = -coinAmount,
+                        Type = 报单类型.消费支出.ToString(),
+                        Status = 报单状态.已成交.ToString(),
+                        Fee = 0,
+                        Comment = "消费支出给会员(UID:" + mUser.Id + ")",
+                    });
+
+                    mUser.BaoDanTransaction.Add(new BaoDanTransaction
+                    {
+                        DateTime = DateTime.Now,
+                        Amount = coinAmount,
+                        Type = 报单类型.消费入账.ToString(),
+                        Status = 报单状态.已成交.ToString(),
+                        Fee = 0,
+                        Comment = "会员(UID:" + CurrentUser.Id + ")消费收入",
+                    });
+
+                    //Calculate and update balance
+                    CurrentUser.Coin1 -= coinAmount;
+                    mUser.Coin1 += coinAmount;
+
+                    db.SaveChanges();
+                    ViewBag.ActionMessage = "消费成功！";
+                    TempData["ActionMessage"] = ViewBag.ActionMessage;
+                    return RedirectToAction("Success", "Message");
+                }
+            }
+            SetMyAccountViewModel();
+            return View(new BaoDanConsumeViewModel
+            {
+                AvailableAmount = CurrentUser.Coin1,
+            });
+        }
+
+
         #region private methods
 
         /// <summary>
