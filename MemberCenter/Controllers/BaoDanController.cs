@@ -539,6 +539,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Amount = -coinAmount,
+                        Price = CurrentCoinPrice.Price,
                         Type = 报单类型.消费支出.ToString(),
                         Status = 报单状态.已成交.ToString(),
                         Fee = 0,
@@ -549,6 +550,7 @@ namespace MemberCenter.Controllers
                     {
                         DateTime = DateTime.Now,
                         Amount = coinAmount,
+                        Price = CurrentCoinPrice.Price,
                         Type = 报单类型.消费入账.ToString(),
                         Status = 报单状态.已成交.ToString(),
                         Fee = 0,
