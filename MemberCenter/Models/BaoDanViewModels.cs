@@ -159,5 +159,27 @@ namespace MemberCenter.Models
         public decimal AvailableAmount { get; set; }
     }
 
+    public class BaoDanConsumeViewModel
+    {
+        [Required(ErrorMessage = "请填写消费金额")]
+        [Display(Name = "消费金额")]
+        [DisplayFormat(DataFormatString = "{0:n6}")]
+        public decimal Amount { get; set; }
+
+        [Required(ErrorMessage = "请填写收款人的会员UID或者邮箱")]
+        [Display(Name = "收款人")]
+        public string User { get; set; }
+
+        [Required(ErrorMessage = "请输入{0}")]
+        [StringLength(30, ErrorMessage = "{0}长度不足{2}.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "交易密码")]
+        public string Password { get; set; }
+
+        [Display(Name = "当前可用积分")]
+        [DisplayFormat(DataFormatString = "{0:n6}")]
+        public decimal AvailableAmount { get; set; }
+    }
+
 }
 

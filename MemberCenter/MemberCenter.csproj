@@ -2252,6 +2252,7 @@
     <Content Include="Views\Message\Error.cshtml" />
     <Content Include="Views\Points\Transfer.cshtml" />
     <Content Include="Views\Points\Buy.cshtml" />
+    <Content Include="Views\BaoDan\Consume.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
