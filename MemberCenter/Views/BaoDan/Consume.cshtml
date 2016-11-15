@@ -14,7 +14,7 @@
             <div class="panel-body">
 
                 <div class="well">
-                    <p><b>提示：</b>当前账户可用积分为 @Html.DisplayFor(m => m.AvailableAmount)。</p>
+                    <p><b>提示：</b>当前账户可用积分为 @Html.DisplayFor(m => m.AvailableAmount)，当前积分价格￥@Html.DisplayFor(m => m.CurrentPrice)。</p>
                 </div>
 
                 @using (Html.BeginForm("Consume", "BaoDan", FormMethod.Post, new { role = "form" }))

@@ -469,6 +469,7 @@ namespace MemberCenter.Controllers
             return View(new BaoDanConsumeViewModel
             {
                 AvailableAmount = CurrentUser.Coin1,
+                CurrentPrice = CurrentCoinPrice.Price,
             });
         }
 
@@ -571,6 +572,7 @@ namespace MemberCenter.Controllers
             return View(new BaoDanConsumeViewModel
             {
                 AvailableAmount = CurrentUser.Coin1,
+                CurrentPrice = CurrentCoinPrice.Price,
             });
         }
 
