@@ -179,6 +179,10 @@ namespace MemberCenter.Models
         [Display(Name = "当前可用积分")]
         [DisplayFormat(DataFormatString = "{0:n6}")]
         public decimal AvailableAmount { get; set; }
+
+        [Display(Name = "当前积分价格")]
+        [DisplayFormat(DataFormatString = "{0:n3}")]
+        public decimal CurrentPrice { get; set; }
     }
 
 }

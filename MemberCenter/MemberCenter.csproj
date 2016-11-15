@@ -712,6 +712,7 @@
     <Content Include="Content\dist\css\sb-admin-2.css" />
     <Content Include="Content\dist\css\timeline.css" />
     <Content Include="Content\dist\js\sb-admin-2.js" />
+    <Content Include="Content\images\qrcode.png" />
     <Content Include="Content\js\flot-data.js" />
     <Content Include="Content\js\morris-data.js" />
     <Content Include="Content\new-skin\bower_components\bootstrap-social\.gitignore" />
@@ -2256,7 +2257,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
+    <Folder Include="Content\apk\" />
     <Folder Include="log\" />
     <Folder Include="Upload\Identity\" />
     <Folder Include="Upload\Topup\" />
