@@ -1,5 +1,4 @@
-﻿
-@using MemberCenter.Helper
+﻿@using MemberCenter.Helper
 @model MemberCenter.Models.BaoDanConsumeViewModel
 @{
     ViewBag.Title = "积分消费";
@@ -38,8 +37,12 @@
                         <span class="input-group-addon">消费金额￥</span>
                     </div>
                     <div class="form-group input-group">
+                        <input class="form-control" placeholder="消费积分" id="CoinAmount" maxlength="30" disabled>
+                        <span class="input-group-addon">&nbsp;&nbsp;消费积分&nbsp;</span>
+                    </div>
+                    <div class="form-group input-group">
                         @Html.TextBoxFor(m => m.User, new { @class = "form-control", placeholder = "收款人UID或邮箱", maxlength = "50", })
-                        <span class="input-group-addon">收款人</span>
+                        <span class="input-group-addon">&nbsp;&nbsp;收&nbsp;&nbsp;款&nbsp;&nbsp;人&nbsp;</span>
                     </div>
                     <div class="form-group">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "交易密码", maxlength = "20" })
@@ -88,5 +91,19 @@
 
     function setUID(uid) {
         $('#User').val(uid);
+    }
+
+    var maxAmount = @Model.AvailableAmount * @Model.CurrentPrice;
+    $("#Amount").change(function() {
+        if ($(this).val() > maxAmount)
+        {
+            $(this).val(Number(maxAmount.toString().substring(0,maxAmount.toString().indexOf('.')+3)));
+        }
+        calculate();
+    });
+
+    function calculate() {
+        var coinCost = $("#Amount").val() / @Model.CurrentPrice;
+        $("#CoinAmount").val(coinCost.toFixed(6));
     }
 </script>

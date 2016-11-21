@@ -167,7 +167,11 @@ namespace Backend.Controllers
             var baodan = db.BaoDanTransactions.Find(id);
             db.BaoDanTransactions.Remove(baodan);
             db.SaveChanges();
-            ModelState.AddModelError("", "报单删除成功。");
+            Member member = db.Members.Find(baodan.MemberId);
+            member.Coin1 += Math.Abs(baodan.Amount);
+            db.SaveChanges();
+
+            ModelState.AddModelError("", "积分售出请求删除成功，积分数已返还至原帐户。");
             TempData["ModelState"] = ModelState;
             return RedirectToAction("PendingSells");
         }
