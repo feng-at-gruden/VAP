@@ -475,6 +475,7 @@
     <Content Include="images\list.gif" />
     <Content Include="images\list1.gif" />
     <Content Include="images\list2.png" />
+    <Content Include="images\loading.gif" />
     <Content Include="images\loginbg1.png" />
     <Content Include="images\loginbg2.png" />
     <Content Include="images\loginbg3.png" />

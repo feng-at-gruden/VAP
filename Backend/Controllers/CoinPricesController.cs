@@ -60,16 +60,17 @@ namespace Backend.Controllers
                 if (type == 1)
                 {
                     var lockRecords = db.LockedCoins;
+                    decimal rate = SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate");
                     foreach (var lockRecord in lockRecords)
                     {
                         if (currentPrice >= lockRecord.NextPrice)
                         {
                             var member = db.Members.Find(lockRecord.MemberId);
-                            var amount = lockRecord.LockedAmount * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate");
+                            var amount = lockRecord.LockedAmount * rate;
                             lockRecord.LockedAmount -= amount;
                             lockRecord.AvailabeAmount += amount;
                             lockRecord.LastPrice = currentPrice;
-                            lockRecord.NextPrice = Math.Ceiling(currentPrice.Value * (1 + SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate")) * 1000) / 1000;
+                            lockRecord.NextPrice = Math.Ceiling(currentPrice.Value * (1 + rate) * 1000) / 1000;
                             //lockRecord.NextPrice = Math.Round(currentPrice.Value + currentPrice.Value * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate"), 3);
 
                             member.Coin1 += amount;
@@ -77,9 +78,9 @@ namespace Backend.Controllers
 
                             db.Entry(lockRecord).State = EntityState.Modified;
                             db.Entry(member).State = EntityState.Modified;
-                            db.SaveChanges();
                         }
                     }
+                    db.SaveChanges();
                 }
                 return RedirectToAction("Index");
             }

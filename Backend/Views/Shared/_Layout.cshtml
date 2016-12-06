@@ -118,6 +118,21 @@
 
     @*@Scripts.Render("~/bundles/bootstrap")*@
     @RenderSection("scripts", required: false)
+
+
+
+    <div id="form-loading"><span class="loading-box"><img src="~/images/loading.gif" class="loading" /></span></div>
+    <script language="javascript">
+
+        $(function () {
+            $('#form-loading').hide();
+            $('form').submit(function () {
+                $('#form-loading').show();
+            });
+
+        });
+    </script>
+
 </body>
 </html>
 

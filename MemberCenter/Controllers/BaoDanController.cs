@@ -13,6 +13,7 @@ using Microsoft.Owin.Security;
 using MemberCenter.Models;
 using MemberCenter.Helper;
 using VapLib;
+using System.Data.Entity;
 
 namespace MemberCenter.Controllers
 {
@@ -76,10 +77,16 @@ namespace MemberCenter.Controllers
                         return View(CalculateBaoDanBuyModel());
                     }
 
+                    //报单逻辑
                     decimal requestQty = model.RequestCash / CurrentCoinPrice.Price;
                     decimal totalCash = model.RequestCash + GetSystemSettingDecimal("BaoDanBuyFee");
 
                     var initialCash = CurrentUser.Cash1;
+
+                    //Step 0. 扣除现金
+                    CurrentUser.Cash1 -= totalCash;
+
+
                     //Step 1. 报单交易记录、现金交易记录
                     BaoDanTransaction mBaoDan = new BaoDanTransaction
                     {
@@ -141,10 +148,6 @@ namespace MemberCenter.Controllers
                     //Step 3.4 设置更新上线等级
                     UpdateReferralAchievementAndLevel(CurrentUser, model.RequestCash, mBaoDan);
 
-
-                    //Step 4. 扣除现金
-                    CurrentUser.Cash1 -= totalCash;
-
                     //Oct 18
                     //Step 4.1 推荐人减少相应兑换券
                     CurrentUser.Referral.Point1 -= points;
@@ -168,17 +171,21 @@ namespace MemberCenter.Controllers
                         Fee = 0,
                         BaoDanTransaction = mBaoDan,
                     });
-                    
+                    db.Entry(CurrentUser.Referral).State = EntityState.Modified;
+
                     //Step 4.5 增加个人报单额统计值
                     CurrentUser.TotalBaoDan = CurrentUser.TotalBaoDan.HasValue ? totalCash + CurrentUser.TotalBaoDan.Value : totalCash + 0;
 
                     //Step 5. 更新系统统计表
                     UpdateOrInsertSysStatistics(mBaoDan);
 
+                    db.Entry(CurrentUser).State = EntityState.Modified;
+
                     db.SaveChanges();
 
                     //Add validation and error log
                     var nowCash = CurrentUser.Cash1;
+
                     if(initialCash - totalCash != nowCash)
                     {
                         //Write to log 
@@ -751,6 +758,7 @@ namespace MemberCenter.Controllers
                         BaoDanTransaction = mBaoDan,
                     });
                     mRef.ChongXiao1 += refChonXiao;
+                    db.Entry(mRef).State = EntityState.Modified;
                 }
                 
             }
