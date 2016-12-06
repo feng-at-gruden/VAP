@@ -15,6 +15,7 @@ namespace Backend.Controllers
     public class CoinPricesController : Controller
     {
         private vapEntities1 db = new vapEntities1();
+        private static object dbLock = new object();
 
         // GET: CoinPrices
         public ActionResult Index()
@@ -51,36 +52,39 @@ namespace Backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.DateTime = DateTime.Now;
-                var currentPrice = model.Price;
-                db.CoinPrices.Add(model);
-                db.SaveChanges();
-
-                // 触发可用币释放 逻辑
-                if (type == 1)
+                lock (dbLock)
                 {
-                    var lockRecords = db.LockedCoins;
-                    decimal rate = SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate");
-                    foreach (var lockRecord in lockRecords)
-                    {
-                        if (currentPrice >= lockRecord.NextPrice)
-                        {
-                            var member = db.Members.Find(lockRecord.MemberId);
-                            var amount = lockRecord.LockedAmount * rate;
-                            lockRecord.LockedAmount -= amount;
-                            lockRecord.AvailabeAmount += amount;
-                            lockRecord.LastPrice = currentPrice;
-                            lockRecord.NextPrice = Math.Ceiling(currentPrice.Value * (1 + rate) * 1000) / 1000;
-                            //lockRecord.NextPrice = Math.Round(currentPrice.Value + currentPrice.Value * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate"), 3);
-
-                            member.Coin1 += amount;
-                            member.Coin2 -= amount;
-
-                            db.Entry(lockRecord).State = EntityState.Modified;
-                            db.Entry(member).State = EntityState.Modified;
-                        }
-                    }
+                    model.DateTime = DateTime.Now;
+                    var currentPrice = model.Price;
+                    db.CoinPrices.Add(model);
                     db.SaveChanges();
+
+                    // 触发可用币释放 逻辑
+                    if (type == 1)
+                    {
+                        var lockRecords = db.LockedCoins;
+                        decimal rate = SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate");
+                        foreach (var lockRecord in lockRecords)
+                        {
+                            if (currentPrice >= lockRecord.NextPrice)
+                            {
+                                var member = db.Members.Find(lockRecord.MemberId);
+                                var amount = lockRecord.LockedAmount * rate;
+                                lockRecord.LockedAmount -= amount;
+                                lockRecord.AvailabeAmount += amount;
+                                lockRecord.LastPrice = currentPrice;
+                                lockRecord.NextPrice = Math.Ceiling(currentPrice.Value * (1 + rate) * 1000) / 1000;
+                                //lockRecord.NextPrice = Math.Round(currentPrice.Value + currentPrice.Value * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate"), 3);
+
+                                member.Coin1 += amount;
+                                member.Coin2 -= amount;
+
+                                db.Entry(lockRecord).State = EntityState.Modified;
+                                db.Entry(member).State = EntityState.Modified;
+                            }
+                        }
+                        db.SaveChanges();
+                    }
                 }
                 return RedirectToAction("Index");
             }

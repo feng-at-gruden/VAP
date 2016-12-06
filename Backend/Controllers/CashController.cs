@@ -16,6 +16,8 @@ namespace Backend.Controllers
     public class CashController : Controller
     {
         private vapEntities1 db = new vapEntities1();
+        private static object dbLock = new object();
+
         /// <summary>
         /// 所有cash 操作记录
         /// </summary>
@@ -312,37 +314,39 @@ namespace Backend.Controllers
             CashTransaction cashtransaction = db.CashTransactions.Find(model.Id);
             if (cashtransaction != null)
             {
-                //验证现金状态为 待审核
-                if (cashtransaction.Status == 现金状态.待审核.ToString())
+                lock (dbLock)
                 {
-                    //充值，会员可用现金增加
-                    if (cashtransaction.Type == 现金交易类型.充值.ToString())
+                    //验证现金状态为 待审核
+                    if (cashtransaction.Status == 现金状态.待审核.ToString())
                     {
-                        var member = db.Members.Find(cashtransaction.Member.Id);
-                        cashtransaction.Status = 现金状态.已审核.ToString();
-                        member.Cash1 = member.Cash1 + cashtransaction.Amount;
-                        db.Entry(member).State = EntityState.Modified;
-                        db.Entry(cashtransaction).State = EntityState.Modified;
-                        db.SaveChanges();
-                        ModelState.AddModelError("", "审批成功。");
-                        return RedirectToAction("PendingTopups");
+                        //充值，会员可用现金增加
+                        if (cashtransaction.Type == 现金交易类型.充值.ToString())
+                        {
+                            var member = db.Members.Find(cashtransaction.Member.Id);
+                            cashtransaction.Status = 现金状态.已审核.ToString();
+                            member.Cash1 = member.Cash1 + cashtransaction.Amount;
+                            db.Entry(member).State = EntityState.Modified;
+                            db.Entry(cashtransaction).State = EntityState.Modified;
+                            db.SaveChanges();
+                            ModelState.AddModelError("", "审批成功。");
+                            return RedirectToAction("PendingTopups");
 
-                    } //提现 会员可用现金再提交申请时已经扣除
-                    else if (cashtransaction.Type == 现金交易类型.提现.ToString())
+                        } //提现 会员可用现金再提交申请时已经扣除
+                        else if (cashtransaction.Type == 现金交易类型.提现.ToString())
+                        {
+                            cashtransaction.Status = 现金状态.已审核.ToString();
+                            db.Entry(cashtransaction).State = EntityState.Modified;
+                            db.SaveChanges();
+                            ModelState.AddModelError("", "审批成功。");
+                            return RedirectToAction("PendingWithdraws");
+
+                        }
+                    }
+                    else
                     {
-                        cashtransaction.Status = 现金状态.已审核.ToString();
-                        db.Entry(cashtransaction).State = EntityState.Modified;
-                        db.SaveChanges();
-                        ModelState.AddModelError("", "审批成功。");
-                        return RedirectToAction("PendingWithdraws");
-
+                        ModelState.AddModelError("", "该记录状态不是待审核状态。");
                     }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "该记录状态不是待审核状态。");
-                }
-
             }//无此记录，跳转到首页
             else
             {

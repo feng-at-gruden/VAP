@@ -14,12 +14,15 @@ using MemberCenter.Models;
 using MemberCenter.Helper;
 using VapLib;
 using System.Data.Entity;
+using System.Threading;
 
 namespace MemberCenter.Controllers
 {
     [Authorize]
     public class BaoDanController : BaseController
     {
+        private static object dbLock = new object();
+
         // Oct 18, 新增修改:
         // 报单检索推荐人是否有兑换券，有多少以1500兑换券对应10000元保单，推荐人减少相应兑换券，同时增加相应现金， 报单人增加相应兑换券
 
@@ -47,163 +50,174 @@ namespace MemberCenter.Controllers
         {
             if(ModelState.IsValid)
             {
-                try
+                ///http://www.cnblogs.com/leslies2/archive/2012/02/08/2320914.html#t8
+                ///http://www.cnblogs.com/leslies2/archive/2012/07/30/2608784.html
+                lock (dbLock)
                 {
-                    //Step 0. Prevent hack, do validation
-                    //Force overwrite model to prevent hack
-                    var realModel = CalculateBaoDanBuyModel();
-                    if(!CurrentUser.Status.Equals(会员状态.正常.ToString()))
+                    try
                     {
-                        ModelState.AddModelError("", "会员状态异常");
-                        return RedirectToAction("Login", "Account");
-                    }
-                    if (CurrentUser.Cash1 < model.TotalCostCash || CurrentUser.Cash1 < GetSystemSettingDecimal("MinBaoDanCashBalance"))
-                    {
-                        ModelState.AddModelError("", "账户可用资金不足");
-                        return View(CalculateBaoDanBuyModel());
-                    }
-                    if (model.RequestQuantity <= 0)
-                    {
-                        ModelState.AddModelError("", "报单数量错误");
-                        return View(CalculateBaoDanBuyModel());
-                    }
-
-                    // Do Validation
-                    if (model.RequestPrice != realModel.RequestPrice ||
-                        model.RequestQuantity > realModel.RequestQuantity ||
-                        model.RequestCash > realModel.RequestCash )
-                    {
-                        ModelState.AddModelError("", "报单数据错误， 请返回重试");
-                        return View(CalculateBaoDanBuyModel());
-                    }
-
-                    //报单逻辑
-                    decimal requestQty = model.RequestCash / CurrentCoinPrice.Price;
-                    decimal totalCash = model.RequestCash + GetSystemSettingDecimal("BaoDanBuyFee");
-
-                    var initialCash = CurrentUser.Cash1;
-
-                    //Step 0. 扣除现金
-                    CurrentUser.Cash1 -= totalCash;
-
-
-                    //Step 1. 报单交易记录、现金交易记录
-                    BaoDanTransaction mBaoDan = new BaoDanTransaction
-                    {
-                        DateTime = DateTime.Now,
-                        Amount = requestQty,
-                        Price = CurrentCoinPrice.Price,
-                        Fee = GetSystemSettingDecimal("BaoDanBuyFee"),
-                        Status = 报单状态.已成交.ToString(),
-                        Type = 报单类型.买入.ToString(),
-                        Member = CurrentUser,
-                    };
-                    CurrentUser.BaoDanTransaction.Add(mBaoDan);
-                    CurrentUser.CashTransaction.Add(new CashTransaction
-                    {
-                        DateTime = DateTime.Now,
-                        Status = 现金状态.已审核.ToString(),
-                        Type = 现金交易类型.购买积分.ToString(),
-                        Amount = -totalCash,
-                        Fee = 0,
-                        BaoDanTransaction = mBaoDan,
-                    });
-
-                    //Step 1.5 增加虚拟币 并冻结
-                    CurrentUser.Coin2 += requestQty;
-                    CurrentUser.LockedCoin.Add(new LockedCoin
-                    {
-                        AvailabeAmount = 0,
-                        LockedAmount = requestQty,
-                        TotalAmount = requestQty,
-                        Price = CurrentCoinPrice.Price,
-                        LastPrice = CurrentCoinPrice.Price,
-                        NextPrice = Math.Ceiling(CurrentCoinPrice.Price * 1.05m * 1000) / 1000,
-                        BaoDanTransaction = mBaoDan,
-                    });
-
-                    //Step 2.0 为自己增加兑换券
-                    decimal points = (model.RequestCash / GetSystemSettingDecimal("MinBaoDanCashBalance")) * GetSystemSettingDecimal("PointsRate");
-                    CurrentUser.Point1 += points;
-                    CurrentUser.PointTransaction.Add(new PointTransaction
-                    {
-                        DateTime = DateTime.Now,
-                        Amount = points,
-                        Type = 兑换券记录类型.购买积分.ToString(),
-                        Status = 兑换券状态.可用.ToString(),
-                        BaoDanTransaction = mBaoDan,
-                    });
-
-                    //Step 2.5 为自己增加总业绩
-                    CurrentUser.Achievement += model.RequestCash;
-
-                    //Step 3.0 设置更新自己等级
-                    RefreshMemberLevel(CurrentUser);
-
-                    //Step 3.1 为自己所有上线增加返利
-                    //Step 3.2 为上线增加重消记录
-                    RefundForReferral(CurrentUser, model.RequestCash, mBaoDan, 0);
-
-                    //Step 3.3 为上线增加总业绩
-                    //Step 3.4 设置更新上线等级
-                    UpdateReferralAchievementAndLevel(CurrentUser, model.RequestCash, mBaoDan);
-
-                    //Oct 18
-                    //Step 4.1 推荐人减少相应兑换券
-                    CurrentUser.Referral.Point1 -= points;
-                    CurrentUser.Referral.PointTransaction.Add(new PointTransaction
-                    {
-                        DateTime = DateTime.Now,
-                        Amount = -points,
-                        Type = 兑换券记录类型.下线报单.ToString(),
-                        Status = 兑换券状态.可用.ToString(),
-                        BaoDanTransaction = mBaoDan,
-                    });
-
-                    //Step 4.2 推荐人增加相应现金
-                    CurrentUser.Referral.Cash1 += points;
-                    CurrentUser.Referral.CashTransaction.Add(new CashTransaction
-                    {
-                        DateTime = DateTime.Now,
-                        Status = 现金状态.已审核.ToString(),
-                        Type = 现金交易类型.下线报单兑换券变现.ToString(),
-                        Amount = points,
-                        Fee = 0,
-                        BaoDanTransaction = mBaoDan,
-                    });
-                    db.Entry(CurrentUser.Referral).State = EntityState.Modified;
-
-                    //Step 4.5 增加个人报单额统计值
-                    CurrentUser.TotalBaoDan = CurrentUser.TotalBaoDan.HasValue ? totalCash + CurrentUser.TotalBaoDan.Value : totalCash + 0;
-
-                    //Step 5. 更新系统统计表
-                    UpdateOrInsertSysStatistics(mBaoDan);
-
-                    db.Entry(CurrentUser).State = EntityState.Modified;
-
-                    db.SaveChanges();
-
-                    //Add validation and error log
-                    var nowCash = CurrentUser.Cash1;
-
-                    if(initialCash - totalCash != nowCash)
-                    {
-                        //Write to log 
-                        String content = "报单用户UID:" + CurrentUser.Id + "; 报单金额:" + totalCash + "; 报单前金额:" + initialCash + "; 报单后金额:" + nowCash + "; 报单时间:" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-                        LogHelper.WriteErrorLog(content, "BaoDan");
-                    }
-                    
-                    ViewBag.ActionMessage = "报单成功！";
-                    TempData["ActionMessage"] = ViewBag.ActionMessage;
-                    return RedirectToAction("Success", "Message");
-                }
-                catch (DbEntityValidationException dbEx)
-                {
-                    foreach (var validationErrors in dbEx.EntityValidationErrors)
-                    {
-                        foreach (var validationError in validationErrors.ValidationErrors)
+                        //Step 0. Prevent hack, do validation
+                        //Force overwrite model to prevent hack
+                        var realModel = CalculateBaoDanBuyModel();
+                        if (!CurrentUser.Status.Equals(会员状态.正常.ToString()))
                         {
-                            ModelState.AddModelError("", validationError.ToString());
+                            ModelState.AddModelError("", "会员状态异常");
+                            return RedirectToAction("Login", "Account");
+                        }
+                        if (CurrentUser.Cash1 < model.TotalCostCash || CurrentUser.Cash1 < GetSystemSettingDecimal("MinBaoDanCashBalance"))
+                        {
+                            ModelState.AddModelError("", "账户可用资金不足");
+                            return View(CalculateBaoDanBuyModel());
+                        }
+                        if (model.RequestQuantity <= 0)
+                        {
+                            ModelState.AddModelError("", "报单数量错误");
+                            return View(CalculateBaoDanBuyModel());
+                        }
+
+                        // Do Validation
+                        if (model.RequestPrice != realModel.RequestPrice ||
+                            model.RequestQuantity > realModel.RequestQuantity ||
+                            model.RequestCash > realModel.RequestCash)
+                        {
+                            ModelState.AddModelError("", "报单数据错误， 请返回重试");
+                            return View(CalculateBaoDanBuyModel());
+                        }
+
+                        //报单逻辑
+                        decimal requestQty = model.RequestCash / CurrentCoinPrice.Price;
+                        decimal totalCash = model.RequestCash + GetSystemSettingDecimal("BaoDanBuyFee");
+
+                        var initialCash = CurrentUser.Cash1;
+
+                        //Step 0. 扣除现金
+                        CurrentUser.Cash1 -= totalCash;
+
+
+                        //Step 1. 报单交易记录、现金交易记录
+                        BaoDanTransaction mBaoDan = new BaoDanTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Amount = requestQty,
+                            Price = CurrentCoinPrice.Price,
+                            Fee = GetSystemSettingDecimal("BaoDanBuyFee"),
+                            Status = 报单状态.已成交.ToString(),
+                            Type = 报单类型.买入.ToString(),
+                            Member = CurrentUser,
+                        };
+                        CurrentUser.BaoDanTransaction.Add(mBaoDan);
+                        CurrentUser.CashTransaction.Add(new CashTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Status = 现金状态.已审核.ToString(),
+                            Type = 现金交易类型.购买积分.ToString(),
+                            Amount = -totalCash,
+                            Fee = 0,
+                            BaoDanTransaction = mBaoDan,
+                        });
+
+                        //Step 1.5 增加虚拟币 并冻结
+                        CurrentUser.Coin2 += requestQty;
+                        CurrentUser.LockedCoin.Add(new LockedCoin
+                        {
+                            AvailabeAmount = 0,
+                            LockedAmount = requestQty,
+                            TotalAmount = requestQty,
+                            Price = CurrentCoinPrice.Price,
+                            LastPrice = CurrentCoinPrice.Price,
+                            NextPrice = Math.Ceiling(CurrentCoinPrice.Price * 1.05m * 1000) / 1000,
+                            BaoDanTransaction = mBaoDan,
+                        });
+
+                        //Step 2.0 为自己增加兑换券
+                        decimal points = (model.RequestCash / GetSystemSettingDecimal("MinBaoDanCashBalance")) * GetSystemSettingDecimal("PointsRate");
+                        CurrentUser.Point1 += points;
+                        CurrentUser.PointTransaction.Add(new PointTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Amount = points,
+                            Type = 兑换券记录类型.购买积分.ToString(),
+                            Status = 兑换券状态.可用.ToString(),
+                            BaoDanTransaction = mBaoDan,
+                        });
+
+                        //Step 2.5 为自己增加总业绩
+                        CurrentUser.Achievement += model.RequestCash;
+
+                        //Step 3.0 设置更新自己等级
+                        RefreshMemberLevel(CurrentUser);
+
+                        //Step 3.1 为自己所有上线增加返利
+                        //Step 3.2 为上线增加重消记录
+                        RefundForReferral(CurrentUser, model.RequestCash, mBaoDan, 0);
+
+                        //Step 3.3 为上线增加总业绩
+                        //Step 3.4 设置更新上线等级
+                        UpdateReferralAchievementAndLevel(CurrentUser, model.RequestCash, mBaoDan);
+
+                        //Oct 18
+                        //Step 4.1 推荐人减少相应兑换券
+                        CurrentUser.Referral.Point1 -= points;
+                        CurrentUser.Referral.PointTransaction.Add(new PointTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Amount = -points,
+                            Type = 兑换券记录类型.下线报单.ToString(),
+                            Status = 兑换券状态.可用.ToString(),
+                            BaoDanTransaction = mBaoDan,
+                        });
+
+                        //Step 4.2 推荐人增加相应现金
+                        CurrentUser.Referral.Cash1 += points;
+                        CurrentUser.Referral.CashTransaction.Add(new CashTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Status = 现金状态.已审核.ToString(),
+                            Type = 现金交易类型.下线报单兑换券变现.ToString(),
+                            Amount = points,
+                            Fee = 0,
+                            BaoDanTransaction = mBaoDan,
+                        });
+                        db.Entry(CurrentUser.Referral).State = EntityState.Modified;
+
+                        //Step 4.5 增加个人报单额统计值
+                        CurrentUser.TotalBaoDan = CurrentUser.TotalBaoDan.HasValue ? totalCash + CurrentUser.TotalBaoDan.Value : totalCash + 0;
+
+                        //Step 5. 更新系统统计表
+                        UpdateOrInsertSysStatistics(mBaoDan);
+
+                        db.Entry(CurrentUser).State = EntityState.Modified;
+
+
+                        if ("a-2@qq.com".Equals(CurrentUser.Email))
+                            Thread.Sleep(30000);
+
+
+                        db.SaveChanges();
+
+
+                        //Add validation and error log
+                        var nowCash = CurrentUser.Cash1;
+
+                        if (initialCash - totalCash != nowCash)
+                        {
+                            //Write to log 
+                            String content = "报单用户UID:" + CurrentUser.Id + "; 报单金额:" + totalCash + "; 报单前金额:" + initialCash + "; 报单后金额:" + nowCash + "; 报单时间:" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+                            LogHelper.WriteErrorLog(content, "BaoDan");
+                        }
+
+                        ViewBag.ActionMessage = "报单成功！";
+                        TempData["ActionMessage"] = ViewBag.ActionMessage;
+                        return RedirectToAction("Success", "Message");
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        foreach (var validationErrors in dbEx.EntityValidationErrors)
+                        {
+                            foreach (var validationError in validationErrors.ValidationErrors)
+                            {
+                                ModelState.AddModelError("", validationError.ToString());
+                            }
                         }
                     }
                 }
@@ -245,34 +259,37 @@ namespace MemberCenter.Controllers
             }
             if (ModelState.IsValid)
             {
-                if (model.RequestAmount > CurrentUser.Coin1 || model.RequestAmount < GetSystemSettingDecimal("MinBaoDanSell"))
+                lock (dbLock)
                 {
-                    ModelState.AddModelError("", "报单数量错误(" + model.RequestAmount + ")");
-                }
-                else if (!CurrentUser.Password2.Equals(model.Password))
-                {
-                    ModelState.AddModelError("", "交易密码错误");
-                }
-                else
-                {
-                    //Step 增加报单记录
-                    CurrentUser.BaoDanTransaction.Add(new BaoDanTransaction
+                    if (model.RequestAmount > CurrentUser.Coin1 || model.RequestAmount < GetSystemSettingDecimal("MinBaoDanSell"))
                     {
-                        DateTime = DateTime.Now,
-                        Amount = model.RequestAmount,
-                        Price = CurrentCoinPrice.Price,
-                        Fee = GetSystemSettingDecimal("BaoDanSellFee"),
-                        Status = 报单状态.未成交.ToString(),
-                        Type = 报单类型.卖出.ToString(),
-                    });
+                        ModelState.AddModelError("", "报单数量错误(" + model.RequestAmount + ")");
+                    }
+                    else if (!CurrentUser.Password2.Equals(model.Password))
+                    {
+                        ModelState.AddModelError("", "交易密码错误");
+                    }
+                    else
+                    {
+                        //Step 增加报单记录
+                        CurrentUser.BaoDanTransaction.Add(new BaoDanTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Amount = model.RequestAmount,
+                            Price = CurrentCoinPrice.Price,
+                            Fee = GetSystemSettingDecimal("BaoDanSellFee"),
+                            Status = 报单状态.未成交.ToString(),
+                            Type = 报单类型.卖出.ToString(),
+                        });
 
-                    //Step 减少Coin1 
-                    CurrentUser.Coin1 -= model.RequestAmount;
-                    db.SaveChanges();
-                    ViewBag.ActionMessage = "报单已提交，等待审核！";
-                    TempData["ActionMessage"] = ViewBag.ActionMessage;
-                    return RedirectToAction("Success", "Message");
-                    //NOTE: Admin后台操作， (1)审核通过BaoDanTransaction记录, (2)增加CashTransaction记录, (3)更新Member.Cash2 
+                        //Step 减少Coin1 
+                        CurrentUser.Coin1 -= model.RequestAmount;
+                        db.SaveChanges();
+                        ViewBag.ActionMessage = "报单已提交，等待审核！";
+                        TempData["ActionMessage"] = ViewBag.ActionMessage;
+                        return RedirectToAction("Success", "Message");
+                        //NOTE: Admin后台操作， (1)审核通过BaoDanTransaction记录, (2)增加CashTransaction记录, (3)更新Member.Cash2 
+                    }
                 }
             }
 
@@ -371,88 +388,91 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                Member mUser = null;
-                bool hasError = false;
-                //Validation,
-                //Check current balance is much than request amount
-                if (model.Amount > CurrentUser.Coin1 || model.Amount <= 0)
+                lock (dbLock)
                 {
-                    ModelState.AddModelError("", "转账数量有误，请重试！");
-                    hasError = true;
-                }
-
-                if (!CurrentUser.Password2.Equals(model.Password))
-                {
-                    ModelState.AddModelError("", "交易密码错误");
-                    hasError = true;
-                }
-
-                //Check target member exists
-                if (model.User.IndexOf("@") > 0)
-                {
-                    mUser = db.Members.SingleOrDefault(m => m.Email.Equals(model.User, StringComparison.InvariantCultureIgnoreCase));
-                    if (mUser == null)
+                    Member mUser = null;
+                    bool hasError = false;
+                    //Validation,
+                    //Check current balance is much than request amount
+                    if (model.Amount > CurrentUser.Coin1 || model.Amount <= 0)
                     {
-                        ModelState.AddModelError("", "找不到接受会员，请重试！");
+                        ModelState.AddModelError("", "转账数量有误，请重试！");
                         hasError = true;
                     }
-                }
-                else
-                {
-                    try
+
+                    if (!CurrentUser.Password2.Equals(model.Password))
                     {
-                        int id = int.Parse(model.User);
-                        mUser = db.Members.SingleOrDefault(m => m.Id == id);
+                        ModelState.AddModelError("", "交易密码错误");
+                        hasError = true;
+                    }
+
+                    //Check target member exists
+                    if (model.User.IndexOf("@") > 0)
+                    {
+                        mUser = db.Members.SingleOrDefault(m => m.Email.Equals(model.User, StringComparison.InvariantCultureIgnoreCase));
                         if (mUser == null)
                         {
                             ModelState.AddModelError("", "找不到接受会员，请重试！");
                             hasError = true;
                         }
                     }
-                    catch (Exception e)
+                    else
                     {
-                        ModelState.AddModelError("", "找不到接受会员，请重试！");
+                        try
+                        {
+                            int id = int.Parse(model.User);
+                            mUser = db.Members.SingleOrDefault(m => m.Id == id);
+                            if (mUser == null)
+                            {
+                                ModelState.AddModelError("", "找不到接受会员，请重试！");
+                                hasError = true;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            ModelState.AddModelError("", "找不到接受会员，请重试！");
+                            hasError = true;
+                        }
+                    }
+
+                    if (mUser != null && CurrentUser.Id == mUser.Id)
+                    {
+                        ModelState.AddModelError("", "接受会员不能是自己，请重试！");
                         hasError = true;
                     }
-                }
 
-                if (mUser != null && CurrentUser.Id == mUser.Id)
-                {
-                    ModelState.AddModelError("", "接受会员不能是自己，请重试！");
-                    hasError = true;
-                }
-
-                if (mUser != null && !hasError)
-                {
-                    //Add Transaction record to db
-                    CurrentUser.BaoDanTransaction.Add(new BaoDanTransaction
+                    if (mUser != null && !hasError)
                     {
-                        DateTime = DateTime.Now,
-                        Amount = -model.Amount,
-                        Type = 报单类型.会员转出.ToString(),
-                        Status = 报单状态.已成交.ToString(),
-                        Fee = 0,
-                        Comment = "转出至会员(UID:" + mUser.Id + ")",
-                    });
+                        //Add Transaction record to db
+                        CurrentUser.BaoDanTransaction.Add(new BaoDanTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Amount = -model.Amount,
+                            Type = 报单类型.会员转出.ToString(),
+                            Status = 报单状态.已成交.ToString(),
+                            Fee = 0,
+                            Comment = "转出至会员(UID:" + mUser.Id + ")",
+                        });
 
-                    mUser.BaoDanTransaction.Add(new BaoDanTransaction
-                    {
-                        DateTime = DateTime.Now,
-                        Amount = model.Amount,
-                        Type = 报单类型.会员转入.ToString(),
-                        Status = 报单状态.已成交.ToString(),
-                        Fee = 0,
-                        Comment = "会员(UID:" + CurrentUser.Id + ")转入",
-                    });
+                        mUser.BaoDanTransaction.Add(new BaoDanTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Amount = model.Amount,
+                            Type = 报单类型.会员转入.ToString(),
+                            Status = 报单状态.已成交.ToString(),
+                            Fee = 0,
+                            Comment = "会员(UID:" + CurrentUser.Id + ")转入",
+                        });
 
-                    //Calculate and update balance
-                    CurrentUser.Coin1 -= model.Amount;
-                    mUser.Coin1 += model.Amount;
+                        //Calculate and update balance
+                        CurrentUser.Coin1 -= model.Amount;
+                        mUser.Coin1 += model.Amount;
 
-                    db.SaveChanges();
-                    ViewBag.ActionMessage = "积分转账成功！";
-                    TempData["ActionMessage"] = ViewBag.ActionMessage;
-                    return RedirectToAction("Success", "Message");
+                        db.SaveChanges();
+                        ViewBag.ActionMessage = "积分转账成功！";
+                        TempData["ActionMessage"] = ViewBag.ActionMessage;
+                        return RedirectToAction("Success", "Message");
+                    }
                 }
             }
             SetMyAccountViewModel();
@@ -488,91 +508,94 @@ namespace MemberCenter.Controllers
         {
             if (ModelState.IsValid)
             {
-                Member mUser = null;
-                bool hasError = false;
-                //Validation,
-                //Check current balance is much than request amount
-                decimal coinAmount = model.Amount / CurrentCoinPrice.Price;
-                if (coinAmount > CurrentUser.Coin1 || coinAmount <= 0)
+                lock (dbLock)
                 {
-                    ModelState.AddModelError("", "消费金额有误，请重试！");
-                    hasError = true;
-                }
-
-                if (!CurrentUser.Password2.Equals(model.Password))
-                {
-                    ModelState.AddModelError("", "交易密码错误");
-                    hasError = true;
-                }
-
-                //Check target member exists
-                if (model.User.IndexOf("@") > 0)
-                {
-                    mUser = db.Members.SingleOrDefault(m => m.Email.Equals(model.User, StringComparison.InvariantCultureIgnoreCase));
-                    if (mUser == null)
+                    Member mUser = null;
+                    bool hasError = false;
+                    //Validation,
+                    //Check current balance is much than request amount
+                    decimal coinAmount = model.Amount / CurrentCoinPrice.Price;
+                    if (coinAmount > CurrentUser.Coin1 || coinAmount <= 0)
                     {
-                        ModelState.AddModelError("", "找不到接受会员，请重试！");
+                        ModelState.AddModelError("", "消费金额有误，请重试！");
                         hasError = true;
                     }
-                }
-                else
-                {
-                    try
+
+                    if (!CurrentUser.Password2.Equals(model.Password))
                     {
-                        int id = int.Parse(model.User);
-                        mUser = db.Members.SingleOrDefault(m => m.Id == id);
+                        ModelState.AddModelError("", "交易密码错误");
+                        hasError = true;
+                    }
+
+                    //Check target member exists
+                    if (model.User.IndexOf("@") > 0)
+                    {
+                        mUser = db.Members.SingleOrDefault(m => m.Email.Equals(model.User, StringComparison.InvariantCultureIgnoreCase));
                         if (mUser == null)
                         {
                             ModelState.AddModelError("", "找不到接受会员，请重试！");
                             hasError = true;
                         }
                     }
-                    catch (Exception e)
+                    else
                     {
-                        ModelState.AddModelError("", "找不到接受会员，请重试！");
+                        try
+                        {
+                            int id = int.Parse(model.User);
+                            mUser = db.Members.SingleOrDefault(m => m.Id == id);
+                            if (mUser == null)
+                            {
+                                ModelState.AddModelError("", "找不到接受会员，请重试！");
+                                hasError = true;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            ModelState.AddModelError("", "找不到接受会员，请重试！");
+                            hasError = true;
+                        }
+                    }
+
+                    if (mUser != null && CurrentUser.Id == mUser.Id)
+                    {
+                        ModelState.AddModelError("", "接收会员不能是自己，请重试！");
                         hasError = true;
                     }
-                }
 
-                if (mUser != null && CurrentUser.Id == mUser.Id)
-                {
-                    ModelState.AddModelError("", "接收会员不能是自己，请重试！");
-                    hasError = true;
-                }
-
-                if (mUser != null && !hasError)
-                {
-                    //Add Transaction record to db
-                    CurrentUser.BaoDanTransaction.Add(new BaoDanTransaction
+                    if (mUser != null && !hasError)
                     {
-                        DateTime = DateTime.Now,
-                        Amount = -coinAmount,
-                        Price = CurrentCoinPrice.Price,
-                        Type = 报单类型.消费支出.ToString(),
-                        Status = 报单状态.已成交.ToString(),
-                        Fee = 0,
-                        Comment = "消费支出给会员(UID:" + mUser.Id + ")",
-                    });
+                        //Add Transaction record to db
+                        CurrentUser.BaoDanTransaction.Add(new BaoDanTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Amount = -coinAmount,
+                            Price = CurrentCoinPrice.Price,
+                            Type = 报单类型.消费支出.ToString(),
+                            Status = 报单状态.已成交.ToString(),
+                            Fee = 0,
+                            Comment = "消费支出给会员(UID:" + mUser.Id + ")",
+                        });
 
-                    mUser.BaoDanTransaction.Add(new BaoDanTransaction
-                    {
-                        DateTime = DateTime.Now,
-                        Amount = coinAmount,
-                        Price = CurrentCoinPrice.Price,
-                        Type = 报单类型.消费入账.ToString(),
-                        Status = 报单状态.已成交.ToString(),
-                        Fee = 0,
-                        Comment = "会员(UID:" + CurrentUser.Id + ")消费收入",
-                    });
+                        mUser.BaoDanTransaction.Add(new BaoDanTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Amount = coinAmount,
+                            Price = CurrentCoinPrice.Price,
+                            Type = 报单类型.消费入账.ToString(),
+                            Status = 报单状态.已成交.ToString(),
+                            Fee = 0,
+                            Comment = "会员(UID:" + CurrentUser.Id + ")消费收入",
+                        });
 
-                    //Calculate and update balance
-                    CurrentUser.Coin1 -= coinAmount;
-                    mUser.Coin1 += coinAmount;
+                        //Calculate and update balance
+                        CurrentUser.Coin1 -= coinAmount;
+                        mUser.Coin1 += coinAmount;
 
-                    db.SaveChanges();
-                    ViewBag.ActionMessage = "消费成功！";
-                    TempData["ActionMessage"] = ViewBag.ActionMessage;
-                    return RedirectToAction("Success", "Message");
+                        db.SaveChanges();
+                        ViewBag.ActionMessage = "消费成功！";
+                        TempData["ActionMessage"] = ViewBag.ActionMessage;
+                        return RedirectToAction("Success", "Message");
+                    }
                 }
             }
             SetMyAccountViewModel();

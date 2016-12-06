@@ -19,6 +19,8 @@ namespace Backend.Controllers
     public class AdminController : Controller
     {
         private vapEntities1 db = new vapEntities1();
+        private static object dbLock = new object();
+
         /*private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 */
@@ -363,54 +365,56 @@ namespace Backend.Controllers
 
         public ActionResult UnlockCashTrans()
         {
-            var date = DateTime.Today.Date;
-            while (date.DayOfWeek != DayOfWeek.Monday)
+            lock (dbLock)
             {
-                date = date.AddDays(-1);
-
-            }
-            /*(DateTime.Today.DayOfWeek !=DayOfWeek.Monday)
-            {
-                ModelState.AddModelError("", "解冻操作只能在每周一执行。");
-            }*/
-
-            var status = VapLib.现金状态.冻结.ToString();
-            var lockTrans = db.CashTransactions.Where(c => c.DateTime < date && c.Status == status).ToList();
-            foreach (var cashTransaction in lockTrans)
-            {
-                var member = db.Members.Find(cashTransaction.MemberId);
-                member.Cash1 += cashTransaction.Amount;
-                member.Cash2 -= cashTransaction.Amount;
-                cashTransaction.Status = VapLib.现金状态.解冻.ToString();
-
-                db.Entry(member).State = EntityState.Modified;
-                db.Entry(cashTransaction).State = EntityState.Modified;
-            }
-            db.SaveChanges();
-
-            //Do verify again
-            List<Int64> errorMembers = new List<Int64>();
-            foreach (var cashTransaction in lockTrans)
-            {
-                var member = db.Members.Find(cashTransaction.MemberId);
-                var currentLockCash = member.CashTransactions.Where(m => status.Equals(m.Status)).Sum(m => m.Amount);
-                if(member.Cash2 != Math.Abs(currentLockCash))
+                var date = DateTime.Today.Date;
+                while (date.DayOfWeek != DayOfWeek.Monday)
                 {
-                    errorMembers.Add(member.Id);
+                    date = date.AddDays(-1);
                 }
-            }
+                /*(DateTime.Today.DayOfWeek !=DayOfWeek.Monday)
+                {
+                    ModelState.AddModelError("", "解冻操作只能在每周一执行。");
+                }*/
 
-            if (errorMembers.Count()<=0)
-            {
-                ModelState.AddModelError("", "资金解冻操作成功！");
-            }
-            else
-            {
-                ModelState.AddModelError("", "部分用户资金解冻成功， 请检查以下用户UID： " + string.Join(",", errorMembers.ToArray()));
-            }
+                var status = VapLib.现金状态.冻结.ToString();
+                var lockTrans = db.CashTransactions.Where(c => c.DateTime < date && c.Status == status).ToList();
+                foreach (var cashTransaction in lockTrans)
+                {
+                    var member = db.Members.Find(cashTransaction.MemberId);
+                    member.Cash1 += cashTransaction.Amount;
+                    member.Cash2 -= cashTransaction.Amount;
+                    cashTransaction.Status = VapLib.现金状态.解冻.ToString();
 
-            TempData["ModelState"] = ModelState;
-            return RedirectToAction("UnlockCash");
+                    db.Entry(member).State = EntityState.Modified;
+                    db.Entry(cashTransaction).State = EntityState.Modified;
+                }
+                db.SaveChanges();
+
+                //Do verify again
+                List<Int64> errorMembers = new List<Int64>();
+                foreach (var cashTransaction in lockTrans)
+                {
+                    var member = db.Members.Find(cashTransaction.MemberId);
+                    var currentLockCash = member.CashTransactions.Where(m => status.Equals(m.Status)).Sum(m => m.Amount);
+                    if (member.Cash2 != Math.Abs(currentLockCash))
+                    {
+                        errorMembers.Add(member.Id);
+                    }
+                }
+
+                if (errorMembers.Count() <= 0)
+                {
+                    ModelState.AddModelError("", "资金解冻操作成功！");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "部分用户资金解冻成功， 请检查以下用户UID： " + string.Join(",", errorMembers.ToArray()));
+                }
+
+                TempData["ModelState"] = ModelState;
+                return RedirectToAction("UnlockCash");
+            }
         }
 
         private void AddErrors(IdentityResult result)

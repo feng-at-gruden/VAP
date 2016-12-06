@@ -16,6 +16,8 @@ namespace Backend.Controllers
     public class BaoDanController : Controller
     {
         private vapEntities1 db = new vapEntities1();
+        private static object dbLock = new object();
+
         /// <summary>
         /// 会员报单卖出记录
         /// </summary>
@@ -117,34 +119,37 @@ namespace Backend.Controllers
                 //检查卖出报单状态和类型
                 if (sell.Status == 报单状态.未成交.ToString() && sell.Type == 报单类型.卖出.ToString())
                 {
-                    var member = db.Members.Find(sell.Member.Id);
-                    //更改状态 为已成交
-                    sell.Status = 报单状态.已成交.ToString();
-                    
-                    //增加会员现金冻结记录 周一解冻
-                    //2016 08 13 卖出资金不用冻结，直接加到可用资金
-                    var tempAmount = sell.Amount * sell.Price - sell.Fee;
-                    member.CashTransactions.Add(new CashTransaction
+                    lock (dbLock)
                     {
-                        DateTime = DateTime.Now,
-                        Type = 现金交易类型.积分出售.ToString(),
-                        Status = 现金状态.解冻.ToString(),
-                        Amount = tempAmount.Value,
-                        Fee = 0m,
-                        BaoDanTransactionId = sell.Id
-                    });
 
-                    //增加会员可用现金
-                    member.Cash1 += tempAmount.Value;
-                    db.Entry(member).State = EntityState.Modified;
-                    db.Entry(sell).State = EntityState.Modified;
+                        var member = db.Members.Find(sell.Member.Id);
+                        //更改状态 为已成交
+                        sell.Status = 报单状态.已成交.ToString();
 
-                    //By Feng 更新日系统统计表
-                    UpdateOrInsertDailySysStatistics(sell);
+                        //增加会员现金冻结记录 周一解冻
+                        //2016 08 13 卖出资金不用冻结，直接加到可用资金
+                        var tempAmount = sell.Amount * sell.Price - sell.Fee;
+                        member.CashTransactions.Add(new CashTransaction
+                        {
+                            DateTime = DateTime.Now,
+                            Type = 现金交易类型.积分出售.ToString(),
+                            Status = 现金状态.解冻.ToString(),
+                            Amount = tempAmount.Value,
+                            Fee = 0m,
+                            BaoDanTransactionId = sell.Id
+                        });
 
-                    db.SaveChanges();
-                    ModelState.AddModelError("", "该记录不存在。");
+                        //增加会员可用现金
+                        member.Cash1 += tempAmount.Value;
+                        db.Entry(member).State = EntityState.Modified;
+                        db.Entry(sell).State = EntityState.Modified;
 
+                        //By Feng 更新日系统统计表
+                        UpdateOrInsertDailySysStatistics(sell);
+
+                        db.SaveChanges();
+                        ModelState.AddModelError("", "该记录不存在。");
+                    }
                 }
                 else
                 {
