@@ -363,6 +363,7 @@ namespace Backend.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult UnlockCashTrans()
         {
             lock (dbLock)
@@ -393,6 +394,17 @@ namespace Backend.Controllers
 
                 //Do verify again
                 List<Int64> errorMembers = new List<Int64>();
+                var lockedMembers = db.Members.Where(m => m.Cash2 > 0 || m.Cash2 < 0);
+                foreach (var mb in lockedMembers)
+                {
+                    var currentLockCash = mb.CashTransactions.Where(m => status.Equals(m.Status)).Sum(m => m.Amount);
+                    if(mb.Cash2 != currentLockCash)
+                    {
+                        errorMembers.Add(mb.Id);
+                    }
+                }
+
+                /*
                 foreach (var cashTransaction in lockTrans)
                 {
                     var member = db.Members.Find(cashTransaction.MemberId);
@@ -402,14 +414,15 @@ namespace Backend.Controllers
                         errorMembers.Add(member.Id);
                     }
                 }
+                */
 
                 if (errorMembers.Count() <= 0)
                 {
-                    ModelState.AddModelError("", "资金解冻操作成功！");
+                    ModelState.AddModelError("", "资金解冻操作成功！ 共解冻" + lockTrans.Count() + "笔资金");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "部分用户资金解冻成功， 请检查以下用户UID： " + string.Join(",", errorMembers.ToArray()));
+                    ModelState.AddModelError("", "部分用户资金解冻异常， 请检查以下用户UID： " + string.Join(",", errorMembers.ToArray()));
                 }
 
                 TempData["ModelState"] = ModelState;

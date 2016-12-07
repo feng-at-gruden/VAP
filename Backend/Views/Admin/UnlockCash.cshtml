@@ -14,7 +14,11 @@
 </div>
 <div class="formbody">
     @Html.ValidationSummary()
-    <a href="@Url.Action("UnlockCashTrans", "Admin")" class="btn-new">解冻</a>
+        @using (Html.BeginForm("UnlockCashTrans", "Admin", FormMethod.Post, new { role = "form" }))
+    {
+        <p> <b>资金解冻需要耗时一段时间，请耐心等待，不要进行其他操作！</b><br /><br /><br /><br /></p>
+        <button type="submit" class="btn btn-new">确认解冻</button>
+    }
 </div>
 <script>
     $(document).ready(function () {
