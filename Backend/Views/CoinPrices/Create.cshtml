@@ -33,8 +33,9 @@
                 
             </li>
             
-            <li><label>&nbsp;</label><input id="button1" type="button" class="btn-new" value="周一（保存价格并解锁积分）" /></li>
-            <li><label>&nbsp;</label><input id="button2" type="button" class="btn-new" value="周二至周日（保存价格不解锁积分）" /></li>
+            <li><label>&nbsp;</label><input id="button1" type="button" class="btn-new" value="（保存价格并解锁积分）" /></li>
+            <li><label>&nbsp;</label><input id="button2" type="button" class="btn-new" value="（只保存价格不解锁积分）" /></li>
+            <li><label>&nbsp;</label><input id="button3" type="button" class="btn-new" value="（不保存价格只解锁积分）" /></li>
         </ul>
 
 
@@ -58,6 +59,12 @@
         $('#button2').click(function () {
             var action = $('#form1').attr('action');
             $('#form1').attr('action', action + '?type=2');
+            $('#form1').submit();
+        });
+
+        $('#button3').click(function () {
+            var action = $('#form1').attr('action');
+            $('#form1').attr('action', action + '?type=3');
             $('#form1').submit();
         });
         

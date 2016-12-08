@@ -54,26 +54,35 @@ namespace Backend.Controllers
             {
                 lock (dbLock)
                 {
-                    model.DateTime = DateTime.Now;
-                    var currentPrice = model.Price;
-                    db.CoinPrices.Add(model);
-                    db.SaveChanges();
+                    var newPrice = model.Price;
+                    if (type == 1 || type == 2)
+                    {
+                        model.DateTime = DateTime.Now;
+
+                        db.CoinPrices.Add(model);
+                        db.SaveChanges();
+                    }
 
                     // 触发可用币释放 逻辑
-                    if (type == 1)
+                    if (type == 1 || type == 3)
                     {
-                        var lockRecords = db.LockedCoins;
+                        var lockRecords = db.LockedCoins.Where(m => m.LockedAmount > 0 && m.NextPrice <= newPrice);
                         decimal rate = SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate");
                         foreach (var lockRecord in lockRecords)
                         {
-                            if (currentPrice >= lockRecord.NextPrice)
+                            if (newPrice >= lockRecord.NextPrice)
                             {
                                 var member = db.Members.Find(lockRecord.MemberId);
-                                var amount = lockRecord.LockedAmount * rate;
+                                decimal amount = lockRecord.LockedAmount * rate;
+                                if (lockRecord.LockedAmount <= amount)
+                                {
+                                    amount = lockRecord.LockedAmount;
+                                }
+
                                 lockRecord.LockedAmount -= amount;
                                 lockRecord.AvailabeAmount += amount;
-                                lockRecord.LastPrice = currentPrice;
-                                lockRecord.NextPrice = Math.Ceiling(currentPrice.Value * (1 + rate) * 1000) / 1000;
+                                lockRecord.LastPrice = newPrice;
+                                lockRecord.NextPrice = Math.Ceiling(newPrice.Value * (1 + rate) * 1000) / 1000;
                                 //lockRecord.NextPrice = Math.Round(currentPrice.Value + currentPrice.Value * SystemSettingHelper.GetSystemSettingDecimal(db, "CoinPriceRate"), 3);
 
                                 member.Coin1 += amount;
