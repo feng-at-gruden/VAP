@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Backend.Models;
 using Backend.Helper;
+using VapLib;
 
 namespace Backend.Controllers
 {
@@ -52,6 +53,101 @@ namespace Backend.Controllers
         {
             if (ModelState.IsValid)
             {
+                //资金总表/明细对账
+                if (type == 5)
+                {
+                    string html = "<table class=\"gridtable\"><tr><td><b>UID</b></td><td>Cash1</td><td>Cash2</td><td>Cash1+Cash2</td><td>Transaction Sum</td></tr>";
+                    foreach (var mb in db.Members.OrderByDescending(m => m.Id))
+                    {
+
+                        var sc = mb.Cash1 + mb.Cash2;
+                        decimal tc = 0;
+                        foreach (var bt in mb.CashTransactions)
+                        {
+                            tc += bt.Amount;
+                        }
+                        if (Math.Abs(sc - tc) > 100)
+                        {
+                            html += string.Format("<tr class=\"hight-light\" ><td><b>{0}</b></td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", mb.Id, mb.Cash1, mb.Cash2, mb.Cash1 + mb.Cash2, tc);
+                        }
+                        else
+                        {
+                            html += string.Format("<tr><td><b>{0}</b></td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>", mb.Id, mb.Cash1, mb.Cash2, mb.Cash1 + mb.Cash2, tc);
+                        }
+                    }
+                    html += "</table>";
+
+                    ViewBag.ActionMessage = html;
+                    TempData["ActionMessage"] = ViewBag.ActionMessage;
+
+                    var price = db.CoinPrices.OrderByDescending(m => m.DateTime).ToList();
+                    if (price.Any())
+                    {
+                        ViewBag.LastPrice = price.First().Price;
+                    }
+                    else
+                    {
+                        ViewBag.LastPrice = 0.0m;
+                    }
+                    return View();
+                }
+
+                //积分总表/明细对账
+                if (type == 4 )
+                {
+                    string html = "<table class=\"gridtable\"><tr><td><b>UID</b></td><td>Coin1</td><td>Coin2</td><td>Coin1+Coin2</td><td>Transaction Sum</td><td>Locked Coins Sum</td></tr>";
+                    foreach(var mb in db.Members.OrderByDescending(m=>m.Id))
+                    {
+                        var sc = mb.Coin1 + mb.Coin2;
+
+                        decimal  tc = 0;
+                        string s = 报单状态.用户已取消.ToString();
+                        
+                        foreach(var bt in mb.BaoDanTransactions.Where(m=>!s.Equals(m.Status)))
+                        {
+                            var amt = bt.Amount;
+                            if(报单类型.卖出.ToString().Equals(bt.Type))
+                                amt = -bt.Amount;
+                            tc += amt;
+                        }
+
+                        decimal lcs = 0;
+                        foreach(var lc in mb.LockedCoins)
+                        {
+                            lcs += lc.LockedAmount + lc.AvailabeAmount;
+                        }
+
+                        if (Math.Abs(tc - sc) > 100)
+                        {
+                            html += string.Format("<tr class=\"hight-light\" ><td><b>{0}</b></td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>", mb.Id, mb.Coin1, mb.Coin2, mb.Coin1 + mb.Coin2, tc, lcs);
+                        }
+                        else if (Math.Abs(lcs - sc) > 100)
+                        {
+                            html += string.Format("<tr class=\"hight-light-1\" ><td><b>{0}</b></td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>", mb.Id, mb.Coin1, mb.Coin2, mb.Coin1 + mb.Coin2, tc, lcs);
+                        }
+                        else
+                        {
+                            html += string.Format("<tr><td><b>{0}</b></td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>", mb.Id, mb.Coin1, mb.Coin2, mb.Coin1 + mb.Coin2, tc, lcs);
+                        }
+
+                    }
+                    html += "</table>";
+
+                    ViewBag.ActionMessage = html;
+                    TempData["ActionMessage"] = ViewBag.ActionMessage;
+
+                    var price = db.CoinPrices.OrderByDescending(m => m.DateTime).ToList();
+                    if (price.Any())
+                    {
+                        ViewBag.LastPrice = price.First().Price;
+                    }
+                    else
+                    {
+                        ViewBag.LastPrice = 0.0m;
+                    }
+                    return View();
+                }
+
                 lock (dbLock)
                 {
                     var newPrice = model.Price;

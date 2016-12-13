@@ -36,8 +36,14 @@
             <li><label>&nbsp;</label><input id="button1" type="button" class="btn-new" value="（保存价格并解锁积分）" /></li>
             <li><label>&nbsp;</label><input id="button2" type="button" class="btn-new" value="（只保存价格不解锁积分）" /></li>
             <li><label>&nbsp;</label><input id="button3" type="button" class="btn-new" value="（不保存价格只解锁积分）" /></li>
+            <li><label>&nbsp;</label><input id="button4" type="button" class="btn-new hide" value="（会员积分对账）" /></li>
+            <li><label>&nbsp;</label><input id="button5" type="button" class="btn-new hide" value="（会员资金对账）" /></li>
         </ul>
 
+        @if(TempData["ActionMessage"] != null)
+        {
+            <div>@Html.Raw( @TempData["ActionMessage"] )</div>
+        }
 
     </div>
     
@@ -67,6 +73,62 @@
             $('#form1').attr('action', action + '?type=3');
             $('#form1').submit();
         });
+
+        $('#button4').click(function () {
+            var action = $('#form1').attr('action');
+            $('#form1').attr('action', action + '?type=4');
+            $('#form1').submit();
+        });
+
+        $('#button5').click(function () {
+            var action = $('#form1').attr('action');
+            $('#form1').attr('action', action + '?type=5');
+            $('#form1').submit();
+        });
         
     });
 </script>
+
+
+<style type="text/css">
+    table.gridtable {
+        font-family: verdana,arial,sans-serif;
+        font-size: 11px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+
+        table.gridtable th {
+            border-width: 1px;
+            padding: 4px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+
+        table.gridtable td {
+            border-width: 1px;
+            padding: 4px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+
+        table.gridtable tr.hight-light td {
+            border-width: 1px;
+            padding: 4px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ff9999;
+        }
+
+        table.gridtable tr.hight-light-1 td {
+            border-width: 1px;
+            padding: 4px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #D4F717;
+        }
+</style>
