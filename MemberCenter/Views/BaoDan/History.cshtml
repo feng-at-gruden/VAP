@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<MemberCenter.Models.BaoDanHistoryViewModel>
 @{
     ViewBag.Title = "交易记录";
+    
 }
 
 <div class="panel panel-default">
@@ -14,28 +15,36 @@
                     <tr class="error">
                         <th>委托时间</th>
                         <th>委托类别</th>
-                        <th>数量</th>
-                        <th>金额</th>
-                        <th>手续费</th>
+                        <th>委托数量</th>
                         <th>委托价格</th>
                         <th>成交数量</th>
+                        <th>积分价值</th>
+                        <th>手续费</th>
                         <th>成交金额</th>
                         <th>均价</th>
                         <!--<th>状态</th>-->
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model) 
-                    { 
+                    @foreach (var item in Model)
+                    {
+                        var rq = string.Format("{0:C2}", Math.Abs(item.RequestCash));
+                        var fc = string.Format("{0:C2}", Math.Abs(item.FinalCash)); 
+                        if (item.RequestQuantity < 0)
+                        {
+                            rq = "-" + rq;
+                            fc = "-" + fc;
+                        }
+                        
                     <tr class="odd">
                         <td>@Html.DisplayFor(modelItem => item.BaoDanTime)</td>
                         <td>@Html.DisplayFor(modelItem => item.Type)</td>
                         <td style="text-align:right;">@Html.DisplayFor(modelItem => item.RequestQuantity)</td>
-                        <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.RequestCash)</td>
-                        <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.Fee)</td>
                         <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.RequestPrice)</td>
                         <td style="text-align:right;">@Html.DisplayFor(modelItem => item.FinalQuantity)</td>
-                        <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.FinalCash)</td>
+                        <td style="text-align:right;">@rq</td>
+                        <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.Fee)</td>
+                        <td style="text-align:right;">@fc</td>
                         <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.FinalPrice)</td>
                         <!--<td>@Html.DisplayFor(modelItem => item.Status)</td>-->
                     </tr>

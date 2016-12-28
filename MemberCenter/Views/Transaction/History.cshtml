@@ -23,10 +23,15 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
+                        var a = string.Format("{0:C2}", Math.Abs(item.Amount));
+                        if(item.Amount<0)
+                        {
+                            a = "-" + a;
+                        }
                         <tr class="odd">
                             <td>@Html.DisplayFor(modelItem => item.ID)</td>
-                            <td style="text-align:right;">@Html.DisplayFor(modelItem => item.Amount)</td>
-                            <td style="text-align:right;">@Html.DisplayFor(modelItem => item.Fee)</td>
+                            <td style="text-align:right;">@a</td>
+                            <td style="text-align:right;">￥@Html.DisplayFor(modelItem => item.Fee)</td>
                             <td>@Html.DisplayFor(modelItem => item.Type)</td>
                             <td>@Html.DisplayFor(modelItem => item.DateTime)</td>
                             <td>@Html.DisplayFor(modelItem => item.Status)</td>

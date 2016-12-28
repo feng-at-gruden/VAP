@@ -79,6 +79,34 @@ namespace MemberCenter.Controllers.API
         }
 
         //
+        // POST: /API/ConsumeCoin
+        [APIAuthorize]
+        [HttpPost]
+        public APIResponseModel ConsumeCoin(ConsumeRequestModel request)
+        {
+            Member member = GetCurrentUser();
+            //Validation
+            if (member.Coin1 < request.Amount)
+                ThrowApiError("可用积分不足！", HttpStatusCode.BadRequest);
+
+            member.BaoDanTransaction.Add(new BaoDanTransaction
+            {
+                DateTime = DateTime.Now,
+                Amount = -request.Amount, 
+                Fee = 0,
+                Price = CurrentCoinPrice.Price,
+                Comment = request.Comment,
+                Type = 报单类型.商城消费.ToString(),
+                Status = 报单状态.已成交.ToString(),
+            });
+            member.Coin1 -= request.Amount;
+
+            db.SaveChanges();
+            return new APIResponseModel { Message = "Success" };
+        }
+
+
+        //
         // GET: /API/UnlockCash
         [APIAuthorize]
         [HttpGet]
@@ -129,6 +157,19 @@ namespace MemberCenter.Controllers.API
         {
             Member user = (Member)Request.GetUser();
             return db.Members.SingleOrDefault(m => m.Email.Equals(user.Email, StringComparison.InvariantCultureIgnoreCase) && m.Password1.Equals(user.Password1));;
+        }
+
+        protected CoinPrice CurrentCoinPrice
+        {
+            get
+            {
+                var price = db.CoinPrices.OrderByDescending(m => m.DateTime).Take(1);
+                if (price == null || price.Count() == 0)
+                {
+                    ThrowApiError("当前没有足够联合通用积分", HttpStatusCode.BadRequest);
+                }
+                return price.ToArray()[0];
+            }
         }
 
         private dynamic ThrowApiError(string message, HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
