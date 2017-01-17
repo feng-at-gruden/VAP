@@ -1014,7 +1014,6 @@
     <Content Include="Content\new-skin\bower_components\holderjs\test\.gitignore" />
     <Content Include="Content\new-skin\bower_components\holderjs\test\image.jpg" />
     <Content Include="Content\new-skin\bower_components\holderjs\test\index.html" />
-    <Content Include="Content\new-skin\bower_components\jquery.cookie.js" />
     <Content Include="Content\new-skin\bower_components\jquery\dist\jquery.js" />
     <Content Include="Content\new-skin\bower_components\jquery\dist\jquery.min.js" />
     <Content Include="Content\new-skin\bower_components\jquery\MIT-LICENSE.txt" />
