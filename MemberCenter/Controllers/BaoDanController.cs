@@ -377,6 +377,11 @@ namespace MemberCenter.Controllers
                 TempData["ActionMessage"] = "系统维护中，暂停交易！";
                 return RedirectToAction("Error", "Message");
             }
+            if (!GetSystemSettingBoolean("EnableCoinTransfer"))
+            {
+                TempData["ActionMessage"] = "积分转账功能暂停使用，请稍后再试！";
+                return RedirectToAction("Error", "Message");
+            }
             SetMyAccountViewModel();
             return View(new BaoDanTransferViewModel { 
                 AvailableAmount = CurrentUser.Coin1,
@@ -389,6 +394,17 @@ namespace MemberCenter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Transfer(BaoDanTransferViewModel model)
         {
+            if (GetSystemSettingBoolean("SystemIsLocked"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停交易！";
+                return RedirectToAction("Error", "Message");
+            }
+            if (!GetSystemSettingBoolean("EnableCoinTransfer"))
+            {
+                TempData["ActionMessage"] = "积分转账功能暂停使用，请稍后再试！";
+                return RedirectToAction("Error", "Message");
+            }
+
             if (ModelState.IsValid)
             {
                 lock (dbLock)
@@ -495,6 +511,11 @@ namespace MemberCenter.Controllers
                 TempData["ActionMessage"] = "系统维护中，暂停交易！";
                 return RedirectToAction("Error", "Message");
             }
+            if (!GetSystemSettingBoolean("EnableCoinTransfer"))
+            {
+                TempData["ActionMessage"] = "积分消费功能暂停使用，请稍后再试！";
+                return RedirectToAction("Error", "Message");
+            }
             SetMyAccountViewModel();
             return View(new BaoDanConsumeViewModel
             {
@@ -509,6 +530,16 @@ namespace MemberCenter.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Consume(BaoDanConsumeViewModel model)
         {
+            if (GetSystemSettingBoolean("SystemIsLocked"))
+            {
+                TempData["ActionMessage"] = "系统维护中，暂停交易！";
+                return RedirectToAction("Error", "Message");
+            }
+            if (!GetSystemSettingBoolean("EnableCoinTransfer"))
+            {
+                TempData["ActionMessage"] = "积分消费功能暂停使用，请稍后再试！";
+                return RedirectToAction("Error", "Message");
+            }
             if (ModelState.IsValid)
             {
                 lock (dbLock)
