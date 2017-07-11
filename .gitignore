@@ -164,3 +164,5 @@ packages/Newtonsoft.Json.5.0.6/lib/portable-net45+wp80+win8/Newtonsoft.Json.xml
 /MemberCenter/Upload
 /MemberCenter/App_Data/aspnet-MemberCenter-20160707030441.mdf
 /MemberCenter/App_Data/aspnet-MemberCenter-20160707030441_log.ldf
+/packages
+/.vs/config

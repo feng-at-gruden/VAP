@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -563,6 +564,7 @@
     <Content Include="Content\bower_components\holderjs\test\.gitignore" />
     <Content Include="Content\bower_components\holderjs\test\image.jpg" />
     <Content Include="Content\bower_components\holderjs\test\index.html" />
+    <Content Include="Content\bower_components\jquery.cookie.js" />
     <Content Include="Content\bower_components\jquery\dist\jquery.js" />
     <Content Include="Content\bower_components\jquery\dist\jquery.min.js" />
     <Content Include="Content\bower_components\jquery\MIT-LICENSE.txt" />
@@ -1014,6 +1016,7 @@
     <Content Include="Content\new-skin\bower_components\holderjs\test\.gitignore" />
     <Content Include="Content\new-skin\bower_components\holderjs\test\image.jpg" />
     <Content Include="Content\new-skin\bower_components\holderjs\test\index.html" />
+    <Content Include="Content\new-skin\bower_components\jquery.cookie.js" />
     <Content Include="Content\new-skin\bower_components\jquery\dist\jquery.js" />
     <Content Include="Content\new-skin\bower_components\jquery\dist\jquery.min.js" />
     <Content Include="Content\new-skin\bower_components\jquery\MIT-LICENSE.txt" />
